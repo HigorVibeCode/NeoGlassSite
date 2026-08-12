@@ -12,7 +12,7 @@ export const CONFIG = {
   // Só os números, com país e DDD. Ex.: 5511999998888
   whatsappNumero: '41782439213',
   email: 'contato@neoglass.online',
-  login: 'https://neoglass.online/login',
+  login: 'https://app.neoglass.online/login',
   horarios: 'seg a sex, 14h–20h · sáb, 8h–17h (horário de Brasília)',
   site: 'https://neoglass.online',
 

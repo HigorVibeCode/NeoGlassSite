@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="diag" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2fb896"/>
+      <stop offset="0.35" stop-color="#7ad9b8"/>
+      <stop offset="0.55" stop-color="#ff8f35"/>
+      <stop offset="1" stop-color="#ef4a62"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="52%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bl" x1="0" y1="1" x2="0.55" y2="0.15">
+      <stop offset="0" stop-color="#2f6ad4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#2f6ad4" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="tr" x1="1" y1="0" x2="0.25" y2="0.7">
+      <stop offset="0" stop-color="#e8c43a" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#e8c43a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mb" x1="0.55" y1="1" x2="0.5" y2="0.35">
+      <stop offset="0" stop-color="#8a52c0" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#8a52c0" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="sq"><rect width="1024" height="1024" rx="275"/></clipPath>
+  </defs>
+  <g clip-path="url(#sq)">
+    <rect width="1024" height="1024" fill="url(#diag)"/>
+    <rect width="1024" height="1024" fill="url(#bl)"/>
+    <rect width="1024" height="1024" fill="url(#tr)"/>
+    <rect width="1024" height="1024" fill="url(#mb)"/>
+    <rect width="1024" height="1024" fill="url(#glow)"/>
+    <g transform="translate(78.8,137.5) scale(1.007)">
+      <path d="M452.5,78.9 L757.5,606.1 Q780,645 735,645 L125,645 Q80,645 102.5,606.1 L407.5,78.9 Q430,40 452.5,78.9 Z" fill="#ffffff"/>
+      <g fill="none" stroke-linecap="round" stroke-width="52">
+        <line x1="20" y1="235" x2="396" y2="372" stroke="#c6d8ff"/>
+        <line x1="45" y1="330" x2="355" y2="443" stroke="#ffcaa4"/>
+        <line x1="100" y1="448" x2="302" y2="522" stroke="#ffa0a0"/>
+      </g>
+    </g>
+  </g>
+</svg>

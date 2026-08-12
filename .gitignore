@@ -1,0 +1,18 @@
+node_modules
+dist
+dist-solo
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+.vite
+.vercel
+
+# As versões antigas que ficam guardadas na pasta do Mac — 41 MB de cópias
+# que não têm nada que fazer no repositório.
+_to_delete
+
+# A prévia de arquivo único é gerada por `npm run solo`; não se versiona
+# resultado de build.
+previa

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://neoglass.online/sitemap.xml

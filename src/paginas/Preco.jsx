@@ -1,5 +1,6 @@
 import { Bloco, Revelar } from '../components/Comum.jsx'
-import { CONFIG, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
+import { ORCAMENTO_EXEMPLO } from '../ferramentas/Orcamento.jsx'
 import { evento } from '../lib/rastreio.js'
 
 /**
@@ -40,9 +41,13 @@ export default function Preco({ folha = 'FL. 05/07' }) {
   const preco = precoVidracaria()
   if (!preco) return null
 
-  const { diasTeste, cadastro } = CONFIG.vidracaria
+  const { diasTeste, precoMensal } = CONFIG.vidracaria
   const temTeste = diasTeste > 0
-  const destino = cadastro || linkWhatsapp('Olá! Quero começar a usar o NeoGlass na minha vidraçaria.')
+  const comecar = acaoComecar()
+  // A conta é feita, não escrita: se o preço mudar, a frase muda junto.
+  const meses = Math.floor(ORCAMENTO_EXEMPLO / precoMensal)
+  const reais = (n) =>
+    n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
 
   return (
     <Revelar
@@ -55,8 +60,8 @@ export default function Preco({ folha = 'FL. 05/07' }) {
         Um número só. E ele cabe numa janela.
       </h2>
       <p className="mt-5 max-w-[58ch] text-[16.5px] leading-[1.55] text-dim">
-        O orçamento que você montou aqui em cima fechou em R$ 1.169 — e era uma janela de sala.
-        Guarde esse número enquanto lê o de baixo.
+        O orçamento que você montou aqui em cima fechou em {reais(ORCAMENTO_EXEMPLO)} — e era uma
+        janela de sala. Guarde esse número enquanto lê o de baixo.
       </p>
 
       <div className="mt-11 overflow-hidden rounded-[26px] border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
@@ -98,13 +103,13 @@ export default function Preco({ folha = 'FL. 05/07' }) {
 
               <div className="mt-8">
                 <a
-                  href={destino}
-                  target={cadastro ? undefined : '_blank'}
-                  rel={cadastro ? undefined : 'noreferrer'}
+                  href={comecar.href}
+                  target={comecar.externo ? '_blank' : undefined}
+                  rel={comecar.externo ? 'noreferrer' : undefined}
                   onClick={() => evento('comecar', { origem: 'preco' })}
                   className="botao-marca inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
                 >
-                  {temTeste ? `Começar grátis · ${diasTeste} dias` : 'Começar agora'}
+                  {comecar.rotulo}
                 </a>
                 {temTeste && (
                   <p className="cota mt-3 normal-case">
@@ -139,11 +144,11 @@ export default function Preco({ folha = 'FL. 05/07' }) {
 
             <div className="mt-8 rounded-[16px] border border-line bg-soft/60 px-5 py-4">
               <p className="text-[15px] font-bold leading-snug text-ink">
-                Um box a mais no mês já paga o ano inteiro.
+                Aquela janela de {reais(ORCAMENTO_EXEMPLO)} paga {meses} meses de sistema.
               </p>
               <p className="mt-2 text-[14px] leading-[1.5] text-dim">
-                Não é discurso: é a conta de quem deixa de perder um orçamento por demora, ou de
-                cortar uma peça errada, uma única vez.
+                E a otimização de corte vem junto. Comprada à parte, ela é uma segunda mensalidade
+                — quase sempre com taxa de adesão antes de você cortar o primeiro vidro.
               </p>
             </div>
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Marca from './Marca.jsx'
 import Formulario from './Formulario.jsx'
-import { CONFIG, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, ehExterno, linkAgendar, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { ABAS } from '../lib/rota.js'
 
@@ -64,17 +64,14 @@ export function Topo({ aba, ir }) {
   // botão do topo não pode continuar pedindo reunião. Nas outras abas a venda
   // é consultiva e o botão continua sendo o de sempre.
   const preco = precoVidracaria()
-  const autoatendimento = aba.id === 'vidracaria' && !!preco
-  const { diasTeste, cadastro } = CONFIG.vidracaria
-  const alvo = autoatendimento
-    ? cadastro || linkWhatsapp('Olá! Quero começar a usar o NeoGlass na minha vidraçaria.')
-    : linkAgendar()
-  const rotuloCurto = autoatendimento ? 'Começar' : 'Agendar'
-  const rotuloLongo = autoatendimento
-    ? diasTeste > 0
-      ? `Começar grátis · ${diasTeste} dias`
-      : 'Começar agora'
-    : 'Ver demonstração'
+  const comecar = aba.id === 'vidracaria' && preco ? acaoComecar() : null
+  const alvo = comecar ? comecar.href : linkAgendar()
+  // "Agendar" prometia uma agenda que não existe — o botão abre o WhatsApp.
+  // Além de quebrar a promessa, é a palavra mais cara da página: pede que o
+  // visitante reserve uma hora do dia dele antes de ver qualquer coisa. O que
+  // ele quer nesse ponto é ver o sistema funcionando, não marcar reunião.
+  const rotuloCurto = comecar ? comecar.curto : 'Ver demo'
+  const rotuloLongo = comecar ? comecar.rotulo : 'Ver o sistema funcionando'
 
   useEffect(() => {
     const on = () => setPreso(window.scrollY > 40)
@@ -117,7 +114,7 @@ export function Topo({ aba, ir }) {
         </nav>
 
         <div className="flex items-center gap-3">
-          {autoatendimento && (
+          {comecar && (
             <a
               href="#preco"
               className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink md:flex"
@@ -127,7 +124,7 @@ export function Topo({ aba, ir }) {
           )}
           <a
             href={CONFIG.login}
-            className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink sm:flex"
+            className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink min-[380px]:flex"
           >
             Entrar
           </a>
@@ -135,7 +132,7 @@ export function Topo({ aba, ir }) {
             href={alvo}
             target={ehExterno(alvo) ? '_blank' : undefined}
             rel={ehExterno(alvo) ? 'noreferrer' : undefined}
-            onClick={() => evento(autoatendimento ? 'comecar' : 'agendar', { origem: 'topo' })}
+            onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
             className="botao-marca whitespace-nowrap px-4 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
           >
             <span className="lg:hidden">{rotuloCurto}</span>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Simbolo } from '../components/Marca.jsx'
-import { CONFIG, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
 
@@ -57,6 +57,9 @@ const ITENS = [
 ]
 
 const TOTAL = ITENS.reduce((s, i) => s + i.valor, 0)
+
+/** O total do orçamento de exemplo. A seção de preço compara contra ele. */
+export const ORCAMENTO_EXEMPLO = TOTAL
 
 const brl = (n) =>
   n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
@@ -375,7 +378,8 @@ export default function Orcamento() {
   // O quarto degrau. Enquanto não houver preço decidido, ele não existe e o
   // botão volta a ser o link de sempre.
   const preco = precoVidracaria()
-  const { diasTeste, cadastro } = CONFIG.vidracaria
+  const { diasTeste } = CONFIG.vidracaria
+  const comecar = acaoComecar()
   const mesesPagos = preco ? Math.floor(TOTAL / CONFIG.vidracaria.precoMensal) : 0
   const verPreco = () => {
     evento('ferramenta', { qual: 'orcamento', passo: 'ver-preco' })
@@ -422,7 +426,7 @@ export default function Orcamento() {
   ].join('\n')
 
   return (
-    <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
+    <div className="demo rounded-[24px] lg:overflow-hidden border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line bg-soft/60 px-5 py-3 sm:px-7">
         <span className="flex items-center gap-2.5">
           <Simbolo className="h-6 w-6 rounded-[7px]" />
@@ -438,7 +442,7 @@ export default function Orcamento() {
 
       <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+        <div className="demo-palco border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
           {(fase === 'vao' || fase === 'montando') && (
             <>
               <p className="cota mb-2 uppercase">
@@ -733,7 +737,7 @@ export default function Orcamento() {
       </div>
 
       {/* ── a barra de ação ─────────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
+      <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
         {fase === 'vao' && (
           <button type="button" onClick={usarVao} className="botao-marca px-7 py-3.5 text-[15px]">
             Usar este vão
@@ -792,13 +796,13 @@ export default function Orcamento() {
         {fase === 'preco' && (
           <>
             <a
-              href={cadastro || linkWhatsapp('Olá! Quero começar a usar o NeoGlass na minha vidraçaria.')}
-              target={cadastro ? undefined : '_blank'}
-              rel={cadastro ? undefined : 'noreferrer'}
+              href={comecar.href}
+              target={comecar.externo ? '_blank' : undefined}
+              rel={comecar.externo ? 'noreferrer' : undefined}
               onClick={() => evento('comecar', { origem: 'ferramenta-orcamento' })}
               className="botao-marca px-7 py-3.5 text-[15px]"
             >
-              {diasTeste > 0 ? `Começar grátis · ${diasTeste} dias` : 'Começar agora'}
+              {comecar.rotulo}
             </a>
             <a
               href="#preco"

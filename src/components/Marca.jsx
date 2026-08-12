@@ -39,7 +39,14 @@ export default function Marca({ className = '', tamanho = 'h-8 w-8 sm:h-9 sm:w-9
   return (
     <div className={`flex items-center gap-2 sm:gap-2.5 ${className}`}>
       <Simbolo className={tamanho} />
-      <span className={`display text-[19px] sm:text-[21px] ${claro ? 'text-white' : ''}`}>
+      {/* A palavra NeoGlass é Inter 800 com -0.03em, igual à tela de login do
+          sistema — não a Archivo expandida dos títulos. A marca tem que ser a
+          mesma letra nos dois lugares; os títulos do site é que têm voz
+          própria. */}
+      <span
+        className={`text-[19px] font-extrabold sm:text-[21px] ${claro ? 'text-white' : ''}`}
+        style={{ fontFamily: 'Inter, system-ui, sans-serif', letterSpacing: '-0.03em' }}
+      >
         Neo
         <span
           className={claro ? '' : 'marca'}

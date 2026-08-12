@@ -34,7 +34,7 @@ export const CONFIG = {
   // topo simplesmente não aparecem. O site pode ir ao ar assim sem quebrar
   // nada — e no dia em que o número estiver decidido, é só preencher aqui.
   vidracaria: {
-    precoMensal: 0, // ⚠️ ponha o seu valor aqui — com 0 o preço não aparece no site
+    precoMensal: 197, // R$ por mês, por vidraçaria
     diasTeste: 14, // 0 desliga a menção ao teste
     // Para onde vai o botão de começar (a tela de cadastro do sistema).
     // Vazio: o botão cai no WhatsApp, para nada ficar quebrado.
@@ -66,6 +66,35 @@ export const linkAgendar = (texto = 'Olá! Vim pelo site do NeoGlass e quero ver
 
 /** Verdadeiro quando o link sai do site (WhatsApp) e precisa de aba nova. */
 export const ehExterno = (url) => /^https?:\/\/(wa\.me|api\.whatsapp)/.test(url || '')
+
+/**
+ * O botão de começar da vidraçaria, num lugar só — o cabeçalho, a abertura, a
+ * demonstração e a seção de preço leem daqui.
+ *
+ * O rótulo muda conforme existe ou não tela de cadastro. Sem ela, o botão NÃO
+ * promete "começar grátis": ele diz "quero começar" e abre o WhatsApp. Prometer
+ * autoatendimento e entregar conversa é o tipo de detalhe que queima a
+ * confiança que a página inteira passou meia hora construindo.
+ */
+export const acaoComecar = () => {
+  const { diasTeste, cadastro } = CONFIG.vidracaria
+  if (cadastro) {
+    return {
+      rotulo: diasTeste > 0 ? `Começar grátis · ${diasTeste} dias` : 'Começar agora',
+      curto: 'Começar',
+      href: cadastro,
+      externo: false,
+      autoatendimento: true,
+    }
+  }
+  return {
+    rotulo: 'Quero começar',
+    curto: 'Começar',
+    href: linkWhatsapp('Olá! Quero começar a usar o NeoGlass na minha vidraçaria.'),
+    externo: true,
+    autoatendimento: false,
+  }
+}
 
 export const linkWhatsapp = (texto) => {
   const n = CONFIG.whatsappNumero.replace(/\D/g, '')

@@ -340,7 +340,7 @@ export default function Retalho() {
   const soChapas = comRetalho.filter((x) => x.tipo === 'chapa')
 
   return (
-    <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
+    <div className="demo rounded-[24px] lg:overflow-hidden border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
       {/* a barra do sistema */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line bg-soft/60 px-5 py-3 sm:px-7">
         <span className="flex items-center gap-2.5">
@@ -357,7 +357,7 @@ export default function Retalho() {
 
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+        <div className="demo-palco border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
           {(fase === 'pronto' || fase === 'otimizando') && (
             <>
               <div className="mx-auto w-full max-w-[560px]">
@@ -595,7 +595,7 @@ export default function Retalho() {
       </div>
 
       {/* ── a barra de ação ─────────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
+      <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
         {fase === 'pronto' && (
           <button type="button" onClick={otimizar} className="botao-marca px-7 py-3.5 text-[15px]">
             Otimizar corte

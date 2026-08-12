@@ -3,7 +3,7 @@ import Contraste from '../components/Contraste.jsx'
 import Orcamento from '../ferramentas/Orcamento.jsx'
 import Preco from './Preco.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
-import { CONFIG, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
 
 const DIA = [
   [
@@ -73,16 +73,10 @@ export default function Vidracaria() {
   // O preço só entra na página no dia em que ele existir no config. Enquanto
   // não existir, a aba volta a ser a de antes — nada quebra, nada some.
   const preco = precoVidracaria()
-  const { diasTeste, cadastro } = CONFIG.vidracaria
+  const { diasTeste } = CONFIG.vidracaria
   const folhas = preco ? '07' : '06'
 
-  const acao = preco
-    ? {
-        rotulo: diasTeste > 0 ? `Começar grátis · ${diasTeste} dias` : 'Começar agora',
-        href: cadastro || linkWhatsapp('Olá! Quero começar a usar o NeoGlass na minha vidraçaria.'),
-        externo: !cadastro,
-      }
-    : undefined
+  const acao = preco ? acaoComecar() : undefined
 
   const nota = preco
     ? `${preco} por mês, por vidraçaria. Sem taxa de implantação, sem cobrança por usuário e sem fidelidade.`

@@ -538,3 +538,51 @@ html[data-parado] .bate {
 html[data-parado] .varre {
   display: none;
 }
+
+/* ── As demonstrações no celular ──────────────────────────────────────────
+   No computador a ferramenta é duas colunas: o desenho à esquerda, o painel à
+   direita, o botão embaixo — tudo à vista. No celular ela vira uma coluna só
+   com 1100 px de altura, e aí o visitante nunca enxerga o desenho e o botão
+   ao mesmo tempo. Ele aperta e não vê o que mudou, que é exatamente o efeito
+   que a demonstração existe para provar.
+
+   Três correções, só abaixo de 1024 px:
+     · o desenho para de crescer (34% da altura da tela);
+     · a barra de ação cola no rodapé do cartão enquanto ele estiver na tela;
+     · o cartão sangra de borda a borda, para ler como tela de aplicativo e
+       não como cartão dentro de uma página. */
+@media (max-width: 1023px) {
+  .demo {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    /* O cartão precisa ficar com `overflow: visible` aqui — `position: sticky`
+       morre dentro de qualquer ancestral que recorte. Por isso o recorte no
+       JSX é `lg:overflow-hidden`: no computador ele arredonda os cantos, no
+       celular não existe canto para arredondar e a barra volta a colar. */
+  }
+  .demo-palco svg {
+    max-height: 34vh;
+  }
+  .demo-acao {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background: color-mix(in oklab, var(--color-bg) 88%, white);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 -10px 24px -18px rgba(20, 55, 80, 0.55);
+  }
+  html[data-fraco] .demo-acao {
+    backdrop-filter: none;
+    background: color-mix(in oklab, var(--color-bg) 96%, white);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .demo {
+    margin-left: -32px;
+    margin-right: -32px;
+  }
+}

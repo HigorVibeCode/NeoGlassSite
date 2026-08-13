@@ -10,8 +10,6 @@
     { "source": "/preview/:caminho*", "destination": "https://app.neoglass.online/preview/:caminho*", "permanent": false },
     { "source": "/app/:caminho*", "destination": "https://app.neoglass.online/:caminho*", "permanent": false }
   ],
-
-  "//": "Cada rota serve o SEU html, gerado por paginas-seo.mjs. O antigo curinga /(.*) -> /index.html devolvia a home com status 200 para QUALQUER endereço inventado: soft 404 para o Google, e a prévia errada no WhatsApp para /vidracaria. O que não casar aqui cai no 404.html, com status 404 de verdade.",
   "rewrites": [
     { "source": "/vidracaria", "destination": "/vidracaria.html" },
     { "source": "/plataforma", "destination": "/plataforma.html" }

@@ -1,36 +1,50 @@
 /**
- * O símbolo oficial: o prisma branco sobre o arco-íris, com os três raios
- * refratados entrando pela esquerda. As cores vieram do arquivo oficial da
- * marca, amostradas ponto a ponto — o fundo é um gradiente cônico, não linear.
+ * O símbolo oficial — o mesmo do sistema, não uma reconstrução.
+ *
+ * O que estava aqui antes era um arco-íris amostrado à mão de um PNG da marca,
+ * com dezesseis paradas de cor. O ícone verdadeiro é bem mais simples: um
+ * cônico de seis cores tiradas dos gradientes dos módulos (`src/data/modules.js`
+ * no repositório da plataforma), começando em 210°. É exatamente o
+ * `--logo-conic` da tela de login. Qualquer diferença entre os dois vira
+ * desconfiança na hora em que o visitante sai do site e cai no login.
+ *
+ * Ordem: Pedidos → Produção → Admin → Marketplace → Design → Pedidos.
  */
 const ARCO =
-  'conic-gradient(from 0deg at 50% 50%, #9fd9bb 0deg, #cfd587 26deg, #d4bf71 45deg, #e59659 92deg, #dd7a5f 118deg, #d1626b 140deg, #a75f8c 165deg, #8663a6 185deg, #6168b8 208deg, #4b6fc4 228deg, #4479a8 252deg, #3f837e 274deg, #4f9a8a 296deg, #64b298 316deg, #82c6ab 336deg, #9fd9bb 360deg)'
+  'conic-gradient(from 210deg, #4a6ae0, #0e8c6a, #7fe0c8, #fbb03b, #e0556a, #4a6ae0)'
 
-const CLAREIA = 'radial-gradient(circle at 50% 46%, rgba(255,255,255,.26), rgba(255,255,255,0) 52%)'
+/** O prisma e os três raios, com as coordenadas e as cores do app. */
+export function MarcaGlifo({ className = '' }) {
+  return (
+    <svg viewBox="0 0 860 684" preserveAspectRatio="xMidYMid meet" className={className} aria-hidden="true">
+      <path
+        d="M452.5,78.9 L757.5,606.1 Q780,645 735,645 L125,645 Q80,645 102.5,606.1 L407.5,78.9 Q430,40 452.5,78.9 Z"
+        fill="#ffffff"
+      />
+      <g fill="none" strokeLinecap="round" strokeWidth="52">
+        <line x1="20" y1="235" x2="396" y2="372" stroke="#c6d8ff" />
+        <line x1="45" y1="330" x2="355" y2="443" stroke="#ffcaa4" />
+        <line x1="100" y1="448" x2="302" y2="522" stroke="#ffa0a0" />
+      </g>
+    </svg>
+  )
+}
 
 export function Simbolo({ className = '' }) {
   return (
     <span
-      className={`relative inline-block overflow-hidden align-middle ${className}`}
-      style={{ borderRadius: '23%', backgroundImage: `${CLAREIA}, ${ARCO}` }}
+      className={`relative inline-flex items-center justify-center overflow-hidden align-middle ${className}`}
+      // 28,6% é o mesmo raio do login (16px numa caixa de 56px), e o anel
+      // branco por dentro é o mesmo `inset 0 0 0 1.5px rgba(255,255,255,.55)`,
+      // proporcional ao tamanho menor que o ícone tem aqui.
+      style={{
+        borderRadius: '28.6%',
+        backgroundImage: ARCO,
+        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,.55)',
+      }}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 100 100" className="absolute inset-0 block h-full w-full">
-        {/* o prisma */}
-        <path
-          d="M48.5 33.1 L68.2 67.4 H28.4 Z"
-          fill="#fff"
-          stroke="#fff"
-          strokeWidth="3.4"
-          strokeLinejoin="round"
-        />
-        {/* a luz entrando, já decomposta */}
-        <g strokeWidth="5" strokeLinecap="round">
-          <line x1="23" y1="43" x2="46" y2="51.5" stroke="#cad8fc" />
-          <line x1="25.5" y1="50" x2="45" y2="57.5" stroke="#f7cca9" />
-          <line x1="28.5" y1="57" x2="42.5" y2="62" stroke="#f2a5a2" />
-        </g>
-      </svg>
+      <MarcaGlifo className="block h-[43%] w-[52%] drop-shadow-[0_1px_3px_rgba(15,55,70,.18)]" />
     </span>
   )
 }
@@ -53,7 +67,8 @@ export default function Marca({ className = '', tamanho = 'h-8 w-8 sm:h-9 sm:w-9
           style={
             claro
               ? {
-                  background: 'linear-gradient(90deg,#7fe0c8,#9fd9bb 50%,#6f9fd0)',
+                  // sobre fundo escuro, os mesmos dois tons clareados
+                  background: 'linear-gradient(90deg,#83e6c2,#7fe0c8)',
                   WebkitBackgroundClip: 'text',
                   backgroundClip: 'text',
                   color: 'transparent',

@@ -65,9 +65,12 @@
   overflow-wrap: break-word;
 }
 
-/* O gradiente da marca, como no "vidro plano" do login */
+/* O gradiente do "Glass", idêntico ao do login: `--action-from` (jade da
+   Produção) para `--action-to` (cristal do Admin). Antes eram dois tons
+   dessaturados escolhidos a olho — perto do certo, e por isso pior: dava para
+   ver a diferença quando o visitante saía do site e caía na tela de login. */
 @utility marca {
-  background: linear-gradient(90deg, #3f8a6e, #3d857c 48%, #3879a0);
+  background: linear-gradient(90deg, #0e8c6a, #0e7b9c);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

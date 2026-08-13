@@ -21,9 +21,9 @@ import { semMovimento } from '../lib/dispositivo.js'
  * com o texto e não acrescentava nada.
  */
 
-const AZUL = '#cad8fc'
-const PESSEGO = '#f7cca9'
-const SALMAO = '#f2a5a2'
+const AZUL = '#c6d8ff'
+const PESSEGO = '#ffcaa4'
+const SALMAO = '#ffa0a0'
 
 const ruido = (i) => {
   const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453

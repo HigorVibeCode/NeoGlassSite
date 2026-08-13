@@ -33,9 +33,9 @@ const ruido = (i) => {
 }
 
 // As três cores são as do ícone, sem inventar nenhuma.
-const AZUL = '#cad8fc'
-const PESSEGO = '#f7cca9'
-const SALMAO = '#f2a5a2'
+const AZUL = '#c6d8ff'
+const PESSEGO = '#ffcaa4'
+const SALMAO = '#ffa0a0'
 
 // As três listras entrando: mesma inclinação e mesma ordem do símbolo.
 const LISTRAS = [

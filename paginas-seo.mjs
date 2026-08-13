@@ -76,11 +76,14 @@ const montar = (p) => {
   )
   h = trocar(h, /(<meta name="twitter:image" content=")[^"]*(")/, `$1${p.imagem}$2`)
 
-  // og:locale e as irmãs entram logo depois da canônica
-  h = h.replace(
-    /(<link rel="canonical"[^>]*>)/,
-    `$1\n    <meta property="og:locale" content="${p.ogLocale}" />\n${blocoHreflang(p.id)}`,
-  )
+  /* `og:locale` é TROCADO, não inserido. O index.html já traz um `pt_BR` fixo,
+     e a primeira versão disto acrescentava um segundo logo abaixo — a página
+     alemã saía com `de_DE` e `pt_BR` ao mesmo tempo, e o robô ficava com o
+     errado (foi o que o Facebook leu quando testei em produção). */
+  h = trocar(h, /(<meta property="og:locale" content=")[^"]*(")/, `$1${p.ogLocale}$2`)
+
+  // As irmãs entram logo depois da canônica.
+  h = h.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${blocoHreflang(p.id)}`)
 
   // Só a página com preço declara oferta, e só na moeda daquele idioma.
   if (p.oferta) {

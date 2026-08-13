@@ -21,15 +21,18 @@
     <meta property="og:url" content="https://neoglass.online/" />
     <meta property="og:title" content="NeoGlass · Software para a indústria do vidro plano" />
     <meta property="og:description" content="Do orçamento na obra ao plano de corte que entra na mesa. Aproveite cada retalho." />
-    <meta property="og:image" content="https://neoglass.online/og.png" />
+    <!-- JPEG de ~60 kB, não PNG de 415 kB: acima de uns 300 kB o WhatsApp
+         desiste do cartão grande e mostra o quadradinho ao lado do texto. -->
+    <meta property="og:image" content="https://neoglass.online/og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="NeoGlass · do orçamento na obra ao plano de corte" />
+    <meta property="og:image:alt" content="NeoGlass · do orçamento na obra à nota fiscal" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="NeoGlass · Software para a indústria do vidro plano" />
     <meta name="twitter:description" content="Do orçamento na obra ao plano de corte que entra na mesa. Aproveite cada retalho." />
-    <meta name="twitter:image" content="https://neoglass.online/og.png" />
+    <meta name="twitter:image" content="https://neoglass.online/og.jpg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,6 +59,25 @@
           "Etiqueta e código por peça, com baixa na expedição",
           "Nota fiscal, boleto e margem real por pedido"
         ]
+      }
+    </script>
+
+    <!-- Quem é a empresa por trás. Sem isto o Google não liga o site à marca:
+         o nome, o logo e o canal de contato ficam soltos em cada página. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "NeoGlass",
+        "url": "https://neoglass.online/",
+        "logo": "https://neoglass.online/brand/neoglass-mark-512.png",
+        "description": "Sistema modular para a indústria do vidro plano e para a vidraçaria.",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "contato@neoglass.online",
+          "availableLanguage": ["pt-BR", "en", "fr", "de"]
+        }
       }
     </script>
   </head>

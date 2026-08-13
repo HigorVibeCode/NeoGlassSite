@@ -1,45 +1,29 @@
 import { useCallback, useEffect, useState } from 'react'
+import { PAGINAS, urlDe } from './paginasSeo.js'
 
 /**
  * Um roteador de 40 linhas. O site tem três endereços de verdade — cada
  * público merece a sua URL, o seu título e o seu lugar no Google — mas não
  * merece uma biblioteca de rotas inteira no pacote.
  *
- * A Vercel já devolve o index.html para qualquer caminho (rewrites), então
- * abrir /vidracaria direto funciona.
+ * Os títulos e descrições moram em `paginasSeo.js`, porque o script que gera
+ * um .html por rota depois do build também precisa deles, e aquele script roda
+ * em Node puro (não consegue importar nada que traga React junto).
  */
 
-export const ABAS = [
-  {
-    id: 'industria',
-    caminho: '/',
-    nome: 'Indústria',
-    titulo: 'NeoGlass · Software para a indústria do vidro plano',
-    descricao:
-      'Do orçamento tirado na obra ao plano de corte que entra na mesa. Otimização de chapa com reaproveitamento de retalho, checagem com IA e rastreio de peça.',
-  },
-  {
-    id: 'vidracaria',
-    caminho: '/vidracaria',
-    nome: 'Vidraçaria',
-    titulo: 'NeoGlass para vidraçaria · Profissional desde o primeiro orçamento',
-    descricao:
-      'Orçamento fechado na obra, pedido acompanhado do corte à entrega e retalho no lugar certo. Sem planilha, sem caderno, sem curso.',
-  },
-  {
-    id: 'plataforma',
-    caminho: '/plataforma',
-    nome: 'Plataforma',
-    titulo: 'A plataforma NeoGlass · O que ela faz pelo seu mês',
-    descricao:
-      'Os módulos que já rodam, a IA por dentro, o app no bolso do vidraceiro e o que vem a seguir.',
-  },
-]
+export const ABAS = PAGINAS
 
 const normalizar = (p) => {
-  const limpo = (p || '/').replace(/\/+$/, '') || '/'
+  // O `.html` some porque cada rota agora tem um arquivo próprio no build
+  // (/vidracaria.html). Quem cair no arquivo direto tem que ver a página certa,
+  // e não a da indústria com o título da vidraçaria.
+  const limpo = (p || '/').replace(/\.html$/, '').replace(/\/+$/, '') || '/'
   return ABAS.some((a) => a.caminho === limpo) ? limpo : '/'
 }
+
+/** Troca o conteúdo de uma meta que já existe no HTML servido. */
+const meta = (seletor, valor) =>
+  document.querySelector(seletor)?.setAttribute('content', valor)
 
 export function useRota() {
   const [caminho, setCaminho] = useState(() =>
@@ -74,14 +58,18 @@ export function useRota() {
 
   const aba = ABAS.find((a) => a.caminho === caminho) ?? ABAS[0]
 
-  // Título e descrição acompanham a aba — quem compartilha o link da vidraçaria
-  // compartilha a página da vidraçaria.
+  // Cada aba tem o seu título, a sua descrição e a sua canônica. Isto aqui só
+  // cobre a navegação DENTRO do site — quem chega direto em /vidracaria já
+  // recebe o HTML certo do servidor, que é o que importa para quem não roda
+  // JavaScript (WhatsApp, LinkedIn, robôs de IA).
   useEffect(() => {
+    const url = urlDe(aba.caminho)
     document.title = aba.titulo
-    document.querySelector('meta[name="description"]')?.setAttribute('content', aba.descricao)
-    document
-      .querySelector('link[rel="canonical"]')
-      ?.setAttribute('href', `https://neoglass.online${aba.caminho === '/' ? '/' : aba.caminho}`)
+    meta('meta[name="description"]', aba.descricao)
+    meta('meta[property="og:title"]', aba.ogTitulo)
+    meta('meta[property="og:description"]', aba.ogDescricao)
+    meta('meta[property="og:url"]', url)
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', url)
   }, [aba])
 
   return { aba, ir }

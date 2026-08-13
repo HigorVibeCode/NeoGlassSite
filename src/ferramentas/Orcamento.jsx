@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Simbolo } from '../components/Marca.jsx'
-import { CONFIG, acaoComecar, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria, valorMensal } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
+import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
 /**
  * A demonstração da vidraçaria: do vão medido ao PDF na mão do cliente.
@@ -23,7 +24,12 @@ import { semMovimento } from '../lib/dispositivo.js'
  * único serviço paga é aritmética, não promessa.
  */
 
-const VAO = { l: 1600, a: 1200, nome: 'Janela de sala', parede: 'alvenaria' }
+// O nome do serviço e o tipo de parede moram no módulo de textos: aqui ficam
+// só as medidas, que são as mesmas em qualquer idioma.
+const VAO = { l: 1600, a: 1200 }
+
+const CLIENTE = 'Marcos Ribeiro'
+const NUMERO = '26-0918'
 
 // A janela: duas folhas de correr, com as folgas de sempre.
 const FOLGA_LARGURA = 10
@@ -38,22 +44,13 @@ const M2 = (FOLHA.l / 1000) * (FOLHA.a / 1000) * 2
 
 const PRECO_M2 = 210
 
+// `chave` aponta para o nome e o detalhe da linha no módulo de textos; aqui
+// fica só o dinheiro, que é o que a conta usa.
 const ITENS = [
-  {
-    nome: 'Vidro temperado 6 mm incolor',
-    detalhe: `2 folhas · ${FOLHA.l} × ${FOLHA.a} mm · ${M2.toLocaleString('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })} m²`,
-    valor: Math.round(M2 * PRECO_M2),
-  },
-  {
-    nome: 'Kit de correr',
-    detalhe: 'trilho superior e inferior, roldanas, fecho',
-    valor: 285,
-  },
-  { nome: 'Perfil, borracha e acabamento', detalhe: 'vedação e arremate do vão', valor: 95 },
-  { nome: 'Instalação e vedação', detalhe: 'mão de obra, 1 diária · deslocamento', valor: 380 },
+  { chave: 'vidro', valor: Math.round(M2 * PRECO_M2) },
+  { chave: 'kit', valor: 285 },
+  { chave: 'perfil', valor: 95 },
+  { chave: 'instalacao', valor: 380 },
 ]
 
 const TOTAL = ITENS.reduce((s, i) => s + i.valor, 0)
@@ -65,6 +62,16 @@ const brl = (n) =>
   n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
 const num = (n, c = 2) =>
   n.toLocaleString('pt-BR', { minimumFractionDigits: c, maximumFractionDigits: c })
+
+/**
+ * O detalhe de cada linha do orçamento. Só o do vidro carrega medida e m², e
+ * por isso chega do módulo de textos como função; os outros três são frase
+ * fixa. Medida e área não se traduzem — vão prontas daqui.
+ */
+const detalheDe = (t, item) => {
+  const d = t.itens[item.chave].detalhe
+  return typeof d === 'function' ? d(`${FOLHA.l} × ${FOLHA.a}`, num(M2)) : d
+}
 
 /** Um número que sobe até o valor. Vinte e seis passos, não sessenta por segundo. */
 function useContagem(alvo, ligado, duracao = 950, atraso = 0) {
@@ -101,8 +108,9 @@ function useContagem(alvo, ligado, duracao = 950, atraso = 0) {
 const P = { W: 2680, H: 1880, x: 400, y: 340 }
 
 function Parede({ comJanela, medindo }) {
+  const t = useTextos().demos.orcamento.desenho
   return (
-    <svg viewBox={`0 0 ${P.W} ${P.H}`} className="block w-full" role="img" aria-label="O vão medido na obra">
+    <svg viewBox={`0 0 ${P.W} ${P.H}`} className="block w-full" role="img" aria-label={t.aria}>
       <defs>
         <pattern id="orc-tijolo" width="150" height="150" patternUnits="userSpaceOnUse">
           <rect width="150" height="150" fill="#eef0f3" />
@@ -182,7 +190,7 @@ function Parede({ comJanela, medindo }) {
             fontWeight="600"
             fill="#0e8c6a"
           >
-            2 folhas de correr · 6 mm
+            {t.janela}
           </text>
         </g>
       )}
@@ -242,7 +250,7 @@ function Parede({ comJanela, medindo }) {
             fontWeight="600"
             fill="#0e8c6a"
           >
-            conferindo esquadro…
+            {t.medindo}
           </text>
         </g>
       )}
@@ -253,6 +261,8 @@ function Parede({ comJanela, medindo }) {
 /* ── o PDF que o cliente recebe ──────────────────────────────────────────── */
 
 function Documento({ compacto = false }) {
+  const c = useTextos()
+  const t = c.demos.orcamento
   return (
     <div
       className={`imprime mx-auto w-full max-w-[440px] rounded-[10px] border border-line bg-white ${
@@ -264,25 +274,27 @@ function Documento({ compacto = false }) {
         <div className="flex items-center gap-2.5">
           <Simbolo className="h-8 w-8 rounded-[9px]" />
           <div>
-            <p className="text-[13px] font-extrabold leading-tight text-ink">Sua Vidraçaria</p>
-            <p className="cota normal-case leading-tight">a sua marca, o seu telefone</p>
+            <p className="text-[13px] font-extrabold leading-tight text-ink">
+              {t.documento.empresa}
+            </p>
+            <p className="cota normal-case leading-tight">{t.documento.marca}</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="cota uppercase">Orçamento</p>
-          <p className="font-mono text-[13px] font-bold text-ink">26-0918</p>
+          <p className="cota uppercase">{t.documento.orcamento}</p>
+          <p className="font-mono text-[13px] font-bold text-ink">{NUMERO}</p>
         </div>
       </div>
 
       <div className="mt-4 flex flex-wrap justify-between gap-3">
         <div>
-          <p className="cota uppercase">Cliente</p>
-          <p className="text-[13px] font-bold text-ink">Marcos Ribeiro</p>
+          <p className="cota uppercase">{t.documento.cliente}</p>
+          <p className="text-[13px] font-bold text-ink">{CLIENTE}</p>
         </div>
         <div>
-          <p className="cota uppercase">Serviço</p>
+          <p className="cota uppercase">{t.documento.servico}</p>
           <p className="text-[13px] font-bold text-ink">
-            {VAO.nome} · {VAO.l}×{VAO.a}
+            {t.documento.servicoValor(t.obra.vao, `${VAO.l}×${VAO.a}`)}
           </p>
         </div>
       </div>
@@ -290,12 +302,12 @@ function Documento({ compacto = false }) {
       <table className="mt-4 w-full border-collapse">
         <tbody>
           {ITENS.map((i) => (
-            <tr key={i.nome} className="border-t border-line">
+            <tr key={i.chave} className="border-t border-line">
               <td className="py-2 pr-3 align-top">
                 <span className="block text-[12.5px] font-bold leading-tight text-ink">
-                  {i.nome}
+                  {t.itens[i.chave].nome}
                 </span>
-                <span className="cota block normal-case leading-tight">{i.detalhe}</span>
+                <span className="cota block normal-case leading-tight">{detalheDe(t, i)}</span>
               </td>
               <td className="whitespace-nowrap py-2 text-right align-top font-mono text-[12.5px] font-bold text-ink">
                 {brl(i.valor)}
@@ -303,7 +315,7 @@ function Documento({ compacto = false }) {
             </tr>
           ))}
           <tr className="border-t-2 border-ink/15">
-            <td className="pt-3 text-[13px] font-extrabold text-ink">Total</td>
+            <td className="pt-3 text-[13px] font-extrabold text-ink">{t.documento.total}</td>
             <td className="pt-3 text-right">
               <span className="display text-[22px] leading-none text-verde">{brl(TOTAL)}</span>
             </td>
@@ -312,12 +324,12 @@ function Documento({ compacto = false }) {
       </table>
 
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-3">
-        <p className="cota max-w-[24ch] normal-case leading-snug">
-          Validade de 10 dias · prazo de 7 dias úteis após aprovação
-        </p>
+        <p className="cota max-w-[24ch] normal-case leading-snug">{t.documento.validade}</p>
         <span className="min-w-[110px]">
           <span aria-hidden="true" className="block border-b border-ink/30 pb-4" />
-          <span className="cota mt-1 block text-center normal-case">assinatura do cliente</span>
+          <span className="cota mt-1 block text-center normal-case">
+            {t.documento.assinatura}
+          </span>
         </span>
       </div>
     </div>
@@ -328,12 +340,13 @@ function Documento({ compacto = false }) {
 
 const TEMPO = { montando: 1700, preenchendo: 1500, gerando: 1200 }
 
-const NAO_COBRAMOS = ['Sem implantação', 'Sem custo por usuário', 'Sem fidelidade']
+// Só a chave e a cor: a frase de cada uma vem do módulo de textos.
+const NAO_COBRAMOS = ['implantacao', 'orcamento', 'fidelidade']
 
 const CANAIS = [
-  ['WhatsApp', '#0e8c6a'],
-  ['E-mail', '#0e7b9c'],
-  ['Baixar PDF', '#7c6ad6'],
+  ['whatsapp', '#0e8c6a'],
+  ['email', '#0e7b9c'],
+  ['pdf', '#7c6ad6'],
 ]
 
 export default function Orcamento() {
@@ -377,10 +390,12 @@ export default function Orcamento() {
 
   // O quarto degrau. Enquanto não houver preço decidido, ele não existe e o
   // botão volta a ser o link de sempre.
-  const preco = precoVidracaria()
+  const { idioma, c } = useIdioma()
+  const t = c.demos.orcamento
+  const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
-  const comecar = acaoComecar()
-  const mesesPagos = preco ? Math.floor(TOTAL / CONFIG.vidracaria.precoMensal) : 0
+  const comecar = acaoComecar(idioma, c)
+  const mesesPagos = preco ? Math.floor(TOTAL / valorMensal(idioma)) : 0
   const verPreco = () => {
     evento('ferramenta', { qual: 'orcamento', passo: 'ver-preco' })
     setFase('preco')
@@ -407,6 +422,10 @@ export default function Orcamento() {
   const noOrcamento = fase === 'orcamento'
   const total = useContagem(TOTAL, noOrcamento, 1100, 900)
 
+  // O cronômetro só entra na frase quando o visitante levou menos de 90
+  // segundos: acima disso ele foi olhar outra coisa no meio, e o número mente.
+  const noTempo = segundos > 0 && segundos <= 90
+
   const passos = preco ? 4 : 3
   const passo =
     fase === 'vao' || fase === 'montando'
@@ -418,11 +437,11 @@ export default function Orcamento() {
           : 3
 
   const resumoZap = [
-    `Orçamento 26-0918 — ${VAO.nome} ${VAO.l}×${VAO.a} mm`,
-    ...ITENS.map((i) => `• ${i.nome}: ${brl(i.valor)}`),
-    `Total: ${brl(TOTAL)}`,
+    t.whatsapp.titulo(NUMERO, t.obra.vao, `${VAO.l}×${VAO.a} mm`),
+    ...ITENS.map((i) => t.whatsapp.item(t.itens[i.chave].nome, brl(i.valor))),
+    t.whatsapp.total(brl(TOTAL)),
     '',
-    'Montado na demonstração do site do NeoGlass.',
+    t.whatsapp.rodape,
   ].join('\n')
 
   return (
@@ -431,13 +450,13 @@ export default function Orcamento() {
         <span className="flex items-center gap-2.5">
           <Simbolo className="h-6 w-6 rounded-[7px]" />
           <span className="text-[14px] font-extrabold tracking-[-0.015em] text-ink">
-            NeoGlass no celular · na obra
+            {t.barra.titulo}
           </span>
         </span>
         <span className="cota rounded-full border border-line bg-card px-3 py-1 uppercase">
-          Cliente Marcos Ribeiro
+          {t.barra.cliente(CLIENTE)}
         </span>
-        <span className="cota ml-auto uppercase">Passo {passo} de {passos}</span>
+        <span className="cota ml-auto uppercase">{t.barra.passo(passo, passos)}</span>
       </div>
 
       <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)]">
@@ -446,7 +465,7 @@ export default function Orcamento() {
           {(fase === 'vao' || fase === 'montando') && (
             <>
               <p className="cota mb-2 uppercase">
-                {fase === 'vao' ? 'Vão medido na obra' : 'Montando a janela no vão'}
+                {fase === 'vao' ? t.desenho.vaoMedido : t.desenho.montando}
               </p>
               <Parede comJanela={fase === 'montando'} medindo={fase === 'montando'} />
             </>
@@ -454,7 +473,7 @@ export default function Orcamento() {
 
           {(fase === 'orcamento' || fase === 'gerando') && (
             <>
-              <p className="cota mb-2 uppercase">A janela deste vão</p>
+              <p className="cota mb-2 uppercase">{t.desenho.janelaDoVao}</p>
               <Parede comJanela />
             </>
           )}
@@ -463,10 +482,10 @@ export default function Orcamento() {
             <>
               <p className="cota mb-3 uppercase">
                 {fase === 'pdf'
-                  ? 'PDF gerado'
+                  ? t.desenho.pdfGerado
                   : fase === 'enviar'
-                    ? 'Pronto para o cliente'
-                    : 'O orçamento que você acabou de montar'}
+                    ? t.desenho.prontoCliente
+                    : t.desenho.oOrcamento}
               </p>
               <Documento />
             </>
@@ -477,20 +496,17 @@ export default function Orcamento() {
         <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center px-5 py-7 sm:px-7">
           {fase === 'vao' && (
             <>
-              <p className="cota uppercase">O que você fez na obra</p>
+              <p className="cota uppercase">{t.vao.selo}</p>
               <h3 className="display mt-2 text-[24px]">
-                {VAO.nome} · {VAO.l} × {VAO.a} mm
+                {t.vao.titulo(t.obra.vao, `${VAO.l} × ${VAO.a} mm`)}
               </h3>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">
-                Foto do vão, duas medidas, o tipo de parede. Trinta segundos com o celular na mão —
-                é tudo o que o sistema pede de você.
-              </p>
+              <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">{t.vao.texto}</p>
               <ul className="mt-6 space-y-2.5">
                 {[
-                  ['Vão', `${VAO.l} × ${VAO.a} mm`],
-                  ['Parede', VAO.parede],
-                  ['Esquadro', 'conferido no ato'],
-                  ['Foto', '2 imagens anexadas'],
+                  [t.vao.ficha.vao, `${VAO.l} × ${VAO.a} mm`],
+                  [t.vao.ficha.parede, t.obra.parede],
+                  [t.vao.ficha.esquadro, t.vao.ficha.esquadroValor],
+                  [t.vao.ficha.foto, t.vao.ficha.fotoValor],
                 ].map(([a, b]) => (
                   <li key={a} className="flex items-baseline justify-between gap-4">
                     <span className="text-[14px] text-dim">{a}</span>
@@ -498,25 +514,23 @@ export default function Orcamento() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-[14px] font-bold leading-snug text-ink">
-                Agora aperte o botão. Você não vai digitar mais nada.
-              </p>
+              <p className="mt-6 text-[14px] font-bold leading-snug text-ink">{t.vao.chamada}</p>
             </>
           )}
 
           {fase === 'montando' && (
             <>
-              <p className="cota uppercase">Montando</p>
-              <h3 className="display mt-2 text-[24px]">Cabendo a janela na sua medida…</h3>
+              <p className="cota uppercase">{t.montando.selo}</p>
+              <h3 className="display mt-2 text-[24px]">{t.montando.titulo}</h3>
               <ul className="mt-5 space-y-2.5">
                 {[
-                  'Escolhendo 2 folhas de correr para este vão',
-                  `Descontando ${FOLGA_LARGURA} mm de folga e ${SOBREPOSICAO} mm de sobreposição`,
-                  'Somando trilho, roldanas, fecho e vedação',
-                  'Puxando os preços da sua tabela',
-                ].map((t, i) => (
+                  t.montando.linhas.folhas,
+                  t.montando.linhas.folga(FOLGA_LARGURA, SOBREPOSICAO),
+                  t.montando.linhas.somando,
+                  t.montando.linhas.precos,
+                ].map((linha, i) => (
                   <li
-                    key={t}
+                    key={linha}
                     className="sobe flex items-center gap-2.5 text-[14px] text-dim"
                     style={{ animationDelay: `${i * 380}ms` }}
                   >
@@ -530,7 +544,7 @@ export default function Orcamento() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    {t}
+                    {linha}
                   </li>
                 ))}
               </ul>
@@ -548,21 +562,23 @@ export default function Orcamento() {
 
           {(fase === 'orcamento' || fase === 'gerando') && (
             <>
-              <p className="cota uppercase">Orçamento 26-0918</p>
-              <h3 className="display mt-2 text-[24px]">Pronto, sem você digitar nada.</h3>
+              <p className="cota uppercase">{t.lista.selo(NUMERO)}</p>
+              <h3 className="display mt-2 text-[24px]">{t.lista.titulo}</h3>
 
               <ul className="mt-5 divide-y divide-line border-y border-line">
                 {ITENS.map((i, n) => (
                   <li
-                    key={i.nome}
+                    key={i.chave}
                     className="sobe flex items-baseline justify-between gap-4 py-2.5"
                     style={{ animationDelay: `${140 + n * 190}ms` }}
                   >
                     <span className="min-w-0">
                       <span className="block text-[13.5px] font-bold leading-tight text-ink">
-                        {i.nome}
+                        {t.itens[i.chave].nome}
                       </span>
-                      <span className="cota block normal-case leading-tight">{i.detalhe}</span>
+                      <span className="cota block normal-case leading-tight">
+                        {detalheDe(t, i)}
+                      </span>
                     </span>
                     <span className="shrink-0 font-mono text-[13.5px] font-bold text-ink">
                       {brl(i.valor)}
@@ -572,15 +588,14 @@ export default function Orcamento() {
               </ul>
 
               <div className="mt-4 flex items-baseline justify-between gap-4">
-                <span className="cota uppercase">Total para o cliente</span>
+                <span className="cota uppercase">{t.lista.total}</span>
                 <span className="display text-[30px] leading-none text-verde">
                   {brl(fase === 'orcamento' ? total : TOTAL)}
                 </span>
               </div>
 
               <p className="mt-5 text-[13.5px] leading-snug text-dim">
-                {num(M2)} m² de vidro, 4 itens, nenhuma conta feita de cabeça. Os preços vêm da sua
-                tabela — estes aqui são só exemplo.
+                {t.lista.rodape(num(M2), ITENS.length)}
               </p>
             </>
           )}
@@ -599,21 +614,18 @@ export default function Orcamento() {
 
           {fase === 'pdf' && (
             <>
-              <p className="cota uppercase">Documento pronto</p>
-              <h3 className="display mt-2 text-[24px]">Com a sua marca, não com a nossa.</h3>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">
-                Logo, telefone, validade, prazo e a linha da assinatura. É este papel que faz o
-                cliente enxergar empresa em vez de improviso — e ele saiu sozinho.
-              </p>
+              <p className="cota uppercase">{t.pdf.selo}</p>
+              <h3 className="display mt-2 text-[24px]">{t.pdf.titulo}</h3>
+              <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">{t.pdf.texto}</p>
               <ul className="mt-6 space-y-2.5">
                 {[
-                  'A sua logo e os seus dados no cabeçalho',
-                  'Validade e prazo de entrega escritos',
-                  'Assinatura na tela ou no papel',
-                  'Uma via arquivada no pedido, para sempre',
-                ].map((t, i) => (
+                  t.pdf.linhas.logo,
+                  t.pdf.linhas.prazo,
+                  t.pdf.linhas.assinatura,
+                  t.pdf.linhas.via,
+                ].map((linha, i) => (
                   <li
-                    key={t}
+                    key={linha}
                     className="sobe flex items-center gap-2.5 text-[14px] text-dim"
                     style={{ animationDelay: `${i * 130}ms` }}
                   >
@@ -627,7 +639,7 @@ export default function Orcamento() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    {t}
+                    {linha}
                   </li>
                 ))}
               </ul>
@@ -637,25 +649,23 @@ export default function Orcamento() {
           {fase === 'enviar' && (
             <>
               <p className="cota uppercase" style={{ color: '#0e8c6a', opacity: 1 }}>
-                Simples assim
+                {t.enviar.selo}
               </p>
               <p className="display bate mt-2 text-[clamp(32px,4.2vw,44px)] leading-[1.04]">
-                3 toques
+                {t.enviar.toques}
                 <span className="marca">
-                  {segundos > 0 && segundos <= 90 ? ` e ${segundos} segundos` : ', zero digitação'}
+                  {noTempo ? t.enviar.segundos(segundos) : t.enviar.semTempo}
                 </span>
               </p>
               <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">
-                {segundos > 0 && segundos <= 90
-                  ? 'Foi o tempo que você levou agora, do vão ao orçamento pronto. Na obra é o mesmo caminho — com o cliente olhando.'
-                  : 'Do vão ao orçamento pronto você não digitou uma medida sequer. Na obra é o mesmo caminho — com o cliente olhando.'}
+                {noTempo ? t.enviar.textoTempo : t.enviar.textoSemTempo}
               </p>
 
-              <p className="cota mt-7 uppercase">Escolha por onde vai</p>
+              <p className="cota mt-7 uppercase">{t.enviar.escolha}</p>
               <div className="mt-2.5 flex flex-wrap gap-2">
-                {CANAIS.map(([nome, cor], i) => (
+                {CANAIS.map(([chave, cor], i) => (
                   <span
-                    key={nome}
+                    key={chave}
                     className="sobe rounded-full border px-4 py-2 text-[13px] font-bold"
                     style={{
                       borderColor: `${cor}44`,
@@ -664,7 +674,7 @@ export default function Orcamento() {
                       animationDelay: `${140 + i * 110}ms`,
                     }}
                   >
-                    {nome}
+                    {t.enviar.canais[chave]}
                   </span>
                 ))}
               </div>
@@ -673,52 +683,51 @@ export default function Orcamento() {
                 className="sobe mt-7 text-[15.5px] font-bold leading-[1.45] text-ink"
                 style={{ animationDelay: '520ms' }}
               >
-                E quando ele aprovar, o pedido já entra na produção com as medidas de corte.
+                {t.enviar.aprovar}
               </p>
               <p
                 className="sobe mt-3 text-[14px] leading-[1.55] text-dim"
                 style={{ animationDelay: '620ms' }}
               >
-                Ninguém redigita, ninguém liga para confirmar espessura, e o retalho que sobrar
-                dessa chapa já volta para o seu estoque com medida.
+                {t.enviar.ninguem}
               </p>
             </>
           )}
 
           {fase === 'preco' && (
             <>
-              <p className="cota uppercase">Quanto custa</p>
+              <p className="cota uppercase">{t.preco.selo}</p>
               <p className="bate mt-2 flex items-baseline gap-2">
                 <span className="display text-[clamp(44px,5.6vw,60px)] leading-none">{preco}</span>
-                <span className="text-[16px] font-bold text-dim">/mês</span>
+                <span className="text-[16px] font-bold text-dim">{t.preco.porMes}</span>
               </p>
-              <p className="mt-3 text-[15px] font-bold text-ink">Por vidraçaria — não por pessoa.</p>
+              <p className="mt-3 text-[15px] font-bold text-ink">{t.preco.porVidracaria}</p>
 
               {/* A conta que o visitante faz sozinho, feita para ele. */}
               <div
                 className="sobe mt-6 rounded-[16px] px-5 py-4"
                 style={{ background: 'rgba(14,140,106,.08)', animationDelay: '260ms' }}
               >
+                {/* O valor chega formatado: a frase não escreve moeda. */}
                 <p className="text-[15px] leading-[1.5] text-ink">
-                  O orçamento que você acabou de montar foi de{' '}
-                  <strong className="font-extrabold">{brl(TOTAL)}</strong>. Era{' '}
-                  <strong className="font-extrabold">uma janela</strong>.
+                  {t.preco.conta(brl(TOTAL))}{' '}
+                  <strong className="font-extrabold">{t.preco.contaEnfase}</strong>
                 </p>
                 {mesesPagos >= 2 && (
                   <p className="display mt-2.5 text-[19px] leading-tight text-verde">
-                    Esse serviço sozinho paga {mesesPagos} meses de sistema.
+                    {t.preco.pagaMeses(mesesPagos)}
                   </p>
                 )}
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                {NAO_COBRAMOS.map((t, i) => (
+                {NAO_COBRAMOS.map((chave, i) => (
                   <span
-                    key={t}
+                    key={chave}
                     className="sobe rounded-full border border-line px-3.5 py-1.5 text-[12.5px] font-bold text-dim"
                     style={{ animationDelay: `${380 + i * 100}ms` }}
                   >
-                    {t}
+                    {t.preco.naoCobramos[chave]}
                   </span>
                 ))}
               </div>
@@ -727,9 +736,7 @@ export default function Orcamento() {
                 className="sobe mt-6 text-[14px] leading-[1.55] text-dim"
                 style={{ animationDelay: '700ms' }}
               >
-                {diasTeste > 0
-                  ? `São ${diasTeste} dias grátis, sem cartão. Você monta os orçamentos da semana e decide depois — se não decidir, nada é cobrado.`
-                  : 'Sem fidelidade: se não servir para o seu dia, você cancela pela própria tela.'}
+                {diasTeste > 0 ? t.preco.teste(diasTeste) : t.preco.semTeste}
               </p>
             </>
           )}
@@ -740,7 +747,7 @@ export default function Orcamento() {
       <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
         {fase === 'vao' && (
           <button type="button" onClick={usarVao} className="botao-marca px-7 py-3.5 text-[15px]">
-            Usar este vão
+            {t.botoes.usarVao}
           </button>
         )}
 
@@ -751,7 +758,7 @@ export default function Orcamento() {
               className="h-2 w-2 animate-pulse rounded-full"
               style={{ background: '#fff' }}
             />
-            {fase === 'montando' ? 'Montando…' : 'Gerando o PDF…'}
+            {fase === 'montando' ? t.botoes.montando : t.botoes.gerando}
           </span>
         )}
 
@@ -762,13 +769,13 @@ export default function Orcamento() {
             className="botao-marca px-7 py-3.5 text-[15px]"
             style={{ background: 'linear-gradient(90deg,#0e7b9c,#0e8c6a)' }}
           >
-            Gerar PDF para o cliente
+            {t.botoes.gerarPdf}
           </button>
         )}
 
         {fase === 'pdf' && (
           <button type="button" onClick={enviar} className="botao-marca px-7 py-3.5 text-[15px]">
-            Enviar para o cliente
+            {t.botoes.enviar}
           </button>
         )}
 
@@ -779,17 +786,17 @@ export default function Orcamento() {
               onClick={verPreco}
               className="botao-marca px-7 py-3.5 text-[15px]"
             >
-              Quero isso na minha obra
+              {t.botoes.naObra}
             </button>
           ) : (
             <a
-              href={linkAgendar()}
-              target={ehExterno(linkAgendar()) ? '_blank' : undefined}
-              rel={ehExterno(linkAgendar()) ? 'noreferrer' : undefined}
+              href={linkAgendar(c.whatsapp.demonstracao)}
+              target={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? '_blank' : undefined}
+              rel={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? 'noreferrer' : undefined}
               onClick={() => evento('agendar', { origem: 'ferramenta-orcamento' })}
               className="botao-marca px-7 py-3.5 text-[15px]"
             >
-              Quero isso na minha obra
+              {t.botoes.naObra}
             </a>
           ))}
 
@@ -808,14 +815,14 @@ export default function Orcamento() {
               href="#preco"
               className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
             >
-              Ver tudo o que está incluído
+              {t.botoes.incluido}
             </a>
             <button
               type="button"
               onClick={recomecar}
               className="cota uppercase underline decoration-line underline-offset-4 transition-colors hover:text-verde"
             >
-              rodar de novo
+              {t.botoes.denovo}
             </button>
           </>
         )}
@@ -829,14 +836,14 @@ export default function Orcamento() {
               onClick={() => evento('whatsapp', { origem: 'ferramenta-orcamento' })}
               className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
             >
-              Receber este orçamento no meu WhatsApp
+              {t.botoes.zap}
             </a>
             <button
               type="button"
               onClick={recomecar}
               className="cota uppercase underline decoration-line underline-offset-4 transition-colors hover:text-verde"
             >
-              rodar de novo
+              {t.botoes.denovo}
             </button>
           </>
         )}
@@ -844,9 +851,7 @@ export default function Orcamento() {
         {/* Na tela do preço a ressalva tem que mudar: senão o visitante lê
             "valores de exemplo" e acha que a mensalidade também é chute. */}
         <p className="cota ml-auto max-w-[32ch] normal-case leading-snug">
-          {fase === 'preco'
-            ? 'Este é o preço, não uma faixa. Os valores do orçamento acima é que são de exemplo.'
-            : 'Valores de exemplo. No sistema eles saem da sua tabela.'}
+          {fase === 'preco' ? t.nota.preco : t.nota.padrao}
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import CartaoIA from './CartaoIA.jsx'
+import { useIdioma } from '../i18n/idioma.jsx'
 import { Bloco } from './Comum.jsx'
 import { ehExterno, linkAgendar, linkWhatsapp } from '../config.js'
 import { evento } from '../lib/rastreio.js'
@@ -9,6 +10,12 @@ import { evento } from '../lib/rastreio.js'
  *
  * O prisma saiu daqui: agora ele é o plano de fundo do site inteiro, e o
  * cartão flutua sobre ele.
+ *
+ * Rótulo, título, texto e marcas continuam chegando por prop — cada aba manda
+ * os seus. O que está escrito aqui dentro (o botão padrão e a mensagem pronta
+ * do WhatsApp) vem de `c.plataforma.abertura`, porque este arquivo pertence à
+ * área da plataforma; a árvore de textos é carregada inteira, então as três
+ * abas leem essa chave sem problema.
  */
 export default function Abertura({
   rotulo,
@@ -21,8 +28,14 @@ export default function Abertura({
   acao,
   nota,
 }) {
-  const padrao = linkAgendar()
-  const principal = acao ?? { rotulo: 'Ver demonstração', href: padrao, externo: ehExterno(padrao) }
+  const { c } = useIdioma()
+  const t = c.plataforma.abertura
+  const padrao = linkAgendar(c.whatsapp.demonstracao)
+  const principal = acao ?? {
+    rotulo: t.verDemonstracao,
+    href: padrao,
+    externo: ehExterno(padrao),
+  }
 
   return (
     <section
@@ -48,13 +61,13 @@ export default function Abertura({
               {principal.rotulo}
             </a>
             <a
-              href={linkWhatsapp('Olá! Vim pelo site do NeoGlass.')}
+              href={linkWhatsapp(t.whatsapp)}
               target="_blank"
               rel="noreferrer"
               onClick={() => evento('whatsapp', { origem })}
               className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
             >
-              Falar no WhatsApp
+              {c.chrome.falarWhatsapp}
             </a>
           </div>
 

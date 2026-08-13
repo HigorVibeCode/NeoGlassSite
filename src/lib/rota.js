@@ -1,45 +1,50 @@
 import { useCallback, useEffect, useState } from 'react'
-import { PAGINAS, urlDe } from './paginasSeo.js'
+import { IDIOMA_PADRAO, idiomaDe, partirCaminho } from '../i18n/idioma.jsx'
+import { ROTAS, caminhoDe, urlDe } from './paginasSeo.js'
 
 /**
- * Um roteador de 40 linhas. O site tem três endereços de verdade — cada
- * público merece a sua URL, o seu título e o seu lugar no Google — mas não
- * merece uma biblioteca de rotas inteira no pacote.
+ * Um roteador de sessenta linhas, para três páginas em quatro idiomas.
  *
- * Os títulos e descrições moram em `paginasSeo.js`, porque o script que gera
- * um .html por rota depois do build também precisa deles, e aquele script roda
- * em Node puro (não consegue importar nada que traga React junto).
+ * O endereço carrega as duas informações — qual página e qual idioma — e nada
+ * mais. `/de/glasereien` é a vidraçaria em alemão porque a URL diz isso; não há
+ * estado escondido, nem preferência salva que contradiga o que está na barra de
+ * endereço. Isso importa porque cada combinação vira um .html de verdade no
+ * build: quem chega direto recebe a página certa sem rodar JavaScript.
  */
 
-export const ABAS = PAGINAS
-
-const normalizar = (p) => {
-  // O `.html` some porque cada rota agora tem um arquivo próprio no build
-  // (/vidracaria.html). Quem cair no arquivo direto tem que ver a página certa,
-  // e não a da indústria com o título da vidraçaria.
-  const limpo = (p || '/').replace(/\.html$/, '').replace(/\/+$/, '') || '/'
-  return ABAS.some((a) => a.caminho === limpo) ? limpo : '/'
+/** Descobre página e idioma a partir de um caminho qualquer. */
+function resolver(caminho) {
+  const { idioma, resto } = partirCaminho(caminho)
+  const rota = ROTAS.find((r) => r.slug[idioma] === resto)
+  // Endereço que não existe naquele idioma cai na home DAQUELE idioma — não na
+  // home em português. Quem digitou /de/coisa-errada é alemão.
+  return { idioma, id: rota?.id ?? 'industria' }
 }
 
 /** Troca o conteúdo de uma meta que já existe no HTML servido. */
-const meta = (seletor, valor) =>
-  document.querySelector(seletor)?.setAttribute('content', valor)
+const meta = (seletor, valor) => document.querySelector(seletor)?.setAttribute('content', valor)
 
-export function useRota() {
-  const [caminho, setCaminho] = useState(() =>
-    normalizar(typeof window === 'undefined' ? '/' : window.location.pathname),
+/**
+ * Recebe a FUNÇÃO que resolve os textos, não os textos prontos. O idioma sai da
+ * URL, que este hook é quem lê — então quem chama não teria como saber o idioma
+ * antes de chamar. Passar a função quebra esse ovo-e-galinha sem precisar de
+ * dois estados que podem divergir na navegação.
+ */
+export function useRota(obterTextos) {
+  const [estado, setEstado] = useState(() =>
+    resolver(typeof window === 'undefined' ? '/' : window.location.pathname),
   )
 
   useEffect(() => {
-    const on = () => setCaminho(normalizar(window.location.pathname))
+    const on = () => setEstado(resolver(window.location.pathname))
     window.addEventListener('popstate', on)
     return () => window.removeEventListener('popstate', on)
   }, [])
 
-  const ir = useCallback(
-    (destino) => {
-      const alvo = normalizar(destino)
-      if (alvo === caminho) {
+  const irPara = useCallback(
+    (id, idioma) => {
+      const alvo = caminhoDe(id, idioma)
+      if (id === estado.id && idioma === estado.idioma) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
         return
       }
@@ -50,27 +55,37 @@ export function useRota() {
       } catch {
         /* file:// — segue só com o estado */
       }
-      setCaminho(alvo)
+      setEstado({ id, idioma })
       window.scrollTo({ top: 0 })
     },
-    [caminho],
+    [estado],
   )
 
-  const aba = ABAS.find((a) => a.caminho === caminho) ?? ABAS[0]
+  /** Ir para outra página, mantendo o idioma. */
+  const ir = useCallback((id) => irPara(id, estado.idioma), [irPara, estado.idioma])
 
-  // Cada aba tem o seu título, a sua descrição e a sua canônica. Isto aqui só
-  // cobre a navegação DENTRO do site — quem chega direto em /vidracaria já
-  // recebe o HTML certo do servidor, que é o que importa para quem não roda
-  // JavaScript (WhatsApp, LinkedIn, robôs de IA).
+  /** Trocar de idioma, ficando na mesma página. É o que o seletor do topo faz. */
+  const trocarIdioma = useCallback((idioma) => irPara(estado.id, idioma), [irPara, estado.id])
+
+  // Título, descrição e canônica acompanham a navegação DENTRO do site. Quem
+  // chega direto já recebeu o HTML certo do servidor, que é o que importa para
+  // quem não roda JavaScript.
+  const textos = obterTextos(estado.idioma)
+
   useEffect(() => {
-    const url = urlDe(aba.caminho)
-    document.title = aba.titulo
-    meta('meta[name="description"]', aba.descricao)
-    meta('meta[property="og:title"]', aba.ogTitulo)
-    meta('meta[property="og:description"]', aba.ogDescricao)
+    const p = textos?.paginas?.[estado.id]
+    if (!p) return
+    const url = urlDe(estado.id, estado.idioma)
+    const info = idiomaDe(estado.idioma)
+    document.title = p.titulo
+    document.documentElement.lang = info.htmlLang
+    meta('meta[name="description"]', p.descricao)
+    meta('meta[property="og:title"]', p.ogTitulo)
+    meta('meta[property="og:description"]', p.ogDescricao)
     meta('meta[property="og:url"]', url)
+    meta('meta[property="og:locale"]', info.ogLocale)
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', url)
-  }, [aba])
+  }, [estado, textos])
 
-  return { aba, ir }
+  return { ...estado, textos, ir, trocarIdioma, padrao: IDIOMA_PADRAO }
 }

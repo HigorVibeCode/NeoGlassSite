@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { clamp, useMedia, useReducedMotion } from '../lib/scroll.js'
+import { useTextos } from '../i18n/idioma.jsx'
 import { quadrosPorSegundo } from '../lib/dispositivo.js'
 import Palco from './Palco.jsx'
 import { CENAS, PALCO, PALCO_MOVEL } from './cenas.js'
@@ -142,9 +143,9 @@ function useFilme(duracoes, ligado, reduzido) {
   return { i, t, barra, ir: (n) => setEstado({ i: n, ms: 0 }) }
 }
 
-function Medidor({ cena, t }) {
+function Medidor({ cena, t, tx }) {
   if (!cena?.medidor) return null
-  const { texto, k } = cena.medidor(t)
+  const { texto, k } = cena.medidor(t, tx)
   return (
     <div className="inline-flex flex-col gap-2">
       <span
@@ -169,7 +170,7 @@ function Medidor({ cena, t }) {
  * computador — porque uma quebra automática deixava 4 em cima e 2 embaixo,
  * com as barras desalinhadas.
  */
-function Trilha({ indice, t, ir }) {
+function Trilha({ indice, t, ir, etapas }) {
   return (
     <ol className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
       {CENAS.map((c, n) => {
@@ -197,7 +198,7 @@ function Trilha({ indice, t, ir }) {
                 style={ativa ? { color: c.cor, opacity: 1 } : undefined}
               >
                 <span className={ativa ? '' : 'group-hover:text-ink'}>
-                  {String(n + 1).padStart(2, '0')} {c.etapa}
+                  {String(n + 1).padStart(2, '0')} {etapas[n].etapa}
                 </span>
               </span>
             </button>
@@ -209,6 +210,7 @@ function Trilha({ indice, t, ir }) {
 }
 
 export default function Jornada() {
+  const t9n = useTextos().filme
   const ref = useRef(null)
   const compacto = useMedia('(max-width: 767px)')
   const reduzido = useReducedMotion()
@@ -224,21 +226,21 @@ export default function Jornada() {
     <section
       ref={ref}
       data-jornada=""
-      aria-label="Um pedido atravessando o sistema"
+      aria-label={t9n.secao.aria}
       className="mx-auto flex min-h-[100svh] w-full max-w-[1240px] flex-col gap-5 px-5 py-14 sm:px-8"
     >
       <div className="shrink-0">
         <div className="flex items-baseline justify-between gap-6 border-t border-line pt-3">
-          <p className="cota uppercase">Um pedido, seis etapas · toca sozinho</p>
-          <p className="cota shrink-0 opacity-70">FL. 02/06</p>
+          <p className="cota uppercase">{t9n.secao.rotulo}</p>
+          <p className="cota shrink-0 opacity-70">{t9n.secao.folha}</p>
         </div>
         <h2 className="display mt-4 max-w-[26ch] text-[clamp(21px,3vw,38px)]">
-          Um pedido inteiro, do celular na obra até a margem na tela.
+          {t9n.secao.titulo}
         </h2>
       </div>
 
       <div className="shrink-0">
-        <Trilha indice={i} t={barra} ir={ir} />
+        <Trilha indice={i} t={barra} ir={ir} etapas={t9n.cenas} />
       </div>
 
       {/* o palco: as três chapas, sempre no centro. Altura mínima garantida —
@@ -264,15 +266,15 @@ export default function Jornada() {
                 n === i ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'
               }`}
             >
-              <h3 className="display text-[clamp(20px,2.2vw,28px)]">{c.titulo}</h3>
+              <h3 className="display text-[clamp(20px,2.2vw,28px)]">{t9n.cenas[n].titulo}</h3>
               <p className="mt-2 max-w-[74ch] text-[14.5px] leading-[1.5] text-dim sm:text-[15.5px]">
-                {c.sub}
+                {t9n.cenas[n].sub}
               </p>
             </div>
           ))}
         </div>
 
-        <Medidor cena={cena} t={t} />
+        <Medidor cena={cena} t={t} tx={t9n.cenas[i]} />
       </div>
     </section>
   )

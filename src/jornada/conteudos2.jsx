@@ -1,9 +1,14 @@
 import { range, ease } from '../lib/scroll.js'
+import { useTextos } from '../i18n/idioma.jsx'
 
 /**
  * As duas últimas cenas: a peça atravessando a fábrica, e o que sobra do
  * pedido no fim. Mesma régua da camada anterior — cartão branco, borda
  * #e8edf3, sombra baixa, texto 15/13/11.
+ *
+ * Os rótulos vêm de `conteudo/areas/filme.<idioma>.js`, em `telas`. Ficam aqui
+ * só os números do pedido — valor, medida, código e data são os mesmos nos
+ * quatro idiomas.
  */
 
 const LINHA = '#e8edf3'
@@ -43,14 +48,16 @@ const Cartao = ({ x, y, w, h, r = 10, ...rest }) => (
 
 /* ─────────── cena 4 · a fábrica ─────────── */
 
+// as colunas do painel; o nome de cada fase vem do módulo de conteúdo
 const FASES = [
-  { nome: 'Corte', cor: VERDE, pecas: ['P6', 'P7'] },
-  { nome: 'Lapidação', cor: AZUL, pecas: ['P4', 'P5'] },
-  { nome: 'Têmpera', cor: EMBER, pecas: ['P3'] },
-  { nome: 'Expedição', cor: VIOLETA, pecas: ['P1', 'P2'] },
+  { cor: VERDE, pecas: ['P6', 'P7'] },
+  { cor: AZUL, pecas: ['P4', 'P5'] },
+  { cor: EMBER, pecas: ['P3'] },
+  { cor: VIOLETA, pecas: ['P1', 'P2'] },
 ]
 
 export function PainelProducao({ t }) {
+  const tx = useTextos().filme.telas.producao
   const W = 520
   const H = 380
   const colW = 118
@@ -62,29 +69,29 @@ export function PainelProducao({ t }) {
   const destino = { x: colX(3) + 8, y: 160 }
 
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="Painel de produção com as peças por fase">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#f6f8fb" />
       <rect x="0" y="0" width={W} height="54" fill="#fff" />
       <line x1="0" y1="54" x2={W} y2="54" stroke={LINHA} />
       <text x="16" y="26" fill={TINTA} fontSize="14" fontWeight="800">
-        Painel de produção
+        {tx.titulo}
       </text>
       <text x="16" y="43" fill={APAGADO} fontSize="10.5" fontWeight="600">
-        12 pedidos abertos · 38 peças em fase
+        {tx.sub}
       </text>
       <g>
         <circle cx={W - 62} cy="30" r="4" fill={VERDE} />
         <text x={W - 52} y="34" fill={APAGADO} fontSize="10" fontWeight="700">
-          ao vivo
+          {tx.aoVivo}
         </text>
       </g>
 
       {FASES.map((f, i) => (
-        <g key={f.nome}>
+        <g key={i}>
           <rect x={colX(i)} y="70" width={colW} height={H - 86} rx="12" fill="#eef2f6" />
           <circle cx={colX(i) + 14} cy="88" r="3.5" fill={f.cor} />
           <text x={colX(i) + 24} y="92" fill={TINTA} fontSize="10.5" fontWeight="700">
-            {f.nome}
+            {tx.fases[i]}
           </text>
           <text
             x={colX(i) + colW - 12}
@@ -117,7 +124,7 @@ export function PainelProducao({ t }) {
                   26-0431 · {p}
                 </text>
                 <text x={colX(i) + 18} y={y + 32} fill={APAGADO} fontSize="9" fontWeight="600">
-                  10 mm incolor
+                  {tx.especificacao}
                 </text>
               </g>
             )
@@ -136,7 +143,7 @@ export function PainelProducao({ t }) {
           26-0431 · P3
         </text>
         <text x="10" y="32" fill={VIOLETA} fontSize="9" fontWeight="700">
-          saiu da têmpera
+          {tx.transito}
         </text>
       </g>
     </Svg>
@@ -176,15 +183,16 @@ function QR({ x, y, tam, seed = 7 }) {
 }
 
 export function Etiqueta({ t }) {
+  const tx = useTextos().filme.telas.etiqueta
   const W = 230
   const H = 330
   const k = ease(range(t, 0.1, 0.4))
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="A etiqueta da peça, com código de barras">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#fff" />
       <rect x="0" y="0" width={W} height="6" fill={VIOLETA} />
       <text x="16" y="34" fill={APAGADO} fontSize="9" fontWeight="800" letterSpacing="1.6">
-        NEOGLASS · ETIQUETA
+        {tx.cabecalho}
       </text>
       <text x="16" y="60" fill={TINTA} fontSize="24" fontWeight="800">
         P3
@@ -193,7 +201,7 @@ export function Etiqueta({ t }) {
         600 × 1150 mm
       </text>
       <text x="16" y="94" fill={APAGADO} fontSize="10" fontWeight="600">
-        10 mm incolor · têmpera
+        {tx.especificacao}
       </text>
       <line x1="16" y1="108" x2={W - 16} y2="108" stroke={LINHA} />
 
@@ -202,10 +210,10 @@ export function Etiqueta({ t }) {
       </g>
 
       <text x={W / 2} y={278} textAnchor="middle" fill={TINTA} fontSize="11" fontWeight="700">
-        Pedido 26-0431
+        {tx.pedido}
       </text>
       <text x={W / 2} y={294} textAnchor="middle" fill={APAGADO} fontSize="9.5" fontWeight="600">
-        Marina Duarte · Ap. 142
+        {tx.cliente}
       </text>
       <rect x="16" y={H - 22} width={W - 32} height="8" rx="4" fill="#eef2f6" />
     </Svg>
@@ -215,19 +223,20 @@ export function Etiqueta({ t }) {
 const ENTREGA = ['P1', 'P2', 'P4', 'P5', 'P6']
 
 export function Expedicao({ t }) {
+  const tx = useTextos().filme.telas.expedicao
   const W = 300
   const H = 430
   const leu = ease(range(t, 0.2, 0.44))
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="A expedição confere a entrega lendo o código">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#f6f8fb" />
       <rect x="0" y="0" width={W} height="48" fill="#fff" />
       <line x1="0" y1="48" x2={W} y2="48" stroke={LINHA} />
       <text x="16" y="24" fill={TINTA} fontSize="13.5" fontWeight="800">
-        Expedição
+        {tx.titulo}
       </text>
       <text x="16" y="39" fill={APAGADO} fontSize="10" fontWeight="600">
-        Carga 118 · saída 14:20
+        {tx.sub}
       </text>
 
       {/* leitor */}
@@ -257,7 +266,7 @@ export function Expedicao({ t }) {
       </g>
 
       <text x="16" y="204" fill={APAGADO} fontSize="9.5" fontWeight="800" letterSpacing="1.2">
-        CONFERIDAS
+        {tx.conferidas}
       </text>
       {ENTREGA.map((p, i) => {
         const k = ease(range(t, 0.46 + i * 0.08, 0.58 + i * 0.08))
@@ -275,7 +284,7 @@ export function Expedicao({ t }) {
               strokeLinejoin="round"
             />
             <text x="48" y={y + 17} fill={TINTA} fontSize="10.5" fontWeight="700">
-              Peça {p} · conferida
+              {tx.item(p)}
             </text>
           </g>
         )
@@ -284,7 +293,7 @@ export function Expedicao({ t }) {
       <g style={{ opacity: ease(range(t, 0.86, 0.98)) }}>
         <rect x="16" y={H - 42} width={W - 32} height="30" rx="10" fill={VIOLETA} fillOpacity="0.1" />
         <text x={W / 2} y={H - 22} textAnchor="middle" fill="#5a49ab" fontSize="11" fontWeight="700">
-          Entrega parcial · 5 de 7 peças
+          {tx.parcial}
         </text>
       </g>
     </Svg>
@@ -294,16 +303,18 @@ export function Expedicao({ t }) {
 /* ─────────── cena 5 · o dinheiro ─────────── */
 
 export function NotaFiscal({ t }) {
+  const tx = useTextos().filme.telas.nota
   const W = 310
   const H = 430
   const autorizada = ease(range(t, 0.24, 0.46))
+  // siglas de tributo: não se traduzem
   const linhas = [
     ['IBS', 'R$ 187,20'],
     ['CBS', 'R$ 312,00'],
     ['IS', '—'],
   ]
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="A nota fiscal emitida pelo sistema">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#fff" />
       <rect x="0" y="0" width={W} height="66" fill="#f6f8fb" />
       <line x1="0" y1="66" x2={W} y2="66" stroke={LINHA} />
@@ -311,47 +322,46 @@ export function NotaFiscal({ t }) {
         NF-e 12.487
       </text>
       <text x="16" y="45" fill={APAGADO} fontSize="10" fontWeight="600">
-        série 1 · pedido 26-0431
+        {tx.sub}
       </text>
       <text x="16" y="58" fill={APAGADO} fontSize="9.5" fontWeight="600">
-        Marina Duarte · CPF 000.000.000-00
+        {tx.cliente}
       </text>
 
       <g style={{ opacity: autorizada }}>
         <rect x={W - 96} y="20" width="80" height="22" rx="11" fill="#e4f2ee" />
         <circle cx={W - 84} cy="31" r="3.4" fill={VERDE} />
         <text x={W - 76} y="35" fill={VERDE} fontSize="9.5" fontWeight="800">
-          Autorizada
+          {tx.autorizada}
         </text>
       </g>
 
       <text x="16" y="92" fill={APAGADO} fontSize="9" fontWeight="800" letterSpacing="1.2">
-        ITENS
+        {tx.itensRotulo}
       </text>
-      {[
-        ['Porta de correr 10 mm', 'R$ 3.120,00'],
-        ['Kit roldana 100 kg', 'R$ 360,00'],
-      ].map(([nome, valor], i) => (
-        <g key={nome}>
-          <text x="16" y={114 + i * 26} fill={TINTA} fontSize="11" fontWeight="600">
-            {nome}
-          </text>
-          <text
-            x={W - 16}
-            y={114 + i * 26}
-            textAnchor="end"
-            fill={TINTA}
-            fontSize="11"
-            fontWeight="700"
-          >
-            {valor}
-          </text>
-        </g>
-      ))}
+      {tx.itens
+        .map((nome, i) => [nome, ['R$ 3.120,00', 'R$ 360,00'][i]])
+        .map(([nome, valor], i) => (
+          <g key={nome}>
+            <text x="16" y={114 + i * 26} fill={TINTA} fontSize="11" fontWeight="600">
+              {nome}
+            </text>
+            <text
+              x={W - 16}
+              y={114 + i * 26}
+              textAnchor="end"
+              fill={TINTA}
+              fontSize="11"
+              fontWeight="700"
+            >
+              {valor}
+            </text>
+          </g>
+        ))}
       <line x1="16" y1="152" x2={W - 16} y2="152" stroke={LINHA} />
 
       <text x="16" y="176" fill={APAGADO} fontSize="9" fontWeight="800" letterSpacing="1.2">
-        TRIBUTOS · MODELO NOVO
+        {tx.tributos}
       </text>
       {linhas.map(([nome, valor], i) => {
         const k = ease(range(t, 0.4 + i * 0.1, 0.56 + i * 0.1))
@@ -377,7 +387,7 @@ export function NotaFiscal({ t }) {
 
       <line x1="16" y1="300" x2={W - 16} y2="300" stroke={LINHA} />
       <text x="16" y="324" fill={APAGADO} fontSize="10.5" fontWeight="700">
-        Total da nota
+        {tx.total}
       </text>
       <text x={W - 16} y="326" textAnchor="end" fill={TINTA} fontSize="18" fontWeight="800">
         R$ 3.480,00
@@ -385,11 +395,11 @@ export function NotaFiscal({ t }) {
 
       <g style={{ opacity: autorizada }}>
         <text x="16" y="358" fill={APAGADO} fontSize="9" fontWeight="600">
-          protocolo 135260004871234 · 04/08 14:31
+          {tx.protocolo}
         </text>
         <rect x="16" y="372" width={W - 32} height="34" rx="10" fill="#f6f8fb" />
         <text x="28" y="393" fill={APAGADO} fontSize="9.5" fontWeight="700">
-          DANFE enviado por e-mail ao cliente
+          {tx.danfe}
         </text>
       </g>
     </Svg>
@@ -397,33 +407,34 @@ export function NotaFiscal({ t }) {
 }
 
 export function Recebimento({ t }) {
+  const tx = useTextos().filme.telas.recebimento
   const W = 300
   const H = 212
   const emitido = ease(range(t, 0.3, 0.5))
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="O boleto emitido e o recebimento previsto">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#fff" />
       <text x="16" y="28" fill={TINTA} fontSize="13" fontWeight="800">
-        Recebimento
+        {tx.titulo}
       </text>
       <g style={{ opacity: emitido }}>
         <rect x={W - 92} y="14" width="76" height="21" rx="10.5" fill="#fdf3e3" />
         <circle cx={W - 80} cy="24.5" r="3.2" fill={OURO} />
         <text x={W - 72} y="28" fill={OURO} fontSize="9.5" fontWeight="800">
-          Em aberto
+          {tx.emAberto}
         </text>
       </g>
 
       <rect x="16" y="46" width={W - 32} height="1" fill={LINHA} />
 
       <text x="16" y="72" fill={APAGADO} fontSize="10" fontWeight="700">
-        Boleto 26-0431/1
+        {tx.boleto}
       </text>
       <text x="16" y="96" fill={TINTA} fontSize="20" fontWeight="800">
         R$ 3.480,00
       </text>
       <text x="16" y="114" fill={APAGADO} fontSize="10" fontWeight="600">
-        vence em 12/09 · 1 parcela
+        {tx.vencimento}
       </text>
 
       {/* código de barras */}
@@ -447,13 +458,15 @@ export function Recebimento({ t }) {
   )
 }
 
+// valor, peso na barra e cor de cada custo; o nome vem do módulo de conteúdo
 const CUSTOS = [
-  ['Matéria-prima', 'R$ 1.180', 1180, '#0e7b9c'],
-  ['Produção', 'R$ 640', 640, VIOLETA],
-  ['Gastos do pedido', 'R$ 210', 210, APAGADO],
+  ['R$ 1.180', 1180, '#0e7b9c'],
+  ['R$ 640', 640, VIOLETA],
+  ['R$ 210', 210, APAGADO],
 ]
 
 export function Margem({ t }) {
+  const tx = useTextos().filme.telas.margem
   const W = 390
   const H = 460
   const total = 3480
@@ -465,28 +478,28 @@ export function Margem({ t }) {
   const fecha = ease(range(t, 0.66, 0.88))
 
   let acumulado = 0
-  const barra = CUSTOS.map(([, , valor, cor]) => {
+  const barra = CUSTOS.map(([, valor, cor]) => {
     const inicio = acumulado
     acumulado += valor
     return { inicio, valor, cor }
   })
 
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="O fechamento do pedido, com a margem real">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#fff" />
       <rect x="0" y="0" width={W} height="70" fill="#fbfaf6" />
       <line x1="0" y1="70" x2={W} y2="70" stroke={LINHA} />
       <text x="20" y="30" fill={TINTA} fontSize="15" fontWeight="800">
-        Fechamento do pedido
+        {tx.titulo}
       </text>
       <text x="20" y="48" fill={APAGADO} fontSize="10.5" fontWeight="600">
-        26-0431 · entregue em 04/08
+        {tx.sub}
       </text>
       <g>
         <rect x={W - 106} y="20" width="86" height="22" rx="11" fill="#f4ede0" />
         <circle cx={W - 94} cy="31" r="3.4" fill={OURO} />
         <text x={W - 86} y="35" fill={OURO} fontSize="9.5" fontWeight="800">
-          Fechado
+          {tx.fechado}
         </text>
       </g>
 
@@ -513,7 +526,8 @@ export function Margem({ t }) {
         />
       </g>
 
-      {CUSTOS.map(([nome, valor, , cor], i) => {
+      {CUSTOS.map(([valor, , cor], i) => {
+        const nome = tx.custos[i]
         const k = ease(range(t, 0.34 + i * 0.1, 0.5 + i * 0.1))
         const y = 152 + i * 42
         return (
@@ -532,13 +546,13 @@ export function Margem({ t }) {
 
       <g style={{ opacity: ease(range(t, 0.62, 0.76)) }}>
         <text x="42" y="320" fill={APAGADO} fontSize="11.5" fontWeight="700">
-          Custo total
+          {tx.custoTotal}
         </text>
         <text x={W - 20} y="320" textAnchor="end" fill={APAGADO} fontSize="12.5" fontWeight="700">
           R$ 2.030
         </text>
         <text x="42" y="346" fill={APAGADO} fontSize="11.5" fontWeight="700">
-          Venda
+          {tx.venda}
         </text>
         <text x={W - 20} y="346" textAnchor="end" fill={TINTA} fontSize="12.5" fontWeight="700">
           R$ 3.480
@@ -548,7 +562,7 @@ export function Margem({ t }) {
       <g style={{ opacity: fecha }}>
         <rect x="20" y="366" width={W - 40} height="74" rx="14" fill="#fbf4e6" />
         <text x="38" y="392" fill={OURO} fontSize="10.5" fontWeight="800" letterSpacing="1">
-          MARGEM DESTE PEDIDO
+          {tx.rotulo}
         </text>
         <text x="38" y="424" fill={OURO} fontSize="26" fontWeight="800">
           R$ {margem.toLocaleString('pt-BR')}

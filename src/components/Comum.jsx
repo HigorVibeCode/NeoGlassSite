@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import Marca from './Marca.jsx'
 import Formulario from './Formulario.jsx'
+import Idiomas from './Idiomas.jsx'
 import { CONFIG, acaoComecar, ehExterno, linkAgendar, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
-import { ABAS } from '../lib/rota.js'
+import { useIdioma, useTextos } from '../i18n/idioma.jsx'
+import { ROTAS, caminhoDe } from '../lib/paginasSeo.js'
 
 /** As seções sobem de leve quando entram na tela. */
 export function Revelar({ children, atraso = 0, className = '', as: Tag = 'div', ...resto }) {
@@ -57,21 +59,19 @@ export function Titulo({ children, className = '' }) {
   )
 }
 
-export function Topo({ aba, ir }) {
+export function Topo({ rota }) {
   const [preso, setPreso] = useState(false)
+  const { id, idioma, ir, trocarIdioma } = rota
+  const c = useTextos()
 
   // Na aba da vidraçaria o produto tem preço fixo e cadastro automático — o
   // botão do topo não pode continuar pedindo reunião. Nas outras abas a venda
   // é consultiva e o botão continua sendo o de sempre.
-  const preco = precoVidracaria()
-  const comecar = aba.id === 'vidracaria' && preco ? acaoComecar() : null
-  const alvo = comecar ? comecar.href : linkAgendar()
-  // "Agendar" prometia uma agenda que não existe — o botão abre o WhatsApp.
-  // Além de quebrar a promessa, é a palavra mais cara da página: pede que o
-  // visitante reserve uma hora do dia dele antes de ver qualquer coisa. O que
-  // ele quer nesse ponto é ver o sistema funcionando, não marcar reunião.
-  const rotuloCurto = comecar ? comecar.curto : 'Ver demo'
-  const rotuloLongo = comecar ? comecar.rotulo : 'Ver o sistema funcionando'
+  const preco = precoVidracaria(idioma)
+  const comecar = id === 'vidracaria' && preco ? acaoComecar(idioma, c) : null
+  const alvo = comecar ? comecar.href : linkAgendar(c.whatsapp.demonstracao)
+  const rotuloCurto = comecar ? comecar.curto : c.chrome.verDemoCurto
+  const rotuloLongo = comecar ? comecar.rotulo : c.chrome.verDemo
 
   useEffect(() => {
     const on = () => setPreso(window.scrollY > 40)
@@ -92,48 +92,56 @@ export function Topo({ aba, ir }) {
         preso ? 'border-b border-line bg-bg/85 backdrop-blur-md' : 'border-b border-transparent'
       }`}
     >
-      <div className="mx-auto flex h-[68px] max-w-[1240px] items-center justify-between gap-3 px-5 sm:gap-6 sm:px-8">
-        <a href="/" onClick={(e) => abrir(e, '/')} aria-label="NeoGlass — início">
+      <div className="mx-auto flex h-[68px] max-w-[1240px] items-center justify-between gap-2 px-5 sm:gap-6 sm:px-8">
+        <a
+          href={caminhoDe('industria', idioma)}
+          onClick={(e) => abrir(e, 'industria')}
+          aria-label={c.chrome.inicio}
+        >
           <Marca />
         </a>
 
-        <nav aria-label="Públicos" className="hidden items-center gap-1 lg:flex">
-          {ABAS.map((a) => (
+        <nav aria-label={c.chrome.publicos} className="hidden items-center gap-1 lg:flex">
+          {ROTAS.map((r) => (
             <a
-              key={a.id}
-              href={a.caminho}
-              onClick={(e) => abrir(e, a.caminho)}
-              aria-current={a.id === aba.id ? 'page' : undefined}
+              key={r.id}
+              href={caminhoDe(r.id, idioma)}
+              onClick={(e) => abrir(e, r.id)}
+              aria-current={r.id === id ? 'page' : undefined}
               className={`rounded-[11px] px-3.5 py-2 text-[14.5px] font-bold transition-colors ${
-                a.id === aba.id ? 'bg-soft text-ink' : 'text-dim hover:text-ink'
+                r.id === id ? 'bg-soft text-ink' : 'text-dim hover:text-ink'
               }`}
             >
-              {a.nome}
+              {c.paginas[r.id].nome}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {comecar && (
             <a
               href="#preco"
               className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink md:flex"
             >
-              Preço
+              {c.chrome.preco}
             </a>
           )}
+          {/* O seletor entra antes do Entrar: quem caiu no idioma errado precisa
+              resolver isso antes de qualquer outra coisa. Ele custa 26 px porque
+              mostra o código, não a bandeira — ver Idiomas.jsx. */}
+          <Idiomas idioma={idioma} pagina={id} aoTrocar={trocarIdioma} />
           <a
             href={CONFIG.login}
-            className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink min-[380px]:flex"
+            className="hidden items-center px-1 py-3 text-[14px] font-semibold text-dim transition-colors hover:text-ink min-[420px]:flex"
           >
-            Entrar
+            {c.chrome.entrar}
           </a>
           <a
             href={alvo}
             target={ehExterno(alvo) ? '_blank' : undefined}
             rel={ehExterno(alvo) ? 'noreferrer' : undefined}
             onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
-            className="botao-marca whitespace-nowrap px-4 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
+            className="botao-marca whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
           >
             <span className="lg:hidden">{rotuloCurto}</span>
             <span className="hidden lg:inline">{rotuloLongo}</span>
@@ -143,23 +151,23 @@ export function Topo({ aba, ir }) {
 
       {/* no celular as abas ganham a própria linha, largura cheia */}
       <nav
-        aria-label="Públicos"
+        aria-label={c.chrome.publicos}
         className={`grid grid-cols-3 border-t lg:hidden ${
           preso ? 'border-line' : 'border-line/60'
         }`}
       >
-        {ABAS.map((a) => (
+        {ROTAS.map((r) => (
           <a
-            key={a.id}
-            href={a.caminho}
-            onClick={(e) => abrir(e, a.caminho)}
-            aria-current={a.id === aba.id ? 'page' : undefined}
+            key={r.id}
+            href={caminhoDe(r.id, idioma)}
+            onClick={(e) => abrir(e, r.id)}
+            aria-current={r.id === id ? 'page' : undefined}
             className={`cota flex min-h-[46px] items-center justify-center whitespace-nowrap border-b-2 px-1.5 text-center uppercase transition-colors ${
-              a.id === aba.id ? 'border-verde text-verde' : 'border-transparent'
+              r.id === id ? 'border-verde text-verde' : 'border-transparent'
             }`}
-            style={a.id === aba.id ? { opacity: 1 } : undefined}
+            style={r.id === id ? { opacity: 1 } : undefined}
           >
-            {a.nome}
+            {c.paginas[r.id].nome}
           </a>
         ))}
       </nav>
@@ -167,13 +175,8 @@ export function Topo({ aba, ir }) {
   )
 }
 
-const FATOS = [
-  ['Desenvolvido na Suíça', 'sob o prazo e o acabamento que aquele mercado cobra de quem entrega vidro'],
-  ['Escrito dentro da fábrica', 'cada tela veio de um problema que já custou dinheiro no chão'],
-  ['Em produção, não em protótipo', 'uma fábrica de vidro abre este sistema todo dia para cortar e entregar'],
-]
-
 export function Origem({ folha = 'FL. 04/05' }) {
+  const { origem } = useTextos()
   return (
     <section className="secao relative overflow-hidden bg-[#0f2530] text-white">
       <div
@@ -188,13 +191,17 @@ export function Origem({ folha = 'FL. 04/05' }) {
       />
 
       <Revelar className="relative mx-auto max-w-[1240px] px-5 py-20 sm:px-8 sm:py-24">
-        <Bloco rotulo="De onde vem" folha={folha} escuro />
+        <Bloco rotulo={origem.rotulo} folha={folha} escuro />
+        {/* A segunda metade era "e isso muda o que ele pergunta" — verdadeira,
+            mas abstrata: o visitante não sabe o que um sistema pergunta a ele.
+            Trocada por uma consequência que ele reconhece na hora, porque já
+            perdeu tarde ensinando fábrica de vidro para fornecedor. */}
         <h2 className="display mt-7 max-w-[22ch] text-[clamp(30px,4.4vw,54px)] text-white">
-          Nasceu dentro de uma fábrica de vidro — e isso muda o que ele pergunta.
+          {origem.titulo}
         </h2>
 
         <dl className="mt-16 grid gap-px overflow-hidden rounded-[20px] bg-white/[0.12] sm:grid-cols-3">
-          {FATOS.map(([t, d]) => (
+          {origem.fatos.map(([t, d]) => (
             <div key={t} className="bg-[#0f2530] px-7 py-8">
               <dt className="text-[17px] font-extrabold tracking-[-0.015em] text-white">{t}</dt>
               <dd className="mt-3 text-[15px] leading-[1.55] text-white/60">{d}</dd>
@@ -207,6 +214,7 @@ export function Origem({ folha = 'FL. 04/05' }) {
 }
 
 export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos }) {
+  const c = useTextos()
   return (
     <Revelar
       as="section"
@@ -244,7 +252,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos }) 
               ))}
             </ol>
 
-            <p className="mt-8 text-[13.5px] font-semibold text-dim">{CONFIG.horarios}</p>
+            <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
           </div>
 
           <Formulario />
@@ -254,7 +262,9 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos }) 
   )
 }
 
-export function Rodape({ ir }) {
+export function Rodape({ rota }) {
+  const { idioma, ir, trocarIdioma } = rota
+  const c = useTextos()
   return (
     <footer className="relative border-t border-line">
       <span
@@ -265,35 +275,39 @@ export function Rodape({ ir }) {
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-start justify-between gap-8 px-5 py-10 sm:px-8">
         <div>
           <Marca />
-          <p className="mt-2 max-w-[36ch] text-[13px] text-dim">
-            neoglass.online · sistema modular para a indústria do vidro plano e para a vidraçaria
-          </p>
+          <p className="mt-2 max-w-[36ch] text-[13px] text-dim">{c.chrome.rodapeTexto}</p>
+          {/* O seletor aparece aqui também, e não é redundância: no celular o
+              topo é apertado e o visitante que não achou lá encontra aqui, no
+              lugar onde todo site guarda idioma há vinte anos. */}
+          <div className="mt-4 -ml-2.5">
+            <Idiomas idioma={idioma} pagina={rota.id} aoTrocar={trocarIdioma} />
+          </div>
         </div>
         <div className="flex flex-wrap gap-x-10 gap-y-4">
           <nav className="flex flex-col gap-2">
-            <p className="cota uppercase">Para quem</p>
-            {ABAS.map((a) => (
+            <p className="cota uppercase">{c.chrome.paraQuem}</p>
+            {ROTAS.map((r) => (
               <a
-                key={a.id}
-                href={a.caminho}
+                key={r.id}
+                href={caminhoDe(r.id, idioma)}
                 onClick={(e) => {
                   if (e.metaKey || e.ctrlKey) return
                   e.preventDefault()
-                  ir(a.caminho)
+                  ir(r.id)
                 }}
                 className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"
               >
-                {a.nome}
+                {c.paginas[r.id].nome}
               </a>
             ))}
           </nav>
           <div className="flex flex-col gap-2">
-            <p className="cota uppercase">Contato</p>
+            <p className="cota uppercase">{c.chrome.contato}</p>
             <a
               href={CONFIG.login}
               className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"
             >
-              Entrar
+              {c.chrome.entrar}
             </a>
             <a
               href={`mailto:${CONFIG.email}`}

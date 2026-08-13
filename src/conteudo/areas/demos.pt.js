@@ -1,0 +1,341 @@
+/**
+ * Os textos das duas demonstrações interativas e do cartão da abertura, em
+ * português — a fonte das outras três versões.
+ *
+ * A árvore segue a máquina de estados de cada demonstração, e não a ordem em
+ * que as frases aparecem no arquivo: cada fase (`pronto`, `otimizando`,
+ * `plano`, `realocando`, `economia`) é um galho, e o rótulo do botão daquela
+ * fase mora em `botoes` com o mesmo nome. Assim dá para ler a lista de botões
+ * inteira de uma vez e ver se alguma fase ficou sem rótulo — que é o defeito
+ * que só aparece quando o visitante chega naquela tela.
+ *
+ * Onde a frase carrega um número que vem do próprio sistema (quantas chapas,
+ * quantas peças, quanto custa), a chave é função e recebe o valor já pronto.
+ * Nenhuma chave daqui escreve símbolo de moeda: o valor chega formatado de
+ * `config.js`, que sabe a moeda do idioma.
+ *
+ * Medidas, códigos de pedido e porcentagens ficam iguais nos quatro idiomas —
+ * 3.210 × 2.250, 8 mm, 26-0431, 87,4% são o mesmo desenho em qualquer língua.
+ */
+export default {
+  // ── A demonstração da indústria: chapa, cavalete e a chapa não aberta ──
+  retalho: {
+    barra: {
+      titulo: 'Otimização de corte',
+      pedido: 'Pedido 26-0431 · 8 mm incolor',
+      passo: (n, total) => `Passo ${n} de ${total}`,
+    },
+
+    // O desenho: o rótulo de cada chapa e o que o leitor de tela ouve.
+    desenho: {
+      chapa: 'Chapa',
+      retalho: 'Retalho',
+      aria: (tipo, id, pecas) => `${tipo} ${id} com ${pecas} peças`,
+      chapaNova: 'Chapa nova · a que você compra',
+      cavalete: 'No cavalete · sobras de outros pedidos',
+      plano: (chapas) => `O plano · ${chapas} chapas novas`,
+      chapaN: (n) => `Chapa ${n}`,
+      retalhoN: (n) => `Retalho ${n}`,
+      cavaletePrimeiro: (pecas) => `Primeiro o cavalete · ${pecas} peças`,
+      entaoChapaNova: (novas, antes) => `Só então chapa nova · ${novas} em vez de ${antes}`,
+      naoAberta: (n) => `Chapa ${n} · não aberta`,
+    },
+
+    // Os cinco formatos do pedido de exemplo. É um pedido de vidraçaria
+    // comum de propósito: box, espelho e prateleira, nada exótico.
+    pecas: {
+      portaBox: 'Porta de box',
+      fixoLateral: 'Fixo lateral',
+      prateleira: 'Prateleira',
+      espelho: 'Espelho de banheiro',
+      tampo: 'Tampo de mesa',
+    },
+
+    pronto: {
+      selo: 'O pedido que chegou',
+      titulo: (pecas, formatos) => `${pecas} peças, ${formatos} formatos`,
+      texto:
+        'Um pedido comum de terça-feira. Você não precisa preencher nada — só apertar o botão e ver o que o sistema faz sozinho.',
+    },
+
+    otimizando: {
+      selo: 'Otimizando',
+      titulo: 'Montando o plano de corte…',
+      linhas: {
+        lendo: (pecas) => `Lendo ${pecas} peças do pedido`,
+        respeitando: 'Respeitando espessura, cor e veio',
+        testando: 'Testando encaixes e giro de peça',
+        ordenando: 'Ordenando pela sequência da mesa',
+      },
+    },
+
+    plano: {
+      selo: 'Plano pronto',
+      titulo: (chapas, aproveitamento) => `${chapas} chapas · ${aproveitamento} de aproveitamento`,
+      texto: 'Este já é um bom plano. Qualquer otimizador do mercado para por aqui.',
+      achou: 'O sistema achou algo no cavalete',
+      servem: (retalhos) => `${retalhos} retalhos servem para este pedido.`,
+      medida: (medida) => `${medida} mm · vidro que você já comprou`,
+      parados:
+        'Eles estão encostados na parede desde outro pedido. Enquanto ninguém os usa, são prejuízo parado.',
+    },
+
+    realocando: {
+      selo: 'Realocando',
+      titulo: 'Cavalete primeiro, chapa depois…',
+      linhas: {
+        medindo: (retalhos) => `Medindo os ${retalhos} retalhos do cavalete`,
+        movendo: (pecas) => `Movendo ${pecas} peças para dentro deles`,
+        refazendo: 'Refazendo o plano das chapas novas',
+        baixa: 'Dando baixa nos retalhos usados',
+      },
+    },
+
+    economia: {
+      selo: 'O que você não vai gastar',
+      titulo: '1 chapa inteira',
+      subtitulo: 'que não vai ser aberta',
+      placar: {
+        m2: (m2) => `${m2} m²`,
+        m2Texto: 'de vidro pago que voltou a valer',
+        pecas: (noCavalete, total) => `${noCavalete} de ${total}`,
+        pecasTexto: 'peças saíram do cavalete',
+        aproveitamento: (antes, depois) => `${antes} → ${depois}`,
+        aproveitamentoTexto: 'de aproveitamento na chapa aberta',
+        retalhos: (retalhos) => `${retalhos} retalhos`,
+        retalhosTexto: 'saíram da parede',
+      },
+      // O destaque é uma palavra só, em gradiente, no meio da frase — por isso
+      // ela vem partida em três e não como uma frase inteira.
+      pergunta: {
+        antes: 'Isso foi',
+        destaque: 'um',
+        depois: 'pedido. Quantos a sua fábrica fecha por semana?',
+      },
+      sozinho:
+        'No sistema esse segundo botão nem existe: ele olha o cavalete sozinho, antes de cada plano. Ninguém precisa lembrar, e ninguém precisa querer.',
+    },
+
+    // Um rótulo por fase da máquina de estados. Fase sem rótulo aqui é botão
+    // em branco na tela do visitante.
+    botoes: {
+      otimizar: 'Otimizar corte',
+      otimizando: 'Otimizando…',
+      realocando: 'Realocando…',
+      usarRetalhos: (retalhos) => `Usar os ${retalhos} retalhos`,
+      agendar: 'Fazer isso com um pedido meu',
+      denovo: 'Rodar de novo',
+    },
+
+    nota: {
+      padrao: 'Simulação com um pedido real. Nada é enviado para lugar nenhum.',
+      economia: 'Conta feita por um otimizador de verdade, aqui dentro do seu navegador.',
+    },
+  },
+
+  // ── A demonstração da vidraçaria: do vão medido ao PDF na mão ──────────
+  orcamento: {
+    barra: {
+      titulo: 'NeoGlass no celular · na obra',
+      cliente: (nome) => `Cliente ${nome}`,
+      passo: (n, total) => `Passo ${n} de ${total}`,
+    },
+
+    // O serviço de exemplo. `parede` entra numa ficha em letra minúscula.
+    obra: {
+      vao: 'Janela de sala',
+      parede: 'alvenaria',
+    },
+
+    desenho: {
+      aria: 'O vão medido na obra',
+      janela: '2 folhas de correr · 6 mm',
+      medindo: 'conferindo esquadro…',
+      vaoMedido: 'Vão medido na obra',
+      montando: 'Montando a janela no vão',
+      janelaDoVao: 'A janela deste vão',
+      pdfGerado: 'PDF gerado',
+      prontoCliente: 'Pronto para o cliente',
+      oOrcamento: 'O orçamento que você acabou de montar',
+    },
+
+    // As quatro linhas do orçamento. O valor de cada uma chega formatado.
+    itens: {
+      vidro: {
+        nome: 'Vidro temperado 6 mm incolor',
+        detalhe: (medida, m2) => `2 folhas · ${medida} mm · ${m2} m²`,
+      },
+      kit: {
+        nome: 'Kit de correr',
+        detalhe: 'trilho superior e inferior, roldanas, fecho',
+      },
+      perfil: {
+        nome: 'Perfil, borracha e acabamento',
+        detalhe: 'vedação e arremate do vão',
+      },
+      instalacao: {
+        nome: 'Instalação e vedação',
+        detalhe: 'mão de obra, 1 diária · deslocamento',
+      },
+    },
+
+    // O papel que o cliente da vidraçaria recebe.
+    documento: {
+      empresa: 'Sua Vidraçaria',
+      marca: 'a sua marca, o seu telefone',
+      orcamento: 'Orçamento',
+      cliente: 'Cliente',
+      servico: 'Serviço',
+      servicoValor: (vao, medida) => `${vao} · ${medida}`,
+      total: 'Total',
+      validade: 'Validade de 10 dias · prazo de 7 dias úteis após aprovação',
+      assinatura: 'assinatura do cliente',
+    },
+
+    vao: {
+      selo: 'O que você fez na obra',
+      titulo: (vao, medida) => `${vao} · ${medida}`,
+      texto:
+        'Foto do vão, duas medidas, o tipo de parede. Trinta segundos com o celular na mão — é tudo o que o sistema pede de você.',
+      ficha: {
+        vao: 'Vão',
+        parede: 'Parede',
+        esquadro: 'Esquadro',
+        esquadroValor: 'conferido no ato',
+        foto: 'Foto',
+        fotoValor: '2 imagens anexadas',
+      },
+      chamada: 'Agora aperte o botão. Você não vai digitar mais nada.',
+    },
+
+    montando: {
+      selo: 'Montando',
+      titulo: 'Cabendo a janela na sua medida…',
+      linhas: {
+        folhas: 'Escolhendo 2 folhas de correr para este vão',
+        folga: (folga, sobreposicao) =>
+          `Descontando ${folga} mm de folga e ${sobreposicao} mm de sobreposição`,
+        somando: 'Somando trilho, roldanas, fecho e vedação',
+        precos: 'Puxando os preços da sua tabela',
+      },
+    },
+
+    lista: {
+      selo: (numero) => `Orçamento ${numero}`,
+      titulo: 'Pronto, sem você digitar nada.',
+      total: 'Total para o cliente',
+      rodape: (m2, itens) =>
+        `${m2} m² de vidro, ${itens} itens, nenhuma conta feita de cabeça. Os preços vêm da sua tabela — estes aqui são só exemplo.`,
+    },
+
+    pdf: {
+      selo: 'Documento pronto',
+      titulo: 'Com a sua marca, não com a nossa.',
+      texto:
+        'Logo, telefone, validade, prazo e a linha da assinatura. É este papel que faz o cliente enxergar empresa em vez de improviso — e ele saiu sozinho.',
+      linhas: {
+        logo: 'A sua logo e os seus dados no cabeçalho',
+        prazo: 'Validade e prazo de entrega escritos',
+        assinatura: 'Assinatura na tela ou no papel',
+        via: 'Uma via arquivada no pedido, para sempre',
+      },
+    },
+
+    enviar: {
+      selo: 'Simples assim',
+      toques: '3 toques',
+      // O cronômetro só entra quando o visitante levou menos de 90 segundos;
+      // acima disso a frase vira a versão sem tempo.
+      segundos: (segundos) => ` e ${segundos} segundos`,
+      semTempo: ', zero digitação',
+      textoTempo:
+        'Foi o tempo que você levou agora, do vão ao orçamento pronto. Na obra é o mesmo caminho — com o cliente olhando.',
+      textoSemTempo:
+        'Do vão ao orçamento pronto você não digitou uma medida sequer. Na obra é o mesmo caminho — com o cliente olhando.',
+      escolha: 'Escolha por onde vai',
+      canais: {
+        whatsapp: 'WhatsApp',
+        email: 'E-mail',
+        pdf: 'Baixar PDF',
+      },
+      aprovar: 'E quando ele aprovar, o pedido já entra na produção com as medidas de corte.',
+      ninguem:
+        'Ninguém redigita, ninguém liga para confirmar espessura, e o retalho que sobrar dessa chapa já volta para o seu estoque com medida.',
+    },
+
+    preco: {
+      selo: 'Quanto custa',
+      porMes: '/mês',
+      /* Aqui dizia que o preço era por vidraçaria e não por pessoa, e logo
+         abaixo "sem custo por usuário". O dono do projeto avisou em 13/08 que
+         a regra de cobrança por usuário NÃO está definida, então as duas eram
+         promessa que a fatura não cumpre. No lugar entrou o que é verdade e
+         vende igual: o preço não muda com o tempo. Volta a falar de usuário no
+         dia em que a regra existir. */
+      porVidracaria: 'Preço fixo, hoje e daqui a um ano.',
+      // O valor chega pronto de `config.js` — a moeda muda com o idioma.
+      conta: (valor) => `O orçamento que você acabou de montar foi de ${valor}.`,
+      contaEnfase: 'Era uma janela.',
+      pagaMeses: (meses) => `Esse serviço sozinho paga ${meses} meses de sistema.`,
+      naoCobramos: {
+        implantacao: 'Sem implantação',
+        orcamento: 'Sem cobrança por orçamento',
+        fidelidade: 'Sem fidelidade',
+      },
+      teste: (dias) =>
+        `São ${dias} dias grátis, sem cartão. Você monta os orçamentos da semana e decide depois — se não decidir, nada é cobrado.`,
+      semTeste: 'Sem fidelidade: se não servir para o seu dia, você cancela pela própria tela.',
+    },
+
+    // A mensagem que sai pronta no WhatsApp com o orçamento da demonstração.
+    whatsapp: {
+      titulo: (numero, vao, medida) => `Orçamento ${numero} — ${vao} ${medida}`,
+      item: (nome, valor) => `• ${nome}: ${valor}`,
+      total: (valor) => `Total: ${valor}`,
+      rodape: 'Montado na demonstração do site do NeoGlass.',
+    },
+
+    // Um rótulo por fase, na ordem em que o visitante os aperta.
+    botoes: {
+      usarVao: 'Usar este vão',
+      montando: 'Montando…',
+      gerando: 'Gerando o PDF…',
+      gerarPdf: 'Gerar PDF para o cliente',
+      enviar: 'Enviar para o cliente',
+      naObra: 'Quero isso na minha obra',
+      incluido: 'Ver tudo o que está incluído',
+      denovo: 'rodar de novo',
+      zap: 'Receber este orçamento no meu WhatsApp',
+    },
+
+    nota: {
+      padrao: 'Valores de exemplo. No sistema eles saem da sua tabela.',
+      preco:
+        'Este é o preço, não uma faixa. Os valores do orçamento acima é que são de exemplo.',
+    },
+  },
+
+  // ── O cartão que troca de face na abertura ─────────────────────────────
+  cartao: {
+    ia: 'IA',
+    otimizacao: {
+      selo: 'Otimização de corte',
+      plano: 'Plano 26-0431 · 8 mm incolor',
+      resumo: '7 peças · 1 retalho',
+    },
+    expedicao: {
+      selo: 'Expedição · carga 118',
+      peca: 'Peça P5 lida na saída',
+      medida: '600 × 1150 · 10 mm · têmpera',
+      conferidas: '5 de 7 conferidas',
+    },
+    fechamento: {
+      selo: 'Fechamento do pedido',
+      // O valor em reais é escrito no componente: aqui só entra a palavra.
+      receita: (valor) => `26-0431 · receita ${valor}`,
+      materia: 'Matéria-prima',
+      producao: 'Produção e gastos',
+      margem: 'Margem deste pedido',
+    },
+  },
+}

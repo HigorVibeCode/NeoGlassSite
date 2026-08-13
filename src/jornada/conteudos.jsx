@@ -1,9 +1,15 @@
 import { range, ease } from '../lib/scroll.js'
+import { useTextos } from '../i18n/idioma.jsx'
 
 /**
  * O que aparece dentro de cada chapa. Todo conteúdo é um SVG que preenche a
  * chapa inteira, e recebe t de 0 a 1 — o tempo da cena. A régua é sempre a
  * mesma: cartão branco, borda #e8edf3, sombra baixa, texto 15/13/11.
+ *
+ * Os rótulos vêm de `conteudo/areas/filme.<idioma>.js`, em `telas`. O que fica
+ * aqui é geometria e número: medida, código de pedido e valor não mudam de
+ * idioma. Ao mexer num rótulo, lembre que `<text>` de SVG não quebra linha —
+ * o que não couber na largura sai por cima do desenho.
  */
 
 const LINHA = '#e8edf3'
@@ -503,54 +509,17 @@ function Ferragem({ w, h, id = 'f' }) {
 
 /* ─────────── cena 1 · o orçamento em feed ─────────── */
 
+// A forma de cada registro do feed. As iniciais do avatar acompanham o nome
+// que está no módulo de conteúdo, e nome é nome nos quatro idiomas.
 const POSTS = [
-  {
-    tipo: 'foto',
-    autor: 'MR',
-    nome: 'Marcos Ribeiro',
-    papel: 'vendedor',
-    hora: 'ter 09:20',
-    legenda: 'Vão da sala · 1180 × 2100 mm',
-    imagem: 'ambiente',
-    versoes: 3,
-    h: 250,
-  },
-  {
-    tipo: 'nota',
-    autor: 'MD',
-    nome: 'Marina Duarte',
-    papel: 'cliente',
-    hora: 'ter 15:44',
-    cor: AZUL,
-    rotulo: 'Observação',
-    texto: 'Prefiro de correr, não de abrir.',
-    h: 112,
-  },
-  {
-    tipo: 'foto',
-    autor: 'AS',
-    nome: 'Ana Silveira',
-    papel: 'escritório',
-    hora: 'qua 08:05',
-    legenda: 'Ferragem preta · roldana aparente',
-    imagem: 'ferragem',
-    versoes: 2,
-    h: 250,
-  },
-  {
-    tipo: 'nota',
-    autor: 'MR',
-    nome: 'Marcos Ribeiro',
-    papel: 'vendedor',
-    hora: 'qua 11:38',
-    cor: EMBER,
-    rotulo: 'Alteração de medida',
-    texto: '1180 → 1175 mm de largura',
-    h: 112,
-  },
+  { tipo: 'foto', autor: 'MR', imagem: 'ambiente', versoes: 3, h: 250 },
+  { tipo: 'nota', autor: 'MD', cor: AZUL, h: 112 },
+  { tipo: 'foto', autor: 'AS', imagem: 'ferragem', versoes: 2, h: 250 },
+  { tipo: 'nota', autor: 'MR', cor: EMBER, h: 112 },
 ]
 
 export function Feed({ t }) {
+  const tx = useTextos().filme.telas.feed
   const W = 340
   const H = 600
   const TOPO = 104
@@ -565,12 +534,13 @@ export function Feed({ t }) {
   const rolagem = ease(range(t, 0.22, 0.8)) * Math.max(0, acc - H + 20)
 
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="O orçamento em feed, no celular do vendedor">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#f3f6f9" />
 
       <g clipPath="url(#cl-feed)">
         <g transform={`translate(12 ${-rolagem})`}>
           {POSTS.map((p, i) => {
+            const c = tx.posts[i]
             const k = ease(range(t, 0.08 + i * 0.13, 0.22 + i * 0.13))
             const y = ys[i]
             return (
@@ -578,10 +548,10 @@ export function Feed({ t }) {
                 <Cartao x={0} y={y} w={316} h={p.h} />
                 <Avatar x={22} y={y + 24} r={11} iniciais={p.autor} cor={p.cor ?? VERDE} />
                 <text x={40} y={y + 21} fill={TINTA} fontSize="11.5" fontWeight="700">
-                  {p.nome}
+                  {c.nome}
                 </text>
                 <text x={40} y={y + 33} fill={APAGADO} fontSize="9.5" fontWeight="600">
-                  {p.papel} · {p.hora}
+                  {c.papel} · {c.hora}
                 </text>
 
                 {p.tipo === 'foto' ? (
@@ -617,7 +587,7 @@ export function Feed({ t }) {
                       ))}
                     </g>
                     <text x="12" y={y + p.h - 15} fill={TINTA} fontSize="11" fontWeight="600">
-                      {p.legenda}
+                      {c.legenda}
                     </text>
                     <text
                       x="304"
@@ -627,7 +597,7 @@ export function Feed({ t }) {
                       fontSize="9.5"
                       fontWeight="700"
                     >
-                      {p.versoes} versões
+                      {tx.versoes(p.versoes)}
                     </text>
                     <defs>
                       <clipPath id={`cl-foto-${i}`}>
@@ -655,10 +625,10 @@ export function Feed({ t }) {
                       fontWeight="800"
                       letterSpacing="0.7"
                     >
-                      {p.rotulo.toUpperCase()}
+                      {c.rotulo.toUpperCase()}
                     </text>
                     <text x="24" y={y + 83} fill={TINTA} fontSize="12.5" fontWeight="600">
-                      {p.texto}
+                      {c.texto}
                     </text>
                   </>
                 )}
@@ -680,27 +650,28 @@ export function Feed({ t }) {
         strokeLinejoin="round"
       />
       <text x="34" y="34" fill={TINTA} fontSize="14.5" fontWeight="800">
-        Orçamento 26-0431
+        {tx.titulo}
       </text>
-      <Pilula x={244} y={20} texto="Em andamento" cor={VERDE} fundo="#e4f2ee" tam={8.5} />
+      <Pilula x={244} y={20} texto={tx.situacao} cor={VERDE} fundo="#e4f2ee" tam={8.5} />
 
       <Avatar x={26} y={62} r={11} iniciais="MD" cor={AZUL} />
       <text x={44} y={59} fill={TINTA} fontSize="11.5" fontWeight="700">
-        Marina Duarte
+        {tx.cliente}
       </text>
       <text x={44} y={71} fill={APAGADO} fontSize="9.5" fontWeight="600">
-        Ap. 142 · Ed. Aurora
+        {tx.endereco}
       </text>
 
+      {/* as abas ficam em x fixo: o rótulo comprido encosta no vizinho */}
       <g fontSize="10.5" fontWeight="700">
         <text x="20" y="95" fill={VERDE}>
-          Feed
+          {tx.abas[0]}
         </text>
         <text x="66" y="95" fill={APAGADO}>
-          Itens
+          {tx.abas[1]}
         </text>
         <text x="106" y="95" fill={APAGADO}>
-          Proposta
+          {tx.abas[2]}
         </text>
       </g>
       <rect x="18" y="100" width="30" height="2" rx="1" fill={VERDE} />
@@ -748,7 +719,7 @@ export function FeedAntigo({ nivel = 1 }) {
 /* ─────────── cena 2 · antes, simulação e checagem ─────────── */
 
 function Abas({ w, ativo }) {
-  const itens = ['Antes', 'Depois']
+  const itens = useTextos().filme.telas.ambiente.abas
   return (
     <g>
       <rect x={w / 2 - 62} y="14" width="124" height="26" rx="13" fill="#fff" fillOpacity="0.94" />
@@ -776,17 +747,18 @@ function Abas({ w, ativo }) {
 }
 
 export function Antes() {
+  const tx = useTextos().filme.telas.antes
   const W = 340
   const H = 420
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="O ambiente do cliente hoje, sem o vidro">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <Ambiente w={W} h={H} id="antes" />
       <Abas w={W} ativo={0} />
       <g filter="url(#sombra-baixa)">
         <rect x="14" y={H - 44} width="118" height="28" rx="14" fill="#fff" fillOpacity="0.95" />
       </g>
       <text x="30" y={H - 25} fill={APAGADO} fontSize="10" fontWeight="700" letterSpacing="0.6">
-        FOTO DA OBRA
+        {tx.selo}
       </text>
       <circle cx="24" cy={H - 29} r="3" fill={APAGADO} />
     </Svg>
@@ -794,6 +766,7 @@ export function Antes() {
 }
 
 export function Simulacao({ t }) {
+  const tx = useTextos().filme.telas.simulacao
   const W = 360
   const H = 500
   // A IA varre o vão da esquerda para a direita e o vidro nasce atrás da linha.
@@ -804,7 +777,7 @@ export function Simulacao({ t }) {
   const pontos = Math.floor(ease(range(t, 0.14, 0.56)) * 3.99)
 
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="O mesmo ambiente com o vidro montado pela IA">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <Ambiente w={W} h={H} vidro={vidro} luz={luz} id="sim" />
       <Abas w={W} ativo={1} />
 
@@ -826,7 +799,7 @@ export function Simulacao({ t }) {
         />
       </g>
       <text x="44" y="70" fill="#fff" fontSize="10.5" fontWeight="700" letterSpacing="0.6">
-        {pronto ? 'GERADO POR IA' : `MONTANDO O VIDRO${'.'.repeat(pontos)}`}
+        {pronto ? tx.pronto : `${tx.montando}${'.'.repeat(pontos)}`}
       </text>
 
       {/* a medida que a IA leu do vão, cotada no chão para não brigar com o selo */}
@@ -877,49 +850,47 @@ export function Simulacao({ t }) {
           fontSize="11.5"
           fontWeight="700"
         >
-          Aprovar projeto
+          {tx.aprovar}
         </text>
         <text x="30" y={H - 40} fill={TINTA} fontSize="11.5" fontWeight="700">
-          Porta de correr
+          {tx.item}
         </text>
         <text x="30" y={H - 27} fill={APAGADO} fontSize="9.5" fontWeight="600">
-          10 mm incolor · 1175 × 2100
+          {tx.especificacao}
         </text>
       </g>
     </Svg>
   )
 }
 
-const CHECAGEM = [
-  ['Espessura', '10 mm · vão de 1175', true],
-  ['Ferragem', 'roldana 100 kg · folha 42 kg', true],
-  ['Esquadro', '4 mm no topo · confirmar', false],
-  ['Prazo', 'têmpera cabe em 5 dias', true],
-]
+// quais linhas da checagem passam; o texto de cada uma vem do conteúdo
+const CHECAGEM_OK = [true, true, false, true]
 
 export function Checagem({ t }) {
+  const tx = useTextos().filme.telas.checagem
   const W = 340
   const H = 420
   const n = Math.min(4, Math.floor(ease(range(t, 0.22, 0.8)) * 4.6))
   const rodape = ease(range(t, 0.78, 0.92))
 
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="A IA confere o pedido antes da produção">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria}>
       <rect x="0" y="0" width={W} height={H} fill="#fbfcfe" />
 
       <rect x="0" y="0" width={W} height="74" fill="#fff" />
       <line x1="0" y1="74" x2={W} y2="74" stroke={LINHA} />
       <text x="18" y="28" fill={TINTA} fontSize="14" fontWeight="800">
-        Checagem do pedido
+        {tx.titulo}
       </text>
       <text x="18" y="44" fill={APAGADO} fontSize="10.5" fontWeight="600">
-        26-0431 · antes de descer para a fábrica
+        {tx.sub}
       </text>
-      <Pilula x={244} y={16} texto="IA · ativo" cor={AZUL} fundo="#ecefff" tam={8.5} />
+      <Pilula x={244} y={16} texto={tx.pilula} cor={AZUL} fundo="#ecefff" tam={8.5} />
       <rect x="18" y="58" width={W - 36} height="3" rx="1.5" fill="#eef1f6" />
       <rect x="18" y="58" width={(W - 36) * (n / 4)} height="3" rx="1.5" fill={VERDE} />
 
-      {CHECAGEM.map(([titulo, valor, ok], i) => {
+      {tx.itens.map(({ titulo, valor }, i) => {
+        const ok = CHECAGEM_OK[i]
         const y = 96 + i * 62
         const k = ease(range(t, 0.24 + i * 0.13, 0.4 + i * 0.13))
         const cor = ok ? VERDE : EMBER
@@ -963,10 +934,10 @@ export function Checagem({ t }) {
       <g style={{ opacity: rodape }}>
         <rect x="14" y={H - 58} width={W - 28} height="42" rx="12" fill="#fdeee8" />
         <text x="30" y={H - 38} fill="#c4491f" fontSize="11" fontWeight="700">
-          1 pendência antes de liberar
+          {tx.pendencia}
         </text>
         <text x="30" y={H - 25} fill="#c4491f" fontSize="9.5" fontWeight="600" fillOpacity="0.8">
-          confirmar o esquadro com o instalador
+          {tx.pendenciaSub}
         </text>
       </g>
     </Svg>
@@ -1038,6 +1009,7 @@ function DesenhoPlano({
   comCotas = true,
   id = 'p',
 }) {
+  const tx = useTextos().filme.telas.plano
   const folga = px(2.2)
   const raio = px(2.5)
   // sobe para a esquerda: no canto da chapa, descolar para o outro lado
@@ -1154,7 +1126,7 @@ function DesenhoPlano({
               fontWeight="800"
               letterSpacing={px(1.6)}
             >
-              {levanta > 0.6 ? 'RETALHO RESERVADO' : 'RETALHO'}
+              {levanta > 0.6 ? tx.retalhoReservado : tx.retalho}
             </text>
             <text
               x={SOBRA.x + SOBRA.w / 2}
@@ -1171,7 +1143,7 @@ function DesenhoPlano({
               fontWeight="600"
               fillOpacity="0.85"
             >
-              8 mm · incolor
+              {tx.especificacao}
             </text>
             {levanta > 0.01 && (
               <g style={{ opacity: levanta }}>
@@ -1200,7 +1172,7 @@ function DesenhoPlano({
                   fontSize={px(8.5)}
                   fontWeight="700"
                 >
-                  CAVALETE A-03
+                  {tx.cavalete}
                 </text>
               </g>
             )}
@@ -1328,6 +1300,7 @@ const NAV = [
 
 /** A tela do sistema, desenhada dentro do vidro de qualquer aparelho. */
 function Interface({ w, h, tipo, id }) {
+  const tx = useTextos().filme.telas.sistema
   const eCelular = tipo === 'celular'
   const eNavegador = tipo === 'navegador'
   const comLateral = eNavegador
@@ -1362,7 +1335,7 @@ function Interface({ w, h, tipo, id }) {
             stroke={LINHA}
           />
           <text x="55" y={barra / 2 + 3} fill={APAGADO} fontSize="7.5" fontWeight="600">
-            neoglass.online/otimizacao
+            {tx.url}
           </text>
         </g>
       )}
@@ -1403,7 +1376,7 @@ function Interface({ w, h, tipo, id }) {
           fontSize={eCelular ? 8 : 10}
           fontWeight="800"
         >
-          Otimização
+          {tx.titulo}
         </text>
         <text
           x={lateral + p + (comLateral ? 0 : 24)}
@@ -1412,7 +1385,7 @@ function Interface({ w, h, tipo, id }) {
           fontSize={fonte}
           fontWeight="600"
         >
-          26-0431 · 8 mm incolor
+          {tx.pedido}
         </text>
 
         {!eCelular && (
@@ -1436,7 +1409,7 @@ function Interface({ w, h, tipo, id }) {
                   fontSize={fonte}
                   fontWeight="700"
                 >
-                  Exportar
+                  {tx.exportar}
                 </text>
               </>
             )}
@@ -1456,7 +1429,7 @@ function Interface({ w, h, tipo, id }) {
               fontSize={fonte}
               fontWeight="700"
             >
-              Gerar arquivos
+              {tx.gerarArquivos}
             </text>
           </g>
         )}
@@ -1479,9 +1452,9 @@ function Interface({ w, h, tipo, id }) {
         <rect x={lateral} y={h - rodape} width={w - lateral} height={rodape} fill="#fff" />
         <line x1={lateral} y1={h - rodape} x2={w} y2={h - rodape} stroke={LINHA} />
         {[
-          ['Aproveitamento', '90,8%', VERDE],
-          ['Peças', '7', TINTA],
-          ['Retalho', '1', EMBER],
+          [tx.rodape.aproveitamento, '87,4%', VERDE],
+          [tx.rodape.pecas, '7', TINTA],
+          [tx.rodape.retalho, '1', EMBER],
         ]
           .slice(0, eCelular ? 2 : 3)
           .map(([rot, val, cor], i) => (
@@ -1524,7 +1497,7 @@ function Interface({ w, h, tipo, id }) {
               fontSize={fonte}
               fontWeight="700"
             >
-              Gerar
+              {tx.gerar}
             </text>
           </g>
         )}
@@ -1541,6 +1514,7 @@ function Interface({ w, h, tipo, id }) {
 const APARELHO = { navegador: [640, 400], tablet: [340, 470], celular: [190, 380] }
 
 export function Tela({ tipo }) {
+  const aria = useTextos().filme.telas.aparelhos
   const [W, H] = APARELHO[tipo]
 
   if (tipo === 'navegador') {
@@ -1555,7 +1529,7 @@ export function Tela({ tipo }) {
         vb={`0 0 ${W} ${H}`}
         ajuste="meet"
         role="img"
-        aria-label="O plano de corte aberto no computador"
+        aria-label={aria.navegador}
       >
         <ellipse cx={W / 2} cy={H - 12} rx={W * 0.44} ry="10" fill="#0f2530" fillOpacity="0.11" />
         <rect x={tampaX} y="0" width={tampaW} height={tampaH} rx="13" fill={CARCACA} />
@@ -1604,7 +1578,7 @@ export function Tela({ tipo }) {
         vb={`0 0 ${W} ${H}`}
         ajuste="meet"
         role="img"
-        aria-label="O plano de corte aberto no tablet"
+        aria-label={aria.tablet}
       >
         <ellipse cx={W / 2} cy={H - 4} rx={W * 0.42} ry="8" fill="#0f2530" fillOpacity="0.1" />
         <rect x="0" y="0" width={W} height={H - 10} rx="26" fill={CARCACA} />
@@ -1642,7 +1616,7 @@ export function Tela({ tipo }) {
       vb={`0 0 ${W} ${H}`}
       ajuste="meet"
       role="img"
-      aria-label="O plano de corte aberto no celular"
+      aria-label={aria.celular}
     >
       <ellipse cx={W / 2} cy={H - 3} rx={W * 0.4} ry="7" fill="#0f2530" fillOpacity="0.1" />
       <rect x="0" y="0" width={W} height={H - 8} rx="28" fill={CARCACA} />
@@ -1683,20 +1657,22 @@ export function Tela({ tipo }) {
  * logo abaixo — o orçamento que entra, o plano que sai e o dinheiro que sobra.
  */
 export function Vitrine({ tipo }) {
+  const t9n = useTextos().filme.telas
+  const tx = t9n.vitrine
   if (tipo === 'plano') {
     const W = 258
     const H = 372
     return (
-      <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="Plano de corte otimizado">
+      <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria.plano}>
         <rect x="0" y="0" width={W} height={H} fill="#fff" />
         <rect x="0" y="0" width={W} height="40" fill="#fbfcfd" />
         <line x1="0" y1="40" x2={W} y2="40" stroke={LINHA} />
         <MarcaSvg x={12} y={11} tam={18} id="vit-plano" />
         <text x="36" y="21" fill={TINTA} fontSize="10" fontWeight="800">
-          Otimização
+          {t9n.sistema.titulo}
         </text>
         <text x="36" y="31" fill={APAGADO} fontSize="7" fontWeight="600">
-          26-0431 · 8 mm incolor
+          {t9n.sistema.pedido}
         </text>
         <rect x={W - 60} y="12" width="48" height="17" rx="8.5" fill={VERDE} />
         <text
@@ -1707,7 +1683,7 @@ export function Vitrine({ tipo }) {
           fontSize="8"
           fontWeight="800"
         >
-          90,8%
+          87,4%
         </text>
 
         <MiniPlano x={0} y={40} w={W} h={H - 40 - 34} cotas={false} />
@@ -1715,11 +1691,11 @@ export function Vitrine({ tipo }) {
         <line x1="0" y1={H - 34} x2={W} y2={H - 34} stroke={LINHA} />
         <circle cx="17" cy={H - 18} r="2.6" fill={VERDE} />
         <text x="25" y={H - 15} fill={TINTA} fontSize="8" fontWeight="700">
-          7 peças cortadas
+          {tx.pecasCortadas}
         </text>
         <circle cx={W - 74} cy={H - 18} r="2.6" fill={EMBER} />
         <text x={W - 66} y={H - 15} fill={TINTA} fontSize="8" fontWeight="700">
-          1 retalho
+          {tx.umRetalho}
         </text>
       </Svg>
     )
@@ -1728,25 +1704,22 @@ export function Vitrine({ tipo }) {
   if (tipo === 'margem') {
     const W = 212
     const H = 268
-    const linhas = [
-      ['Matéria-prima', 'R$ 1.180'],
-      ['Produção', 'R$ 640'],
-      ['Gastos do pedido', 'R$ 210'],
-    ]
+    // os valores acompanham a ordem de `margem.custos` no módulo de conteúdo
+    const linhas = t9n.margem.custos.map((nome, i) => [nome, ['R$ 1.180', 'R$ 640', 'R$ 210'][i]])
     return (
-      <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="Fechamento financeiro do pedido">
+      <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria.margem}>
         <rect x="0" y="0" width={W} height={H} fill="#fff" />
         <rect x="0" y="0" width={W} height="36" fill="#fbfcfd" />
         <line x1="0" y1="36" x2={W} y2="36" stroke={LINHA} />
         <text x="14" y="18" fill={TINTA} fontSize="9.5" fontWeight="800">
-          Fechamento do pedido
+          {t9n.margem.titulo}
         </text>
         <text x="14" y="29" fill={APAGADO} fontSize="7" fontWeight="600">
-          26-0431 · Marina Duarte
+          {tx.pedidoCliente}
         </text>
 
         <text x="14" y="55" fill={APAGADO} fontSize="7" fontWeight="700" letterSpacing="0.5">
-          RECEITA
+          {tx.receita}
         </text>
         <text x={W - 14} y="55" textAnchor="end" fill={TINTA} fontSize="9.5" fontWeight="800">
           R$ 3.480
@@ -1807,7 +1780,7 @@ export function Vitrine({ tipo }) {
           fillOpacity="0.09"
         />
         <text x="26" y="198" fill="#8a6317" fontSize="7.5" fontWeight="700" letterSpacing="0.6">
-          MARGEM DESTE PEDIDO
+          {t9n.margem.rotulo}
         </text>
         <text x="26" y="220" fill="#8a6317" fontSize="18" fontWeight="800">
           R$ 1.450
@@ -1816,7 +1789,7 @@ export function Vitrine({ tipo }) {
           41,7%
         </text>
         <text x="14" y="253" fill={APAGADO} fontSize="7" fontWeight="600">
-          Nota emitida · boleto na rua · entregue em 5 dias
+          {tx.entrega}
         </text>
       </Svg>
     )
@@ -1826,15 +1799,15 @@ export function Vitrine({ tipo }) {
   const W = 205
   const H = 292
   return (
-    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label="Orçamento em linha do tempo">
+    <Svg vb={`0 0 ${W} ${H}`} role="img" aria-label={tx.aria.feed}>
       <rect x="0" y="0" width={W} height={H} fill="#f7f9fb" />
       <rect x="0" y="0" width={W} height="38" fill="#fff" />
       <line x1="0" y1="38" x2={W} y2="38" stroke={LINHA} />
       <text x="13" y="18" fill={TINTA} fontSize="9.5" fontWeight="800">
-        Orçamento 26-0431
+        {t9n.feed.titulo}
       </text>
       <text x="13" y="29" fill={APAGADO} fontSize="7" fontWeight="600">
-        Marina Duarte · Ap. 142
+        {tx.clienteCurto}
       </text>
       <rect x={W - 56} y="11" width="44" height="15" rx="7.5" fill={VERDE} fillOpacity="0.12" />
       <text
@@ -1845,7 +1818,7 @@ export function Vitrine({ tipo }) {
         fontSize="6.5"
         fontWeight="700"
       >
-        Em andamento
+        {t9n.feed.situacao}
       </text>
 
       {/* o post com foto da obra */}
@@ -1853,10 +1826,10 @@ export function Vitrine({ tipo }) {
         <Cartao x={9} y={48} w={W - 18} h={124} r={9} />
         <Avatar x={24} y={64} r={8} iniciais="MR" />
         <text x={38} y={61} fill={TINTA} fontSize="7.5" fontWeight="700">
-          Marcos Ribeiro
+          {t9n.feed.posts[0].nome}
         </text>
         <text x={38} y={70} fill={APAGADO} fontSize="6" fontWeight="600">
-          vendedor · ter 09:20
+          {t9n.feed.posts[0].papel} · {t9n.feed.posts[0].hora}
         </text>
         <clipPath id="vit-foto">
           <rect x="17" y="78" width={W - 34} height="60" rx="6" />
@@ -1867,10 +1840,10 @@ export function Vitrine({ tipo }) {
           </g>
         </g>
         <text x="17" y="152" fill={TINTA} fontSize="7.5" fontWeight="600">
-          Vão da sala · 1180 × 2100 mm
+          {t9n.feed.posts[0].legenda}
         </text>
         <text x="17" y="163" fill={APAGADO} fontSize="6.5" fontWeight="600">
-          3 versões nesta foto
+          {tx.versoesFoto}
         </text>
       </g>
 
@@ -1879,10 +1852,10 @@ export function Vitrine({ tipo }) {
         <Cartao x={9} y={180} w={W - 18} h={46} r={9} />
         <rect x="17" y="188" width="2.5" height="30" rx="1.25" fill={AZUL} />
         <text x="26" y="198" fill={AZUL} fontSize="6" fontWeight="700" letterSpacing="0.5">
-          OBSERVAÇÃO
+          {t9n.feed.posts[1].rotulo.toUpperCase()}
         </text>
         <text x="26" y="211" fill={TINTA} fontSize="7.5" fontWeight="700">
-          Prefiro de correr, não de abrir.
+          {t9n.feed.posts[1].texto}
         </text>
       </g>
 
@@ -1891,10 +1864,10 @@ export function Vitrine({ tipo }) {
         <Cartao x={9} y={234} w={W - 18} h={46} r={9} />
         <rect x="17" y="242" width="2.5" height="30" rx="1.25" fill={EMBER} />
         <text x="26" y="252" fill={EMBER} fontSize="6" fontWeight="700" letterSpacing="0.5">
-          ALTERAÇÃO DE MEDIDA
+          {t9n.feed.posts[3].rotulo.toUpperCase()}
         </text>
         <text x="26" y="265" fill={TINTA} fontSize="7.5" fontWeight="700">
-          1180 → 1175 mm de largura
+          {t9n.feed.posts[3].texto}
         </text>
       </g>
     </Svg>
@@ -1909,6 +1882,7 @@ export function Vitrine({ tipo }) {
  * característica do mundo de quem vai ler esta página.
  */
 export function ChapaAbertura({ t }) {
+  const tx = useTextos().filme.telas.plano
   const px = (n) => (n * CHAPA.w) / 660
   const corte = (i) => ease(range(t, 0.08 + i * 0.05, 0.08 + i * 0.05 + 0.1))
   const mostra = (i) => ease(range(t, 0.34 + i * 0.022, 0.5 + i * 0.022))
@@ -1919,7 +1893,7 @@ export function ChapaAbertura({ t }) {
     <Svg
       vb={`0 0 ${CHAPA.w} ${CHAPA.h}`}
       role="img"
-      aria-label="Plano de corte de uma chapa 3210 × 2250: sete peças e um retalho"
+      aria-label={tx.aria}
     >
       <rect x="0" y="0" width={CHAPA.w} height={CHAPA.h} fill={PLANO.chapa} />
       <DesenhoPlano px={px} mostra={mostra} corte={corte} sobra={sobra} levanta={levanta} />

@@ -10,7 +10,12 @@ import { APROVEITAMENTO } from './conteudos.jsx'
  *
  *   formacao(t, compacto)  posição das três chapas; t é o tempo da cena (0 a 1)
  *   conteudo               o que cada chapa mostra
- *   medidor(t)             o chip de progresso que fica embaixo do texto
+ *   medidor(t, tx)         o chip de progresso que fica embaixo do texto
+ *
+ * Aqui não mora texto: título, frase e o rótulo do medidor vêm de
+ * `conteudo/areas/filme.<idioma>.js`, na mesma ordem desta lista. O que sobrou
+ * é a conta — quanto já andou, quantas peças já saíram — e `tx` é o pedaço do
+ * módulo de conteúdo daquela cena, que sabe como escrever o número.
  *
  * A ordem conta uma história: o pedido entra, é aprovado, é cortado, atravessa
  * a fábrica, vira dinheiro — e tudo isso de qualquer tela.
@@ -43,15 +48,12 @@ export const CONTEUDO_ABERTURA = ['fantasmaFeed', 'fantasmaPlano', 'fantasmaTela
 export const CENAS = [
   {
     id: 'orcamento',
-    etapa: 'Orçamento',
     cor: '#0e8c6a',
     duracao: 3900,
-    titulo: 'Foto na obra, orçamento pronto.',
-    sub: 'Cada visita, medida e mudança do cliente entra na linha do tempo. As fotos viram carrossel — a versão de agora na frente, as anteriores logo atrás.',
     conteudo: ['feedAntigo2', 'feedAntigo1', 'feed'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const n = Math.min(4, Math.floor(ease(range(t, 0.06, 0.72)) * 4.6))
-      return { texto: `Registros no orçamento · ${n}/4`, k: n / 4 }
+      return { texto: tx.medidor(n), k: n / 4 }
     },
     formacao: (t, compacto) =>
       compacto
@@ -68,15 +70,12 @@ export const CENAS = [
   },
   {
     id: 'simulacao',
-    etapa: 'Aprovação',
     cor: '#e4586f',
     duracao: 3900,
-    titulo: 'Ele aprova antes de existir.',
-    sub: 'A IA monta o vidro no ambiente do próprio cliente. E confere o pedido — espessura, ferragem, prazo — antes de ele descer para a fábrica.',
     conteudo: ['antes', 'simulacao', 'checagem'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const n = Math.min(4, Math.floor(ease(range(t, 0.24, 0.82)) * 4.6))
-      return { texto: `Conferindo o pedido · ${n}/4`, k: n / 4 }
+      return { texto: tx.medidor(n), k: n / 4 }
     },
     formacao: (t, compacto) =>
       compacto
@@ -95,16 +94,13 @@ export const CENAS = [
   },
   {
     id: 'corte',
-    etapa: 'Corte',
     cor: '#0e7b9c',
     duracao: 5200,
-    titulo: 'Corta certo. Sobra vira estoque.',
-    sub: 'O plano sai pronto para a mesa. E o pedaço que restou volta ao cavalete com medida, cor e endereço, para disputar a próxima otimização.',
     conteudo: ['chapa0', 'chapa1', 'chapa2'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const k = ease(range(t, 0.32, 0.58))
-      if (t > 0.82) return { texto: 'Retalho reservado · cavalete A-03', k: 1 }
-      return { texto: `Aproveitamento · ${(APROVEITAMENTO * k).toFixed(1)}%`, k }
+      if (t > 0.82) return { texto: tx.medidorFim, k: 1 }
+      return { texto: tx.medidor((APROVEITAMENTO * k).toFixed(1)), k }
     },
     /**
      * Três atos. Primeiro as chapas encostam e viram uma chapa só — sem canto
@@ -146,15 +142,12 @@ export const CENAS = [
   },
   {
     id: 'fabrica',
-    etapa: 'Produção',
     cor: '#7c6ad6',
     duracao: 4600,
-    titulo: 'A peça tem endereço.',
-    sub: 'Cada peça sai com etiqueta e código. Ela atravessa as fases na tela, e a entrega é dada pela leitura do código — não pela memória de quem carregou.',
     conteudo: ['painel', 'etiqueta', 'expedicao'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const n = Math.min(5, Math.floor(ease(range(t, 0.46, 0.94)) * 5.6))
-      return { texto: `Peças conferidas na saída · ${n}/5`, k: n / 5 }
+      return { texto: tx.medidor(n), k: n / 5 }
     },
     formacao: (t, compacto) =>
       compacto
@@ -171,15 +164,12 @@ export const CENAS = [
   },
   {
     id: 'dinheiro',
-    etapa: 'Dinheiro',
     cor: '#b8862c',
     duracao: 4400,
-    titulo: 'No fim, você sabe quanto sobrou.',
-    sub: 'Nota emitida, boleto na rua e o fechamento do pedido: matéria-prima, produção e gastos até a margem real daquele pedido — não a média do mês.',
     conteudo: ['nota', 'recebimento', 'margem'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const k = ease(range(t, 0.66, 0.88))
-      return { texto: `Margem deste pedido · ${(41.7 * k).toFixed(1).replace('.', ',')}%`, k }
+      return { texto: tx.medidor((41.7 * k).toFixed(1).replace('.', ',')), k }
     },
     formacao: (t, compacto) =>
       compacto
@@ -196,17 +186,14 @@ export const CENAS = [
   },
   {
     id: 'onde-roda',
-    etapa: 'Em qualquer tela',
     cor: '#4a6ae0',
     duracao: 2900,
     // aqui as chapas viram aparelhos: sem o acabamento de vidro por cima
     nu: true,
-    titulo: 'Abre onde você estiver.',
-    sub: 'Escritório no computador, encarregado no tablet ao lado da mesa, vendedor no celular na obra. Mesmo pedido, mesma hora — sem instalar e sem licença por posto.',
     conteudo: ['navegador', 'tablet', 'celular'],
-    medidor: (t) => {
+    medidor: (t, tx) => {
       const n = Math.min(3, Math.floor(ease(range(t, 0.1, 0.8)) * 3.6))
-      return { texto: `Telas abertas ao mesmo tempo · ${n}/3`, k: n / 3 }
+      return { texto: tx.medidor(n), k: n / 3 }
     },
     formacao: (t, compacto) =>
       compacto

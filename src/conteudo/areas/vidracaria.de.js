@@ -25,6 +25,14 @@
  */
 export default {
   // ── A abertura ────────────────────────────────────────────────────────
+  /* A frase que o Higor elegeu. Ela saiu do título quando a abertura
+     passou a carregar o posicionamento, e ganhou bloco próprio aqui —
+     é o primeiro argumento da página, logo antes da demonstração. */
+  memoria: {
+    titulo: 'Jedes Angebot, das Sie verschickt haben, bleibt gespeichert.',
+    texto: 'Sie öffnen es und sehen, was vereinbart wurde, wann und zu welchem Preis.',
+  },
+
   hero: {
     rotulo: 'NeoGlass · für die Glaserei',
     verOrcamento: 'Das Angebot entstehen sehen',
@@ -32,10 +40,10 @@ export default {
     // O gradiente cai na condição ('ohne dass es kompliziert wird'), que é o
     // que este leitor duvida — em alemão a promessa sozinha não convence.
     titulo: {
-      antes: 'Jedes Angebot, das Sie verschickt haben,',
-      destaque: 'bleibt gespeichert.',
+      antes: 'Sie messen.',
+      destaque: 'NeoGlass macht den Rest.',
     },
-    texto: 'Sie öffnen es und sehen, was vereinbart wurde, wann und zu welchem Preis.',
+    texto: 'Vom Aufmaß auf der Baustelle bis zum Angebot, vom Auftrag bis zur Lieferung — ohne dass unterwegs Informationen verloren gehen.',
     /* As três antigas mediam a INSTALAÇÃO ("1 Nachmittag", "0 Excel", "1
        App") — problema de quem já comprou. Estas medem o dia dele.
        Comprimento: a legenda tem ~28 caracteres antes de quebrar em três

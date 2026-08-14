@@ -1,5 +1,5 @@
 import Abertura from '../components/Abertura.jsx'
-import Jornada from '../jornada/Jornada.jsx'
+import Fluxo from '../components/Fluxo.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { Tela } from '../jornada/conteudos.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
@@ -17,7 +17,7 @@ export default function Plataforma() {
       <Abertura
         tela="pedidos"
         rotulo={t.hero.rotulo}
-        folha="FL. 01/06"
+        folha="FL. 01/08"
         origem="abertura-plataforma"
         etiqueta={t.hero.etiqueta}
         titulo={
@@ -32,10 +32,11 @@ export default function Plataforma() {
       {/* O filme de seis telas veio da Indústria. Ele conta um pedido andando
           de ponta a ponta — que é justamente o que esta página vende, e o que
           a Indústria já mostrava de outro jeito no otimizador. */}
-      <Jornada />
+      <Fluxo folha="FL. 02/08" />
+
 
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
-        <Bloco rotulo={t.devolve.rotulo} folha="FL. 02/06" />
+        <Bloco rotulo={t.devolve.rotulo} folha="FL. 03/08" />
         <h2 className="display mt-7 max-w-[19ch] text-[clamp(30px,4.4vw,54px)]">
           {t.devolve.titulo}
         </h2>
@@ -52,7 +53,7 @@ export default function Plataforma() {
       </Revelar>
 
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
-        <Bloco rotulo={t.modulos.rotulo} folha="FL. 03/06" />
+        <Bloco rotulo={t.modulos.rotulo} folha="FL. 04/08" />
         <h2 className="display mt-7 max-w-[17ch] text-[clamp(30px,4.4vw,54px)]">
           {t.modulos.titulo}
         </h2>
@@ -79,7 +80,7 @@ export default function Plataforma() {
       </Revelar>
 
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
-        <Bloco rotulo={t.aparelhos.rotulo} folha="FL. 04/06" />
+        <Bloco rotulo={t.aparelhos.rotulo} folha="FL. 05/08" />
         <h2 className="display mt-7 max-w-[18ch] text-[clamp(30px,4.4vw,54px)]">
           {t.aparelhos.titulo}
         </h2>
@@ -98,7 +99,7 @@ export default function Plataforma() {
       </Revelar>
 
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
-        <Bloco rotulo={t.adiante.rotulo} folha="FL. 05/06" />
+        <Bloco rotulo={t.adiante.rotulo} folha="FL. 06/08" />
         <h2 className="display mt-7 max-w-[20ch] text-[clamp(30px,4.4vw,54px)]">
           {t.adiante.titulo}
         </h2>
@@ -115,11 +116,11 @@ export default function Plataforma() {
         </ul>
       </Revelar>
 
-      <Origem folha="FL. 06/06" />
+      <Origem folha="FL. 07/08" />
 
       <Chamada
         rotulo={t.chamada.rotulo}
-        folha="FL. 06/06"
+        folha="FL. 08/08"
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}

@@ -11,11 +11,11 @@ export default {
     rotulo: 'The platform · from the inside',
     etiqueta: 'Inside the system',
     titulo: {
-      antes: 'From quote to invoice,',
-      destaque: 'without switching systems.',
+      antes: 'One order. From quote to invoice.',
+      destaque: 'Without switching systems.',
     },
     texto:
-      'These are not separate modules talking to each other over an integration. It is one order, with one number, moving through sales, production and dispatch.',
+      'Every step works from the same information, from first contact to delivery.',
     marcas: [
       ['7', 'modules, one single order'],
       ['4', 'output formats for the table'],

@@ -126,4 +126,22 @@ export default {
       ],
     ],
   },
+
+  // O mesmo pedido atravessando a operação — a peça central do
+  // posicionamento. Ver components/Fluxo.jsx.
+  fluxo: {
+    rotulo: 'Der Auftrag, von Anfang bis Ende',
+    titulo: 'Niemand tippt denselben Auftrag zweimal.',
+    texto: 'Der Auftrag wird einmal erfasst und begleitet den ganzen Betrieb. Jeder Schritt arbeitet mit denselben Daten — denen von der Baustelle.',
+    estadoRotulo: 'Wo er gerade steht',
+    pedido: { numero: '26-0918', cliente: 'Marcos Ribeiro', vidro: 'Klar 6 mm ESG · 4 Teile' },
+    etapas: [
+      { nome: 'Angebot', estado: 'Angebot an den Kunden verschickt', detalhe: 'Aus dem Aufmaß wurden Preis, PDF und Termin. Nichts wurde neu getippt.' },
+      { nome: 'Freigabe', estado: 'Vom Kunden freigegeben', detalhe: 'Die Freigabe fixiert Preis und Termin und gibt den Auftrag in die Fertigung.' },
+      { nome: 'Produktion', estado: 'Am Schneidtisch', detalhe: 'Der Schnittplan kam aus demselben Auftrag, Reststücke bereits berücksichtigt.' },
+      { nome: 'Versand', estado: 'Für die Lieferung kommissioniert', detalhe: 'Die Teile wurden gegen den Auftrag geprüft, nicht gegen einen losen Zettel.' },
+      { nome: 'Finanzen', estado: 'Marge ermittelt', detalhe: 'Erlös, Material und Fertigung dieses Auftrags an einer Stelle.' },
+    ],
+    nota: 'Die Auftragsnummer ist in allen fünf Schritten dieselbe. Das ist der Unterschied zwischen einem System und einem Haufen Werkzeuge, die nicht miteinander sprechen.',
+  },
 }

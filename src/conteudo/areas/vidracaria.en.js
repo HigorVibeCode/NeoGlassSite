@@ -16,15 +16,23 @@
  */
 export default {
   // ── A abertura ────────────────────────────────────────────────────────
+  /* A frase que o Higor elegeu. Ela saiu do título quando a abertura
+     passou a carregar o posicionamento, e ganhou bloco próprio aqui —
+     é o primeiro argumento da página, logo antes da demonstração. */
+  memoria: {
+    titulo: 'Every quote you sent stays saved.',
+    texto: 'You open it and see what was agreed, when, and for how much.',
+  },
+
   hero: {
     rotulo: 'NeoGlass · for the glass shop',
     verOrcamento: 'Watch the quote come out',
     etiqueta: 'Inside the app',
     titulo: {
-      antes: 'Every quote you sent',
-      destaque: 'stays saved.',
+      antes: 'You measure.',
+      destaque: 'NeoGlass handles the rest.',
     },
-    texto: 'You open it and see what was agreed, when, and for how much.',
+    texto: 'From the measurement on site to the quote, from the order to delivery — without losing information along the way.',
     /* As três anteriores mediam a INSTALAÇÃO ("one afternoon", "0
        spreadsheets", "1 app"), que é o problema de quem já comprou — não de
        quem está decidindo. Estas medem o dia dele: quanto tempo leva um

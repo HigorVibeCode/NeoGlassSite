@@ -1,26 +1,26 @@
 export default {
-  etiqueta: 'Software para el vidrio plano',
+  etiqueta: 'Software para quien trabaja con vidrio',
   titulo: { antes: 'El vidrio que no compras', destaque: 'es ganancia.' },
   texto:
-    'Presupuesto, plan de corte, control de retales y producción en un solo sistema. Elige por dónde entras:',
+    'Software para cristalerías y fábricas de vidrio. Presupuesto, producción, corte, retales y pedidos conectados en un solo sistema.',
   portas: [
     {
       id: 'vidracaria',
       rotulo: 'Tengo una cristalería',
-      texto: 'Mido el hueco, mando el presupuesto, compro la plancha e instalo.',
+      texto: 'Mido el hueco, hago el presupuesto, compro el vidrio e instalo.',
       marcas: ['Presupuesto en PDF en la obra', 'Precio fijo al mes', '14 días gratis'],
-      acao: 'Ver qué cambia para mí',
+      acao: 'Ver cómo funciona para mi cristalería',
     },
     {
       id: 'industria',
       rotulo: 'Tengo una fábrica de vidrio',
-      texto: 'Corto plancha, la proceso y entrego a otras empresas.',
+      texto: 'Corto, proceso, templo y entrego a otras empresas.',
       marcas: ['Optimización con retales', 'Trazabilidad de pieza', 'Demo con tu propio pedido'],
-      acao: 'Ver qué cambia para mí',
+      acao: 'Ver cómo funciona para mi fábrica',
     },
   ],
   painel: 'El sistema por dentro',
-  duvida: 'No sé en cuál encajo',
+  duvida: 'Todavía tengo dudas',
   lembrete: {
     vidracaria: 'Estás viendo la versión para cristalería.',
     industria: 'Estás viendo la versión para fábrica de vidrio.',

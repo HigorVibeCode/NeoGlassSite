@@ -13,6 +13,14 @@
  */
 export default {
   // ── A abertura ────────────────────────────────────────────────────────
+  /* A frase que o Higor elegeu. Ela saiu do título quando a abertura
+     passou a carregar o posicionamento, e ganhou bloco próprio aqui —
+     é o primeiro argumento da página, logo antes da demonstração. */
+  memoria: {
+    titulo: 'Todo orçamento que você mandou fica salvo.',
+    texto: 'Você abre e vê o que foi combinado, quando e por quanto.',
+  },
+
   hero: {
     rotulo: 'NeoGlass · para a vidraçaria',
     verOrcamento: 'Ver o orçamento nascer',
@@ -21,10 +29,10 @@ export default {
     // gradiente da marca. Separado porque a palavra que merece o gradiente não
     // é a mesma em todo idioma — em pt é a promessa, em de é a condição.
     titulo: {
-      antes: 'Todo orçamento que você mandou',
-      destaque: 'fica salvo.',
+      antes: 'Você mede.',
+      destaque: 'A NeoGlass organiza o resto.',
     },
-    texto: 'Você abre e vê o que foi combinado, quando e por quanto.',
+    texto: 'Da medida na obra ao orçamento, do pedido à entrega — sem perder informação no caminho.',
     /* As três anteriores mediam a INSTALAÇÃO ("1 tarde para rodar", "0
        planilha", "1 app"), que é o problema de quem já comprou — não de quem
        está decidindo. Estas medem o dia dele: quanto tempo leva um orçamento,

@@ -84,6 +84,18 @@ export default function Vidracaria() {
         texto={t.hero.texto}
       />
 
+      {/* A memória da venda: o primeiro argumento da página, antes da
+          demonstração. Bloco curto de propósito — ele existe para ser lido de
+          uma vez, não para ser estudado. */}
+      <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-16 sm:px-8">
+        <div className="mx-auto max-w-[42ch] border-t border-line pt-8 text-center">
+          <h2 className="display text-[clamp(24px,3.4vw,38px)] leading-[1.1]">
+            {t.memoria.titulo}
+          </h2>
+          <p className="mt-4 text-[16.5px] leading-[1.55] text-dim">{t.memoria.texto}</p>
+        </div>
+      </Revelar>
+
       <Revelar
         as="section"
         id="orcamento"
@@ -135,6 +147,9 @@ export default function Vidracaria() {
           texto={t.chamada.texto(diasTeste)}
           passos={t.chamada.passos}
           zap={false}
+          convite={
+            acao && { href: acao.href, rotulo: acao.rotulo, nota: c.comecar.formulario.aviso }
+          }
         />
       ) : (
         <Chamada

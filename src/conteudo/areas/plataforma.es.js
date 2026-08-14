@@ -11,11 +11,11 @@ export default {
     rotulo: 'La plataforma · por dentro',
     etiqueta: 'El sistema por dentro',
     titulo: {
-      antes: 'Del presupuesto a la factura,',
-      destaque: 'sin cambiar de sistema.',
+      antes: 'Un pedido. Del presupuesto a la factura.',
+      destaque: 'Sin cambiar de sistema.',
     },
     texto:
-      'No son módulos que se hablan por una integración. Es un solo pedido, con el mismo número, atravesando comercial, producción y expedición.',
+      'Cada etapa trabaja con la misma información, del primer contacto a la entrega.',
     marcas: [
       ['7', 'módulos, un solo pedido'],
       ['4', 'formatos de salida para la mesa'],

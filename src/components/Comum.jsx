@@ -234,7 +234,7 @@ export function Origem({ folha = 'FL. 04/05' }) {
  * não deixar um telefone para alguém retornar depois. O formulário continua
  * existindo para onde ele fizer mais sentido.
  */
-export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true }) {
+export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true, convite }) {
   const c = useTextos()
   return (
     <Revelar
@@ -276,7 +276,27 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
             <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
           </div>
 
-          {agenda && CONFIG.agendar ? <Agenda /> : <Formulario zap={zap} />}
+          {/* `convite` troca o formulário inteiro por um botão.
+              Na vidraçaria o cadastro já foi oferecido logo depois da
+              demonstração; repetir os quatro campos no rodapé fazia a mesma
+              pergunta duas vezes na mesma página e custava 800 px. Quem chegou
+              até aqui já decidiu — um clique a mais não é atrito. */}
+          {convite ? (
+            <div className="flex flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-card px-7 py-9">
+              <a
+                href={convite.href}
+                onClick={() => evento('comecar', { origem: 'chamada' })}
+                className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+              >
+                {convite.rotulo}
+              </a>
+              <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
+            </div>
+          ) : agenda && CONFIG.agendar ? (
+            <Agenda />
+          ) : (
+            <Formulario zap={zap} />
+          )}
         </div>
       </div>
     </Revelar>

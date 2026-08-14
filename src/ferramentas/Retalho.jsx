@@ -562,19 +562,30 @@ function Barra({ duracao }) {
 function Balao({ texto }) {
   if (!texto) return null
   return (
-    <div className="balao pointer-events-none absolute right-3 top-3 z-10 max-w-[15rem] sm:right-5 sm:top-5">
-      <p className="rounded-[14px] border border-verde/35 bg-card px-3.5 py-2.5 text-[13px] font-bold leading-snug text-ink shadow-[0_14px_30px_-16px_rgba(20,55,80,.5)]">
-        {texto}
-      </p>
-      <svg viewBox="0 0 26 16" className="ml-6 -mt-px h-3 w-5" aria-hidden="true">
-        <path d="M0 0 H26 L7 16 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
-      </svg>
+    <div className="balao pointer-events-none absolute inset-x-3 bottom-3 z-10 flex justify-center sm:inset-x-6 sm:bottom-5">
+      <span className="w-full max-w-[34rem]">
+        {/* o rabicho aponta para CIMA, para o desenho.
+            Antes o balão flutuava no canto superior e tapava justamente a peça
+            que ele estava explicando — aconteceu no cavalete e no vão. Embaixo,
+            o palco fica inteiro livre e a frase continua colada à cena. */}
+        <svg viewBox="0 0 26 16" className="ml-8 -mb-px h-3 w-5" aria-hidden="true">
+          <path d="M7 0 L26 16 H0 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
+        </svg>
+        <p className="rounded-[14px] border border-verde/35 bg-card px-4 py-3 text-[13.5px] font-bold leading-snug text-ink shadow-[0_14px_34px_-18px_rgba(20,55,80,.55)]">
+          {texto}
+        </p>
+      </span>
     </div>
   )
 }
 
 const FASES = ['pronto', 'otimizando', 'plano', 'realocando', 'economia']
-const TEMPO = { otimizando: 4200, plano: 3400, realocando: 2200 }
+/* O compasso, refeito.
+   A versão anterior corria em 11 s e obrigava a escolher entre ler o balão e
+   olhar o desenho. Agora cada ato tem tempo de ser lido E visto, e há um
+   respiro antes do seguinte: ~14 s até o placar. Movimento rápido parece
+   competência para quem fez; para quem chega, parece pressa. */
+const TEMPO = { otimizando: 5200, plano: 4600, realocando: 3600 }
 
 export default function Retalho() {
   const { c, idioma } = useIdioma()
@@ -659,9 +670,14 @@ export default function Retalho() {
         <span className="cota ml-auto uppercase">{t.barra.passo(passo, 4)}</span>
       </div>
 
-      <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
+      {/* Uma coluna só, centralizada.
+          Duas colunas obrigavam o olho a escolher entre o desenho e o texto, e
+          no celular viravam uma pilha onde o painel aparecia antes de o
+          visitante ver qualquer coisa se mexer. Centralizado, a leitura é uma
+          só: primeiro o que acontece, depois o que aquilo significa. */}
+      <div className="mx-auto w-full max-w-[880px]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7">
           <Balao key={fase} texto={t.baloes?.[fase]} />
           {(fase === 'pronto' || fase === 'otimizando') && (
             <>
@@ -694,7 +710,7 @@ export default function Retalho() {
           {(fase === 'plano' || fase === 'realocando') && (
             <>
               <p className="cota mb-3 uppercase">{t.desenho.plano(R.chapasSemRetalho)}</p>
-              <div className="grid gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {semRetalho.map((rec, i) => (
                   <div key={rec.id}>
                     <Legenda rec={rec} sufixo={t.desenho.chapaN(i + 1)} />
@@ -710,7 +726,7 @@ export default function Retalho() {
               <p className="cota mb-3 uppercase" style={{ color: '#0e7b9c', opacity: 1 }}>
                 {t.desenho.cavaletePrimeiro(R.pecasEmRetalho)}
               </p>
-              <div className="grid gap-x-4 gap-y-5 sm:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {soRetalhos.map((rec, i) => (
                   <div key={rec.id} className="surge" style={{ animationDelay: `${i * 180}ms` }}>
                     <Legenda rec={rec} sufixo={t.desenho.retalhoN(i + 1)} cor="#0e7b9c" />
@@ -722,7 +738,7 @@ export default function Retalho() {
               <p className="cota mb-3 mt-7 uppercase">
                 {t.desenho.entaoChapaNova(R.chapasNovas, R.chapasSemRetalho)}
               </p>
-              <div className="grid gap-x-4 gap-y-5 sm:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {soChapas.map((rec, i) => (
                   <div
                     key={rec.id}

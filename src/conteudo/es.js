@@ -129,4 +129,22 @@ export default {
       ],
     ],
   },
+
+  // O mesmo pedido atravessando a operação — a peça central do
+  // posicionamento. Ver components/Fluxo.jsx.
+  fluxo: {
+    rotulo: 'El pedido, de punta a punta',
+    titulo: 'Nadie reescribe el mismo pedido dos veces.',
+    texto: 'El pedido se registra una vez y acompaña a toda la empresa. Cada etapa trabaja con la misma información — la que se tomó en la obra.',
+    estadoRotulo: 'Dónde está ahora',
+    pedido: { numero: '26-0918', cliente: 'Marcos Ribeiro', vidro: 'Incoloro 6 mm templado · 4 piezas' },
+    etapas: [
+      { nome: 'Presupuesto', estado: 'Propuesta enviada al cliente', detalhe: 'La medida de la obra se convirtió en precio, PDF y plazo. Nada se escribió de nuevo.' },
+      { nome: 'Aprobación', estado: 'Autorizado por el cliente', detalhe: 'La aprobación congela importe y plazo, y libera el pedido a la fábrica.' },
+      { nome: 'Producción', estado: 'En la mesa de corte', detalhe: 'El plan de corte salió del mismo pedido, con los retales ya considerados.' },
+      { nome: 'Expedición', estado: 'Preparado para la entrega', detalhe: 'Las piezas se comprobaron contra el pedido, no contra un papel suelto.' },
+      { nome: 'Finanzas', estado: 'Margen calculado', detalhe: 'Ingresos, materia prima y producción de este pedido, en el mismo lugar.' },
+    ],
+    nota: 'El número del pedido es el mismo en las cinco etapas. Esa es la diferencia entre un sistema y un montón de herramientas que no se hablan.',
+  },
 }

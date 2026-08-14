@@ -52,8 +52,8 @@ export default function Industria() {
         className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
       >
         <Bloco rotulo={t.demo.rotulo} folha="FL. 02/04" />
-        <h2 className="display mt-7 max-w-[18ch] text-[clamp(30px,4.4vw,54px)]">{t.demo.titulo}</h2>
-        <p className="mt-5 max-w-[62ch] text-[16.5px] leading-[1.55] text-dim">{t.demo.texto}</p>
+        <h2 className="display mx-auto mt-7 max-w-[20ch] text-center text-[clamp(28px,4vw,50px)]">{t.demo.titulo}</h2>
+        <p className="mx-auto mt-5 max-w-[58ch] text-center text-[16.5px] leading-[1.55] text-dim">{t.demo.texto}</p>
 
         <div className="mt-10">
           <Retalho />

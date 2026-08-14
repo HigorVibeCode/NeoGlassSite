@@ -14,11 +14,11 @@ export default {
     rotulo: 'Die Plattform · von innen',
     etiqueta: 'Ein Blick ins System',
     titulo: {
-      antes: 'Vom Angebot bis zur Rechnung,',
-      destaque: 'ohne Systemwechsel.',
+      antes: 'Ein Auftrag. Vom Angebot bis zur Rechnung.',
+      destaque: 'Ohne Systemwechsel.',
     },
     texto:
-      'Das sind keine Module, die über eine Schnittstelle miteinander reden. Das ist ein Auftrag mit einer Nummer, der durch Verkauf, Fertigung und Versand läuft.',
+      'Jeder Schritt arbeitet mit denselben Daten, vom ersten Kontakt bis zur Lieferung.',
     marcas: [
       ['7', 'Module, ein Auftrag'],
       ['4', 'Ausgabeformate für den Tisch'],

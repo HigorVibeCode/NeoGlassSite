@@ -17,11 +17,11 @@ export default {
     rotulo: 'A plataforma · por dentro',
     etiqueta: 'O sistema por dentro',
     titulo: {
-      antes: 'Do orçamento à nota,',
-      destaque: 'sem trocar de sistema.',
+      antes: 'Um pedido. Do orçamento à nota.',
+      destaque: 'Sem trocar de sistema.',
     },
     texto:
-      'Não são módulos que conversam por integração. É um pedido só, com o mesmo número, atravessando o comercial, a produção e a expedição.',
+      'Cada etapa trabalha com a mesma informação, do primeiro contato à entrega.',
     // O primeiro número acompanha o tamanho da lista de módulos: eram oito
     // antes de a checagem do pedido sair, são sete agora.
     marcas: [

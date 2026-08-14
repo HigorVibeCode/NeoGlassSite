@@ -11,28 +11,28 @@
  * justamente o padrão que faz gente ir embora.
  */
 export default {
-  etiqueta: 'Software para o vidro plano',
+  etiqueta: 'Software para quem trabalha com vidro',
   titulo: { antes: 'Vidro que você não compra', destaque: 'é lucro.' },
   texto:
-    'Orçamento, plano de corte, controle de retalho e produção no mesmo sistema. Escolha por onde você entra:',
+    'Software para vidraçarias e fábricas de vidro. Orçamento, produção, corte, retalhos e pedidos conectados em um só sistema.',
   portas: [
     {
       id: 'vidracaria',
       rotulo: 'Tenho uma vidraçaria',
-      texto: 'Eu meço o vão, mando o orçamento, compro a chapa e instalo.',
+      texto: 'Eu meço o vão, faço o orçamento, compro o vidro e instalo.',
       marcas: ['Orçamento em PDF na obra', 'Preço fixo por mês', '14 dias grátis'],
-      acao: 'Ver o que muda para mim',
+      acao: 'Ver como funciona para minha vidraçaria',
     },
     {
       id: 'industria',
       rotulo: 'Tenho uma fábrica de vidro',
-      texto: 'Eu corto chapa, beneficio e entrego para outras empresas.',
+      texto: 'Eu corto, beneficio, tempero e entrego para outras empresas.',
       marcas: ['Otimização com retalho', 'Rastreio de peça', 'Apresentação com o seu pedido'],
-      acao: 'Ver o que muda para mim',
+      acao: 'Ver como funciona para minha fábrica',
     },
   ],
   painel: 'O sistema por dentro',
-  duvida: 'Não sei em qual eu me encaixo',
+  duvida: 'Ainda tenho dúvidas',
   // A tarja que aparece quando o site lembra o lado escolhido.
   lembrete: {
     vidracaria: 'Você está vendo a versão para vidraçaria.',

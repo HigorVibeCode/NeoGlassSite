@@ -459,13 +459,15 @@ function Documento({ compacto = false }) {
    quantas folhas, e o vidro se montando. Antes a demonstração pulava direto do
    vão para o vidro pronto — sumia justamente a parte em que o sistema pergunta
    as duas coisas que definem o preço. */
+/* O mesmo compasso da outra demonstração: cada ato com tempo de ser lido e
+   visto, e um respiro antes do próximo. ~14 s do vão vazio ao PDF. */
 const TEMPO = {
-  medindo: 1900,
-  tipo: 1900,
-  folhas: 1700,
-  montando: 1700,
-  orcamento: 1700,
-  gerando: 1200,
+  medindo: 2600,
+  tipo: 2600,
+  folhas: 2400,
+  montando: 2400,
+  orcamento: 2400,
+  gerando: 1600,
 }
 
 /* O que o sistema escolhe sozinho na animação: janela, duas folhas.
@@ -529,13 +531,19 @@ function Ficha({ t, fase }) {
 function Balao({ texto }) {
   if (!texto) return null
   return (
-    <div className="balao pointer-events-none absolute right-3 top-3 z-10 max-w-[15rem] sm:right-5 sm:top-5">
-      <p className="rounded-[14px] border border-verde/35 bg-card px-3.5 py-2.5 text-[13px] font-bold leading-snug text-ink shadow-[0_14px_30px_-16px_rgba(20,55,80,.5)]">
-        {texto}
-      </p>
-      <svg viewBox="0 0 26 16" className="ml-6 -mt-px h-3 w-5" aria-hidden="true">
-        <path d="M0 0 H26 L7 16 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
-      </svg>
+    <div className="balao pointer-events-none absolute inset-x-3 bottom-3 z-10 flex justify-center sm:inset-x-6 sm:bottom-5">
+      <span className="w-full max-w-[34rem]">
+        {/* o rabicho aponta para CIMA, para o desenho.
+            Antes o balão flutuava no canto superior e tapava justamente a peça
+            que ele estava explicando — aconteceu no cavalete e no vão. Embaixo,
+            o palco fica inteiro livre e a frase continua colada à cena. */}
+        <svg viewBox="0 0 26 16" className="ml-8 -mb-px h-3 w-5" aria-hidden="true">
+          <path d="M7 0 L26 16 H0 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
+        </svg>
+        <p className="rounded-[14px] border border-verde/35 bg-card px-4 py-3 text-[13.5px] font-bold leading-snug text-ink shadow-[0_14px_34px_-18px_rgba(20,55,80,.55)]">
+          {texto}
+        </p>
+      </span>
     </div>
   )
 }
@@ -660,9 +668,14 @@ export default function Orcamento() {
         <span className="cota ml-auto uppercase">{t.barra.passo(passo, passos)}</span>
       </div>
 
-      <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)]">
+      {/* Uma coluna só, centralizada.
+          Duas colunas obrigavam o olho a escolher entre o desenho e o texto, e
+          no celular viravam uma pilha onde o painel aparecia antes de o
+          visitante ver qualquer coisa se mexer. Centralizado, a leitura é uma
+          só: primeiro o que acontece, depois o que aquilo significa. */}
+      <div className="mx-auto w-full max-w-[880px]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7">
           <Balao key={fase} texto={t.baloes?.[fase]} />
           {fase === 'tipo' && (
             <Escolha

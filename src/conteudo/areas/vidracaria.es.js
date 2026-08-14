@@ -18,15 +18,23 @@
  */
 export default {
   // ── A abertura ────────────────────────────────────────────────────────
+  /* A frase que o Higor elegeu. Ela saiu do título quando a abertura
+     passou a carregar o posicionamento, e ganhou bloco próprio aqui —
+     é o primeiro argumento da página, logo antes da demonstração. */
+  memoria: {
+    titulo: 'Todo presupuesto que enviaste queda guardado.',
+    texto: 'Lo abres y ves qué se acordó, cuándo y por cuánto.',
+  },
+
   hero: {
     rotulo: 'NeoGlass · para la cristalería',
     verOrcamento: 'Ver el presupuesto nacer',
     etiqueta: 'La app por dentro',
     titulo: {
-      antes: 'Todo presupuesto que enviaste',
-      destaque: 'queda guardado.',
+      antes: 'Tú mides.',
+      destaque: 'NeoGlass organiza el resto.',
     },
-    texto: 'Lo abres y ves qué se acordó, cuándo y por cuánto.',
+    texto: 'De la medida en la obra al presupuesto, del pedido a la entrega — sin perder información por el camino.',
     /* As três anteriores mediam a INSTALAÇÃO, que é problema de quem já
        comprou — não de quem está decidindo. Estas medem o dia dele: quanto
        leva um orçamento, quantas vezes ele reescreve a mesma medida e onde o

@@ -125,4 +125,22 @@ export default {
       ],
     ],
   },
+
+  // O mesmo pedido atravessando a operação — a peça central do
+  // posicionamento. Ver components/Fluxo.jsx.
+  fluxo: {
+    rotulo: 'The order, end to end',
+    titulo: 'Nobody retypes the same order twice.',
+    texto: 'The order is entered once and follows the whole company. Every step works from the same information — the one typed on site.',
+    estadoRotulo: 'Where it is now',
+    pedido: { numero: '26-0918', cliente: 'Marcos Ribeiro', vidro: 'Clear 6 mm toughened · 4 parts' },
+    etapas: [
+      { nome: 'Quote', estado: 'Proposal sent to the customer', detalhe: 'The site measurement became price, PDF and lead time. Nothing was typed again.' },
+      { nome: 'Approval', estado: 'Approved by the customer', detalhe: 'Approval locks price and date, and releases the order to the factory.' },
+      { nome: 'Production', estado: 'On the cutting table', detalhe: 'The cut plan came from the same order, offcuts already taken into account.' },
+      { nome: 'Dispatch', estado: 'Picked for delivery', detalhe: 'Parts were checked against the order, not against a loose sheet of paper.' },
+      { nome: 'Finance', estado: 'Margin calculated', detalhe: 'Revenue, raw material and production for this order, in one place.' },
+    ],
+    nota: 'The order number is the same across all five steps. That is the difference between a system and a pile of tools that do not talk to each other.',
+  },
 }

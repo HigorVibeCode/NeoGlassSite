@@ -117,4 +117,22 @@ export default {
       ],
     ],
   },
+
+  // O mesmo pedido atravessando a operação — a peça central do
+  // posicionamento. Ver components/Fluxo.jsx.
+  fluxo: {
+    rotulo: 'O pedido, de ponta a ponta',
+    titulo: 'Ninguém redigita o mesmo pedido duas vezes.',
+    texto: 'O pedido entra uma vez e acompanha a empresa inteira. Cada etapa trabalha com a mesma informação — a que o vidraceiro digitou na obra.',
+    estadoRotulo: 'Onde ele está agora',
+    pedido: { numero: '26-0918', cliente: 'Marcos Ribeiro', vidro: 'Incolor 6 mm temperado · 4 peças' },
+    etapas: [
+      { nome: 'Orçamento', estado: 'Proposta enviada ao cliente', detalhe: 'A medida da obra virou preço, PDF e prazo. Nada foi digitado de novo.' },
+      { nome: 'Aprovação', estado: 'Autorizado pelo cliente', detalhe: 'A aprovação congela valor e prazo, e libera o pedido para a fábrica.' },
+      { nome: 'Produção', estado: 'Na mesa de corte', detalhe: 'O plano de corte saiu do mesmo pedido, já com os retalhos considerados.' },
+      { nome: 'Expedição', estado: 'Separado para entrega', detalhe: 'As peças foram conferidas contra o pedido, não contra um papel avulso.' },
+      { nome: 'Financeiro', estado: 'Margem apurada', detalhe: 'Receita, matéria-prima e produção deste pedido, no mesmo lugar.' },
+    ],
+    nota: 'O número do pedido é o mesmo nas cinco etapas. É essa a diferença entre um sistema e um monte de ferramentas que não se falam.',
+  },
 }

@@ -39,9 +39,31 @@ export const ROTAS = [
     id: 'plataforma',
     slug: { pt: '/plataforma', en: '/platform', es: '/plataforma', de: '/plattform' },
   },
+  {
+    id: 'comecar',
+    slug: { pt: '/comecar', en: '/start', es: '/empezar', de: '/starten' },
+    // Fora do menu de propósito. O topo lista os PÚBLICOS do site — indústria,
+    // vidraçaria, plataforma. Cadastro não é público, é destino: chega-se nele
+    // por um botão, depois de a página ter convencido. Um quarto item no menu
+    // rouba clique dos três que fazem a venda.
+    menu: false,
+  },
 ]
 
+/** As rotas que aparecem no menu do topo e no rodapé. */
+export const ROTAS_MENU = ROTAS.filter((r) => r.menu !== false)
+
 export const rotaDe = (id) => ROTAS.find((r) => r.id === id)
+
+/**
+ * O botão de começar, já com o endereço do idioma resolvido.
+ *
+ * `acaoComecar` mora em config.js e não pode importar este arquivo — este aqui
+ * já importa aquele, e o círculo quebraria o build. Então config decide O QUÊ
+ * (rota interna, endereço externo ou WhatsApp) e esta função traduz para ONDE.
+ */
+export const destinoComecar = (acao, idioma) =>
+  acao?.rota ? { ...acao, href: caminhoDe(acao.rota, idioma) } : acao
 
 /** O caminho completo de uma rota num idioma: ('vidracaria','de') → '/de/glasereien' */
 export const caminhoDe = (id, idioma) => comIdioma(rotaDe(id)?.slug[idioma] ?? '/', idioma)

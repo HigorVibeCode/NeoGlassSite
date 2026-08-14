@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Simbolo } from '../components/Marca.jsx'
 import { CONFIG, acaoComecar, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria, valorMensal } from '../config.js'
+import { destinoComecar } from '../lib/paginasSeo.js'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
@@ -394,7 +395,7 @@ export default function Orcamento() {
   const t = c.demos.orcamento
   const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
-  const comecar = acaoComecar(idioma, c)
+  const comecar = destinoComecar(acaoComecar(idioma, c), idioma)
   const mesesPagos = preco ? Math.floor(TOTAL / valorMensal(idioma)) : 0
   const verPreco = () => {
     evento('ferramenta', { qual: 'orcamento', passo: 'ver-preco' })

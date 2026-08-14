@@ -39,6 +39,14 @@ export default {
       ogDescricao:
         'Vom Angebot bis zur Rechnung ohne Systemwechsel: die Module, die heute laufen, und das, was als Nächstes kommt.',
     },
+    comecar: {
+      nome: 'Starten',
+      titulo: 'NeoGlass-Konto erstellen · 14 Tage kostenlos, ohne Karte',
+      descricao:
+        'Konto erstellen und NeoGlass 14 Tage ohne Kreditkarte nutzen. Angebot, Schnittplan, Reststücke und Produktion für Glasereien.',
+      ogTitulo: 'Fangen Sie mit dem nächsten Angebot an',
+      ogDescricao: '14 Tage kostenlos, ohne Karte. Die Einladung kommt in wenigen Augenblicken.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

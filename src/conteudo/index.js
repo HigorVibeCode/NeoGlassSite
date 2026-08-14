@@ -23,6 +23,11 @@ import filmeEn from './areas/filme.en.js'
 import filmeEs from './areas/filme.es.js'
 import filmeDe from './areas/filme.de.js'
 
+import comecarPt from './areas/comecar.pt.js'
+import comecarEn from './areas/comecar.en.js'
+import comecarEs from './areas/comecar.es.js'
+import comecarDe from './areas/comecar.de.js'
+
 import demosPt from './areas/demos.pt.js'
 import demosEn from './areas/demos.en.js'
 import demosEs from './areas/demos.es.js'
@@ -45,20 +50,21 @@ import demosDe from './areas/demos.de.js'
  * `textosDe` nunca devolve vazio — idioma desconhecido cai em português, para
  * uma chave errada na URL não derrubar a página inteira.
  */
-const montar = (base, industria, vidracaria, plataforma, filme, demos) => ({
+const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar) => ({
   ...base,
   industria,
   vidracaria,
   plataforma,
   filme,
   demos,
+  comecar,
 })
 
 const TEXTOS = {
-  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, filmePt, demosPt),
-  en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn),
-  es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs),
-  de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe),
+  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, filmePt, demosPt, comecarPt),
+  en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn, comecarEn),
+  es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs, comecarEs),
+  de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe, comecarDe),
 }
 
 export const textosDe = (idioma) => TEXTOS[idioma] ?? TEXTOS.pt

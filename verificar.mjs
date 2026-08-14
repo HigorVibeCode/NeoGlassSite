@@ -19,6 +19,10 @@ const PAGINAS = [
   ['de', '/de.html'],
   ['de', '/de/glasereien.html'],
   ['de', '/de/plattform.html'],
+  ['pt', '/comecar.html'],
+  ['en', '/en/start.html'],
+  ['es', '/es/empezar.html'],
+  ['de', '/de/starten.html'],
 ]
 
 /* Como se detecta texto que escapou da extração: pelos sinais gráficos que só
@@ -74,5 +78,5 @@ for (const r of relatorio) {
   )
   if (r.idioma !== 'pt') for (const s of r.suspeitas) console.log(`      ↳ ${s.slice(0, 110)}`)
 }
-console.log(ruim ? `\n${ruim} de ${relatorio.length} páginas com problema` : '\nas 12 páginas passaram')
+console.log(ruim ? `\n${ruim} de ${relatorio.length} páginas com problema` : `\nas ${PAGINAS.length} páginas passaram`)
 await b.close()

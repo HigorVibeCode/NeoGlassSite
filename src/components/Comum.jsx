@@ -6,7 +6,7 @@ import Idiomas from './Idiomas.jsx'
 import { CONFIG, acaoComecar, ehExterno, linkAgendar, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
-import { ROTAS, caminhoDe } from '../lib/paginasSeo.js'
+import { ROTAS_MENU, caminhoDe, destinoComecar } from '../lib/paginasSeo.js'
 
 /** As seções sobem de leve quando entram na tela. */
 export function Revelar({ children, atraso = 0, className = '', as: Tag = 'div', ...resto }) {
@@ -69,7 +69,8 @@ export function Topo({ rota }) {
   // botão do topo não pode continuar pedindo reunião. Nas outras abas a venda
   // é consultiva e o botão continua sendo o de sempre.
   const preco = precoVidracaria(idioma)
-  const comecar = id === 'vidracaria' && preco ? acaoComecar(idioma, c) : null
+  const comecar =
+    id === 'vidracaria' && preco ? destinoComecar(acaoComecar(idioma, c), idioma) : null
   const alvo = comecar ? comecar.href : linkAgendar(c.whatsapp.demonstracao)
   const rotuloCurto = comecar ? comecar.curto : c.chrome.verDemoCurto
   const rotuloLongo = comecar ? comecar.rotulo : c.chrome.verDemo
@@ -103,7 +104,7 @@ export function Topo({ rota }) {
         </a>
 
         <nav aria-label={c.chrome.publicos} className="hidden items-center gap-1 lg:flex">
-          {ROTAS.map((r) => (
+          {ROTAS_MENU.map((r) => (
             <a
               key={r.id}
               href={caminhoDe(r.id, idioma)}
@@ -137,16 +138,22 @@ export function Topo({ rota }) {
           >
             {c.chrome.entrar}
           </a>
-          <a
-            href={alvo}
-            target={ehExterno(alvo) ? '_blank' : undefined}
-            rel={ehExterno(alvo) ? 'noreferrer' : undefined}
-            onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
-            className="botao-marca whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
-          >
-            <span className="lg:hidden">{rotuloCurto}</span>
-            <span className="hidden lg:inline">{rotuloLongo}</span>
-          </a>
+          {/* Na página de cadastro o botão do topo sai de cena. Ele levaria para
+              o Calendly — ou seja, tiraria da tela do formulário alguém que já
+              está com o dedo no formulário. Duas saídas competindo no mesmo
+              momento é como se perde a que interessa. */}
+          {id !== 'comecar' && (
+            <a
+              href={alvo}
+              target={ehExterno(alvo) ? '_blank' : undefined}
+              rel={ehExterno(alvo) ? 'noreferrer' : undefined}
+              onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
+              className="botao-marca whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
+            >
+              <span className="lg:hidden">{rotuloCurto}</span>
+              <span className="hidden lg:inline">{rotuloLongo}</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -157,7 +164,7 @@ export function Topo({ rota }) {
           preso ? 'border-line' : 'border-line/60'
         }`}
       >
-        {ROTAS.map((r) => (
+        {ROTAS_MENU.map((r) => (
           <a
             key={r.id}
             href={caminhoDe(r.id, idioma)}
@@ -293,7 +300,7 @@ export function Rodape({ rota }) {
         <div className="flex flex-wrap gap-x-10 gap-y-4">
           <nav className="flex flex-col gap-2">
             <p className="cota uppercase">{c.chrome.paraQuem}</p>
-            {ROTAS.map((r) => (
+            {ROTAS_MENU.map((r) => (
               <a
                 key={r.id}
                 href={caminhoDe(r.id, idioma)}

@@ -38,6 +38,14 @@ export default {
       ogDescricao:
         'Do orçamento à nota, sem trocar de sistema: os módulos que já rodam e o que vem a seguir.',
     },
+    comecar: {
+      nome: 'Começar',
+      titulo: 'Criar conta no NeoGlass · 14 dias grátis, sem cartão',
+      descricao:
+        'Crie sua conta e use o NeoGlass por 14 dias sem cartão de crédito. Orçamento, plano de corte, retalho e produção para vidraçaria.',
+      ogTitulo: 'Comece pelo próximo orçamento que entrar',
+      ogDescricao: '14 dias grátis, sem cartão. O convite chega no seu e-mail em instantes.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

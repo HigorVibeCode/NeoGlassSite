@@ -64,10 +64,21 @@ export const CONFIG = {
     // Qual moeda cada idioma vê.
     moedaPorIdioma: { pt: 'BRL', en: 'USD', es: 'EUR', de: 'EUR' },
     diasTeste: 14, // 0 desliga a menção ao teste
-    // Para onde vai o botão de começar (a tela de cadastro do sistema).
-    // Vazio: o botão cai no WhatsApp, para nada ficar quebrado.
+    // Para onde vai o botão de começar, em ordem de prioridade:
+    //   1. `cadastroRota` — uma página DO PRÓPRIO site (hoje `/comecar`, com o
+    //      formulário que chama a função `site-cadastro` no Supabase);
+    //   2. `cadastro` — um endereço externo, se um dia a inscrição mudar de casa;
+    //   3. nada dos dois — o botão cai no WhatsApp, e o rótulo deixa de prometer
+    //      autoatendimento. Nenhum botão do site pode levar a lugar nenhum.
+    cadastroRota: 'comecar',
     cadastro: '',
   },
+
+  // Onde o formulário de cadastro entrega o lead. É um endereço público — a
+  // função roda com `--no-verify-jwt` justamente porque quem se cadastra ainda
+  // não tem usuário nenhum. Nenhuma chave acompanha esta chamada.
+  // Vazio: o formulário não some, ele passa a abrir o WhatsApp.
+  cadastroApi: 'https://tukoposrodehenltgjip.supabase.co/functions/v1/site-cadastro',
 
   // ── Medição ────────────────────────────────────────────────────────────
   // ID do pixel do Meta. Vazio = nenhum script de rastreio é carregado.
@@ -119,12 +130,16 @@ export const ehExterno = (url) => /^https?:\/\/(wa\.me|api\.whatsapp)/.test(url 
  * confiança que a página inteira passou meia hora construindo.
  */
 export const acaoComecar = (idioma = 'pt', c) => {
-  const { diasTeste, cadastro } = CONFIG.vidracaria
+  const { diasTeste, cadastro, cadastroRota } = CONFIG.vidracaria
   const t = c?.chrome
-  if (cadastro) {
+  if (cadastroRota || cadastro) {
     return {
       rotulo: diasTeste > 0 ? t.comecarGratis(diasTeste) : t.comecarAgora,
       curto: t.comecarCurto,
+      // `rota` é resolvida para o endereço daquele idioma por quem desenha o
+      // botão (ver `destinoComecar` em paginasSeo.js) — aqui não dá para
+      // importar o mapa de rotas sem criar import circular.
+      rota: cadastroRota || null,
       href: cadastro,
       externo: false,
       autoatendimento: true,

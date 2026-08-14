@@ -47,6 +47,14 @@ export default {
       ogDescricao:
         'Del presupuesto a la factura sin cambiar de sistema: los módulos que ya están en marcha y lo que viene después.',
     },
+    comecar: {
+      nome: 'Empezar',
+      titulo: 'Crear cuenta en NeoGlass · 14 días gratis, sin tarjeta',
+      descricao:
+        'Crea tu cuenta y usa NeoGlass 14 días sin tarjeta de crédito. Presupuesto, plan de corte, retales y producción para cristalerías.',
+      ogTitulo: 'Empieza por el próximo presupuesto que entre',
+      ogDescricao: '14 días gratis, sin tarjeta. La invitación llega a tu correo en instantes.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

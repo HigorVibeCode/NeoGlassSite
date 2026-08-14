@@ -44,6 +44,14 @@ export default {
       ogDescricao:
         'From quote to invoice without switching systems: the modules already running and what lands next.',
     },
+    comecar: {
+      nome: 'Start',
+      titulo: 'Create your NeoGlass account · 14 days free, no card',
+      descricao:
+        'Create your account and use NeoGlass for 14 days with no credit card. Quoting, cut plans, offcuts and production for glass shops.',
+      ogTitulo: 'Start with the next quote that comes in',
+      ogDescricao: '14 days free, no card. The invitation reaches your inbox in moments.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

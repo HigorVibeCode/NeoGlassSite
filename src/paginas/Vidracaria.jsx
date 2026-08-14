@@ -4,6 +4,7 @@ import Orcamento from '../ferramentas/Orcamento.jsx'
 import Preco from './Preco.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
+import { destinoComecar } from '../lib/paginasSeo.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 
 function Dia({ folha, t }) {
@@ -46,7 +47,7 @@ export default function Vidracaria() {
   const { diasTeste } = CONFIG.vidracaria
   const folhas = preco ? '07' : '06'
 
-  const acao = preco ? acaoComecar(idioma, c) : undefined
+  const acao = preco ? destinoComecar(acaoComecar(idioma, c), idioma) : undefined
 
   /* O preço NÃO aparece mais na abertura.
      Ele ficava numa linha discreta logo abaixo dos botões — ou seja, o

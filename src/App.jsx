@@ -4,6 +4,7 @@ import { Rodape, Topo } from './components/Comum.jsx'
 import Industria from './paginas/Industria.jsx'
 import Vidracaria from './paginas/Vidracaria.jsx'
 import Plataforma from './paginas/Plataforma.jsx'
+import Comecar from './paginas/Comecar.jsx'
 import { useRota } from './lib/rota.js'
 import { marcarAparelho } from './lib/dispositivo.js'
 import { ligarPixel, evento } from './lib/rastreio.js'
@@ -14,6 +15,7 @@ const PAGINAS = {
   industria: Industria,
   vidracaria: Vidracaria,
   plataforma: Plataforma,
+  comecar: Comecar,
 }
 
 export default function App() {

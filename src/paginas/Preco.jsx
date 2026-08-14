@@ -1,5 +1,6 @@
 import { Bloco, Revelar } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria, valorMensal } from '../config.js'
+import { destinoComecar } from '../lib/paginasSeo.js'
 import { ORCAMENTO_EXEMPLO } from '../ferramentas/Orcamento.jsx'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma } from '../i18n/idioma.jsx'
@@ -42,7 +43,7 @@ export default function Preco({ folha = 'FL. 05/07' }) {
   const { diasTeste } = CONFIG.vidracaria
   const precoMensal = valorMensal(idioma)
   const temTeste = diasTeste > 0
-  const comecar = acaoComecar(idioma, c)
+  const comecar = destinoComecar(acaoComecar(idioma, c), idioma)
   // A conta é feita, não escrita: se o preço mudar, a frase muda junto. Só o
   // português usa este par — ver o comentário do topo do arquivo.
   const meses = Math.floor(ORCAMENTO_EXEMPLO / precoMensal)

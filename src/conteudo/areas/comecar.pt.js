@@ -34,6 +34,7 @@ export default {
     },
     enviar: (dias) => `Começar grátis · ${dias} dias`,
     enviando: 'Criando sua conta…',
+    saida: 'Me chamar no WhatsApp',
     aviso: 'Sem cartão de crédito. Sem taxa de implantação. Sem instalação.',
     erros: {
       nome: 'Falta o seu nome.',

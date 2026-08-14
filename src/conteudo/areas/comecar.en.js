@@ -20,6 +20,7 @@ export default {
     },
     enviar: (dias) => `Start free · ${dias} days`,
     enviando: 'Creating your account…',
+    saida: 'Message us on WhatsApp',
     aviso: 'No credit card. No setup fee. Nothing to install.',
     erros: {
       nome: 'Your name is missing.',

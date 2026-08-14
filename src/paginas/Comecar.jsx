@@ -31,6 +31,10 @@ export default function Comecar() {
   const [dados, setDados] = useState({ nome: '', empresa: '', email: '', whatsapp: '', site: '' })
   const [estado, setEstado] = useState('parado') // parado · enviando · pronto
   const [erro, setErro] = useState('')
+  // Quando o erro não é culpa do visitante (rede caiu, função fora do ar), a
+  // mensagem sozinha não basta: some com o lead. Aparece junto um botão de
+  // WhatsApp com tudo já digitado, para ele não ter que escrever de novo.
+  const [saida, setSaida] = useState(false)
 
   const muda = (k) => (e) => setDados((d) => ({ ...d, [k]: e.target.value }))
 
@@ -56,6 +60,7 @@ export default function Comecar() {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return setErro(f.erros.email)
 
     setErro('')
+    setSaida(false)
     setEstado('enviando')
 
     // Sem endereço configurado: o cadastro vira conversa, e ninguém se perde.
@@ -81,6 +86,9 @@ export default function Comecar() {
         const corpo = await r.json().catch(() => ({}))
         setEstado('parado')
         setErro(corpo.error || f.erros.geral)
+        // 429 é o visitante insistindo — ele resolve esperando. Qualquer outro
+        // erro é do nosso lado, e aí ele merece um caminho que funcione agora.
+        setSaida(r.status !== 429)
         return
       }
 
@@ -88,9 +96,13 @@ export default function Comecar() {
       setEstado('pronto')
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {
-      // Rede caiu no meio. O visitante não paga por isso.
+      // "Failed to fetch" cobre tudo o que o navegador não sabe distinguir:
+      // internet caída, CORS, função fora do ar. Do lado de cá o efeito é o
+      // mesmo — o cadastro não foi — e a única coisa inaceitável é o visitante
+      // ir embora sem deixar contato.
       setEstado('parado')
       setErro(f.erros.rede)
+      setSaida(true)
     }
   }
 
@@ -255,9 +267,20 @@ export default function Comecar() {
           </button>
 
           {erro && (
-            <p className="mt-3 text-[13px] font-semibold text-ember" role="alert">
-              {erro}
-            </p>
+            <div role="alert" className="mt-3">
+              <p className="text-[13px] font-semibold text-ember">{erro}</p>
+              {saida && (
+                <a
+                  href={linkWhatsapp(mensagemWhatsapp())}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => evento('whatsapp', { origem: 'cadastro-falhou' })}
+                  className="mt-3 inline-block rounded-[13px] border border-line px-5 py-2.5 text-[14px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+                >
+                  {f.saida}
+                </a>
+              )}
+            </div>
           )}
 
           <p className="mt-4 text-[12.5px] leading-[1.5] text-dim">{f.aviso}</p>

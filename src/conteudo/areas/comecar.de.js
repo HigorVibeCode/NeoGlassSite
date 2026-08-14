@@ -20,6 +20,7 @@ export default {
     },
     enviar: (dias) => `Kostenlos starten · ${dias} Tage`,
     enviando: 'Ihr Konto wird erstellt…',
+    saida: 'Über WhatsApp schreiben',
     aviso: 'Keine Kreditkarte. Keine Einrichtungsgebühr. Nichts zu installieren.',
     erros: {
       nome: 'Ihr Name fehlt.',

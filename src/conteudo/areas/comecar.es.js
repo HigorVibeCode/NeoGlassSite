@@ -20,6 +20,7 @@ export default {
     },
     enviar: (dias) => `Empezar gratis · ${dias} días`,
     enviando: 'Creando tu cuenta…',
+    saida: 'Escribir por WhatsApp',
     aviso: 'Sin tarjeta de crédito. Sin cuota de implantación. Sin instalación.',
     erros: {
       nome: 'Falta tu nombre.',

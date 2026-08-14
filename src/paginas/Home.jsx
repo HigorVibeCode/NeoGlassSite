@@ -31,39 +31,107 @@ const LADOS = {
   industria: { cor: '#0e7b9c', claro: 'rgba(14,123,156,.09)' },
 }
 
-/** O vão com a trena: quem mede na obra. */
+/**
+ * Vidraçaria: a trena medindo a chapa.
+ *
+ * O desenho anterior era um vão de janela com uma cota embaixo — e vão de
+ * janela é vocabulário de construção civil, não de vidro. Martelo, furadeira e
+ * janela ficaram de fora pelo mesmo motivo. O que identifica este ofício é o
+ * gesto de medir o vidro: a chapa com o reflexo, e a trena aberta por baixo
+ * dela, com o gancho na ponta.
+ */
 function IconeVidracaria({ cor }) {
   return (
     <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-      <rect x="9" y="11" width="46" height="38" rx="2" fill="none" stroke={cor} strokeWidth="3.4" />
-      <rect x="15" y="17" width="34" height="26" rx="1" fill={cor} fillOpacity=".12" />
-      <path d="M32 17v26" stroke={cor} strokeWidth="2.6" />
-      <g stroke={cor} strokeWidth="2.6" strokeLinecap="round">
-        <path d="M9 56h46" />
-        <path d="M9 52.5v7M55 52.5v7" />
+      {/* a chapa, com dois reflexos que é o que faz o olho ler "vidro" */}
+      <g transform="rotate(-3 32 24)">
+        <rect
+          x="15"
+          y="7"
+          width="34"
+          height="31"
+          rx="1.5"
+          fill={cor}
+          fillOpacity=".10"
+          stroke={cor}
+          strokeWidth="3"
+        />
+        <path d="M21 34 L33 11" stroke={cor} strokeWidth="2.2" opacity=".5" strokeLinecap="round" />
+        <path d="M29 35 L41 12" stroke={cor} strokeWidth="2.2" opacity=".3" strokeLinecap="round" />
       </g>
+
+      {/* a trena: corpo, fita esticada, marcações e o gancho na ponta */}
+      <rect
+        x="5"
+        y="45"
+        width="13"
+        height="13"
+        rx="3.5"
+        fill={cor}
+        fillOpacity=".18"
+        stroke={cor}
+        strokeWidth="2.8"
+      />
+      <path d="M18 51.5 H55" stroke={cor} strokeWidth="3.4" strokeLinecap="round" />
+      <g stroke={cor} strokeWidth="2.2" strokeLinecap="round" opacity=".75">
+        <path d="M26 51.5v-5M34 51.5v-3.5M42 51.5v-5M49 51.5v-3.5" />
+      </g>
+      <path d="M56.5 46v11" stroke={cor} strokeWidth="3.2" strokeLinecap="round" />
     </svg>
   )
 }
 
-/** A chapa sobre a mesa de corte: quem beneficia e entrega. */
+/**
+ * Indústria: a chapa entrando na linha de produção.
+ *
+ * Duas chapas empilhadas à esquerda, a seta do processo, e a engrenagem à
+ * direita. É a leitura mais direta de "fábrica de vidro" — matéria-prima
+ * entrando em beneficiamento — e não depende de reconhecer uma mesa de corte
+ * ou um forno, que variam de fábrica para fábrica.
+ */
 function IconeIndustria({ cor }) {
+  const dentes = [0, 45, 90, 135, 180, 225, 270, 315]
   return (
     <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-      {/* a chapa, com o pedido já encaixado e a sobra em claro */}
-      <rect x="7" y="17" width="50" height="30" rx="1.5" fill="none" stroke={cor} strokeWidth="3.2" />
-      <rect x="12" y="22" width="15" height="20" fill={cor} fillOpacity=".18" />
-      <rect x="30" y="22" width="12" height="9" fill={cor} fillOpacity=".18" />
-      <rect x="30" y="34" width="12" height="8" fill={cor} fillOpacity=".18" />
-      <rect x="45" y="22" width="7" height="20" fill={cor} fillOpacity=".06" />
-      {/* o cabeçote de corte, descendo sobre a chapa */}
-      <path d="M32 5v7" stroke={cor} strokeWidth="3" strokeLinecap="round" />
-      <path d="M28 12h8l-4 5z" fill={cor} />
-      {/* a mesa */}
-      <g stroke={cor} strokeWidth="2.6" strokeLinecap="round">
-        <path d="M4 52h56" />
-        <path d="M16 52v6M48 52v6" />
+      {/* as chapas empilhadas, uma atrás da outra */}
+      <rect
+        x="3"
+        y="19"
+        width="22"
+        height="30"
+        rx="1.5"
+        fill={cor}
+        fillOpacity=".07"
+        stroke={cor}
+        strokeWidth="2.4"
+      />
+      <rect
+        x="9"
+        y="14"
+        width="22"
+        height="30"
+        rx="1.5"
+        fill={cor}
+        fillOpacity=".16"
+        stroke={cor}
+        strokeWidth="3"
+      />
+      <path d="M14 40 L24 19" stroke={cor} strokeWidth="2" opacity=".45" strokeLinecap="round" />
+
+      {/* a passagem para a produção */}
+      <g stroke={cor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M33 29 H39" />
+        <path d="M36 26 L39.5 29 L36 32" />
       </g>
+
+      {/* a engrenagem */}
+      <g stroke={cor} strokeWidth="2.8" strokeLinecap="round" fill="none">
+        {dentes.map((g) => (
+          <path key={g} d="M53 19 V14.5" transform={`rotate(${g} 53 29)`} />
+        ))}
+      </g>
+      <circle cx="53" cy="29" r="8.5" fill={cor} fillOpacity=".14" stroke={cor} strokeWidth="3" />
+      <circle cx="53" cy="29" r="2.8" fill={cor} />
     </svg>
   )
 }
@@ -118,11 +186,18 @@ export default function Home({ rota }) {
               key={porta.id}
               href={caminhoDe(porta.id, idioma)}
               onClick={escolher(porta.id)}
-              className="group relative flex flex-col overflow-hidden rounded-[22px] border-2 bg-card px-6 py-7 text-center transition-all duration-200 hover:-translate-y-1.5 sm:px-8 sm:py-9"
+              className="group relative flex flex-col overflow-hidden rounded-[22px] border-2 bg-card px-6 pb-7 pt-9 text-center transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-30px_rgba(20,55,80,.45)] sm:px-8 sm:pb-9 sm:pt-11"
               style={{ borderColor: 'var(--line, #e4e9ee)' }}
               onMouseEnter={(e) => (e.currentTarget.style.borderColor = lado.cor)}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
             >
+              {/* a tarja de cor no topo: é ela que dá identidade ao cartão
+                  antes de o visitante ler qualquer palavra */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-[5px]"
+                style={{ background: lado.cor }}
+              />
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
@@ -130,7 +205,7 @@ export default function Home({ rota }) {
               />
 
               <span
-                className="relative mx-auto flex h-[68px] w-[68px] items-center justify-center rounded-[18px] p-3.5 transition-transform duration-200 group-hover:scale-105"
+                className="relative mx-auto flex h-[82px] w-[82px] items-center justify-center rounded-[22px] p-3.5 transition-transform duration-200 group-hover:scale-105"
                 style={{ background: lado.claro }}
               >
                 <Icone cor={lado.cor} />

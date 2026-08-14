@@ -29,6 +29,22 @@ export const CONFIG = {
     tabela: 'leads_site',
   },
 
+  // ── A indústria ────────────────────────────────────────────────────────
+  // O preço de referência de UMA chapa, usado só para traduzir em dinheiro a
+  // chapa que a otimização evitou de abrir. Não é o preço do software.
+  //
+  // O número aparece na tela com a origem declarada ("chapa de referência a
+  // R$ 80") porque número grande sem procedência é o que mais rápido derruba a
+  // confiança de quem é do ramo — e porque o preço da chapa varia por
+  // espessura, cor e região. Trocar aqui muda o placar inteiro.
+  //
+  // Só o real tem valor definido. Nas outras moedas o placar simplesmente não
+  // mostra a linha de dinheiro, em vez de converter um preço brasileiro e
+  // fingir que vale na Alemanha.
+  industria: {
+    chapa: { BRL: 80, EUR: null, USD: null },
+  },
+
   // ── O módulo da vidraçaria ─────────────────────────────────────────────
   // É o único produto com preço no site: preço fixo, vendido por tráfego
   // pago, e esconder preço fixo só gera desconfiança. A indústria continua
@@ -152,6 +168,23 @@ export const acaoComecar = (idioma = 'pt', c) => {
     externo: true,
     autoatendimento: false,
   }
+}
+
+/**
+ * O caminho de contato da VIDRAÇARIA. Ela nunca vê o WhatsApp: o número é
+ * atendimento da indústria, e só entra em cena mais adiante, na conversa
+ * consultiva — nunca como um botão fácil numa página pública.
+ *
+ * Existe por um motivo prático, não decorativo: quando o cadastro falha, a
+ * pessoa precisa de uma saída, ou o lead morre ali. A saída é o e-mail, com
+ * assunto e corpo já escritos.
+ */
+export const linkEmail = (assunto, corpo) => {
+  const q = [
+    assunto ? `subject=${encodeURIComponent(assunto)}` : '',
+    corpo ? `body=${encodeURIComponent(corpo)}` : '',
+  ].filter(Boolean).join('&')
+  return `mailto:${CONFIG.email}${q ? `?${q}` : ''}`
 }
 
 export const linkWhatsapp = (texto) => {

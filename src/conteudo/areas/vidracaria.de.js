@@ -27,15 +27,15 @@ export default {
   // ── A abertura ────────────────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · für die Glaserei',
-    etiqueta: 'Ein Blick in die App, live',
+    verOrcamento: 'Das Angebot entstehen sehen',
+    etiqueta: 'Ein Blick in die App',
     // O gradiente cai na condição ('ohne dass es kompliziert wird'), que é o
     // que este leitor duvida — em alemão a promessa sozinha não convence.
     titulo: {
-      antes: 'Professioneller arbeiten —',
-      destaque: 'ohne dass es kompliziert wird.',
+      antes: 'Jedes Angebot, das Sie verschickt haben,',
+      destaque: 'bleibt gespeichert.',
     },
-    texto:
-      'Sie messen auf der Baustelle, der Kunde sieht den Preis sofort und unterschreibt auf dem Display. Ohne Excel, ohne Kladde, ohne Schulung.',
+    texto: 'Sie öffnen es und sehen, was vereinbart wurde, wann und zu welchem Preis.',
     /* As três antigas mediam a INSTALAÇÃO ("1 Nachmittag", "0 Excel", "1
        App") — problema de quem já comprou. Estas medem o dia dele.
        Comprimento: a legenda tem ~28 caracteres antes de quebrar em três

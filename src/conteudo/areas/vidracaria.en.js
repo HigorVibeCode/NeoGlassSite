@@ -18,13 +18,13 @@ export default {
   // ── A abertura ────────────────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · for the glass shop',
-    etiqueta: 'A live screen from the app',
+    verOrcamento: 'Watch the quote come out',
+    etiqueta: 'Inside the app',
     titulo: {
-      antes: 'Go professional',
-      destaque: 'without complicating a thing.',
+      antes: 'Every quote you sent',
+      destaque: 'stays saved.',
     },
-    texto:
-      'You measure on site, the customer sees the price there and then, and signs on your screen. No spreadsheet, no notebook, no training week.',
+    texto: 'You open it and see what was agreed, when, and for how much.',
     /* As três anteriores mediam a INSTALAÇÃO ("one afternoon", "0
        spreadsheets", "1 app"), que é o problema de quem já comprou — não de
        quem está decidindo. Estas medem o dia dele: quanto tempo leva um

@@ -14,7 +14,8 @@ export default {
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · indústria do vidro plano',
-    etiqueta: 'Uma tela do sistema, ao vivo',
+    verOtimizacao: 'Ver a otimização funcionando',
+    etiqueta: 'O sistema por dentro',
     // Desperdício é o assunto, e é o único grande que o sistema sustenta de
     // ponta a ponta: estoque de retalho, otimização em três níveis e a
     // demonstração logo abaixo, que prova o número na tela. "Lucro
@@ -26,20 +27,14 @@ export default {
     // história fica aqui, junto da copy, para não voltar por engano numa
     // tradução.)
     titulo: {
-      antes: 'Vidro que você não compra',
-      destaque: 'é lucro.',
+      antes: 'Antes de cortar chapa nova, o sistema',
+      destaque: 'procura nas sobras.',
     },
     // Duas frases e ponto. O anterior tinha quatro linhas no desktop e oito
     // no celular — ninguém lê oito linhas antes de decidir se fica. O número
     // saiu daqui porque ele já está três vezes na mesma tela: na régua de
     // marcas, no cartão e na demonstração.
-    texto:
-      /* "margem que entra sem vender nada a mais" dizia a verdade pelo lado
-       fraco — pela ausência de uma venda. Fábrica de vidro não cresce vendendo
-       mais: cresce parando de jogar fora, porque o insumo é caro, o refugo é
-       irrecuperável e o metro quadrado perdido já foi pago. Dito assim, é a
-       lógica que o dono já usa para tomar decisão. */
-      'A otimização procura no seu cavalete antes de abrir chapa nova. Fábrica de vidro não lucra vendendo mais — lucra desperdiçando menos.',
+    texto: 'Só vai para chapa nova o que não coube em sobra nenhuma.',
     // Números e unidades não se traduzem; só a vírgula decimal vira ponto em
     // inglês, que é como o leitor de lá lê 3,42 sem tropeçar.
     // ("6 etapas, da obra à margem" saiu daqui: seis etapas não é bom nem

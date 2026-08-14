@@ -262,7 +262,7 @@ export default function Fundo() {
   const brilho = useParallax(0.05)
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div aria-hidden="true" className="fundo-prisma pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div ref={brilho} className="absolute inset-0 will-change-transform">
         <div
           className="absolute -left-[18%] -top-[24%] h-[900px] w-[900px] rounded-full opacity-[0.13]"

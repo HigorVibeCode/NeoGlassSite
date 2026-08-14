@@ -62,6 +62,10 @@ export function Titulo({ children, className = '' }) {
 
 export function Topo({ rota }) {
   const [preso, setPreso] = useState(false)
+  // O botão do topo é um pedido, e pedido antes de entregar valor afasta. Ele
+  // só entra em cena depois que o visitante passa da primeira tela — quando
+  // já leu a promessa e começou a descer por vontade própria.
+  const [passouCapa, setPassouCapa] = useState(false)
   const { id, idioma, ir, trocarIdioma } = rota
   const c = useTextos()
 
@@ -76,7 +80,10 @@ export function Topo({ rota }) {
   const rotuloLongo = comecar ? comecar.rotulo : c.chrome.verDemo
 
   useEffect(() => {
-    const on = () => setPreso(window.scrollY > 40)
+    const on = () => {
+      setPreso(window.scrollY > 40)
+      setPassouCapa(window.scrollY > window.innerHeight * 0.62)
+    }
     on()
     window.addEventListener('scroll', on, { passive: true })
     return () => window.removeEventListener('scroll', on)
@@ -94,10 +101,10 @@ export function Topo({ rota }) {
         preso ? 'border-b border-line bg-bg/85 backdrop-blur-md' : 'border-b border-transparent'
       }`}
     >
-      <div className="mx-auto flex h-[68px] max-w-[1240px] items-center justify-between gap-2 px-5 sm:gap-6 sm:px-8">
+      <div className="mx-auto flex h-[56px] max-w-[1240px] items-center justify-between gap-2 px-5 sm:h-[68px] sm:gap-6 sm:px-8">
         <a
-          href={caminhoDe('industria', idioma)}
-          onClick={(e) => abrir(e, 'industria')}
+          href={caminhoDe('home', idioma)}
+          onClick={(e) => abrir(e, 'home')}
           aria-label={c.chrome.inicio}
         >
           <Marca />
@@ -138,17 +145,17 @@ export function Topo({ rota }) {
           >
             {c.chrome.entrar}
           </a>
-          {/* Na página de cadastro o botão do topo sai de cena. Ele levaria para
-              o Calendly — ou seja, tiraria da tela do formulário alguém que já
-              está com o dedo no formulário. Duas saídas competindo no mesmo
-              momento é como se perde a que interessa. */}
-          {id !== 'comecar' && (
+          {/* Na porta de entrada e na página de cadastro o botão do topo sai de
+              cena. Nas duas ele competiria com a única coisa que aquela tela
+              precisa que aconteça: escolher um lado, ou preencher o formulário.
+              Duas saídas no mesmo momento é como se perde a que interessa. */}
+          {id !== 'comecar' && id !== 'home' && passouCapa && (
             <a
               href={alvo}
               target={ehExterno(alvo) ? '_blank' : undefined}
               rel={ehExterno(alvo) ? 'noreferrer' : undefined}
               onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
-              className="botao-marca whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
+              className="botao-marca surge whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
             >
               <span className="lg:hidden">{rotuloCurto}</span>
               <span className="hidden lg:inline">{rotuloLongo}</span>
@@ -170,7 +177,7 @@ export function Topo({ rota }) {
             href={caminhoDe(r.id, idioma)}
             onClick={(e) => abrir(e, r.id)}
             aria-current={r.id === id ? 'page' : undefined}
-            className={`cota flex min-h-[46px] items-center justify-center whitespace-nowrap border-b-2 px-1.5 text-center uppercase transition-colors ${
+            className={`cota flex min-h-[38px] items-center justify-center whitespace-nowrap border-b-2 px-1.5 text-center uppercase transition-colors ${
               r.id === id ? 'border-verde text-verde' : 'border-transparent'
             }`}
             style={r.id === id ? { opacity: 1 } : undefined}
@@ -227,7 +234,7 @@ export function Origem({ folha = 'FL. 04/05' }) {
  * não deixar um telefone para alguém retornar depois. O formulário continua
  * existindo para onde ele fizer mais sentido.
  */
-export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false }) {
+export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true }) {
   const c = useTextos()
   return (
     <Revelar
@@ -269,7 +276,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
             <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
           </div>
 
-          {agenda && CONFIG.agendar ? <Agenda /> : <Formulario />}
+          {agenda && CONFIG.agendar ? <Agenda /> : <Formulario zap={zap} />}
         </div>
       </div>
     </Revelar>

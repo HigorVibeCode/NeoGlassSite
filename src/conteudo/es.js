@@ -20,6 +20,14 @@
 export default {
   // ── O que o Google e o WhatsApp leem ──────────────────────────────────
   paginas: {
+    home: {
+      nome: 'Inicio',
+      titulo: 'NeoGlass · Software para cristalerías y para la industria del vidrio',
+      descricao:
+        'Presupuesto, plan de corte, control de retales y producción en un solo sistema. Elige entre la versión para cristalería y la versión para fábrica de vidrio.',
+      ogTitulo: 'El vidrio que no compras es ganancia',
+      ogDescricao: 'Del presupuesto en la obra al plan de corte en la mesa. Elige por dónde entras.',
+    },
     industria: {
       nome: 'Industria',
       titulo: 'NeoGlass · Software para la industria del vidrio plano',

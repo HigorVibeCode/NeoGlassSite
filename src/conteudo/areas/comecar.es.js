@@ -20,14 +20,14 @@ export default {
     },
     enviar: (dias) => `Empezar gratis · ${dias} días`,
     enviando: 'Creando tu cuenta…',
-    saida: 'Escribir por WhatsApp',
+    saida: 'Enviar mis datos por correo',
     aviso: 'Sin tarjeta de crédito. Sin cuota de implantación. Sin instalación.',
     erros: {
       nome: 'Falta tu nombre.',
       empresa: 'Falta el nombre de la cristalería.',
       email: 'Revisa el correo — parece que falta algo.',
       rede: 'La conexión falló a mitad de camino. Inténtalo de nuevo.',
-      geral: 'No hemos podido terminar ahora. Escríbenos por WhatsApp y lo resolvemos al momento.',
+      geral: 'No hemos podido terminar ahora. Envíanos tus datos por correo y creamos la cuenta a mano.',
     },
   },
 
@@ -37,7 +37,7 @@ export default {
     texto: (email) =>
       `La invitación fue a ${email}. Haz clic para crear tu contraseña y entrar — la cuenta ya está en pie, con el sistema entero abierto.`,
     dica: '¿No llegó en dos minutos? Mira en la carpeta de spam. Si no está, escríbenos y te damos acceso a mano.',
-    whatsapp: 'Escribir por WhatsApp',
+    contato: 'Escribirnos',
   },
 
   depois: {

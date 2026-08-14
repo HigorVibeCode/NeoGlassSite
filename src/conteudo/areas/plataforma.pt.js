@@ -15,7 +15,7 @@ export default {
   // montado no componente — aqui fica texto puro, que é o que se traduz.
   hero: {
     rotulo: 'A plataforma · por dentro',
-    etiqueta: 'Uma tela do sistema, ao vivo',
+    etiqueta: 'O sistema por dentro',
     titulo: {
       antes: 'Do orçamento à nota,',
       destaque: 'sem trocar de sistema.',

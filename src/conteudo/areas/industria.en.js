@@ -14,10 +14,11 @@ export default {
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · flat glass processing',
-    etiqueta: 'A live screen from the system',
+    verOtimizacao: 'See the optimisation run',
+    etiqueta: 'Inside the system',
     titulo: {
-      antes: 'Glass you never buy',
-      destaque: 'is profit.',
+      antes: 'Before cutting a new sheet, the system',
+      destaque: 'searches the offcuts.',
     },
     /* A segunda metade dizia a margem pelo lado fraco — pela venda que não
        aconteceu ("without selling a square metre more"). Agora é a inversão do
@@ -25,8 +26,7 @@ export default {
        decide. Em inglês falado de fábrica quem lucra "makes money", não
        "profits"; e os dois gerúndios ficam sem "by" dos dois lados para o
        contraste bater no mesmo ritmo do português. */
-    texto:
-      'The optimizer looks in your rack before it opens a new sheet. A glass plant doesn’t make its money selling more — it makes it wasting less.',
+    texto: 'Only what fits in no offcut goes to a new sheet.',
     // Ponto decimal em vez de vírgula: o número é o mesmo, muda só a
     // convenção de leitura. A unidade (m²) fica, é padrão do setor também
     // em inglês.

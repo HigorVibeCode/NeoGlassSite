@@ -16,10 +16,11 @@ export default {
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · Flachglasindustrie',
-    etiqueta: 'Eine Maske aus dem System, live',
+    verOtimizacao: 'Die Optimierung in Aktion sehen',
+    etiqueta: 'Ein Blick ins System',
     titulo: {
-      antes: 'Glas, das Sie nicht kaufen,',
-      destaque: 'ist Gewinn.',
+      antes: 'Bevor eine neue Tafel geschnitten wird, sucht das System',
+      destaque: 'in den Reststücken.',
     },
     /* A segunda metade dizia a margem pela venda que não aconteceu ("ohne dass
        Sie einen Quadratmeter mehr verkaufen"). Entrou a inversão do pt (vender
@@ -31,8 +32,7 @@ export default {
        primeira frase perdeu peso ("sucht" no lugar de "schaut auf", plural
        "neue Tafeln" no lugar de "eine neue Tafel") — 149 no total. Quem mexer
        aqui, conte os caracteres antes de dar por pronto. */
-    texto:
-      'Die Optimierung sucht erst in Ihrem Gestell, bevor sie neue Tafeln anschneidet. Geld verdient nicht, wer mehr verkauft, sondern wer weniger wegwirft.',
+    texto: 'Auf eine neue Tafel geht nur, was in kein Reststück gepasst hat.',
     // Vírgula decimal como em português — em alemão é a mesma convenção.
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do

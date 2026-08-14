@@ -12,6 +12,14 @@
 export default {
   // ── O que o Google e o WhatsApp leem ──────────────────────────────────
   paginas: {
+    home: {
+      nome: 'Start',
+      titulo: 'NeoGlass · Software für Glasereien und die Glasindustrie',
+      descricao:
+        'Angebot, Schnittplan, Reststückverwaltung und Produktion in einem System. Wählen Sie zwischen der Version für Glasereien und der für Glasfabriken.',
+      ogTitulo: 'Glas, das Sie nicht kaufen, ist Gewinn',
+      ogDescricao: 'Vom Angebot vor Ort bis zum Schnittplan am Tisch. Wählen Sie Ihren Einstieg.',
+    },
     industria: {
       nome: 'Industrie',
       titulo: 'NeoGlass · Software für die Flachglasindustrie',

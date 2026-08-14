@@ -1,4 +1,5 @@
 import Abertura from '../components/Abertura.jsx'
+import Jornada from '../jornada/Jornada.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { Tela } from '../jornada/conteudos.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
@@ -14,6 +15,7 @@ export default function Plataforma() {
   return (
     <>
       <Abertura
+        tela="pedidos"
         rotulo={t.hero.rotulo}
         folha="FL. 01/06"
         origem="abertura-plataforma"
@@ -26,6 +28,11 @@ export default function Plataforma() {
         texto={t.hero.texto}
         marcas={t.hero.marcas}
       />
+
+      {/* O filme de seis telas veio da Indústria. Ele conta um pedido andando
+          de ponta a ponta — que é justamente o que esta página vende, e o que
+          a Indústria já mostrava de outro jeito no otimizador. */}
+      <Jornada />
 
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
         <Bloco rotulo={t.devolve.rotulo} folha="FL. 02/06" />

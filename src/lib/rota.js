@@ -16,9 +16,9 @@ import { ROTAS, caminhoDe, urlDe } from './paginasSeo.js'
 function resolver(caminho) {
   const { idioma, resto } = partirCaminho(caminho)
   const rota = ROTAS.find((r) => r.slug[idioma] === resto)
-  // Endereço que não existe naquele idioma cai na home DAQUELE idioma — não na
-  // home em português. Quem digitou /de/coisa-errada é alemão.
-  return { idioma, id: rota?.id ?? 'industria' }
+  // Endereço que não existe naquele idioma cai na porta de entrada DAQUELE
+  // idioma — não na portuguesa. Quem digitou /de/coisa-errada é alemão.
+  return { idioma, id: rota?.id ?? 'home' }
 }
 
 /** Troca o conteúdo de uma meta que já existe no HTML servido. */
@@ -42,7 +42,7 @@ export function useRota(obterTextos) {
   }, [])
 
   const irPara = useCallback(
-    (id, idioma) => {
+    (id, idioma, opcoes) => {
       const alvo = caminhoDe(id, idioma)
       if (id === estado.id && idioma === estado.idioma) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -55,14 +55,20 @@ export function useRota(obterTextos) {
       } catch {
         /* file:// — segue só com o estado */
       }
-      setEstado({ id, idioma })
+      // `lembrado` conta à página que ela foi aberta pela memória do visitante,
+      // e não por um clique dele. É o que autoriza a tarja "você está vendo a
+      // versão para vidraçaria — trocar" a aparecer.
+      setEstado({ id, idioma, lembrado: Boolean(opcoes?.lembrado) })
       window.scrollTo({ top: 0 })
     },
     [estado],
   )
 
   /** Ir para outra página, mantendo o idioma. */
-  const ir = useCallback((id) => irPara(id, estado.idioma), [irPara, estado.idioma])
+  const ir = useCallback(
+    (id, opcoes) => irPara(id, estado.idioma, opcoes),
+    [irPara, estado.idioma],
+  )
 
   /** Trocar de idioma, ficando na mesma página. É o que o seletor do topo faz. */
   const trocarIdioma = useCallback((idioma) => irPara(estado.id, idioma), [irPara, estado.id])

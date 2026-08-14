@@ -11,6 +11,13 @@
 export default {
   // ── A demonstração da indústria: chapa, cavalete e a chapa não aberta ──
   retalho: {
+    baloes: {
+      pronto: 'Este es tu caballete. Seis retales, cada uno con código y ubicación.',
+      otimizando: 'El sistema busca aquí primero — dos sirven para este pedido.',
+      plano: 'Sin el caballete, el pedido abriría estas planchas nuevas. Sigue la pieza naranja.',
+      realocando: 'La pieza naranja sale de la plancha nueva y entra en el retal.',
+      economia: 'La pieza naranja cupo en el retal. Esta plancha no se compró.',
+    },
     barra: {
       titulo: 'Optimización de corte',
       pedido: 'Pedido 26-0431 · 8 mm incoloro',
@@ -111,6 +118,11 @@ export default {
       selo: 'Lo que usted no va a gastar',
       titulo: '1 plancha entera',
       subtitulo: 'que no se va a utilizar',
+      dinheiro: {
+        selo: 'La plancha que no compraste',
+        texto: (n) => (n === 1 ? 'Una plancha menos en este pedido.' : `${n} planchas menos en este pedido.`),
+        origem: (p) => `Considerando una plancha de referencia a ${p}. El valor real cambia con el espesor, el color y la región — el número es tuyo para ajustarlo.`,
+      },
       placar: {
         m2: (m2) => `${m2} m²`,
         m2Texto: 'de materia prima que vuelve a valer',
@@ -151,6 +163,29 @@ export default {
 
   // ── A demonstração da vidraçaria: do vão medido ao PDF na mão ──────────
   orcamento: {
+    ficha: {
+      rotulo: 'Ficha del servicio',
+      titulo: 'Se rellena sola',
+      vao: 'Hueco',
+      peca: 'Pieza',
+      folhas: 'Hojas',
+      esperando: 'por definir',
+      nota: 'Cada respuesta se convierte en dato al momento. Nadie lo reescribe después — ni en la oficina, ni en la fábrica.',
+    },
+    escolhas: {
+      tipo: { rotulo: '¿Qué va en este hueco?', opcoes: ['Puerta', 'Ventana', 'Mampara'] },
+      folhas: { rotulo: '¿De cuántas hojas?', opcoes: ['2 hojas', '3 hojas', '4 hojas'] },
+    },
+    baloes: {
+      vao: 'Un hueco de obra, todavía vacío. Aquí empieza cada trabajo.',
+      medindo: 'La medida se escribe una sola vez. Es la del hueco, no la del vidrio.',
+      tipo: 'El sistema pregunta qué va ahí. Un toque, sin teclear.',
+      folhas: 'Y de cuántas hojas. El precio cambia aquí, y él ya lo sabe.',
+      montando: 'El vidrio se monta en el hueco, con holguras ya calculadas.',
+      orcamento: 'Pieza a pieza, con herrajes y mano de obra. Nada se reescribió.',
+      gerando: 'Sale el PDF con tu logo, listo para que el cliente firme.',
+      pdf: 'Esto llega al cliente antes de que salgas de la obra.',
+    },
     barra: {
       titulo: 'NeoGlass en el celular · en la obra',
       cliente: (nome) => `Cliente ${nome}`,
@@ -166,6 +201,7 @@ export default {
       aria: 'El hueco medido en la obra',
       janela: '2 hojas corredizas · 6 mm',
       medindo: 'anotando las diagonales…',
+      vaoVazio: 'El hueco, todavía vacío',
       vaoMedido: 'Hueco medido en la obra',
       montando: 'Armando la ventana en el hueco',
       janelaDoVao: 'La ventana de este hueco',

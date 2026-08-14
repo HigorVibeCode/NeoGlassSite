@@ -34,14 +34,14 @@ export default {
     },
     enviar: (dias) => `Começar grátis · ${dias} dias`,
     enviando: 'Criando sua conta…',
-    saida: 'Me chamar no WhatsApp',
+    saida: 'Mandar meus dados por e-mail',
     aviso: 'Sem cartão de crédito. Sem taxa de implantação. Sem instalação.',
     erros: {
       nome: 'Falta o seu nome.',
       empresa: 'Falta o nome da vidraçaria.',
       email: 'Confira o e-mail — parece que falta alguma coisa.',
       rede: 'A conexão falhou no meio do caminho. Tente de novo.',
-      geral: 'Não foi possível concluir agora. Fale com a gente pelo WhatsApp que resolvemos na hora.',
+      geral: 'Não foi possível concluir agora. Mande seus dados por e-mail que a gente cria a conta na mão.',
     },
   },
 
@@ -50,8 +50,8 @@ export default {
     titulo: 'Confira seu e-mail.',
     texto: (email) =>
       `O convite foi para ${email}. É só clicar nele para criar sua senha e entrar — a conta já está de pé, com o sistema inteiro liberado.`,
-    dica: 'Não chegou em dois minutos? Olhe na caixa de spam. Se não estiver lá, me chama no WhatsApp que eu libero na mão.',
-    whatsapp: 'Falar no WhatsApp',
+    dica: 'Não chegou em dois minutos? Olhe na caixa de spam. Se não estiver lá, escreva para a gente que liberamos na mão.',
+    contato: 'Escrever para a gente',
   },
 
   depois: {

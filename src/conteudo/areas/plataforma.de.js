@@ -12,7 +12,7 @@
 export default {
   hero: {
     rotulo: 'Die Plattform · von innen',
-    etiqueta: 'Eine Maske aus dem System, live',
+    etiqueta: 'Ein Blick ins System',
     titulo: {
       antes: 'Vom Angebot bis zur Rechnung,',
       destaque: 'ohne Systemwechsel.',

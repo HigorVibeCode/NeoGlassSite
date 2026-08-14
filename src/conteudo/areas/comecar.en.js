@@ -20,14 +20,14 @@ export default {
     },
     enviar: (dias) => `Start free · ${dias} days`,
     enviando: 'Creating your account…',
-    saida: 'Message us on WhatsApp',
+    saida: 'Send my details by email',
     aviso: 'No credit card. No setup fee. Nothing to install.',
     erros: {
       nome: 'Your name is missing.',
       empresa: 'The company name is missing.',
       email: 'Check the email — something looks off.',
       rede: 'The connection dropped halfway. Try again.',
-      geral: 'We could not finish right now. Message us on WhatsApp and we will sort it out on the spot.',
+      geral: 'We could not finish right now. Send us your details by email and we will create the account by hand.',
     },
   },
 
@@ -36,8 +36,8 @@ export default {
     titulo: 'Check your inbox.',
     texto: (email) =>
       `The invitation went to ${email}. Click it to set your password and log in — the account is already up, with the whole system unlocked.`,
-    dica: 'Nothing after two minutes? Check the spam folder. If it is not there, message us and we will let you in by hand.',
-    whatsapp: 'Message us on WhatsApp',
+    dica: 'Nothing after two minutes? Check the spam folder. If it is not there, write to us and we will let you in by hand.',
+    contato: 'Write to us',
   },
 
   depois: {

@@ -15,16 +15,16 @@ export default {
   // ── A abertura ────────────────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · para a vidraçaria',
-    etiqueta: 'Uma tela do app, ao vivo',
+    verOrcamento: 'Ver o orçamento nascer',
+    etiqueta: 'O app por dentro',
     // O título é montado no componente: `antes` sai normal e `destaque` sai no
     // gradiente da marca. Separado porque a palavra que merece o gradiente não
     // é a mesma em todo idioma — em pt é a promessa, em de é a condição.
     titulo: {
-      antes: 'Se profissionalizar',
-      destaque: 'sem complicar nada.',
+      antes: 'Todo orçamento que você mandou',
+      destaque: 'fica salvo.',
     },
-    texto:
-      'Você mede na obra, o cliente vê o preço na hora e assina na tela. Sem planilha, sem caderno, sem curso.',
+    texto: 'Você abre e vê o que foi combinado, quando e por quanto.',
     /* As três anteriores mediam a INSTALAÇÃO ("1 tarde para rodar", "0
        planilha", "1 app"), que é o problema de quem já comprou — não de quem
        está decidindo. Estas medem o dia dele: quanto tempo leva um orçamento,

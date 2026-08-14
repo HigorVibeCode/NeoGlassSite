@@ -20,13 +20,13 @@ export default {
   // ── A abertura ────────────────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · para la cristalería',
-    etiqueta: 'Una pantalla de la app, en vivo',
+    verOrcamento: 'Ver el presupuesto nacer',
+    etiqueta: 'La app por dentro',
     titulo: {
-      antes: 'Profesionalizarte',
-      destaque: 'sin complicarte nada.',
+      antes: 'Todo presupuesto que enviaste',
+      destaque: 'queda guardado.',
     },
-    texto:
-      'Mides en obra, el cliente ve el precio al momento y firma en la pantalla. Sin hojas de cálculo, sin cuaderno y sin curso.',
+    texto: 'Lo abres y ves qué se acordó, cuándo y por cuánto.',
     /* As três anteriores mediam a INSTALAÇÃO, que é problema de quem já
        comprou — não de quem está decidindo. Estas medem o dia dele: quanto
        leva um orçamento, quantas vezes ele reescreve a mesma medida e onde o

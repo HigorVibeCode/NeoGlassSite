@@ -108,8 +108,14 @@ function useContagem(alvo, ligado, duracao = 950, atraso = 0) {
 
 const P = { W: 2680, H: 1880, x: 400, y: 340 }
 
-function Parede({ comJanela, medindo }) {
+function Parede({ comJanela, medindo, cotando }) {
   const t = useTextos().demos.orcamento.desenho
+  // Sem `cotando` o número é o valor final direto: quem chega numa fase
+  // adiantada da animação não pode ver a cota zerada.
+  const l = useContagem(VAO.l, cotando, 800, 120)
+  const a = useContagem(VAO.a, cotando, 800, 380)
+  const larguraContada = cotando ? l : VAO.l
+  const alturaContada = cotando ? a : VAO.a
   return (
     <svg viewBox={`0 0 ${P.W} ${P.H}`} className="block w-full" role="img" aria-label={t.aria}>
       <defs>
@@ -196,12 +202,30 @@ function Parede({ comJanela, medindo }) {
         </g>
       )}
 
-      {/* as cotas */}
+      {/* As cotas. Elas sempre estiveram aqui, paradas; na fase da medida
+          passam a se desenhar de uma borda à outra e o número sobe até o
+          valor — que é o gesto da trena, e o único momento da animação em que
+          o vidraceiro se vê na tela. */}
       <g stroke="#0e8c6a" strokeWidth="7" fill="none">
-        <line x1={P.x} y1={P.y - 130} x2={P.x + VAO.l} y2={P.y - 130} />
+        <line
+          x1={P.x}
+          y1={P.y - 130}
+          x2={P.x + VAO.l}
+          y2={P.y - 130}
+          pathLength="1"
+          className={cotando ? 'cota-linha' : undefined}
+        />
         <line x1={P.x} y1={P.y - 175} x2={P.x} y2={P.y - 85} />
         <line x1={P.x + VAO.l} y1={P.y - 175} x2={P.x + VAO.l} y2={P.y - 85} />
-        <line x1={P.x + VAO.l + 130} y1={P.y} x2={P.x + VAO.l + 130} y2={P.y + VAO.a} />
+        <line
+          x1={P.x + VAO.l + 130}
+          y1={P.y}
+          x2={P.x + VAO.l + 130}
+          y2={P.y + VAO.a}
+          pathLength="1"
+          className={cotando ? 'cota-linha' : undefined}
+          style={cotando ? { animationDelay: '260ms' } : undefined}
+        />
         <line x1={P.x + VAO.l + 85} y1={P.y} x2={P.x + VAO.l + 175} y2={P.y} />
         <line x1={P.x + VAO.l + 85} y1={P.y + VAO.a} x2={P.x + VAO.l + 175} y2={P.y + VAO.a} />
       </g>
@@ -214,7 +238,7 @@ function Parede({ comJanela, medindo }) {
         fontWeight="600"
         fill="#0e8c6a"
       >
-        {VAO.l}
+        {larguraContada}
       </text>
       <text
         x={P.x + VAO.l + 200}
@@ -225,7 +249,7 @@ function Parede({ comJanela, medindo }) {
         fontWeight="600"
         fill="#0e8c6a"
       >
-        {VAO.a}
+        {alturaContada}
       </text>
 
       {medindo && (
@@ -255,6 +279,97 @@ function Parede({ comJanela, medindo }) {
           </text>
         </g>
       )}
+    </svg>
+  )
+}
+
+/**
+ * Os dois passos de escolha — que peça é, e de quantas folhas.
+ *
+ * São cartões grandes com desenho e não uma lista suspensa, porque é assim
+ * que o sistema pergunta de verdade: na obra, com uma mão só e o celular na
+ * outra, ninguém acerta um <select>. Na animação o sistema escolhe sozinho —
+ * o cartão certo sobe e ganha o anel verde — e é isso que o visitante precisa
+ * ver: que a decisão existe e é de UM toque.
+ */
+function Escolha({ rotulo, opcoes, escolhida, desenho }) {
+  return (
+    <div className="mx-auto w-full max-w-[560px]">
+      <p className="cota uppercase">{rotulo}</p>
+      <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
+        {opcoes.map((op, i) => (
+          <div
+            key={op.rotulo ?? op}
+            className={`rounded-[16px] border bg-card px-2.5 py-3.5 text-center sm:px-3 ${
+              i === escolhida ? 'escolhido border-verde' : 'border-line'
+            }`}
+          >
+            <div className="mx-auto w-full max-w-[92px]">{desenho(i, i === escolhida)}</div>
+            <p
+              className={`mt-2.5 text-[13px] font-extrabold leading-tight ${
+                i === escolhida ? 'text-verde' : 'text-dim'
+              }`}
+            >
+              {op.rotulo ?? op}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const traco = (aceso) => ({
+  fill: aceso ? 'rgba(14,140,106,.10)' : '#f2f5f7',
+  stroke: aceso ? '#0e8c6a' : '#b6c2d1',
+  strokeWidth: 5,
+})
+
+/** Porta, janela e box — o desenho de cada tipo, em três traços. */
+function DesenhoTipo(i, aceso) {
+  const p = traco(aceso)
+  return (
+    <svg viewBox="0 0 100 88" className="block w-full" aria-hidden="true">
+      {i === 0 && (
+        <>
+          <rect x="26" y="6" width="48" height="76" rx="2" {...p} />
+          <circle cx="66" cy="46" r="3.4" fill={p.stroke} />
+        </>
+      )}
+      {i === 1 && (
+        <>
+          <rect x="10" y="18" width="80" height="52" rx="2" {...p} />
+          <line x1="50" y1="18" x2="50" y2="70" stroke={p.stroke} strokeWidth="5" />
+        </>
+      )}
+      {i === 2 && (
+        <>
+          <path d="M14 26 L52 14 L52 82 L14 76 Z" {...p} />
+          <path d="M52 14 L88 26 L88 76 L52 82 Z" {...p} />
+        </>
+      )}
+    </svg>
+  )
+}
+
+/** Duas, três ou quatro folhas dentro do mesmo vão. */
+function DesenhoFolhas(i, aceso) {
+  const p = traco(aceso)
+  const n = i + 2
+  return (
+    <svg viewBox="0 0 100 88" className="block w-full" aria-hidden="true">
+      <rect x="8" y="14" width="84" height="60" rx="2" {...p} />
+      {Array.from({ length: n - 1 }, (_, k) => (
+        <line
+          key={k}
+          x1={8 + (84 / n) * (k + 1)}
+          y1="14"
+          x2={8 + (84 / n) * (k + 1)}
+          y2="74"
+          stroke={p.stroke}
+          strokeWidth="5"
+        />
+      ))}
     </svg>
   )
 }
@@ -339,7 +454,27 @@ function Documento({ compacto = false }) {
 
 /* ── o quadro ────────────────────────────────────────────────────────────── */
 
-const TEMPO = { montando: 1700, preenchendo: 1500, gerando: 1200 }
+/* Cinco tempos, um play só.
+   A ordem veio da narração do Higor: o vão vazio, a medida, que peça é, de
+   quantas folhas, e o vidro se montando. Antes a demonstração pulava direto do
+   vão para o vidro pronto — sumia justamente a parte em que o sistema pergunta
+   as duas coisas que definem o preço. */
+const TEMPO = {
+  medindo: 1900,
+  tipo: 1900,
+  folhas: 1700,
+  montando: 1700,
+  orcamento: 1700,
+  gerando: 1200,
+}
+
+/* O que o sistema escolhe sozinho na animação: janela, duas folhas.
+   NÃO é escolha de gosto — é o que o resto da demonstração já conta. O vidro
+   que se monta no vão é uma janela de correr de duas folhas, e o PDF no fim
+   lista "janela de correr 2 folhas". Marcar "box" aqui faria a animação
+   contradizer o próprio documento três telas depois. */
+const TIPO_ESCOLHIDO = 1
+const FOLHAS_ESCOLHIDAS = 0
 
 // Só a chave e a cor: a frase de cada uma vem do módulo de textos.
 const NAO_COBRAMOS = ['implantacao', 'orcamento', 'fidelidade']
@@ -350,31 +485,96 @@ const CANAIS = [
   ['pdf', '#7c6ad6'],
 ]
 
+/**
+ * A ficha do serviço, preenchendo-se sozinha.
+ *
+ * Enquanto o palco mostra o gesto — a trena, os cartões —, esta coluna mostra
+ * o resultado do gesto virando dado. Sem ela metade da tela ficava vazia
+ * durante os três primeiros tempos, e o visitante não tinha para onde olhar
+ * enquanto esperava.
+ */
+function Ficha({ t, fase }) {
+  const ordem = ['medindo', 'tipo', 'folhas', 'montando', 'orcamento', 'gerando', 'pdf']
+  const em = ordem.indexOf(fase)
+  const linhas = [
+    [t.ficha.vao, `${VAO.l} × ${VAO.a} mm`, 0],
+    [t.ficha.peca, t.escolhas.tipo.opcoes[TIPO_ESCOLHIDO], 1],
+    [t.ficha.folhas, t.escolhas.folhas.opcoes[FOLHAS_ESCOLHIDAS], 2],
+  ]
+  return (
+    <>
+      <p className="cota uppercase">{t.ficha.rotulo}</p>
+      <h3 className="display mt-2 text-[24px]">{t.ficha.titulo}</h3>
+      <dl className="mt-6 divide-y divide-line border-y border-line">
+        {linhas.map(([rotulo, valor, quando]) => {
+          const cheio = em >= quando
+          return (
+            <div key={rotulo} className="flex items-baseline justify-between gap-4 py-3.5">
+              <dt className="cota uppercase">{rotulo}</dt>
+              <dd
+                className={`font-mono text-[15px] font-bold ${cheio ? 'sobe text-ink' : 'text-dim/50'}`}
+              >
+                {cheio ? valor : t.ficha.esperando}
+              </dd>
+            </div>
+          )
+        })}
+      </dl>
+      <p className="mt-5 text-[13.5px] leading-[1.55] text-dim">{t.ficha.nota}</p>
+    </>
+  )
+}
+
+/** Um balão por fase, com o rabicho apontando para o desenho. */
+function Balao({ texto }) {
+  if (!texto) return null
+  return (
+    <div className="balao pointer-events-none absolute right-3 top-3 z-10 max-w-[15rem] sm:right-5 sm:top-5">
+      <p className="rounded-[14px] border border-verde/35 bg-card px-3.5 py-2.5 text-[13px] font-bold leading-snug text-ink shadow-[0_14px_30px_-16px_rgba(20,55,80,.5)]">
+        {texto}
+      </p>
+      <svg viewBox="0 0 26 16" className="ml-6 -mt-px h-3 w-5" aria-hidden="true">
+        <path d="M0 0 H26 L7 16 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
+      </svg>
+    </div>
+  )
+}
+
 export default function Orcamento() {
   const [fase, setFase] = useState('vao')
   const [segundos, setSegundos] = useState(0)
-  const relogio = useRef(0)
+  const relogios = useRef([])
   const inicio = useRef(0)
 
-  useEffect(() => () => clearTimeout(relogio.current), [])
-
-  const daqui = (proxima, espera) => {
-    clearTimeout(relogio.current)
-    if (semMovimento()) return setFase(proxima)
-    relogio.current = setTimeout(() => setFase(proxima), espera)
+  const parar = () => {
+    relogios.current.forEach(clearTimeout)
+    relogios.current = []
   }
 
+  useEffect(() => parar, [])
+
+  /* Um clique, e ela corre do vão até o PDF. Os botões do meio saíram: quem
+     está avaliando um software não quer operar a demonstração, quer ver o
+     serviço acontecer. As decisões que sobram no fim — enviar, ver preço — são
+     de verdade, e essas continuam com o visitante. */
   const usarVao = () => {
     evento('ferramenta', { qual: 'orcamento', passo: 'usar-vao' })
     inicio.current = Date.now()
-    setFase('montando')
-    daqui('orcamento', TEMPO.montando)
-  }
-
-  const gerarPdf = () => {
-    evento('ferramenta', { qual: 'orcamento', passo: 'gerar-pdf' })
-    setFase('gerando')
-    daqui('pdf', TEMPO.gerando)
+    parar()
+    if (semMovimento()) return setFase('pdf')
+    setFase('medindo')
+    let soma = 0
+    ;[
+      ['tipo', TEMPO.medindo],
+      ['folhas', TEMPO.tipo],
+      ['montando', TEMPO.folhas],
+      ['orcamento', TEMPO.montando],
+      ['gerando', TEMPO.orcamento],
+      ['pdf', TEMPO.gerando],
+    ].forEach(([qual, espera]) => {
+      soma += espera
+      relogios.current.push(setTimeout(() => setFase(qual), soma))
+    })
   }
 
   const enviar = () => {
@@ -384,7 +584,7 @@ export default function Orcamento() {
   }
 
   const recomecar = () => {
-    clearTimeout(relogio.current)
+    parar()
     setSegundos(0)
     setFase('vao')
   }
@@ -429,7 +629,7 @@ export default function Orcamento() {
 
   const passos = preco ? 4 : 3
   const passo =
-    fase === 'vao' || fase === 'montando'
+    fase === 'vao' || fase === 'medindo' || fase === 'tipo' || fase === 'folhas' || fase === 'montando'
       ? 1
       : fase === 'orcamento' || fase === 'gerando'
         ? 2
@@ -462,13 +662,40 @@ export default function Orcamento() {
 
       <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="demo-palco border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
-          {(fase === 'vao' || fase === 'montando') && (
+        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+          <Balao key={fase} texto={t.baloes?.[fase]} />
+          {fase === 'tipo' && (
+            <Escolha
+              rotulo={t.escolhas.tipo.rotulo}
+              opcoes={t.escolhas.tipo.opcoes}
+              escolhida={TIPO_ESCOLHIDO}
+              desenho={DesenhoTipo}
+            />
+          )}
+
+          {fase === 'folhas' && (
+            <Escolha
+              rotulo={t.escolhas.folhas.rotulo}
+              opcoes={t.escolhas.folhas.opcoes}
+              escolhida={FOLHAS_ESCOLHIDAS}
+              desenho={DesenhoFolhas}
+            />
+          )}
+
+          {(fase === 'vao' || fase === 'medindo' || fase === 'montando') && (
             <>
               <p className="cota mb-2 uppercase">
-                {fase === 'vao' ? t.desenho.vaoMedido : t.desenho.montando}
+                {fase === 'vao'
+                  ? t.desenho.vaoVazio
+                  : fase === 'medindo'
+                    ? t.desenho.vaoMedido
+                    : t.desenho.montando}
               </p>
-              <Parede comJanela={fase === 'montando'} medindo={fase === 'montando'} />
+              <Parede
+                comJanela={fase === 'montando'}
+                medindo={fase === 'montando'}
+                cotando={fase === 'medindo'}
+              />
             </>
           )}
 
@@ -504,10 +731,14 @@ export default function Orcamento() {
               <p className="mt-3 text-[14.5px] leading-[1.55] text-dim">{t.vao.texto}</p>
               <ul className="mt-6 space-y-2.5">
                 {[
+                  /* Sobraram duas linhas.
+                     "Diagonais 1.947 e 1.951 mm" e "2 imagens anexadas" eram
+                     a tela mais complexa do site, e no celular apareciam ANTES
+                     de qualquer coisa se mexer. Quem é do ramo entende
+                     diagonal; quem está decidindo se testa um software, não —
+                     e esta é a primeira tela que ele encontra. */
                   [t.vao.ficha.vao, `${VAO.l} × ${VAO.a} mm`],
                   [t.vao.ficha.parede, t.obra.parede],
-                  [t.vao.ficha.esquadro, t.vao.ficha.esquadroValor],
-                  [t.vao.ficha.foto, t.vao.ficha.fotoValor],
                 ].map(([a, b]) => (
                   <li key={a} className="flex items-baseline justify-between gap-4">
                     <span className="text-[14px] text-dim">{a}</span>
@@ -517,6 +748,10 @@ export default function Orcamento() {
               </ul>
               <p className="mt-6 text-[14px] font-bold leading-snug text-ink">{t.vao.chamada}</p>
             </>
+          )}
+
+          {(fase === 'medindo' || fase === 'tipo' || fase === 'folhas') && (
+            <Ficha t={t} fase={fase} />
           )}
 
           {fase === 'montando' && (
@@ -752,26 +987,20 @@ export default function Orcamento() {
           </button>
         )}
 
-        {(fase === 'montando' || fase === 'gerando') && (
+        {(fase === 'medindo' ||
+          fase === 'tipo' ||
+          fase === 'folhas' ||
+          fase === 'montando' ||
+          fase === 'orcamento' ||
+          fase === 'gerando') && (
           <span className="botao-marca inline-flex items-center gap-2.5 px-7 py-3.5 text-[15px] opacity-70">
             <i
               aria-hidden="true"
               className="h-2 w-2 animate-pulse rounded-full"
               style={{ background: '#fff' }}
             />
-            {fase === 'montando' ? t.botoes.montando : t.botoes.gerando}
+            {fase === 'gerando' ? t.botoes.gerando : t.botoes.montando}
           </span>
-        )}
-
-        {fase === 'orcamento' && (
-          <button
-            type="button"
-            onClick={gerarPdf}
-            className="botao-marca px-7 py-3.5 text-[15px]"
-            style={{ background: 'linear-gradient(90deg,#0e7b9c,#0e8c6a)' }}
-          >
-            {t.botoes.gerarPdf}
-          </button>
         )}
 
         {fase === 'pdf' && (

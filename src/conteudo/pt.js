@@ -11,6 +11,14 @@
 export default {
   // ── O que o Google e o WhatsApp leem ──────────────────────────────────
   paginas: {
+    home: {
+      nome: 'Início',
+      titulo: 'NeoGlass · Software para vidraçaria e para a indústria do vidro',
+      descricao:
+        'Orçamento, plano de corte, controle de retalho e produção no mesmo sistema. Escolha entre a versão para vidraçaria e a versão para fábrica de vidro.',
+      ogTitulo: 'Vidro que você não compra é lucro',
+      ogDescricao: 'Do orçamento na obra ao plano de corte que entra na mesa. Escolha por onde você entra.',
+    },
     industria: {
       nome: 'Indústria',
       titulo: 'NeoGlass · Software para a indústria do vidro plano',

@@ -20,6 +20,13 @@
 export default {
   // ── A demonstração da indústria: chapa, cavalete e a chapa não aberta ──
   retalho: {
+    baloes: {
+      pronto: 'Este é o seu cavalete. Seis retalhos, cada um com código e endereço.',
+      otimizando: 'O sistema procura aqui primeiro — dois servem para este pedido.',
+      plano: 'Sem o cavalete, o pedido abriria estas chapas novas. Siga a peça laranja.',
+      realocando: 'A peça laranja está saindo da chapa nova e indo para o retalho.',
+      economia: 'A peça laranja coube no retalho. Esta chapa não foi comprada.',
+    },
     barra: {
       titulo: 'Otimização de corte',
       pedido: 'Pedido 26-0431 · 8 mm incolor',
@@ -130,6 +137,11 @@ export default {
       selo: 'O que você não vai gastar',
       titulo: '1 chapa inteira',
       subtitulo: 'que não vai ser utilizada',
+      dinheiro: {
+        selo: 'A chapa que você não comprou',
+        texto: (n) => (n === 1 ? 'Uma chapa a menos neste pedido.' : `${n} chapas a menos neste pedido.`),
+        origem: (p) => `Considerando chapa de referência a ${p}. O valor real muda com espessura, cor e região — o número é seu para ajustar.`,
+      },
       placar: {
         m2: (m2) => `${m2} m²`,
         m2Texto: 'de matéria-prima que voltou a valer',
@@ -171,6 +183,29 @@ export default {
 
   // ── A demonstração da vidraçaria: do vão medido ao PDF na mão ──────────
   orcamento: {
+    ficha: {
+      rotulo: 'Ficha do serviço',
+      titulo: 'Preenchendo sozinha',
+      vao: 'Vão',
+      peca: 'Peça',
+      folhas: 'Folhas',
+      esperando: 'a definir',
+      nota: 'Cada resposta vira dado na hora. Ninguém redigita nada depois — nem no escritório, nem na fábrica.',
+    },
+    escolhas: {
+      tipo: { rotulo: 'Que peça vai neste vão?', opcoes: ['Porta', 'Janela', 'Box'] },
+      folhas: { rotulo: 'De quantas folhas?', opcoes: ['2 folhas', '3 folhas', '4 folhas'] },
+    },
+    baloes: {
+      vao: 'Um vão de obra, ainda sem nada. É por aqui que todo serviço começa.',
+      medindo: 'A medida entra uma vez só. A cota é do vão, não do vidro.',
+      tipo: 'O sistema pergunta o que vai ali. Um toque, sem digitar nada.',
+      folhas: 'E de quantas folhas. O preço muda aqui, e ele já sabe disso.',
+      montando: 'O vidro se monta dentro do vão, com folga e sobreposição calculadas.',
+      orcamento: 'Peça a peça, com ferragem e mão de obra. Nada foi redigitado.',
+      gerando: 'Saindo o PDF com a sua logo, pronto para o cliente assinar.',
+      pdf: 'Isto chega no celular do cliente antes de você sair da obra.',
+    },
     barra: {
       titulo: 'NeoGlass no celular · na obra',
       cliente: (nome) => `Cliente ${nome}`,
@@ -187,6 +222,7 @@ export default {
       aria: 'O vão medido na obra',
       janela: '2 folhas de correr · 6 mm',
       medindo: 'anotando as diagonais…',
+      vaoVazio: 'O vão, ainda vazio',
       vaoMedido: 'Vão medido na obra',
       montando: 'Montando a janela no vão',
       janelaDoVao: 'A janela deste vão',

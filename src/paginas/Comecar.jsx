@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Bloco, Revelar } from '../components/Comum.jsx'
-import { CONFIG, linkWhatsapp, precoVidracaria } from '../config.js'
+import { CONFIG, linkEmail, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
@@ -16,9 +16,12 @@ const campo =
  * cadastra ainda não tem usuário nenhum.
  *
  * Se o endereço não estiver configurado, ou se a rede cair, o formulário NÃO
- * vira um beco sem saída — ele abre o WhatsApp com os dados já preenchidos.
+ * vira um beco sem saída — ele abre o e-mail com os dados já preenchidos.
  * Perder o lead porque a função caiu seria o pior desfecho possível de uma
  * página que o visitante levou dez minutos para alcançar.
+ *
+ * A saída é e-mail, e não WhatsApp, de propósito: esta página é o funil da
+ * vidraçaria, e o número de WhatsApp é atendimento da indústria.
  */
 export default function Comecar() {
   const { idioma } = useIdioma()
@@ -33,17 +36,19 @@ export default function Comecar() {
   const [erro, setErro] = useState('')
   // Quando o erro não é culpa do visitante (rede caiu, função fora do ar), a
   // mensagem sozinha não basta: some com o lead. Aparece junto um botão de
-  // WhatsApp com tudo já digitado, para ele não ter que escrever de novo.
+  // e-mail com tudo já digitado, para ele não ter que escrever de novo.
   const [saida, setSaida] = useState(false)
 
   const muda = (k) => (e) => setDados((d) => ({ ...d, [k]: e.target.value }))
 
-  const mensagemWhatsapp = () =>
+  const recado = () =>
     `${f.titulo} — ${dados.nome || '—'} · ${dados.empresa || '—'} · ${dados.email || '—'}`
 
+  const saidaEmail = () => linkEmail(f.titulo, recado())
+
   function pelaMao(motivo) {
-    evento('whatsapp', { origem: `cadastro-${motivo}` })
-    window.open(linkWhatsapp(mensagemWhatsapp()), '_blank', 'noopener')
+    evento('email', { origem: `cadastro-${motivo}` })
+    window.open(saidaEmail(), '_blank', 'noopener')
     setEstado('parado')
   }
 
@@ -131,13 +136,11 @@ export default function Comecar() {
             {t.pronto.dica}
           </p>
           <a
-            href={linkWhatsapp(mensagemWhatsapp())}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => evento('whatsapp', { origem: 'pos-cadastro' })}
+            href={saidaEmail()}
+            onClick={() => evento('email', { origem: 'pos-cadastro' })}
             className="mt-7 inline-block rounded-[13px] border border-line px-6 py-3 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
           >
-            {t.pronto.whatsapp}
+            {t.pronto.contato}
           </a>
         </div>
       </Revelar>
@@ -271,10 +274,8 @@ export default function Comecar() {
               <p className="text-[13px] font-semibold text-ember">{erro}</p>
               {saida && (
                 <a
-                  href={linkWhatsapp(mensagemWhatsapp())}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => evento('whatsapp', { origem: 'cadastro-falhou' })}
+                  href={saidaEmail()}
+                  onClick={() => evento('email', { origem: 'cadastro-falhou' })}
                   className="mt-3 inline-block rounded-[13px] border border-line px-5 py-2.5 text-[14px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
                 >
                   {f.saida}

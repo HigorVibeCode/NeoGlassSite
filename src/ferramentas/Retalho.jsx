@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { empacotar } from '../lib/empacotar.js'
 import { Simbolo } from '../components/Marca.jsx'
-import { ehExterno, linkAgendar } from '../config.js'
+import { CONFIG, ehExterno, linkAgendar } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
@@ -61,7 +61,24 @@ const PECAS = [
 
 const CORES = ['#0e8c6a', '#0e7b9c', '#7c6ad6', '#b8862c', '#c2557c']
 
+/* A peça que o visitante deve acompanhar do começo ao fim.
+   Sem isso, a animação é um monte de retângulo colorido nascendo ao mesmo
+   tempo, e o olho não sabe onde pousar. Com isso, existe um personagem: a
+   porta de box 800×1850 ganha uma cor que ninguém mais tem, um dedo apontando
+   para ela, e continua na tela em todas as fases — inclusive na última, já
+   dentro do retalho que evitou a chapa nova. */
+const MARCADA = 0
+const COR_MARCADA = '#ee6a45'
+
 const R = empacotar({ chapa: CHAPA, retalhos: RETALHOS, pecas: PECAS, serra: 4 })
+
+/* A conta que fecha a animação: quantas chapas o cavalete evitou de abrir, e
+   quanto isso é em dinheiro. As duas pontas saem do mesmo empacotador — a
+   diferença entre o plano sem retalho e o plano com retalho — então o número
+   não é uma promessa de marketing, é o resultado do algoritmo que está ali
+   rodando na frente do visitante. */
+const CHAPAS_EVITADAS =
+  R.chapasSemRetalho - R.recipientes.filter((x) => x.tipo === 'chapa').length
 
 const AREA_CHAPA = (CHAPA.l * CHAPA.a) / 1e6
 const APROVEITAMENTO_ANTES = R.m2Pedido / (R.chapasSemRetalho * AREA_CHAPA)
@@ -76,6 +93,21 @@ const M2_CHAPA = AREA_CHAPA
    de componente para formatar um número não pagaria o barulho. Cada página
    renderiza um idioma só, então não há duas leituras concorrentes. */
 const LOCAIS = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }
+
+/** O dinheiro da chapa evitada, ou null quando aquela moeda não tem preço. */
+function economiaEmDinheiro(idioma) {
+  const moeda = CONFIG.vidracaria.moedaPorIdioma[idioma] ?? 'BRL'
+  const preco = CONFIG.industria.chapa[moeda]
+  if (!preco) return null
+  const total = CHAPAS_EVITADAS * preco
+  const fmt = (v) =>
+    new Intl.NumberFormat(LOCAIS[idioma] ?? LOCAIS.pt, {
+      style: 'currency',
+      currency: moeda,
+      maximumFractionDigits: 0,
+    }).format(v)
+  return { total: fmt(total), unitario: fmt(preco) }
+}
 let local = LOCAIS.pt
 const mm = (n) => n.toLocaleString(local)
 const m2 = (n) => n.toLocaleString(local, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -83,7 +115,7 @@ const pct = (n) => `${Math.round(n * 100)}%`
 
 /* ── o desenho de uma chapa (ou retalho) ─────────────────────────────────── */
 
-function Folha({ rec, revelar = false, atraso = 0, fantasma = false, riscada = false }) {
+function Folha({ rec, revelar = false, atraso = 0, fantasma = false, riscada = false, marcar = false }) {
   const t = useTextos().demos.retalho.desenho
   const retalho = rec.tipo === 'retalho'
   const cor = retalho ? '#0e7b9c' : '#b3bfcd'
@@ -117,7 +149,13 @@ function Folha({ rec, revelar = false, atraso = 0, fantasma = false, riscada = f
         strokeWidth="9"
         strokeDasharray={retalho ? '34 22' : undefined}
       />
-      {rec.pecas.map((p, i) => (
+      {rec.pecas.map((p, i) => {
+        // a primeira cópia da peça marcada é a que recebe o dedo; as irmãs
+        // recebem só a cor, senão a tela vira um festival de setas
+        const marcada = marcar && p.ref === MARCADA
+        const primeira = marcada && rec.pecas.findIndex((o) => o.ref === MARCADA) === i
+        const cor = marcada ? COR_MARCADA : CORES[p.ref % CORES.length]
+        return (
         <g
           key={i}
           className={revelar ? 'surge' : undefined}
@@ -128,11 +166,35 @@ function Folha({ rec, revelar = false, atraso = 0, fantasma = false, riscada = f
             y={p.y}
             width={p.w}
             height={p.h}
-            fill={CORES[p.ref % CORES.length]}
-            fillOpacity="0.17"
-            stroke={CORES[p.ref % CORES.length]}
-            strokeWidth="8"
+            fill={cor}
+            fillOpacity={marcada ? '0.3' : '0.17'}
+            stroke={cor}
+            strokeWidth={marcada ? '16' : '8'}
           />
+          {primeira && (
+            // O dedo mora DENTRO da peça, encostado na borda de cima.
+            // Fora dela não funcionava: nas peças da primeira coluna a seta
+            // caía no corte do viewBox, e nas do meio ficava espremida entre
+            // duas peças, parecendo sujeira. Dentro, com contorno branco, ela
+            // lê em qualquer fundo — e é a peça que ela marca, afinal.
+            <g className="aponta" transform={`translate(${p.x + p.w / 2} ${p.y + p.h / 2})`}>
+              {/* o tamanho acompanha a peça: as chapas aparecem três por
+                  linha, e um ícone de tamanho fixo somem nessa escala */}
+              {/* o raio nunca passa de um terço do lado menor da peça, senão
+                  o ícone vaza para fora da chapa e é cortado pelo viewBox */}
+              <g transform={`scale(${Math.max(1.1, (Math.min(p.w, p.h) * 0.34) / 132)})`}>
+                <circle r="132" fill="#fff" opacity=".92" />
+                <circle r="132" fill="none" stroke={COR_MARCADA} strokeWidth="14" opacity=".55" />
+                <path
+                  d="M0 -86 l72 92 h-40 v62 h-64 v-62 h-40 z"
+                  fill={COR_MARCADA}
+                  stroke="#fff"
+                  strokeWidth="16"
+                  strokeLinejoin="round"
+                />
+              </g>
+            </g>
+          )}
           {p.w > 330 && p.h > 190 && (
             <text
               x={p.x + p.w / 2}
@@ -142,13 +204,14 @@ function Folha({ rec, revelar = false, atraso = 0, fantasma = false, riscada = f
               fontSize={Math.min(120, Math.max(66, Math.min(p.w, p.h) * 0.2))}
               fontFamily="IBM Plex Mono, monospace"
               fontWeight="600"
-              fill={CORES[p.ref % CORES.length]}
+              fill={cor}
             >
               {p.w}×{p.h}
             </text>
           )}
         </g>
-      ))}
+        )
+      })}
       {riscada && (
         <g stroke="#ee6a45" strokeWidth="14" strokeLinecap="round">
           <line x1="90" y1="90" x2={rec.l - 90} y2={rec.a - 90} />
@@ -480,43 +543,75 @@ function Barra({ duracao }) {
 
 /* ── o quadro ────────────────────────────────────────────────────────────── */
 
-const FASES = ['pronto', 'otimizando', 'plano', 'catalogo', 'realocando', 'economia']
-const TEMPO = { otimizando: 2400, realocando: 1800 }
+/* A ordem importa, e ela mudou.
+   Antes a animação abria numa chapa nova vazia e o cavalete aparecia no meio,
+   como reviravolta. Só que o argumento da NeoGlass não é "compre menos chapa":
+   é "você já tem o que precisa e não sabe". Então a cena abre no cavalete —
+   o cofre que a fábrica já tem — e a chapa nova só entra quando o sistema
+   provar que o cavalete não dá conta sozinho.
+
+   E é um clique só. O visitante aperta "Otimizar" e assiste: nada de botão
+   no meio do caminho pedindo permissão para continuar. */
+/**
+ * O balão que explica o que está acontecendo, um por vez.
+ *
+ * Um por vez é a regra inteira: dois balões na tela e o visitante lê os dois
+ * pela metade. Ele entra por cima do palco, com o rabicho apontando para
+ * baixo — para o desenho —, e troca junto com a fase.
+ */
+function Balao({ texto }) {
+  if (!texto) return null
+  return (
+    <div className="balao pointer-events-none absolute right-3 top-3 z-10 max-w-[15rem] sm:right-5 sm:top-5">
+      <p className="rounded-[14px] border border-verde/35 bg-card px-3.5 py-2.5 text-[13px] font-bold leading-snug text-ink shadow-[0_14px_30px_-16px_rgba(20,55,80,.5)]">
+        {texto}
+      </p>
+      <svg viewBox="0 0 26 16" className="ml-6 -mt-px h-3 w-5" aria-hidden="true">
+        <path d="M0 0 H26 L7 16 Z" fill="var(--card, #fff)" stroke="rgba(14,140,106,.35)" strokeWidth="1" />
+      </svg>
+    </div>
+  )
+}
+
+const FASES = ['pronto', 'otimizando', 'plano', 'realocando', 'economia']
+const TEMPO = { otimizando: 4200, plano: 3400, realocando: 2200 }
 
 export default function Retalho() {
   const { c, idioma } = useIdioma()
   local = LOCAIS[idioma] ?? LOCAIS.pt
   const t = c.demos.retalho
   const [fase, setFase] = useState('pronto')
-  const relogio = useRef(0)
+  const relogios = useRef([])
 
-  useEffect(() => () => clearTimeout(relogio.current), [])
-
-  const avancar = (proxima, espera) => {
-    clearTimeout(relogio.current)
-    if (!espera || semMovimento()) return setFase(proxima)
-    relogio.current = setTimeout(() => setFase(proxima), espera)
+  const parar = () => {
+    relogios.current.forEach(clearTimeout)
+    relogios.current = []
   }
 
+  useEffect(() => parar, [])
+
+  /* Um clique, e a animação corre até o fim. Cada etapa agenda a seguinte;
+     `relogios` guarda todos os tempos para que recomeçar ou desmontar o
+     componente no meio não deixe um `setTimeout` órfão mudando a tela. */
   const otimizar = () => {
     evento('ferramenta', { qual: 'retalho', passo: 'otimizar' })
+    parar()
+    if (semMovimento()) return setFase('economia')
     setFase('otimizando')
-    avancar('plano', TEMPO.otimizando)
-  }
-
-  const verEstoque = () => {
-    evento('ferramenta', { qual: 'retalho', passo: 'ver-estoque' })
-    setFase('catalogo')
-  }
-
-  const usarRetalhos = () => {
-    evento('ferramenta', { qual: 'retalho', passo: 'usar-retalhos' })
-    setFase('realocando')
-    avancar('economia', TEMPO.realocando)
+    let soma = 0
+    const passos = [
+      ['plano', TEMPO.otimizando],
+      ['realocando', TEMPO.plano],
+      ['economia', TEMPO.realocando],
+    ]
+    passos.forEach(([qual, espera]) => {
+      soma += espera
+      relogios.current.push(setTimeout(() => setFase(qual), soma))
+    })
   }
 
   const recomecar = () => {
-    clearTimeout(relogio.current)
+    parar()
     setFase('pronto')
   }
 
@@ -540,14 +635,9 @@ export default function Retalho() {
 
   const trabalhando = fase === 'otimizando' || fase === 'realocando'
   const passo =
-    fase === 'pronto' || fase === 'otimizando'
-      ? 1
-      : fase === 'plano'
-        ? 2
-        : fase === 'economia'
-          ? 4
-          : 3
+    fase === 'pronto' || fase === 'otimizando' ? 1 : fase === 'plano' ? 2 : fase === 'economia' ? 4 : 3
 
+  const dinheiro = economiaEmDinheiro(idioma)
   const semRetalho = R.recipientesSemRetalho
   const comRetalho = R.recipientes
   const soRetalhos = comRetalho.filter((x) => x.tipo === 'retalho')
@@ -571,41 +661,35 @@ export default function Retalho() {
 
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
         {/* ── o palco ─────────────────────────────────────────────────── */}
-        <div className="demo-palco border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7 lg:border-b-0 lg:border-r">
+          <Balao key={fase} texto={t.baloes?.[fase]} />
           {(fase === 'pronto' || fase === 'otimizando') && (
             <>
-              <div className="mx-auto w-full max-w-[560px]">
-                <p className="cota mb-2 uppercase">{t.desenho.chapaNova}</p>
-                <FolhaVazia varrendo={fase === 'otimizando'} />
-
-                <p className="cota mb-2 mt-7 uppercase" style={{ color: '#0e7b9c', opacity: 1 }}>
-                  {t.desenho.cavalete}
+              {/* A cena abre no cavalete cheio — o estoque que a fábrica já
+                  tem, catalogado. Quando o sistema varre, os dois retalhos que
+                  servem para este pedido acendem. A chapa nova só aparece
+                  depois, e menor: ela é o plano B, não o ponto de partida. */}
+              <div className="mx-auto w-full max-w-[620px]">
+                <p className="cota uppercase" style={{ color: '#0e7b9c', opacity: 1 }}>
+                  {t.catalogo.selo}
                 </p>
-                <Cavalete />
+                <div className="mt-4">
+                  <CavaleteCheio acesos={fase === 'otimizando' ? SERVE : new Set()} rotulos={t.catalogo} />
+                </div>
+                <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] font-semibold text-dim">
+                  <span className="flex items-center gap-2">
+                    <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#0e8c6a' }} />
+                    {t.catalogo.legendaServe}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#b6c2d1' }} />
+                    {t.catalogo.legendaEspera}
+                  </span>
+                </p>
               </div>
             </>
           )}
 
-          {fase === 'catalogo' && (
-            <div className="mx-auto w-full max-w-[620px]">
-              <p className="cota uppercase" style={{ color: '#0e7b9c', opacity: 1 }}>
-                {t.catalogo.selo}
-              </p>
-              <div className="mt-4">
-                <CavaleteCheio acesos={SERVE} rotulos={t.catalogo} />
-              </div>
-              <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] font-semibold text-dim">
-                <span className="flex items-center gap-2">
-                  <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#0e8c6a' }} />
-                  {t.catalogo.legendaServe}
-                </span>
-                <span className="flex items-center gap-2">
-                  <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#b6c2d1' }} />
-                  {t.catalogo.legendaEspera}
-                </span>
-              </p>
-            </div>
-          )}
 
           {(fase === 'plano' || fase === 'realocando') && (
             <>
@@ -614,7 +698,7 @@ export default function Retalho() {
                 {semRetalho.map((rec, i) => (
                   <div key={rec.id}>
                     <Legenda rec={rec} sufixo={t.desenho.chapaN(i + 1)} />
-                    <Folha rec={rec} revelar={fase === 'plano'} atraso={140 + i * 260} />
+                    <Folha rec={rec} revelar={fase === 'plano'} atraso={140 + i * 260} marcar />
                   </div>
                 ))}
               </div>
@@ -630,7 +714,7 @@ export default function Retalho() {
                 {soRetalhos.map((rec, i) => (
                   <div key={rec.id} className="surge" style={{ animationDelay: `${i * 180}ms` }}>
                     <Legenda rec={rec} sufixo={t.desenho.retalhoN(i + 1)} cor="#0e7b9c" />
-                    <Folha rec={rec} />
+                    <Folha rec={rec} marcar />
                   </div>
                 ))}
               </div>
@@ -646,7 +730,7 @@ export default function Retalho() {
                     style={{ animationDelay: `${380 + i * 180}ms` }}
                   >
                     <Legenda rec={rec} sufixo={t.desenho.chapaN(i + 1)} />
-                    <Folha rec={rec} />
+                    <Folha rec={rec} marcar />
                   </div>
                 ))}
                 <div className="surge" style={{ animationDelay: '760ms' }}>
@@ -699,17 +783,53 @@ export default function Retalho() {
 
           {fase === 'otimizando' && (
             <>
-              <p className="cota uppercase">{t.otimizando.selo}</p>
-              <h3 className="display mt-2 text-[24px]">{t.otimizando.titulo}</h3>
-              <Registro
-                linhas={[
-                  t.otimizando.linhas.lendo(R.pecasTotal),
-                  t.otimizando.linhas.respeitando,
-                  t.otimizando.linhas.testando,
-                  t.otimizando.linhas.ordenando,
-                ]}
-                passo={520}
-              />
+              <p className="cota uppercase">{t.catalogo.painel.selo}</p>
+              <h3 className="display mt-2 text-[24px]">{t.catalogo.painel.titulo(ESTOQUE.length)}</h3>
+
+              {/* A frase do Higor, e ela é o argumento inteiro: o corte de hoje
+                  já é calculado pensando no pedido de amanhã. Fica em destaque
+                  porque nada mais nesta tela precisa ser lido com atenção. */}
+              <p
+                className="bate mt-6 rounded-[16px] border px-5 py-4 text-[15px] font-bold leading-snug text-ink"
+                style={{
+                  borderColor: 'rgba(14,140,106,.3)',
+                  background: 'rgba(14,140,106,.07)',
+                  animationDelay: '520ms',
+                }}
+              >
+                {t.catalogo.painel.frase}
+              </p>
+
+              <dl className="mt-7 space-y-4">
+                {t.catalogo.painel.pontos.map(([titulo, detalhe], i) => (
+                  <div
+                    key={titulo}
+                    className="sobe flex items-start gap-3"
+                    style={{ animationDelay: `${680 + i * 140}ms` }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                      style={{ background: 'rgba(14,140,106,.12)' }}
+                    >
+                      <svg viewBox="0 0 16 16" className="h-3 w-3">
+                        <path
+                          d="M3 8.5l3.2 3.2L13 5"
+                          fill="none"
+                          stroke="#0e8c6a"
+                          strokeWidth="2.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[14px] font-bold text-ink">{titulo}</span>
+                      <span className="block text-[13.5px] leading-snug text-dim">{detalhe}</span>
+                    </span>
+                  </div>
+                ))}
+              </dl>
               <Barra duracao={TEMPO.otimizando} />
             </>
           )}
@@ -774,57 +894,6 @@ export default function Retalho() {
             </>
           )}
 
-          {fase === 'catalogo' && (
-            <>
-              <p className="cota uppercase">{t.catalogo.painel.selo}</p>
-              <h3 className="display mt-2 text-[24px]">{t.catalogo.painel.titulo(ESTOQUE.length)}</h3>
-
-              {/* A frase do Higor, e ela é o argumento inteiro: o corte de hoje
-                  já é calculado pensando no pedido de amanhã. Fica em destaque
-                  porque nada mais nesta tela precisa ser lido com atenção. */}
-              <p
-                className="bate mt-6 rounded-[16px] border px-5 py-4 text-[15px] font-bold leading-snug text-ink"
-                style={{
-                  borderColor: 'rgba(14,140,106,.3)',
-                  background: 'rgba(14,140,106,.07)',
-                  animationDelay: '520ms',
-                }}
-              >
-                {t.catalogo.painel.frase}
-              </p>
-
-              <dl className="mt-7 space-y-4">
-                {t.catalogo.painel.pontos.map(([titulo, detalhe], i) => (
-                  <div
-                    key={titulo}
-                    className="sobe flex items-start gap-3"
-                    style={{ animationDelay: `${680 + i * 140}ms` }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                      style={{ background: 'rgba(14,140,106,.12)' }}
-                    >
-                      <svg viewBox="0 0 16 16" className="h-3 w-3">
-                        <path
-                          d="M3 8.5l3.2 3.2L13 5"
-                          fill="none"
-                          stroke="#0e8c6a"
-                          strokeWidth="2.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-[14px] font-bold text-ink">{titulo}</span>
-                      <span className="block text-[13.5px] leading-snug text-dim">{detalhe}</span>
-                    </span>
-                  </div>
-                ))}
-              </dl>
-            </>
-          )}
 
           {fase === 'realocando' && (
             <>
@@ -853,7 +922,35 @@ export default function Retalho() {
                 <span className="block text-ink">{t.economia.subtitulo}</span>
               </p>
 
-              <dl className="mt-7 grid gap-px overflow-hidden rounded-[16px] bg-line">
+              {/* A chapa que não foi comprada, em dinheiro. É o primeiro número
+                  do placar de propósito: m² e aproveitamento são a explicação,
+                  o real é a conclusão. A origem do preço vem escrita embaixo —
+                  ver CONFIG.industria.chapa. */}
+              {dinheiro && (
+                <div
+                  className="bate mt-7 rounded-[18px] border px-5 py-5"
+                  style={{
+                    borderColor: 'rgba(14,140,106,.32)',
+                    background: 'rgba(14,140,106,.07)',
+                    animationDelay: '160ms',
+                  }}
+                >
+                  <p className="cota uppercase" style={{ color: '#0e8c6a', opacity: 1 }}>
+                    {t.economia.dinheiro.selo}
+                  </p>
+                  <p className="display mt-1.5 text-[clamp(30px,4vw,42px)] leading-none text-verde">
+                    {dinheiro.total}
+                  </p>
+                  <p className="mt-2 text-[14px] font-bold leading-snug text-ink">
+                    {t.economia.dinheiro.texto(CHAPAS_EVITADAS)}
+                  </p>
+                  <p className="cota mt-2 normal-case leading-snug">
+                    {t.economia.dinheiro.origem(dinheiro.unitario)}
+                  </p>
+                </div>
+              )}
+
+              <dl className="mt-5 grid gap-px overflow-hidden rounded-[16px] bg-line">
                 {[
                   [t.economia.placar.m2(m2(R.m2Recuperados)), t.economia.placar.m2Texto],
                   [
@@ -917,27 +1014,7 @@ export default function Retalho() {
           </span>
         )}
 
-        {fase === 'plano' && (
-          <button
-            type="button"
-            onClick={verEstoque}
-            className="botao-marca px-7 py-3.5 text-[15px]"
-            style={{ background: 'linear-gradient(90deg,#0e7b9c,#0e8c6a)' }}
-          >
-            {t.botoes.verEstoque}
-          </button>
-        )}
 
-        {fase === 'catalogo' && (
-          <button
-            type="button"
-            onClick={usarRetalhos}
-            className="botao-marca px-7 py-3.5 text-[15px]"
-            style={{ background: 'linear-gradient(90deg,#0e7b9c,#0e8c6a)' }}
-          >
-            {t.botoes.usarRetalhos(RETALHOS.length)}
-          </button>
-        )}
 
         {fase === 'economia' && (
           <>

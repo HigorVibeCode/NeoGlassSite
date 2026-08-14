@@ -9,7 +9,7 @@
 export default {
   hero: {
     rotulo: 'La plataforma · por dentro',
-    etiqueta: 'Una pantalla del sistema, en vivo',
+    etiqueta: 'El sistema por dentro',
     titulo: {
       antes: 'Del presupuesto a la factura,',
       destaque: 'sin cambiar de sistema.',

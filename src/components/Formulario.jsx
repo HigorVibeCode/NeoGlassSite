@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CONFIG, linkWhatsapp } from '../config.js'
+import { CONFIG, linkEmail, linkWhatsapp } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { useTextos } from '../i18n/idioma.jsx'
 
@@ -11,11 +11,16 @@ const campo =
  * na chave `formulario` — o arquivo é compartilhado pelas três abas, mas
  * pertence à área da plataforma, e a árvore de textos é carregada inteira.
  *
+ * `zap` decide qual é a saída quando não há banco configurado e qual é o botão
+ * da tela de sucesso. Na vidraçaria ela é `false`: o contato vira e-mail, nunca
+ * WhatsApp. Uma saída tem que existir de qualquer jeito — sem ela, uma falha de
+ * rede apaga o lead sem deixar rastro.
+ *
  * O perfil vai para o banco no idioma em que o visitante leu a página: é o
  * que ele escolheu, e traduzir de volta na hora de gravar só criaria um valor
  * que ninguém digitou.
  */
-export default function Formulario() {
+export default function Formulario({ zap = true }) {
   const t = useTextos().plataforma.formulario
   const [dados, setDados] = useState({
     nome: '',
@@ -36,10 +41,16 @@ export default function Formulario() {
 
     const { url, chaveAnon, tabela } = CONFIG.supabase
 
-    // Sem banco configurado, o lead vai pelo WhatsApp com tudo preenchido.
+    // Sem banco configurado, o lead sai pelo canal daquele público, com tudo
+    // já preenchido — WhatsApp na indústria, e-mail na vidraçaria.
     if (!url || !chaveAnon) {
-      evento('whatsapp', { origem: 'formulario' })
-      window.open(linkWhatsapp(t.mensagem(dados)), '_blank', 'noopener')
+      const recado = t.mensagem(dados)
+      evento(zap ? 'whatsapp' : 'email', { origem: 'formulario' })
+      window.open(
+        zap ? linkWhatsapp(recado) : linkEmail(t.titulo, recado),
+        '_blank',
+        'noopener',
+      )
       setEstado('pronto')
       return
     }
@@ -89,13 +100,15 @@ export default function Formulario() {
         </div>
         <h3 className="display mt-5 text-[22px]">{t.sucesso.titulo}</h3>
         <p className="mx-auto mt-3 max-w-[34ch] text-[15px] text-dim">{t.sucesso.texto}</p>
-        <a
-          href={linkWhatsapp(t.sucesso.whatsapp)}
-          onClick={() => evento('whatsapp', { origem: 'pos-formulario' })}
-          className="mt-6 inline-block rounded-[13px] border border-line px-6 py-3 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
-        >
-          {t.sucesso.botao}
-        </a>
+        {zap && (
+          <a
+            href={linkWhatsapp(t.sucesso.whatsapp)}
+            onClick={() => evento('whatsapp', { origem: 'pos-formulario' })}
+            className="mt-6 inline-block rounded-[13px] border border-line px-6 py-3 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+          >
+            {t.sucesso.botao}
+          </a>
+        )}
       </div>
     )
   }

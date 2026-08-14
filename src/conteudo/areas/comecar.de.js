@@ -20,14 +20,14 @@ export default {
     },
     enviar: (dias) => `Kostenlos starten · ${dias} Tage`,
     enviando: 'Ihr Konto wird erstellt…',
-    saida: 'Über WhatsApp schreiben',
+    saida: 'Meine Daten per E-Mail senden',
     aviso: 'Keine Kreditkarte. Keine Einrichtungsgebühr. Nichts zu installieren.',
     erros: {
       nome: 'Ihr Name fehlt.',
       empresa: 'Der Name der Glaserei fehlt.',
       email: 'Prüfen Sie die E-Mail — da fehlt etwas.',
       rede: 'Die Verbindung ist mittendrin abgebrochen. Bitte noch einmal.',
-      geral: 'Wir konnten es gerade nicht abschließen. Schreiben Sie uns über WhatsApp, wir lösen es sofort.',
+      geral: 'Wir konnten es gerade nicht abschließen. Senden Sie uns Ihre Daten per E-Mail — wir legen das Konto von Hand an.',
     },
   },
 
@@ -37,7 +37,7 @@ export default {
     texto: (email) =>
       `Die Einladung ging an ${email}. Ein Klick darauf, Passwort setzen, anmelden — das Konto steht bereits, mit dem gesamten System freigeschaltet.`,
     dica: 'Nach zwei Minuten nichts da? Schauen Sie in den Spam-Ordner. Wenn sie auch dort nicht liegt, schreiben Sie uns — wir schalten Sie von Hand frei.',
-    whatsapp: 'Über WhatsApp schreiben',
+    contato: 'Schreiben Sie uns',
   },
 
   depois: {

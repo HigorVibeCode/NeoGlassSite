@@ -589,3 +589,131 @@ html[data-parado] .varre {
     margin-right: -32px;
   }
 }
+
+/* O dedo que aponta para a peça que o visitante deve acompanhar.
+   Ele cutuca de leve na direção da peça — movimento curto e lento, porque a
+   função dele é dizer "olhe aqui", não competir com a animação principal. */
+@keyframes cutucar {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateY(-26px);
+  }
+}
+.aponta {
+  animation: cutucar 1.5s ease-in-out infinite;
+}
+
+/* O balão de explicação. Entra subindo um pouco, e fica. */
+@keyframes balao {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.balao {
+  animation: balao 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html[data-parado] .aponta,
+html[data-parado] .balao {
+  animation: none;
+}
+
+/* A cota que se desenha sozinha, como quem estica a trena no vão. */
+@keyframes cotar {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.cota-linha {
+  stroke-dasharray: 1;
+  animation: cotar 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* O cartão que o sistema escolhe sozinho, no meio da animação. */
+@keyframes escolher {
+  from {
+    box-shadow: 0 0 0 0 rgba(14, 140, 106, 0);
+    transform: translateY(0);
+  }
+  60% {
+    box-shadow: 0 0 0 4px rgba(14, 140, 106, 0.34);
+    transform: translateY(-5px);
+  }
+  to {
+    box-shadow: 0 0 0 3px rgba(14, 140, 106, 0.5);
+    transform: translateY(-3px);
+  }
+}
+.escolhido {
+  animation: escolher 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
+}
+
+html[data-parado] .cota-linha,
+html[data-parado] .escolhido {
+  animation: none;
+}
+
+/* A troca de página.
+   Antes o conteúdo simplesmente aparecia — o clique em "Tenho uma vidraçaria"
+   trocava a tela inteira num quadro só, e a sensação era de recarregar o site,
+   não de entrar num lugar. Agora ele sobe e ganha nitidez, curto o bastante
+   para não atrasar quem está com pressa. */
+@keyframes entrar-pagina {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.pagina {
+  animation: entrar-pagina 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[data-parado] .pagina {
+  animation: none;
+}
+
+
+/* O prisma de fundo no celular.
+   Na tela grande ele fica nas margens e não atrapalha. No celular a coluna de
+   texto ocupa a largura inteira, e o triângulo passava POR TRÁS do título e do
+   parágrafo, comendo contraste justamente onde se lê. Aqui ele recua para uma
+   marca d'água — continua identificando a marca, e para de disputar. */
+@media (max-width: 640px) {
+  .fundo-prisma {
+    opacity: 0.32;
+  }
+}
+
+/* Âncoras e o cabeçalho fixo.
+   Sem isto, clicar em "Ver a otimização funcionando" levava a seção para
+   debaixo da barra de cima: o título ficava escondido e parecia que o botão
+   tinha falhado. `scroll-margin-top` reserva a altura do cabeçalho — que é
+   maior no celular, onde as abas ganham a própria linha. */
+html {
+  scroll-behavior: smooth;
+}
+[id] {
+  scroll-margin-top: 108px;
+}
+@media (min-width: 1024px) {
+  [id] {
+    scroll-margin-top: 84px;
+  }
+}
+html[data-parado] {
+  scroll-behavior: auto;
+}

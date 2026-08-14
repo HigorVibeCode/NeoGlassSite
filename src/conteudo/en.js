@@ -13,6 +13,14 @@
 export default {
   // ── O que o Google e o WhatsApp leem ──────────────────────────────────
   paginas: {
+    home: {
+      nome: 'Home',
+      titulo: 'NeoGlass · Software for glass shops and glass factories',
+      descricao:
+        'Quoting, cut plans, offcut control and production in one system. Choose between the glass shop version and the glass factory version.',
+      ogTitulo: 'Glass you never buy is profit',
+      ogDescricao: 'From the quote on site to the cut plan on the table. Pick where you come in.',
+    },
     industria: {
       nome: 'Industry',
       // Título começa pelo que o dono de fábrica procura no Google, não pela

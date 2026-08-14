@@ -23,6 +23,16 @@ import filmeEn from './areas/filme.en.js'
 import filmeEs from './areas/filme.es.js'
 import filmeDe from './areas/filme.de.js'
 
+import telaPt from './areas/tela.pt.js'
+import telaEn from './areas/tela.en.js'
+import telaEs from './areas/tela.es.js'
+import telaDe from './areas/tela.de.js'
+
+import homePt from './areas/home.pt.js'
+import homeEn from './areas/home.en.js'
+import homeEs from './areas/home.es.js'
+import homeDe from './areas/home.de.js'
+
 import comecarPt from './areas/comecar.pt.js'
 import comecarEn from './areas/comecar.en.js'
 import comecarEs from './areas/comecar.es.js'
@@ -50,7 +60,7 @@ import demosDe from './areas/demos.de.js'
  * `textosDe` nunca devolve vazio — idioma desconhecido cai em português, para
  * uma chave errada na URL não derrubar a página inteira.
  */
-const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar) => ({
+const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar, home, tela) => ({
   ...base,
   industria,
   vidracaria,
@@ -58,13 +68,15 @@ const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar) 
   filme,
   demos,
   comecar,
+  home,
+  tela,
 })
 
 const TEXTOS = {
-  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, filmePt, demosPt, comecarPt),
-  en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn, comecarEn),
-  es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs, comecarEs),
-  de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe, comecarDe),
+  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, filmePt, demosPt, comecarPt, homePt, telaPt),
+  en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn, comecarEn, homeEn, telaEn),
+  es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs, comecarEs, homeEs, telaEs),
+  de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe, comecarDe, homeDe, telaDe),
 }
 
 export const textosDe = (idioma) => TEXTOS[idioma] ?? TEXTOS.pt

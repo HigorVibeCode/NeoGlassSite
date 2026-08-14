@@ -1,5 +1,4 @@
 import Abertura from '../components/Abertura.jsx'
-import Contraste from '../components/Contraste.jsx'
 import Jornada from '../jornada/Jornada.jsx'
 import Retalho from '../ferramentas/Retalho.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
@@ -14,8 +13,16 @@ export default function Industria() {
   return (
     <>
       <Abertura
+        telas={['corte', 'producao']}
+        zap={false}
+        /* O botão da abertura NÃO abre mais a agenda.
+           Pedir reunião a quem acabou de chegar é cobrar antes de entregar: o
+           visitante ainda não viu nada que prove que vale a pena. Agora ele
+           desce para a demonstração — três chapas virando duas, com o dinheiro
+           no fim — e a agenda espera lá embaixo, depois da prova. */
+        acao={{ rotulo: t.hero.verOtimizacao, href: '#otimizador', externo: false }}
         rotulo={t.hero.rotulo}
-        folha="FL. 01/06"
+        folha="FL. 01/04"
         origem="abertura-industria"
         etiqueta={t.hero.etiqueta}
         /* O título é uma frase só com metade em gradiente, e a divisão fica no
@@ -39,8 +46,12 @@ export default function Industria() {
           chapas virarem duas é o único ponto da página que arranca um
           "isso é para mim" — e ele estava enterrado. O filme continua
           logo abaixo, para quem já quer o resto da história. */}
-      <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
-        <Bloco rotulo={t.demo.rotulo} folha="FL. 02/06" />
+      <Revelar
+        as="section"
+        id="otimizador"
+        className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
+      >
+        <Bloco rotulo={t.demo.rotulo} folha="FL. 02/04" />
         <h2 className="display mt-7 max-w-[18ch] text-[clamp(30px,4.4vw,54px)]">{t.demo.titulo}</h2>
         <p className="mt-5 max-w-[62ch] text-[16.5px] leading-[1.55] text-dim">{t.demo.texto}</p>
 
@@ -49,24 +60,16 @@ export default function Industria() {
         </div>
       </Revelar>
 
-      <Jornada />
 
       {/* `comNeoGlass` não vai daqui: o cabeçalho da coluna da direita é o
           mesmo nas duas páginas que usam este componente, e o padrão dele sai
           do tronco comum do idioma. Ver Contraste.jsx. */}
-      <Contraste
-        rotulo={t.contraste.rotulo}
-        folha="FL. 04/06"
-        titulo={t.contraste.titulo}
-        hoje={t.contraste.hoje}
-        pares={t.contraste.pares}
-      />
 
-      <Origem folha="FL. 05/06" />
+      <Origem folha="FL. 03/04" />
 
       <Chamada
         rotulo={t.chamada.rotulo}
-        folha="FL. 06/06"
+        folha="FL. 04/04"
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}

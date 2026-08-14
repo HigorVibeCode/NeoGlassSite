@@ -14,6 +14,13 @@
 export default {
   // ── A demonstração da indústria: chapa, cavalete e a chapa não aberta ──
   retalho: {
+    baloes: {
+      pronto: 'This is your rack. Six offcuts, each with a code and a location.',
+      otimizando: 'The system looks here first — two of them fit this order.',
+      plano: 'Without the rack, this order would open these new sheets. Follow the orange part.',
+      realocando: 'The orange part is leaving the new sheet and moving into the offcut.',
+      economia: 'The orange part fitted the offcut. This sheet was never bought.',
+    },
     barra: {
       titulo: 'Cutting optimization',
       pedido: 'Order 26-0431 · 8 mm clear',
@@ -113,6 +120,11 @@ export default {
       selo: 'What you are not going to spend',
       titulo: '1 whole sheet',
       subtitulo: 'that never gets used',
+      dinheiro: {
+        selo: 'The sheet you never bought',
+        texto: (n) => (n === 1 ? 'One sheet less on this order.' : `${n} sheets less on this order.`),
+        origem: (p) => `Based on a reference sheet at ${p}. The real figure moves with thickness, colour and region — the number is yours to set.`,
+      },
       placar: {
         m2: (m2) => `${m2} m²`,
         m2Texto: 'of raw material back in play',
@@ -153,6 +165,29 @@ export default {
 
   // ── A demonstração da vidraçaria: do vão medido ao PDF na mão ──────────
   orcamento: {
+    ficha: {
+      rotulo: 'Job sheet',
+      titulo: 'Filling itself in',
+      vao: 'Opening',
+      peca: 'Item',
+      folhas: 'Leaves',
+      esperando: 'to be set',
+      nota: 'Every answer becomes data on the spot. Nobody retypes it later — not in the office, not in the factory.',
+    },
+    escolhas: {
+      tipo: { rotulo: 'What goes in this opening?', opcoes: ['Door', 'Window', 'Enclosure'] },
+      folhas: { rotulo: 'How many leaves?', opcoes: ['2 leaves', '3 leaves', '4 leaves'] },
+    },
+    baloes: {
+      vao: 'A bare opening on site. Every job starts right here.',
+      medindo: 'The measurement is typed once. It is the opening, not the glass.',
+      tipo: 'The system asks what goes there. One tap, no typing.',
+      folhas: 'And how many leaves. The price changes here, and it already knows.',
+      montando: 'The glass builds itself into the opening, clearances already applied.',
+      orcamento: 'Part by part, with hardware and labour. Nothing was retyped.',
+      gerando: 'The PDF comes out with your logo, ready for the customer to sign.',
+      pdf: 'This reaches the customer before you leave the site.',
+    },
     barra: {
       titulo: 'NeoGlass on the phone · on site',
       cliente: (nome) => `Customer ${nome}`,
@@ -168,6 +203,7 @@ export default {
       aria: 'The opening measured on site',
       janela: '2 sliding leaves · 6 mm',
       medindo: 'noting the diagonals…',
+      vaoVazio: 'The opening, still bare',
       vaoMedido: 'Opening measured on site',
       montando: 'Fitting the window to the opening',
       janelaDoVao: 'The window for this opening',

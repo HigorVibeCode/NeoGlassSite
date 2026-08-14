@@ -1,4 +1,6 @@
 import CartaoIA from './CartaoIA.jsx'
+import Tela from './Tela.jsx'
+import Telas from './Telas.jsx'
 import { useIdioma } from '../i18n/idioma.jsx'
 import { Bloco } from './Comum.jsx'
 import { ehExterno, linkAgendar, linkWhatsapp } from '../config.js'
@@ -10,6 +12,11 @@ import { evento } from '../lib/rastreio.js'
  *
  * O prisma saiu daqui: agora ele é o plano de fundo do site inteiro, e o
  * cartão flutua sobre ele.
+ *
+ * `zap` controla o botão secundário de WhatsApp: a vidraçaria manda `false`.
+ * `telas` recebe uma lista e monta o leque que troca sozinho; `tela` recebe
+ * uma só. Um dos dois escolhe o que ocupa o palco à direita — é ela que
+ * responde, antes de qualquer texto, à pergunta "isso aqui é o quê?".
  *
  * Rótulo, título, texto e marcas continuam chegando por prop — cada aba manda
  * os seus. O que está escrito aqui dentro (o botão padrão e a mensagem pronta
@@ -27,6 +34,9 @@ export default function Abertura({
   origem,
   acao,
   nota,
+  zap = true,
+  tela,
+  telas,
 }) {
   const { c } = useIdioma()
   const t = c.plataforma.abertura
@@ -46,7 +56,7 @@ export default function Abertura({
 
       <div className="mt-8 grid min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-8">
         <div>
-          <h1 className="display max-w-[13ch] text-[clamp(31px,5.6vw,68px)]">{titulo}</h1>
+          <h1 className="display max-w-[19ch] text-[clamp(28px,4.3vw,54px)] leading-[1.04]">{titulo}</h1>
 
           <p className="mt-7 max-w-[46ch] text-[17px] leading-[1.55] text-dim">{texto}</p>
 
@@ -56,25 +66,35 @@ export default function Abertura({
               target={principal.externo ? '_blank' : undefined}
               rel={principal.externo ? 'noreferrer' : undefined}
               onClick={() => evento(acao ? 'comecar' : 'agendar', { origem })}
-              className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+              className={
+                principal.fantasma
+                  ? 'rounded-[13px] border border-line bg-card px-7 py-3.5 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde'
+                  : 'botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5'
+              }
             >
               {principal.rotulo}
             </a>
-            <a
-              href={linkWhatsapp(t.whatsapp)}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => evento('whatsapp', { origem })}
-              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
-            >
-              {c.chrome.falarWhatsapp}
-            </a>
+            {/* A vidraçaria não recebe este botão (`zap={false}`). O WhatsApp
+                é o atendimento da indústria; oferecê-lo aqui prometeria um
+                canal que não existe para esse público — e ainda roubaria o
+                clique do único botão que interessa, o do teste grátis. */}
+            {zap && (
+              <a
+                href={linkWhatsapp(t.whatsapp)}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => evento('whatsapp', { origem })}
+                className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+              >
+                {c.chrome.falarWhatsapp}
+              </a>
+            )}
           </div>
 
           {nota && <p className="cota mt-4 max-w-[46ch] normal-case leading-snug">{nota}</p>}
 
           <dl className="mt-11 flex flex-wrap gap-x-10 gap-y-5">
-            {marcas.map(([n, d]) => (
+            {(marcas ?? []).map(([n, d]) => (
               <div key={d}>
                 <dt className="display text-[28px] leading-none">{n}</dt>
                 <dd className="cota mt-2 max-w-[20ch] normal-case">{d}</dd>
@@ -92,7 +112,7 @@ export default function Abertura({
             />
             {etiqueta}
           </p>
-          <CartaoIA />
+          {telas ? <Telas variantes={telas} /> : tela ? <Tela variante={tela} /> : <CartaoIA />}
         </div>
       </div>
     </section>

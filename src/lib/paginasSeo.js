@@ -24,8 +24,17 @@ export const SITE = 'https://neoglass.online'
 /** As rotas, com o endereço de cada uma em cada idioma. */
 export const ROTAS = [
   {
-    id: 'industria',
+    // A raiz do site não pertence a nenhum dos dois públicos: ela é a porta de
+    // entrada que pergunta, com uma promessa antes da pergunta. Antes daqui a
+    // indústria ocupava a raiz, e todo vidraceiro que digitava o endereço caía
+    // numa página que não falava com ele.
+    id: 'home',
     slug: { pt: '/', en: '/', es: '/', de: '/' },
+    menu: false,
+  },
+  {
+    id: 'industria',
+    slug: { pt: '/industria', en: '/industry', es: '/industria', de: '/industrie' },
   },
   {
     id: 'vidracaria',
@@ -80,8 +89,14 @@ export const arquivoDe = (id, idioma) => {
   return caminho === '/' ? 'index.html' : `${caminho.replace(/^\//, '')}.html`
 }
 
-/** A imagem de prévia — uma por página, a mesma nos quatro idiomas por enquanto. */
-export const imagemDe = (id) => (id === 'industria' ? `${SITE}/og.jpg` : `${SITE}/og-${id}.jpg`)
+/**
+ * A imagem de prévia — uma por página, a mesma nos quatro idiomas por enquanto.
+ * Só existem três arquivos; quem não tem o seu usa o principal. Apontar para um
+ * .jpg que não existe é pior que repetir imagem: o WhatsApp mostra o link pelado.
+ */
+const COM_IMAGEM = ['vidracaria', 'plataforma']
+export const imagemDe = (id) =>
+  COM_IMAGEM.includes(id) ? `${SITE}/og-${id}.jpg` : `${SITE}/og.jpg`
 
 /** O preço declarado no dado estruturado daquele idioma. */
 export const ofertaDe = (idioma) => {

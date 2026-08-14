@@ -9,7 +9,7 @@
 export default {
   hero: {
     rotulo: 'The platform · from the inside',
-    etiqueta: 'A live screen from the system',
+    etiqueta: 'Inside the system',
     titulo: {
       antes: 'From quote to invoice,',
       destaque: 'without switching systems.',

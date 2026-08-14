@@ -1,11 +1,11 @@
 import Abertura from '../components/Abertura.jsx'
-import Contraste from '../components/Contraste.jsx'
 import Orcamento from '../ferramentas/Orcamento.jsx'
 import Preco from './Preco.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
 import { destinoComecar } from '../lib/paginasSeo.js'
 import { useIdioma } from '../i18n/idioma.jsx'
+import { evento } from '../lib/rastreio.js'
 
 function Dia({ folha, t }) {
   return (
@@ -45,7 +45,7 @@ export default function Vidracaria() {
   const t = c.vidracaria
   const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
-  const folhas = preco ? '07' : '06'
+  const folhas = preco ? '05' : '04'
 
   const acao = preco ? destinoComecar(acaoComecar(idioma, c), idioma) : undefined
 
@@ -61,11 +61,18 @@ export default function Vidracaria() {
   return (
     <>
       <Abertura
+        tela="design"
+        /* A abertura não pede nada. O botão desce até a animação do vão, em
+           contorno e sem o verde da marca: ele guia sem disputar com o título.
+           O teste grátis — esse sim em verde — só aparece DEPOIS da animação,
+           quando a pessoa acabou de ver o PDF sair com a logo dela. */
+        acao={{ rotulo: t.hero.verOrcamento, href: '#orcamento', externo: false, fantasma: true }}
+        // O WhatsApp não é canal da vidraçaria — ver Abertura.jsx.
+        zap={false}
         rotulo={t.hero.rotulo}
         folha={`FL. 01/${folhas}`}
         origem="abertura-vidracaria"
         etiqueta={t.hero.etiqueta}
-        acao={acao}
         nota={nota}
         // O gradiente da marca não cai na mesma palavra em todo idioma, então o
         // título vem partido do conteúdo e é remontado aqui.
@@ -75,10 +82,13 @@ export default function Vidracaria() {
           </>
         }
         texto={t.hero.texto}
-        marcas={t.hero.marcas}
       />
 
-      <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
+      <Revelar
+        as="section"
+        id="orcamento"
+        className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
+      >
         <Bloco rotulo={t.demo.rotulo} folha={`FL. 02/${folhas}`} />
         <h2 className="display mt-7 max-w-[20ch] text-[clamp(30px,4.4vw,54px)]">{t.demo.titulo}</h2>
         {/* O parágrafo de apoio saiu daqui. Ele repetia o que o próprio botão
@@ -89,39 +99,51 @@ export default function Vidracaria() {
         <div className="mt-10">
           <Orcamento />
         </div>
+
+        {/* A oferta, agora que ela foi merecida. Este é o primeiro botão verde
+            da página: antes daqui o visitante não tinha visto nada que
+            justificasse cadastrar-se. */}
+        {preco && acao && (
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-[20px] border border-line bg-soft/50 px-6 py-6 text-center">
+            <a
+              href={acao.href}
+              onClick={() => evento('comecar', { origem: 'apos-orcamento' })}
+              className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+            >
+              {acao.rotulo}
+            </a>
+            <p className="cota max-w-[38ch] normal-case leading-snug">
+              {c.comecar.formulario.aviso}
+            </p>
+          </div>
+        )}
       </Revelar>
 
-      <Dia folha={`FL. 03/${folhas}`} t={t.dia} />
 
-      <Contraste
-        rotulo={t.contraste.rotulo}
-        folha={`FL. 04/${folhas}`}
-        titulo={t.contraste.titulo}
-        hoje={t.contraste.hoje}
-        pares={t.contraste.pares}
-      />
 
-      <Preco folha={`FL. 05/${folhas}`} />
+      <Preco folha={`FL. 03/${folhas}`} />
 
-      <Origem folha={preco ? 'FL. 06/07' : 'FL. 05/06'} />
+      <Origem folha={preco ? 'FL. 04/05' : 'FL. 03/04'} />
 
       {preco ? (
         <Chamada
           rotulo={t.chamada.rotulo}
-          folha="FL. 07/07"
+          folha="FL. 05/05"
           titulo={t.chamada.titulo}
           // A emenda entre o parágrafo e a frase do teste é diferente em cada
           // idioma, então o `if` mora no conteúdo e daqui só vai o número.
           texto={t.chamada.texto(diasTeste)}
           passos={t.chamada.passos}
+          zap={false}
         />
       ) : (
         <Chamada
           rotulo={t.chamadaDemo.rotulo}
-          folha="FL. 06/06"
+          folha="FL. 04/04"
           titulo={t.chamadaDemo.titulo}
           texto={t.chamadaDemo.texto}
           passos={t.chamadaDemo.passos}
+          zap={false}
           agenda
         />
       )}

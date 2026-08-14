@@ -17,6 +17,13 @@
 export default {
   // ── A demonstração da indústria: chapa, cavalete e a chapa não aberta ──
   retalho: {
+    baloes: {
+      pronto: 'Das ist Ihr Gestell. Sechs Reststücke, jedes mit Code und Lagerplatz.',
+      otimizando: 'Das System sucht zuerst hier — zwei passen zu diesem Auftrag.',
+      plano: 'Ohne das Gestell würde dieser Auftrag diese neuen Tafeln anbrechen. Folgen Sie dem orangen Teil.',
+      realocando: 'Das orange Teil verlässt die neue Tafel und wandert ins Reststück.',
+      economia: 'Das orange Teil passte ins Reststück. Diese Tafel wurde nie gekauft.',
+    },
     barra: {
       titulo: 'Verschnittoptimierung',
       pedido: 'Auftrag 26-0431 · 8 mm klar',
@@ -120,6 +127,11 @@ export default {
       selo: 'Was Sie nicht ausgeben',
       titulo: '1 ganze Tafel',
       subtitulo: 'die nicht verwendet wird',
+      dinheiro: {
+        selo: 'Die Tafel, die Sie nicht gekauft haben',
+        texto: (n) => (n === 1 ? 'Eine Tafel weniger bei diesem Auftrag.' : `${n} Tafeln weniger bei diesem Auftrag.`),
+        origem: (p) => `Auf Basis einer Referenztafel zu ${p}. Der echte Wert hängt von Dicke, Farbe und Region ab — die Zahl gehört Ihnen.`,
+      },
       placar: {
         m2: (m2) => `${m2} m²`,
         m2Texto: 'Rohglas, das wieder zählt',
@@ -160,6 +172,29 @@ export default {
 
   // ── A demonstração da vidraçaria: do vão medido ao PDF na mão ──────────
   orcamento: {
+    ficha: {
+      rotulo: 'Auftragsblatt',
+      titulo: 'Füllt sich von selbst',
+      vao: 'Öffnung',
+      peca: 'Teil',
+      folhas: 'Flügel',
+      esperando: 'offen',
+      nota: 'Jede Antwort wird sofort zum Datensatz. Niemand tippt sie später neu — weder im Büro noch in der Fertigung.',
+    },
+    escolhas: {
+      tipo: { rotulo: 'Was kommt in diese Öffnung?', opcoes: ['Tür', 'Fenster', 'Dusche'] },
+      folhas: { rotulo: 'Wie viele Flügel?', opcoes: ['2 Flügel', '3 Flügel', '4 Flügel'] },
+    },
+    baloes: {
+      vao: 'Eine leere Öffnung auf der Baustelle. Hier beginnt jeder Auftrag.',
+      medindo: 'Das Maß wird einmal eingegeben — das der Öffnung, nicht des Glases.',
+      tipo: 'Das System fragt, was dort hinkommt. Ein Tippen, kein Schreiben.',
+      folhas: 'Und wie viele Flügel. Hier ändert sich der Preis, und das weiß es bereits.',
+      montando: 'Das Glas setzt sich in die Öffnung, Luft und Überlappung schon berechnet.',
+      orcamento: 'Teil für Teil, mit Beschlägen und Montage. Nichts wurde neu getippt.',
+      gerando: 'Das PDF kommt mit Ihrem Logo heraus, unterschriftsreif.',
+      pdf: 'Das erreicht den Kunden, bevor Sie die Baustelle verlassen.',
+    },
     barra: {
       titulo: 'NeoGlass am Handy · auf der Baustelle',
       cliente: (nome) => `Kunde ${nome}`,
@@ -175,6 +210,7 @@ export default {
       aria: 'Die auf der Baustelle gemessene Öffnung',
       janela: '2 Schiebeflügel · 6 mm',
       medindo: 'Diagonalen notieren…',
+      vaoVazio: 'Die Öffnung, noch leer',
       vaoMedido: 'Öffnung auf der Baustelle gemessen',
       montando: 'Fenster wird in die Öffnung gesetzt',
       janelaDoVao: 'Das Fenster für diese Öffnung',

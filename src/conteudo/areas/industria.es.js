@@ -15,10 +15,11 @@ export default {
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · industria del vidrio plano',
-    etiqueta: 'Una pantalla del sistema, en vivo',
+    verOtimizacao: 'Ver la optimización funcionando',
+    etiqueta: 'El sistema por dentro',
     titulo: {
-      antes: 'El vidrio que no compras',
-      destaque: 'es ganancia.',
+      antes: 'Antes de cortar plancha nueva, el sistema',
+      destaque: 'busca en los retales.',
     },
     // "ganancia" e não "beneficio": as duas se entendem dos dois lados do
     // Atlântico, mas ganancia é a que o dono de fábrica usa falando.
@@ -28,8 +29,7 @@ export default {
        ritmo da oposição; "desperdiciando" e não "tirando" porque é a palavra
        que o dono usa para o vidro que se perde. Mantém o "tú" do resto do
        arquivo. */
-    texto:
-      'La optimización busca en tu caballete antes de abrir plancha nueva. Una fábrica de vidrio no gana vendiendo más — gana desperdiciando menos.',
+    texto: 'Solo va a plancha nueva lo que no cupo en ningún retal.',
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
        sistema não está definida, e prometer o que a fatura não cumpre é a

@@ -22,15 +22,21 @@ export default {
     },
     // "ganancia" e não "beneficio": as duas se entendem dos dois lados do
     // Atlântico, mas ganancia é a que o dono de fábrica usa falando.
+    /* A segunda metade dizia a margem pela venda que não aconteceu ("sin
+       vender un metro cuadrado más"). Entrou a inversão do pt (vender mais ×
+       desperdiçar menos). "Gana" repetido dos dois lados do travessão segura o
+       ritmo da oposição; "desperdiciando" e não "tirando" porque é a palavra
+       que o dono usa para o vidro que se perde. Mantém o "tú" do resto do
+       arquivo. */
     texto:
-      'La optimización busca en tu caballete antes de abrir plancha nueva. Es margen que entra sin vender un metro cuadrado más.',
+      'La optimización busca en tu caballete antes de abrir plancha nueva. Una fábrica de vidrio no gana vendiendo más — gana desperdiciando menos.',
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
        sistema não está definida, e prometer o que a fatura não cumpre é a
        forma mais cara de perder a confiança que a página constrói. */
     marcas: [
-      ['87,4%', 'de aprovechamiento en el plan'],
-      ['3,42 m²', 'de vidrio que no se compró'],
+      ['87,4%', 'de aprovechamiento en el plan de corte'],
+      ['3,42 m²', 'de materia prima ahorrada'],
       ['0', 'hojas de cálculo que mantener'],
     ],
   },
@@ -44,7 +50,7 @@ export default {
        apertando, que é para isso que existe a demonstração. */
     titulo: 'Tres planchas se quedan en dos. Delante de ti.',
     texto:
-      'Un pedido real de 20 piezas, con el optimizador de verdad funcionando aquí, en tu navegador. Pulsa y mira dónde dejas de comprar vidrio.',
+      'Un pedido real de 20 piezas, con el optimizador de verdad funcionando aquí, en tu navegador. Pulsa y mira dónde dejas de comprar materia prima.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────

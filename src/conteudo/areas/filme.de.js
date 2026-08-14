@@ -19,6 +19,12 @@ export default {
     rotulo: 'Ein Auftrag, sechs Stationen · läuft von allein',
     // BL. de Blatt, a numeração de prancha
     folha: 'BL. 03/06',
+    /* Os dois rótulos do botão de tocar/pausar do filme. O botão é pequeno, ao
+       lado do carimbo da folha: teto de 10 caracteres. 'Abspielen' tem 9 e
+       cabe, então fica — é a palavra que o alemão lê num controle de vídeo.
+       'Pause' tem 5 e é a mesma palavra em alemão. */
+    tocar: 'Abspielen',
+    pausar: 'Pause',
     /* Era "vom Handy auf der Baustelle bis zur Marge auf dem Bildschirm" —
        dois lugares e nenhum verbo. O que o filme mostra é UM pedido
        atravessando a empresa sem ninguém redigitar nada. */

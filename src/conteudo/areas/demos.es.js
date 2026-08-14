@@ -29,7 +29,7 @@ export default {
       retalhoN: (n) => `Recorte ${n}`,
       cavaletePrimeiro: (pecas) => `Primero el caballete · ${pecas} piezas`,
       entaoChapaNova: (novas, antes) => `Recién entonces plancha nueva · ${novas} en vez de ${antes}`,
-      naoAberta: (n) => `Plancha ${n} · sin abrir`,
+      naoAberta: (n) => `Plancha ${n} · sin utilizar`,
     },
 
     // Os cinco formatos do pedido de exemplo.
@@ -64,9 +64,9 @@ export default {
       titulo: (chapas, aproveitamento) =>
         `${chapas} planchas · ${aproveitamento} de aprovechamiento`,
       texto: 'Ya es un buen plan. Cualquier optimizador del mercado se detiene acá.',
-      achou: 'El sistema encontró algo en el caballete',
+      achou: 'Materia prima parada en el caballete',
       servem: (retalhos) => `${retalhos} recortes sirven para este pedido.`,
-      medida: (medida) => `${medida} mm · vidrio que usted ya pagó`,
+      jaPago: 'ya pagado',
       parados:
         'Están apoyados contra la pared desde otro pedido. Mientras nadie los use, son plata parada.',
     },
@@ -85,14 +85,14 @@ export default {
     economia: {
       selo: 'Lo que usted no va a gastar',
       titulo: '1 plancha entera',
-      subtitulo: 'que no se va a abrir',
+      subtitulo: 'que no se va a utilizar',
       placar: {
         m2: (m2) => `${m2} m²`,
-        m2Texto: 'de vidrio pagado que volvió a valer',
+        m2Texto: 'de materia prima que vuelve a valer',
         pecas: (noCavalete, total) => `${noCavalete} de ${total}`,
         pecasTexto: 'piezas salieron del caballete',
         aproveitamento: (antes, depois) => `${antes} → ${depois}`,
-        aproveitamentoTexto: 'de aprovechamiento en la plancha abierta',
+        aproveitamentoTexto: 'de aprovechamiento en las planchas utilizadas',
         retalhos: (retalhos) => `${retalhos} recortes`,
         retalhosTexto: 'se fueron de la pared',
       },
@@ -154,8 +154,13 @@ export default {
         nome: 'Vidrio templado 6 mm incoloro',
         detalhe: (medida, m2) => `2 hojas · ${medida} mm · ${m2} m²`,
       },
+      /* "Kit corredizo" era jargão de fornecedor: na linha do orçamento que o
+         cliente lê tem de estar o nome comercial do produto. Fica "corrediza"
+         e não "corredera" porque o resto do arquivo já diz "2 hojas
+         corredizas" — uma linha do orçamento não pode chamar a mesma janela
+         por outro nome. */
       kit: {
-        nome: 'Kit corredizo',
+        nome: 'Ventana corrediza de 2 hojas',
         detalhe: 'guía superior e inferior, ruedas, cierre',
       },
       perfil: {
@@ -183,8 +188,11 @@ export default {
     vao: {
       selo: 'Lo que usted hizo en la obra',
       titulo: (vao, medida) => `${vao} · ${medida}`,
+      // "Treinta segundos con el celular en la mano" era número inventado: o
+      // sistema não mede isso. Sai, e o lugar dele passa a dizer o que sobra
+      // para o cristalero fazer depois — nada.
       texto:
-        'Foto del hueco, dos medidas, el tipo de pared. Treinta segundos con el celular en la mano — es todo lo que el sistema le pide.',
+        'Una foto, dos medidas y el tipo de pared. Es todo lo que el sistema le pide — el resto lo arma solo.',
       ficha: {
         vao: 'Hueco',
         parede: 'Pared',

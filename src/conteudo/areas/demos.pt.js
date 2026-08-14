@@ -38,7 +38,11 @@ export default {
       retalhoN: (n) => `Retalho ${n}`,
       cavaletePrimeiro: (pecas) => `Primeiro o cavalete · ${pecas} peças`,
       entaoChapaNova: (novas, antes) => `Só então chapa nova · ${novas} em vez de ${antes}`,
-      naoAberta: (n) => `Chapa ${n} · não aberta`,
+      /* "não aberta" é gíria de chão de fábrica: abrir uma chapa é começar a
+         cortá-la. Quem é de dentro entende na hora, mas o site também é lido
+         por sócio, contador e comprador — e para esses "não utilizada" diz a
+         mesma coisa sem exigir tradução. Vale para os quatro idiomas. */
+      naoAberta: (n) => `Chapa ${n} · não utilizada`,
     },
 
     // Os cinco formatos do pedido de exemplo. É um pedido de vidraçaria
@@ -73,9 +77,11 @@ export default {
       selo: 'Plano pronto',
       titulo: (chapas, aproveitamento) => `${chapas} chapas · ${aproveitamento} de aproveitamento`,
       texto: 'Este já é um bom plano. Qualquer otimizador do mercado para por aqui.',
-      achou: 'O sistema achou algo no cavalete',
-      servem: (retalhos) => `${retalhos} retalhos servem para este pedido.`,
-      medida: (medida) => `${medida} mm · vidro que você já comprou`,
+      achou: 'Matéria-prima parada no cavalete',
+      servem: (retalhos) => `${retalhos} retalhos servem para este pedido:`,
+      // A pílula verde ao lado de cada medida. `medida` saiu de uso quando a
+      // lista virou medida + área + carimbo — ver Retalho.jsx.
+      jaPago: 'já pago',
       parados:
         'Eles estão encostados na parede desde outro pedido. Enquanto ninguém os usa, são prejuízo parado.',
     },
@@ -94,14 +100,14 @@ export default {
     economia: {
       selo: 'O que você não vai gastar',
       titulo: '1 chapa inteira',
-      subtitulo: 'que não vai ser aberta',
+      subtitulo: 'que não vai ser utilizada',
       placar: {
         m2: (m2) => `${m2} m²`,
-        m2Texto: 'de vidro pago que voltou a valer',
+        m2Texto: 'de matéria-prima que voltou a valer',
         pecas: (noCavalete, total) => `${noCavalete} de ${total}`,
         pecasTexto: 'peças saíram do cavalete',
         aproveitamento: (antes, depois) => `${antes} → ${depois}`,
-        aproveitamentoTexto: 'de aproveitamento na chapa aberta',
+        aproveitamentoTexto: 'de aproveitamento nas chapas utilizadas',
         retalhos: (retalhos) => `${retalhos} retalhos`,
         retalhosTexto: 'saíram da parede',
       },
@@ -166,7 +172,7 @@ export default {
         detalhe: (medida, m2) => `2 folhas · ${medida} mm · ${m2} m²`,
       },
       kit: {
-        nome: 'Kit de correr',
+        nome: 'Janela de correr 2 folhas',
         detalhe: 'trilho superior e inferior, roldanas, fecho',
       },
       perfil: {
@@ -196,7 +202,7 @@ export default {
       selo: 'O que você fez na obra',
       titulo: (vao, medida) => `${vao} · ${medida}`,
       texto:
-        'Foto do vão, duas medidas, o tipo de parede. Trinta segundos com o celular na mão — é tudo o que o sistema pede de você.',
+        'Foto, duas medidas e o tipo de parede. É tudo o que o sistema pede — o resto ele monta sozinho.',
       /* A ficha dizia "Esquadro — conferido no ato", que é a checagem
          automática que não existe. Trocado pelas duas diagonais medidas: é o
          DADO que o vidraceiro anota na obra, não um veredito que o sistema

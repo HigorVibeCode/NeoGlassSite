@@ -35,7 +35,7 @@ export default {
       retalhoN: (n) => `Reststück ${n}`,
       cavaletePrimeiro: (pecas) => `Zuerst das Gestell · ${pecas} Teile`,
       entaoChapaNova: (novas, antes) => `Erst dann neue Tafel · ${novas} statt ${antes}`,
-      naoAberta: (n) => `Tafel ${n} · nicht angebrochen`,
+      naoAberta: (n) => `Tafel ${n} · nicht verwendet`,
     },
 
     // Os cinco formatos do pedido de exemplo.
@@ -69,9 +69,9 @@ export default {
       selo: 'Plan steht',
       titulo: (chapas, aproveitamento) => `${chapas} Tafeln · ${aproveitamento} Ausnutzung`,
       texto: 'Das ist schon ein guter Plan. Jeder Optimierer am Markt hört hier auf.',
-      achou: 'Das System hat am Gestell etwas gefunden',
+      achou: 'Rohglas, das am Gestell steht',
       servem: (retalhos) => `${retalhos} Reststücke passen zu diesem Auftrag.`,
-      medida: (medida) => `${medida} mm · Glas, das Sie längst bezahlt haben`,
+      jaPago: 'bereits bezahlt',
       parados:
         'Sie lehnen seit einem anderen Auftrag an der Wand. Solange sie niemand nutzt, ist das totes Kapital.',
     },
@@ -90,14 +90,14 @@ export default {
     economia: {
       selo: 'Was Sie nicht ausgeben',
       titulo: '1 ganze Tafel',
-      subtitulo: 'die nicht angebrochen wird',
+      subtitulo: 'die nicht verwendet wird',
       placar: {
         m2: (m2) => `${m2} m²`,
-        m2Texto: 'bezahltes Glas, das wieder zählt',
+        m2Texto: 'Rohglas, das wieder zählt',
         pecas: (noCavalete, total) => `${noCavalete} von ${total}`,
         pecasTexto: 'Teile kamen vom Gestell',
         aproveitamento: (antes, depois) => `${antes} → ${depois}`,
-        aproveitamentoTexto: 'Ausnutzung auf der angebrochenen Tafel',
+        aproveitamentoTexto: 'Ausnutzung der verwendeten Tafeln',
         retalhos: (retalhos) => `${retalhos} Reststücke`,
         retalhosTexto: 'sind von der Wand weg',
       },
@@ -159,8 +159,10 @@ export default {
         nome: 'ESG 6 mm klar',
         detalhe: (medida, m2) => `2 Flügel · ${medida} mm · ${m2} m²`,
       },
+      // 'Schiebebeschlag' era só a ferragem; a linha do orçamento é a janela
+      // inteira. 'Schiebefenster' é o nome comercial do produto em alemão.
       kit: {
-        nome: 'Schiebebeschlag',
+        nome: 'Schiebefenster, 2 Flügel',
         detalhe: 'Laufschiene oben und unten, Rollen, Verschluss',
       },
       perfil: {
@@ -188,8 +190,11 @@ export default {
     vao: {
       selo: 'Was Sie auf der Baustelle gemacht haben',
       titulo: (vao, medida) => `${vao} · ${medida}`,
+      // Os "dreißig Sekunden" saíram: era número inventado, que não vem do
+      // sistema. No lugar entrou o que a demonstração cumpre de fato — o
+      // sistema pede três coisas e monta o resto sozinho.
       texto:
-        'Ein Foto der Öffnung, zwei Maße, die Art der Wand. Dreißig Sekunden mit dem Handy in der Hand — mehr verlangt das System nicht von Ihnen.',
+        'Ein Foto, zwei Maße, die Art der Wand. Mehr verlangt das System nicht von Ihnen — den Rest baut es allein.',
       ficha: {
         vao: 'Öffnung',
         parede: 'Wand',
@@ -225,7 +230,7 @@ export default {
       selo: 'Dokument fertig',
       titulo: 'Mit Ihrem Logo, nicht mit unserem.',
       texto:
-        'Logo, Telefonnummer, Gültigkeit, Lieferzeit und die Zeile für die Unterschrift. Dieses Blatt lässt den Kunden einen Betrieb sehen und keine Handschlag-Lösung — und es kam von allein.',
+        'Logo, Telefonnummer, Gültigkeit, Lieferzeit und die Zeile für die Unterschrift. Dieses Blatt lässt den Kunden einen Betrieb sehen und kein Handschlag auf gut Glück — und es kam von allein.',
       linhas: {
         logo: 'Ihr Logo und Ihre Daten im Briefkopf',
         prazo: 'Gültigkeit und Lieferzeit schriftlich',

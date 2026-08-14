@@ -47,8 +47,18 @@ const AREA_CHAPA = (CHAPA.l * CHAPA.a) / 1e6
 const APROVEITAMENTO_ANTES = R.m2Pedido / (R.chapasSemRetalho * AREA_CHAPA)
 const M2_CHAPA = AREA_CHAPA
 
-const mm = (n) => n.toLocaleString('pt-BR')
-const m2 = (n) => n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+/* Os separadores de número acompanham o idioma da página, e não o português.
+   Português, espanhol e alemão escrevem 2.100 e 2,73; inglês escreve 2,100 e
+   2.73 — trocado, um leitor inglês lê "2,73 m²" como dois mil e setecentos.
+
+   O idioma fica numa variável do módulo, e não num parâmetro, porque `mm` é
+   chamado lá dentro do desenho de cada folha — passar o idioma por seis níveis
+   de componente para formatar um número não pagaria o barulho. Cada página
+   renderiza um idioma só, então não há duas leituras concorrentes. */
+const LOCAIS = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }
+let local = LOCAIS.pt
+const mm = (n) => n.toLocaleString(local)
+const m2 = (n) => n.toLocaleString(local, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 const pct = (n) => `${Math.round(n * 100)}%`
 
 /* ── o desenho de uma chapa (ou retalho) ─────────────────────────────────── */
@@ -289,7 +299,8 @@ const FASES = ['pronto', 'otimizando', 'plano', 'realocando', 'economia']
 const TEMPO = { otimizando: 2400, realocando: 1800 }
 
 export default function Retalho() {
-  const { c } = useIdioma()
+  const { c, idioma } = useIdioma()
+  local = LOCAIS[idioma] ?? LOCAIS.pt
   const t = c.demos.retalho
   const [fase, setFase] = useState('pronto')
   const relogio = useRef(0)
@@ -512,10 +523,30 @@ export default function Retalho() {
                 <p className="mt-2.5 text-[15px] font-bold leading-snug text-ink">
                   {t.plano.servem(RETALHOS.length)}
                 </p>
-                <ul className="mt-2.5 space-y-1">
+                {/* Antes eram duas linhas de texto corrido, e cada uma repetia
+                    "vidro que você já comprou" por extenso — o olho lia a mesma
+                    frase duas vezes e o cérebro parava de ler na segunda. Agora
+                    a medida é o dado, e o que ela vale vem em pílula ao lado:
+                    a área em m² (calculada, não escrita) e o carimbo de que
+                    aquilo já é matéria-prima paga. */}
+                <ul className="mt-3 space-y-2">
                   {RETALHOS.map((r) => (
-                    <li key={r.l} className="font-mono text-[13px] font-semibold text-dim">
-                      {t.plano.medida(`${mm(r.l)} × ${mm(r.a)}`)}
+                    <li key={r.l} className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+                      <span className="font-mono text-[13.5px] font-bold text-ink">
+                        {mm(r.l)} × {mm(r.a)}
+                      </span>
+                      <span
+                        className="rounded-full px-2 py-0.5 font-mono text-[11.5px] font-bold"
+                        style={{ background: 'rgba(14,123,156,.1)', color: '#0e7b9c' }}
+                      >
+                        {m2((r.l * r.a) / 1e6)} m²
+                      </span>
+                      <span
+                        className="rounded-full px-2 py-0.5 text-[11.5px] font-bold"
+                        style={{ background: 'rgba(14,140,106,.1)', color: '#0e8c6a' }}
+                      >
+                        {t.plano.jaPago}
+                      </span>
                     </li>
                   ))}
                 </ul>

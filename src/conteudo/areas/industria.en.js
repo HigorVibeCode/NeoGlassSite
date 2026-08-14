@@ -19,11 +19,14 @@ export default {
       antes: 'Glass you never buy',
       destaque: 'is profit.',
     },
-    // "sem vender nada a mais" virou "without selling a square metre more":
-    // em inglês a ideia abstrata de vender mais precisa de uma unidade para
-    // morder, e m² é a unidade em que este leitor pensa o dia inteiro.
+    /* A segunda metade dizia a margem pelo lado fraco — pela venda que não
+       aconteceu ("without selling a square metre more"). Agora é a inversão do
+       pt (vender mais × desperdiçar menos), que é a lógica com que o dono já
+       decide. Em inglês falado de fábrica quem lucra "makes money", não
+       "profits"; e os dois gerúndios ficam sem "by" dos dois lados para o
+       contraste bater no mesmo ritmo do português. */
     texto:
-      'The optimizer looks in your rack before it opens a new sheet. That’s margin you take in without selling a square metre more.',
+      'The optimizer looks in your rack before it opens a new sheet. A glass plant doesn’t make its money selling more — it makes it wasting less.',
     // Ponto decimal em vez de vírgula: o número é o mesmo, muda só a
     // convenção de leitura. A unidade (m²) fica, é padrão do setor também
     // em inglês.
@@ -33,7 +36,7 @@ export default {
        forma mais cara de perder a confiança que a página constrói. */
     marcas: [
       ['87.4%', 'yield on the cutting plan'],
-      ['3.42 m²', 'of glass never bought'],
+      ['3.42 m²', 'of raw material saved'],
       ['0', 'spreadsheets to keep'],
     ],
   },
@@ -47,7 +50,7 @@ export default {
        apertando, que é o motivo de existir uma demonstração. */
     titulo: 'Three sheets become two. Right in front of you.',
     texto:
-      'A real 20-piece order, run by the same optimizer, right here in your browser. Hit the button and watch where the glass stops being bought.',
+      'A real 20-piece order, run by the same optimizer, right here in your browser. Hit the button and watch where the raw material stops being bought.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────

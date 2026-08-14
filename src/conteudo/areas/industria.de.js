@@ -21,8 +21,18 @@ export default {
       antes: 'Glas, das Sie nicht kaufen,',
       destaque: 'ist Gewinn.',
     },
+    /* A segunda metade dizia a margem pela venda que não aconteceu ("ohne dass
+       Sie einen Quadratmeter mehr verkaufen"). Entrou a inversão do pt (vender
+       mais × desperdiçar menos), na forma de ditado que o alemão tem e o
+       português não: "verdient nicht, wer…, sondern wer…". Sai mais curto e
+       soa como frase de chão de fábrica, não de folheto.
+       O limite aqui é o comprimento: este é o texto de maior corpo da página e
+       acima de ~150 caracteres o hero vira cinco linhas no celular. Por isso a
+       primeira frase perdeu peso ("sucht" no lugar de "schaut auf", plural
+       "neue Tafeln" no lugar de "eine neue Tafel") — 149 no total. Quem mexer
+       aqui, conte os caracteres antes de dar por pronto. */
     texto:
-      'Die Optimierung schaut erst auf Ihr Gestell, bevor sie eine neue Tafel anschneidet. Das ist Marge, die hereinkommt, ohne dass Sie einen Quadratmeter mehr verkaufen.',
+      'Die Optimierung sucht erst in Ihrem Gestell, bevor sie neue Tafeln anschneidet. Geld verdient nicht, wer mehr verkauft, sondern wer weniger wegwirft.',
     // Vírgula decimal como em português — em alemão é a mesma convenção.
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
@@ -30,7 +40,7 @@ export default {
        forma mais cara de perder a confiança que a página constrói. */
     marcas: [
       ['87,4%', 'Ausnutzung im Schnittplan'],
-      ['3,42 m²', 'Glas, das nicht gekauft wurde'],
+      ['3,42 m²', 'Rohglas eingespart'],
       ['0', 'Tabellen zu pflegen'],
     ],
   },
@@ -45,7 +55,7 @@ export default {
        natural dessa expressão é no fim. */
     titulo: 'Aus drei Tafeln werden zwei. Vor Ihren Augen.',
     texto:
-      'Ein echter Auftrag mit 20 Teilen, gerechnet vom echten Optimierer, hier in Ihrem Browser. Drücken Sie auf Optimieren und sehen Sie, welches Glas Sie nicht kaufen.',
+      'Ein echter Auftrag mit 20 Teilen, gerechnet vom echten Optimierer, hier in Ihrem Browser. Drücken Sie auf Optimieren und sehen Sie, welches Rohglas Sie nicht kaufen.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────

@@ -99,14 +99,14 @@ function useFilme(duracoes, ligado, reduzido) {
   const atual = useRef({ i, ms })
   atual.current = { i, ms }
 
-  /* O filme para enquanto o ponteiro está em cima, e volta quando sai.
-     Sem isto, quem quer reler uma cena tem que esperar o ciclo inteiro dar a
-     volta — e o subtítulo de cada cena tem duas linhas de texto que valem ser
-     lidas. Também para no toque longo do celular e quando o foco do teclado
-     entra na seção, para quem navega sem mouse ter a mesma saída. */
+  /* Pausa por botão, não por hover.
+     A primeira versão parava quando o ponteiro entrava na seção — e a seção
+     ocupa a tela inteira, então na prática o filme ficava parado o tempo todo
+     no computador e o visitante não entendia por quê. Controle invisível que
+     dispara sozinho é pior que controle nenhum: ninguém sabe que existe, nem
+     que desligou. Agora é um botão, e ele diz em que estado está. */
   const [pausado, setPausado] = useState(false)
-  const parar = () => setPausado(true)
-  const seguir = () => setPausado(false)
+  const alternar = () => setPausado((v) => !v)
 
   useEffect(() => {
     if (reduzido) return setEstado({ i: duracoes.length - 1, ms: duracoes[duracoes.length - 1] })
@@ -149,7 +149,7 @@ function useFilme(duracoes, ligado, reduzido) {
   const t = clamp((ms - CHEGADA) / Math.max(1, duracao - CHEGADA - DESCANSO))
   const barra = clamp(ms / duracao)
 
-  return { i, t, barra, pausado, parar, seguir, ir: (n) => setEstado({ i: n, ms: 0 }) }
+  return { i, t, barra, pausado, alternar, ir: (n) => setEstado({ i: n, ms: 0 }) }
 }
 
 function Medidor({ cena, t, tx }) {
@@ -225,7 +225,7 @@ export default function Jornada() {
   const reduzido = useReducedMotion()
   const naTela = useNaTela(ref)
   const duracoes = useRef(CENAS.map((c) => c.duracao)).current
-  const { i, t, barra, pausado, parar, seguir, ir } = useFilme(duracoes, naTela, reduzido)
+  const { i, t, barra, pausado, alternar, ir } = useFilme(duracoes, naTela, reduzido)
 
   const cena = CENAS[i]
   const espaco = compacto ? PALCO_MOVEL : PALCO
@@ -236,19 +236,33 @@ export default function Jornada() {
       ref={ref}
       data-jornada=""
       aria-label={t9n.secao.aria}
-      onMouseEnter={parar}
-      onMouseLeave={seguir}
-      onFocusCapture={parar}
-      onBlurCapture={seguir}
-      onPointerDown={parar}
-      onPointerUp={seguir}
-      onPointerCancel={seguir}
       className="mx-auto flex min-h-[100svh] w-full max-w-[1240px] flex-col gap-5 px-5 py-14 sm:px-8"
     >
       <div className="shrink-0">
-        <div className="flex items-baseline justify-between gap-6 border-t border-line pt-3">
+        <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
           <p className="cota uppercase">{t9n.secao.rotulo}</p>
-          <p className="cota shrink-0 opacity-70">{t9n.secao.folha}</p>
+          <div className="flex shrink-0 items-center gap-3">
+            <button
+              type="button"
+              onClick={alternar}
+              aria-pressed={pausado}
+              aria-label={pausado ? t9n.secao.tocar : t9n.secao.pausar}
+              className="flex min-h-[34px] items-center gap-2 rounded-full border border-line bg-card px-3 text-[12px] font-bold text-dim transition-colors hover:text-ink"
+            >
+              <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0" aria-hidden="true">
+                {pausado ? (
+                  <path d="M2.5 1.4 10 6l-7.5 4.6z" fill="currentColor" />
+                ) : (
+                  <>
+                    <rect x="2.4" y="1.6" width="2.6" height="8.8" rx="0.8" fill="currentColor" />
+                    <rect x="7" y="1.6" width="2.6" height="8.8" rx="0.8" fill="currentColor" />
+                  </>
+                )}
+              </svg>
+              {pausado ? t9n.secao.tocar : t9n.secao.pausar}
+            </button>
+            <p className="cota opacity-70">{t9n.secao.folha}</p>
+          </div>
         </div>
         <h2 className="display mt-4 max-w-[26ch] text-[clamp(21px,3vw,38px)]">
           {t9n.secao.titulo}

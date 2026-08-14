@@ -56,9 +56,16 @@ export default {
   // ── A demonstração do orçamento ───────────────────────────────────────
   demo: {
     rotulo: 'Demo · von der Öffnung zum PDF, in 3 Schritten',
-    titulo: 'Öffnung messen. Das Angebot steht, bevor Sie zurück im Betrieb sind.',
-    texto:
-      'Eine Fensteröffnung ist bereits aufgemessen und wartet auf Sie. Auf den Knopf drücken und zusehen: Das Fenster baut sich über dem Maß auf, das Angebot füllt sich von selbst und das PDF kommt mit Ihrem Logo heraus. Am Ende sagt Ihnen die Seite, wie viele Sekunden das gedauert hat.',
+    /* O título carrega a seção sozinho — o parágrafo de apoio saiu. A promessa
+       é o ANGEBOT EM PDF já pronto, ainda na obra: por isso a frase termina no
+       documento, e não na assinatura. O tempo é medido pelo Bandmaß e não por
+       um cronômetro inventado — o Glaser faz a conta sozinho. É a mesma imagem
+       da linha das 08:40, de propósito.
+       Comprimento: este h2 é grande e tem `max-w-[20ch]` — acima de ~70
+       caracteres vira quatro linhas. Esta tem 68, e é por isso que o objeto do
+       primeiro verbo ficou de fora: 'Messen Sie die Öffnung' levaria a frase a
+       80, e 'von der Öffnung zum PDF' já está no rótulo logo acima. */
+    titulo: 'Messen Sie. Das PDF-Angebot ist da, bevor Sie das Bandmaß einpacken.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -66,25 +73,30 @@ export default {
     rotulo: 'Ein Tag, von morgens bis abends',
     titulo: 'Nichts Neues in Ihrem Tag. Nur die Nacharbeit, die daraus verschwindet.',
     horas: [
+      /* As quatro descrições listavam o que o SISTEMA faz. Agora dizem o que o
+         Glaser deixa de fazer naquele horário — é o que ele reconhece do
+         próprio dia. Comprimento: os cartões são estreitos e alemão estoura
+         fácil; teto de ~110 caracteres por descrição, e nenhuma passa de 100.
+         Por isso duas frases curtas em vez de uma longa com subordinada. */
       [
         '08:40',
         'Auf der Baustelle',
-        'Sie messen die Öffnung am Handy, machen das Foto, wählen Dicke und Farbe. Der Preis rechnet sich mit Ihrer eigenen Preisliste, und der Kunde unterschreibt direkt auf dem Display.',
+        'Sie messen, fotografieren, wählen aus. Der Kunde unterschreibt, bevor Sie das Bandmaß einpacken.',
       ],
       [
         '11:20',
         'In der Werkstatt',
-        'Der Auftrag kommt mit Schnittmaßen an, bei denen die Luft schon abgezogen ist. Niemand tippt etwas ab, niemand ruft wegen der Dicke an.',
+        'Der Auftrag kam mit abgezogener Luft an. Niemand hat wegen der Dicke angerufen.',
       ],
       [
         '15:00',
         'An der Werkbank',
-        'Jede Scheibe geht etikettiert raus. Was von der Tafel übrig bleibt, kommt mit Maß als Restglas zurück ins Lager — und bewirbt sich um den nächsten Auftrag, statt an der Wand zu lehnen.',
+        'Jede Scheibe hat ihr Etikett. Das Restglas liegt im Lager und bewirbt sich um den nächsten Auftrag.',
       ],
       [
         'Freitag',
         'Zum Wochenschluss',
-        'Sie sehen, welche Aufträge Marge gebracht haben und welche nur Arbeit. Eine Zahl, keine Tabelle.',
+        'Sie wissen, welcher Auftrag Marge gebracht hat und welcher nur Arbeit. Ohne Tabelle zu öffnen.',
       ],
     ],
   },
@@ -92,7 +104,14 @@ export default {
   // ── O antes e o depois ────────────────────────────────────────────────
   contraste: {
     rotulo: 'Was sich in Ihrer Woche ändert',
-    titulo: 'Dieselbe Mannschaft, ohne die Nacharbeit.',
+    /* "ohne die Nacharbeit" só descrevia a falta de um problema. Esta diz o que
+       a semana passa a ter, e "dieselbe Mannschaft" já mata a objeção de que
+       profissionalizar exige contratar alguém. "mehr geht raus, weniger kommt
+       zurück" listava dois efeitos e gastava o título nisso; a lista de pares
+       logo abaixo já mostra os dois, um por linha. O título agora só nomeia o
+       ganho e deixa a prova para a lista — e de quebra cai de 57 para 42
+       caracteres, dentro do teto deste h2. */
+    titulo: 'Dieselbe Mannschaft, deutlich effizienter.',
     hoje: 'Heute, in Kladde und WhatsApp',
     pares: [
       [
@@ -120,11 +139,16 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Glaserei-Paket · Preis ohne Kleingedrucktes',
-    titulo: 'Eine Zahl — und sie bleibt diese Zahl.',
-    // `valor` chega e não é usado: ver o cabeçalho do arquivo.
+    rotulo: 'Glaserei-Paket · was es kostet und was nicht',
+    /* Este h2 é grande: acima de ~42 caracteres ele vira quatro linhas. Daí a
+       forma curta — 'Ein Auftrag im Monat deckt das ganze Jahr.' bate os 42 no
+       fio, e sem 'ganze' a frase diz o mesmo em 36. */
+    titulo: 'Ein Auftrag im Monat deckt das Jahr.',
+    /* `valor` chega e não é usado: ver o cabeçalho do arquivo. A versão antiga
+       terminava em "Behalten Sie diesen Auftrag im Kopf" — tarefa para o
+       leitor. Agora a própria frase fecha a conta, que era o ponto. */
     texto: () =>
-      'Das Angebot, das sich oben von selbst gerechnet hat, war ein Wohnzimmerfenster: Glas, Beschlag und Montage — der Auftrag, der an jedem Dienstag reinkommt. Behalten Sie diesen Auftrag im Kopf, während Sie die Zahl darunter lesen.',
+      'Das Angebot, das sich oben von selbst gerechnet hat, war ein Wohnzimmerfenster: Glas, Beschlag und Montage — der Auftrag, der bei Ihnen an jedem Dienstag reinkommt. Einer davon im Monat, und das System ist bezahlt, mit Abstand.',
     /* O nome do pacote, dito por extenso, num selo de ~120 px em maiúscula:
        'NeoGlass für Glasereien' (23) não cabe. 'Glaserei-Paket' são 14
        caracteres, é composto alemão normal e diz o mesmo — o nome do produto
@@ -172,17 +196,27 @@ export default {
   // ── A chamada de quem já tem preço na tela ────────────────────────────
   chamada: {
     rotulo: 'Loslegen',
-    titulo: 'Fangen Sie mit dem nächsten Angebot an, das reinkommt.',
+    /* "Fangen Sie mit dem nächsten Angebot an" já propunha um passo pequeno,
+       mas não respondia o motivo real de ninguém testar: o Glasermeister
+       presume que trocar de sistema significa passar cliente, tabela e
+       histórico a limpo ANTES de ver a primeira tela. A primeira frase agora
+       tira esse peso, e só depois vem o convite. */
+    titulo: 'Migrieren Sie nichts. Rechnen Sie nur das nächste Angebot hier.',
+    // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
+    // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `Sie legen das Konto an, hinterlegen Ihre Preisliste und rechnen das erste Angebot noch heute. ${
+      `Keine Kunden anzulegen, keine Historie zu importieren: Sie hinterlegen Ihren Preis pro m², und das nächste Angebot, das reinkommt, entsteht schon hier. ${
         dias > 0
           ? `${dias} Tage lang ohne Karte und ohne Verpflichtung.`
           : 'Keine Laufzeit: Wenn es nicht passt, gehen Sie.'
       } Wenn wir es zusammen aufsetzen sollen, schreiben Sie uns per WhatsApp.`,
+    /* Os três passos agora carregam o QUANDO. Eles moram em cartões estreitos:
+       cada linha fica em ~60 caracteres, senão quebra feio em alemão — daí
+       'Heute:' e 'Beim nächsten Auftrag:' curtos, no infinitivo. */
     passos: [
-      'Konto anlegen und Ihren Preis pro m² eintragen',
-      'Das nächste Angebot in der App rechnen, auf der Baustelle',
-      'Der Kunde unterschreibt, der Auftrag entsteht fehlerfrei',
+      'Heute: Konto anlegen und Preis pro m² eintragen',
+      'Beim nächsten Auftrag: am Handy messen und rechnen',
+      'Der Kunde unterschreibt — Sie vergleichen mit Ihrem Alltag',
     ],
   },
 

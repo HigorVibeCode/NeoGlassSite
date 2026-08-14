@@ -34,7 +34,12 @@ export default {
     // saiu daqui porque ele já está três vezes na mesma tela: na régua de
     // marcas, no cartão e na demonstração.
     texto:
-      'A otimização procura no seu cavalete antes de abrir chapa nova. É margem que entra sem você vender nada a mais.',
+      /* "margem que entra sem vender nada a mais" dizia a verdade pelo lado
+       fraco — pela ausência de uma venda. Fábrica de vidro não cresce vendendo
+       mais: cresce parando de jogar fora, porque o insumo é caro, o refugo é
+       irrecuperável e o metro quadrado perdido já foi pago. Dito assim, é a
+       lógica que o dono já usa para tomar decisão. */
+      'A otimização procura no seu cavalete antes de abrir chapa nova. Fábrica de vidro não lucra vendendo mais — lucra desperdiçando menos.',
     // Números e unidades não se traduzem; só a vírgula decimal vira ponto em
     // inglês, que é como o leitor de lá lê 3,42 sem tropeçar.
     // ("6 etapas, da obra à margem" saiu daqui: seis etapas não é bom nem
@@ -44,8 +49,12 @@ export default {
        sistema não está definida, e prometer o que a fatura não cumpre é a
        forma mais cara de perder a confiança que a página constrói. */
     marcas: [
-      ['87,4%', 'de aproveitamento no plano'],
-      ['3,42 m²', 'de vidro que não foi comprado'],
+      ['87,4%', 'de aproveitamento no plano de corte'],
+      /* A segunda marca dizia "de vidro que não foi comprado" — descrevia uma
+         compra que deixou de acontecer, que é uma ideia de duas etapas. Numa
+         fábrica, matéria-prima economizada é a linha do orçamento dele: chega
+         inteira, sem o leitor precisar montar a conta. */
+      ['3,42 m²', 'de matéria-prima economizada'],
       ['0', 'planilha para manter'],
     ],
   },
@@ -60,7 +69,7 @@ export default {
        resto ele descobre apertando, que é o ponto de existir uma demonstração. */
     titulo: 'Três chapas viram duas. Na sua frente.',
     texto:
-      'Um pedido real de 20 peças, com o otimizador de verdade rodando aqui no seu navegador. Aperte e veja onde o vidro deixa de ser comprado.',
+      'Um pedido real de 20 peças, com o otimizador de verdade rodando aqui no seu navegador. Aperte e veja onde a matéria-prima deixa de ser comprada.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────

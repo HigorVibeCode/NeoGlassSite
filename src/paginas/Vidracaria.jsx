@@ -80,7 +80,10 @@ export default function Vidracaria() {
       <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32">
         <Bloco rotulo={t.demo.rotulo} folha={`FL. 02/${folhas}`} />
         <h2 className="display mt-7 max-w-[20ch] text-[clamp(30px,4.4vw,54px)]">{t.demo.titulo}</h2>
-        <p className="mt-5 max-w-[62ch] text-[16.5px] leading-[1.55] text-dim">{t.demo.texto}</p>
+        {/* O parágrafo de apoio saiu daqui. Ele repetia o que o próprio botão
+            já anuncia e ainda prometia um cronômetro que ninguém pediu. O
+            título entrega a promessa e a demonstração faz o resto — quem chega
+            até aqui quer apertar, não ler mais um parágrafo. */}
 
         <div className="mt-10">
           <Orcamento />

@@ -23,6 +23,9 @@ export default {
     rotulo: 'Um pedido, seis etapas · toca sozinho',
     // numeração de prancha, como em folha de projeto
     folha: 'FL. 03/06',
+    // Os dois rótulos do botão de tocar/pausar do filme.
+    tocar: 'Tocar',
+    pausar: 'Pausar',
     /* Era "do celular na obra até a margem na tela" — dois lugares e nenhum
        verbo, e "margem na tela" soa a relatório. O que este filme mostra é um
        pedido só atravessando a empresa inteira sem ser redigitado. */

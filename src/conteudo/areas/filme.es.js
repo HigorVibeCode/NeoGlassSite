@@ -16,6 +16,13 @@ export default {
     rotulo: 'Un pedido, seis etapas · se reproduce solo',
     // H. de hoja, la numeración de plano
     folha: 'H. 03/06',
+    /* Os dois rótulos do botão de tocar/pausar do filme. O botão é pequeno e
+       ainda leva o ícone ao lado: "Reproducir" tem os 10 caracteres do limite
+       inteiros e aperta o rótulo contra a folha. "Reanudar" tem 8 e é mais
+       exato — o filme toca sozinho, então o que este botão faz é retomar o
+       que o visitante pausou, nunca começar do zero. */
+    tocar: 'Reanudar',
+    pausar: 'Pausa',
     /* Antes eram dois lugares e nenhum verbo. O que o filme mostra é um pedido
        só atravessando a empresa inteira sem ninguém redigitar nada. "Nota" é
        nota fiscal: em espanhol, "factura". */

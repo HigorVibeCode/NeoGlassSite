@@ -14,6 +14,12 @@ export default {
     rotulo: 'One order, six stages · plays by itself',
     // SH. de sheet, a numeração de prancha
     folha: 'SH. 03/06',
+    // Os dois rótulos do botão de tocar/pausar do filme. O botão é uma pílula
+    // estreita ao lado do carimbo da folha, com o ícone à esquerda: até 10
+    // caracteres cada, e os dois têm que ter largura parecida — o botão troca
+    // de rótulo no clique e não pode saltar de tamanho.
+    tocar: 'Play',
+    pausar: 'Pause',
     /* Era "from the phone on site to the margin on screen" — dois lugares e
        nenhum verbo. O que o filme mostra é um pedido só atravessando a empresa
        inteira sem ninguém redigitar nada. */

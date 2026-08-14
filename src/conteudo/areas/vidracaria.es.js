@@ -42,9 +42,14 @@ export default {
   // ── A demonstração do orçamento ───────────────────────────────────────
   demo: {
     rotulo: 'Demostración · del hueco al PDF, en 3 toques',
-    titulo: 'Mide el hueco. El presupuesto sale antes de que vuelvas al taller.',
-    texto:
-      'Hay un hueco de ventana ya medido esperándote. Pulsa el botón y míralo: la ventana se monta sobre la medida, el presupuesto se rellena solo y el PDF sale con tu marca. Al final, la propia página te dice cuántos segundos tardó.',
+    /* O título carrega a seção sozinho — o parágrafo de apoio saiu. A promessa
+       é o PRESUPUESTO EM PDF já pronto, ainda na obra: por isso a frase termina
+       no documento, e não na assinatura. O tempo é medido pelo metro e não por
+       um cronômetro inventado — "antes de que guardes el metro" é a unidade que
+       o cristalero usa para dizer "fue rápido", e ele mesmo faz a conta. É a
+       mesma imagem da linha das 08:40, de propósito. Tratamento por "tú", como
+       no resto do arquivo. */
+    titulo: 'Mide el hueco. El presupuesto en PDF sale antes de que guardes el metro.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -52,25 +57,28 @@ export default {
     rotulo: 'Un día, de principio a fin',
     titulo: 'Nada nuevo en tu día. Solo el retrabajo que sale de él.',
     horas: [
+      /* As quatro descrições eram lista de funcionalidade: cada uma contava o
+         que o SISTEMA faz. Reescritas para dizer o que o cristalero DEIXA de
+         fazer naquela hora — que é o que ele reconhece do próprio dia. */
       [
         '08:40',
         'En obra',
-        'Mides el hueco desde el teléfono, haces la foto y eliges espesor y color. El precio se monta con tu tarifa y el cliente firma allí mismo, en la pantalla.',
+        'Mides, haces la foto y eliges. El cliente firma en tu pantalla antes de que guardes el metro.',
       ],
       [
         '11:20',
         'En el taller',
-        'El pedido llega con las medidas de corte ya descontadas las holguras. Nadie vuelve a teclear nada, nadie llama para confirmar el espesor.',
+        'El pedido entró con las holguras ya descontadas. Nadie llamó para confirmar el espesor.',
       ],
       [
         '15:00',
         'En el banco',
-        'Cada pieza sale etiquetada. Lo que sobra de la plancha vuelve al stock con su medida — y entra a competir por el siguiente trabajo en vez de quedarse apoyado en la pared.',
+        'Cada pieza con su etiqueta. Y el recorte ya está en el stock, peleando por el siguiente trabajo.',
       ],
       [
         'viernes',
         'Al final de la semana',
-        'Ves qué trabajos dejaron margen y cuáles solo dejaron trabajo. Un número, no una hoja de cálculo.',
+        'Sabes qué trabajos dejaron margen y cuáles solo dejaron trabajo. Sin abrir una hoja de cálculo.',
       ],
     ],
   },
@@ -78,7 +86,13 @@ export default {
   // ── O antes e o depois ────────────────────────────────────────────────
   contraste: {
     rotulo: 'Lo que cambia en tu semana',
-    titulo: 'El mismo equipo, sin el retrabajo.',
+    /* "sin el retrabajo" descrevia a falta de um problema. Esta diz o que a
+       semana passa a ter — e "la misma gente" derruba de saída a objeção de
+       que profissionalizar obriga a contratar alguém. "Entregando más y
+       rehaciendo menos" listava dois efeitos e gastava o título nisso; a lista
+       de pares logo abaixo já mostra os dois, um por linha. O título agora só
+       nomeia o ganho e deixa a prova para a lista. */
+    titulo: 'La misma gente de siempre, con mucha más eficiencia.',
     hoje: 'Hoy, en el cuaderno y en WhatsApp',
     pares: [
       [
@@ -106,11 +120,14 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Plan Cristalería · precio sin letra pequeña',
-    titulo: 'Un solo número, y sigue siendo ese.',
-    // `valor` chega e não é usado: ver o cabeçalho do arquivo.
+    rotulo: 'Plan Cristalería · lo que cuesta y lo que no',
+    titulo: 'Un trabajo al mes paga el año entero.',
+    /* `valor` chega e não é usado: ver o cabeçalho do arquivo. A versão antiga
+       mandava "ten ese trabajo en la cabeza mientras lees el número de abajo"
+       — tarefa para o leitor. Agora a frase já fecha a conta por ele, que era
+       o ponto, e continua sem citar cifra nenhuma. */
     texto: () =>
-      'El presupuesto que acabas de ver montarse era una ventana de salón: vidrio, herrajes e instalación, el trabajo que entra cualquier martes. Ten ese trabajo en la cabeza mientras lees el número de abajo.',
+      'El presupuesto que acabas de ver salir era una ventana corriente: vidrio, herrajes e instalación, de las que entran cualquier martes. Una al mes y el sistema queda pagado de sobra.',
     /* O nome do plano, dito por extenso e curto: o selo tem cerca de 120px.
        Antes dizia só "NeoGlass para cristalerías" e o visitante não tinha como
        saber se aquele número valia para a fábrica também. São produtos e
@@ -155,17 +172,27 @@ export default {
   // ── A chamada de quem já tem preço na tela ────────────────────────────
   chamada: {
     rotulo: 'Empezar',
-    titulo: 'Empieza por el próximo presupuesto que te entre.',
+    /* "Empieza por el próximo presupuesto" já propunha um passo pequeno, mas
+       não respondia o motivo real de ninguém testar: o vidraceiro presume que
+       trocar de sistema significa passar cliente, tabela e histórico a limpo
+       ANTES de ver a primeira tela. A primeira frase agora tira esse peso, e
+       só depois vem o convite. Tratamento por "tú", como no resto do arquivo. */
+    titulo: 'No migres nada. Haz aquí solo el próximo presupuesto.',
+    // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
+    // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `Creas la cuenta, cargas tu tarifa y montas el primer presupuesto hoy mismo. ${
+      `Ningún cliente que dar de alta, ningún histórico que importar: pones tu precio por m² y el próximo presupuesto que te entre ya sale de aquí. ${
         dias > 0
           ? `Son ${dias} días sin tarjeta y sin compromiso.`
           : 'Sin permanencia: si no te sirve, te vas.'
       } Y si prefieres que lo montemos juntos, nos escribes por WhatsApp.`,
+    /* Os três passos agora carregam o QUANDO: quem lê "hoy" no primeiro e "en
+       la próxima obra" no segundo entende que dá para testar sem parar a
+       semana. */
     passos: [
-      'Creas la cuenta y pones tu precio por m²',
-      'Montas el próximo presupuesto en la app, en obra',
-      'El cliente firma y el pedido nace correcto',
+      'Hoy: creas la cuenta y pones tu precio por m²',
+      'En la próxima obra: mides y montas el presupuesto en el teléfono',
+      'El cliente firma en la pantalla — y lo comparas con tu forma de hoy',
     ],
   },
 

@@ -42,9 +42,11 @@ export default {
   // ── A demonstração do orçamento ───────────────────────────────────────
   demo: {
     rotulo: 'Demonstração · do vão ao PDF, em 3 toques',
-    titulo: 'Meça o vão. O orçamento sai antes de você voltar para a loja.',
-    texto:
-      'Tem um vão de janela já medido esperando por você. Aperte o botão e acompanhe: a janela se monta sobre a medida, o orçamento se preenche sozinho e o PDF sai com a sua marca. No fim, o próprio site diz quantos segundos aquilo levou.',
+    /* O título carrega a seção sozinho: o parágrafo de apoio que ficava abaixo
+       repetia o botão e prometia um cronômetro que ninguém pediu.
+       "Guardar a trena" mede o tempo sem inventar número — é a unidade que o
+       vidraceiro usa para dizer "foi rápido", e ele mesmo faz a conta. */
+    titulo: 'Meça o vão. A proposta em PDF sai antes de você guardar a trena.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -54,25 +56,29 @@ export default {
     // A hora é a chave da lista no componente: cada uma tem que ser única.
     // As horas em número não se traduzem; 'sexta' sim.
     horas: [
+      /* As quatro descrições eram listas de funcionalidade em ordem
+         cronológica — cada uma explicava o que o SISTEMA faz. Reescritas para
+         dizer o que o vidraceiro deixa de fazer naquele horário, que é o que
+         ele reconhece do próprio dia. */
       [
         '08:40',
         'Na obra',
-        'Você mede o vão pelo celular, fotografa, escolhe espessura e cor. O preço monta com a sua tabela e o cliente assina ali, na tela.',
+        'Você mede, fotografa e escolhe. O cliente assina na sua tela antes de você guardar a trena.',
       ],
       [
         '11:20',
         'Na fábrica',
-        'O pedido chega com as medidas de corte já descontadas das folgas. Ninguém redigita, ninguém liga para confirmar espessura.',
+        'O pedido chegou com as folgas já descontadas. Ninguém ligou para confirmar espessura.',
       ],
       [
         '15:00',
         'Na bancada',
-        'Cada peça sai com etiqueta. O que sobrou da chapa volta ao estoque com medida — e disputa o próximo serviço em vez de encostar na parede.',
+        'Cada peça com etiqueta. E a sobra já está no estoque, disputando o próximo serviço.',
       ],
       [
         'sexta',
         'No fim da semana',
-        'Você vê quais serviços deram margem e quais só deram trabalho. Um número, não uma planilha.',
+        'Você sabe qual serviço deu margem e qual só deu trabalho. Sem abrir planilha.',
       ],
     ],
   },
@@ -80,7 +86,10 @@ export default {
   // ── O antes e o depois ────────────────────────────────────────────────
   contraste: {
     rotulo: 'O que muda na sua semana',
-    titulo: 'A mesma equipe, sem o retrabalho.',
+    /* "sem o retrabalho" descrevia a ausência de um problema. Esta diz o que
+       a semana passa a ter — e "a mesma gente" mata na largada a objeção de
+       que profissionalizar exige contratar alguém. */
+    titulo: 'A mesma gente, com muito mais eficiência.',
     hoje: 'Hoje, no caderno e no WhatsApp',
     // O lado esquerdo é a chave da lista: nenhum par pode começar igual.
     pares: [
@@ -114,14 +123,19 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Plano Vidraçaria · preço sem letra miúda',
-    titulo: 'Um número só, e ele cabe numa janela.',
+    rotulo: 'Plano Vidraçaria · o que custa e o que não custa',
+    /* "cabe numa janela" era trocadilho que exigia o parágrafo abaixo para
+       fazer sentido — trocadilho que precisa de explicação não é trocadilho.
+       Esta diz a mesma coisa e já entrega a comparação. */
+    titulo: 'Um serviço por mês paga o ano inteiro.',
     // `valor` é o total da demonstração (R$ 1.169) já formatado em reais. Ele
     // só existe em real: a demonstração inteira é feita com preço de m² e
     // ferragem do Brasil. Por isso só o português cita o número — os outros
     // três idiomas recebem o mesmo argumento e não usam o parâmetro.
     texto: (valor) =>
-      `O orçamento que você montou aqui em cima fechou em ${valor} — e era uma janela de sala. Guarde esse número enquanto lê o de baixo.`,
+      /* "Guarde esse número enquanto lê o de baixo" pedia uma tarefa ao
+         leitor. Agora a frase já faz a conta por ele — que era o ponto. */
+      `A janela que você acabou de orçar deu ${valor}. Uma por mês, e o sistema está pago com folga.`,
     /* O nome do plano, dito por extenso. Antes a seção só dizia "NeoGlass para
        vidraçaria" e o visitante não tinha como saber se aquele número valia
        para a fábrica também. São produtos e vendas diferentes: a indústria é
@@ -166,20 +180,28 @@ export default {
   // ── A chamada de quem já tem preço na tela ────────────────────────────
   chamada: {
     rotulo: 'Começar',
-    titulo: 'Comece pelo próximo orçamento que entrar.',
+    /* "Comece pelo próximo orçamento que entrar" já era bom: propõe um passo
+       pequeno em vez de uma decisão. Faltava matar o motivo real de ninguém
+       testar — o vidraceiro presume que trocar de sistema significa passar
+       cliente, tabela e histórico a limpo antes de ver a primeira tela. Não
+       precisa. A primeira frase agora tira esse peso, e só depois vem o convite. */
+    titulo: 'Não migre nada. Faça só o próximo orçamento aqui.',
     // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro,
     // e não no componente.
     texto: (dias) =>
-      `Você cria a conta, põe a sua tabela de preços e monta o primeiro orçamento hoje mesmo. ${
+      `Nenhum cliente para cadastrar, nenhum histórico para importar: você põe o seu preço do m² e o próximo orçamento que entrar já sai daqui. ${
         dias > 0
           ? `São ${dias} dias sem cartão e sem compromisso.`
           : 'Sem fidelidade: se não servir, você sai.'
-      } Se preferir que a gente monte junto, é só chamar no WhatsApp.`,
+      } Se preferir que a gente monte o primeiro junto, chame no WhatsApp.`,
+    /* Os três passos são o tamanho do compromisso, escritos em minutos: quem
+       lê "hoje" no primeiro e "na próxima obra" no terceiro entende que dá para
+       testar sem parar a semana. */
     passos: [
-      'Você cria a conta e põe o seu preço do m²',
-      'Monta o próximo orçamento no app, na obra',
-      'O cliente assina e o pedido nasce certo',
+      'Hoje: cria a conta e põe o seu preço do m²',
+      'Na próxima obra: mede e monta o orçamento no celular',
+      'O cliente assina na tela — e você compara com o seu jeito de hoje',
     ],
   },
 

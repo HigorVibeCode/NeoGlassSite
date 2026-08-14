@@ -42,9 +42,13 @@ export default {
   // ── A demonstração do orçamento ───────────────────────────────────────
   demo: {
     rotulo: 'Demo · from opening to PDF, in 3 taps',
-    titulo: 'Measure the opening. The quote is done before you drive back.',
-    texto:
-      'There is a window opening already measured, waiting for you. Press the button and watch: the window builds itself over the measurement, the quote fills in on its own and the PDF comes out with your logo on it. At the end, the page tells you how many seconds that took.',
+    /* O título carrega a seção sozinho — o parágrafo de apoio saiu. A promessa
+       é a PROPOSTA EM PDF já pronta, ainda na obra: por isso a frase termina no
+       documento, e não na assinatura. O tempo é medido pela trena e não por um
+       cronômetro inventado — "before you put the tape away" é a unidade que o
+       vidraceiro usa para dizer "foi rápido", e ele mesmo faz a conta. É a
+       mesma imagem da linha das 08:40, de propósito. */
+    titulo: 'Measure the opening. The PDF quote is ready before you put the tape away.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -52,25 +56,29 @@ export default {
     rotulo: 'One day, start to finish',
     titulo: 'Nothing new in your day. Just the rework taken out of it.',
     horas: [
+      /* As quatro descrições eram listas de funcionalidade em ordem
+         cronológica — cada uma explicava o que o SISTEMA faz. Reescritas para
+         dizer o que o vidraceiro deixa de fazer naquele horário, que é o que
+         ele reconhece do próprio dia. */
       [
         '08:40',
         'On site',
-        'You measure the opening on your phone, take the photo, pick thickness and colour. The price builds from your own rate card and the customer signs right there, on the screen.',
+        'You measure, you photograph, you pick the spec. The customer signs on your screen before you put the tape away.',
       ],
       [
         '11:20',
         'In the workshop',
-        'The order arrives with the cutting sizes already net of clearance. Nobody retypes anything, nobody calls to check the thickness.',
+        'The order arrived with the clearances already taken off. Nobody called to check the thickness.',
       ],
       [
         '15:00',
         'At the bench',
-        'Every piece comes off labelled. What is left of the sheet goes back into stock with its size — and gets put up for the next job instead of leaning against the wall.',
+        'Every piece labelled. And the offcut is already in stock, up for the next job.',
       ],
       [
         'Friday',
         'End of the week',
-        'You see which jobs carried a margin and which only carried work. One number, not a spreadsheet.',
+        'You know which jobs carried a margin and which only carried work. No spreadsheet to open.',
       ],
     ],
   },
@@ -78,7 +86,13 @@ export default {
   // ── O antes e o depois ────────────────────────────────────────────────
   contraste: {
     rotulo: 'What changes in your week',
-    titulo: 'Same crew. Without the rework.',
+    /* "Without the rework" descrevia a ausência de um problema. Esta diz o que
+       a semana passa a ter — e "the same crew" mata na largada a objeção de
+       que profissionalizar exige contratar alguém. "Delivering more and redoing
+       less" listava dois efeitos e gastava o título nisso; a lista de pares
+       logo abaixo já mostra os dois, um por linha. O título agora só nomeia o
+       ganho, e deixa a prova para a lista. */
+    titulo: 'The same crew, working far more efficiently.',
     hoje: 'Today, on the notepad and WhatsApp',
     pares: [
       [
@@ -106,12 +120,17 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Glass Shop Plan · pricing with no small print',
-    titulo: 'One number, and it stays that number.',
+    rotulo: 'Glass Shop Plan · what it costs and what it does not',
+    /* "One number, and it stays that number" era o trocadilho da janela em
+       outra forma: dizia do preço, não do que ele compra. Esta já entrega a
+       comparação — um serviço contra doze meses. */
+    titulo: 'One job a month pays for the whole year.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo. O parâmetro fica
     // na assinatura para as quatro versões terem a mesma forma.
+    // "Keep that job in your head while you read the number below" pedia uma
+    // tarefa ao leitor. Agora a frase já faz a conta por ele — que era o ponto.
     texto: () =>
-      'The quote you just watched build itself was one living-room window — glass, hardware and fitting, the job you would take on any Tuesday. Keep that job in your head while you read the number below.',
+      'The quote you just watched build itself was one living-room window — glass, hardware and fitting, the job you would take on any Tuesday. One of those a month, and the system is paid for with room to spare.',
     /* O nome do plano, no selo ao lado do número. Antes dizia "NeoGlass for
        glass shops" e estourava a pílula de ~120 px em caixa alta; e o visitante
        não tinha como saber se aquele preço valia para a fábrica também. São
@@ -158,17 +177,27 @@ export default {
   // ── A chamada de quem já tem preço na tela ────────────────────────────
   chamada: {
     rotulo: 'Getting started',
-    titulo: 'Start with the next quote that comes in.',
+    /* "Start with the next quote that comes in" já propunha um passo pequeno,
+       mas não respondia o motivo real de ninguém testar: o vidraceiro presume
+       que trocar de sistema significa passar cliente, tabela e histórico a
+       limpo ANTES de ver a primeira tela. A primeira frase agora tira esse
+       peso, e só depois vem o convite. */
+    titulo: 'Migrate nothing. Just run your next quote here.',
+    // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
+    // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `You open the account, load your own rate card and build the first quote today. ${
+      `No customers to set up, no history to import: you enter your own price per m² and the next quote that comes in already goes out from here. ${
         dias > 0
           ? `That is ${dias} days with no card and no commitment.`
           : 'No lock-in: if it does not suit you, you leave.'
       } If you would rather we set it up together, just message us on WhatsApp.`,
+    /* Os três passos agora carregam o QUANDO: quem lê "today" no primeiro e
+       "on the next job" no segundo entende que dá para testar sem parar a
+       semana. */
     passos: [
-      'You open the account and enter your own price per m²',
-      'Build the next quote in the app, on site',
-      'The customer signs and the order starts out right',
+      'Today: open the account and enter your price per m²',
+      'On the next job: measure and build the quote on your phone',
+      'The customer signs on screen — and you compare it with how you work today',
     ],
   },
 

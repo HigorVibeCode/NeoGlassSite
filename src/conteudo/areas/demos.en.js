@@ -32,7 +32,7 @@ export default {
       retalhoN: (n) => `Offcut ${n}`,
       cavaletePrimeiro: (pecas) => `Rack first · ${pecas} parts`,
       entaoChapaNova: (novas, antes) => `Only then new sheet · ${novas} instead of ${antes}`,
-      naoAberta: (n) => `Sheet ${n} · never opened`,
+      naoAberta: (n) => `Sheet ${n} · never used`,
     },
 
     // Os cinco formatos do pedido de exemplo.
@@ -66,9 +66,9 @@ export default {
       selo: 'Plan ready',
       titulo: (chapas, aproveitamento) => `${chapas} sheets · ${aproveitamento} yield`,
       texto: 'That is already a good plan. Every optimizer on the market stops here.',
-      achou: 'The system found something on the rack',
+      achou: 'Raw material sitting on the rack',
       servem: (retalhos) => `${retalhos} offcuts fit this order.`,
-      medida: (medida) => `${medida} mm · glass you have already paid for`,
+      jaPago: 'already paid for',
       parados:
         'They have been leaning on the wall since another order. As long as nobody uses them, they are money standing still.',
     },
@@ -87,14 +87,14 @@ export default {
     economia: {
       selo: 'What you are not going to spend',
       titulo: '1 whole sheet',
-      subtitulo: 'that never gets opened',
+      subtitulo: 'that never gets used',
       placar: {
         m2: (m2) => `${m2} m²`,
-        m2Texto: 'of paid glass back in play',
+        m2Texto: 'of raw material back in play',
         pecas: (noCavalete, total) => `${noCavalete} of ${total}`,
         pecasTexto: 'parts came off the rack',
         aproveitamento: (antes, depois) => `${antes} → ${depois}`,
-        aproveitamentoTexto: 'yield on the sheets you open',
+        aproveitamentoTexto: 'yield on the sheets used',
         retalhos: (retalhos) => `${retalhos} offcuts`,
         retalhosTexto: 'gone from the wall',
       },
@@ -157,7 +157,10 @@ export default {
         detalhe: (medida, m2) => `2 leaves · ${medida} mm · ${m2} m²`,
       },
       kit: {
-        nome: 'Sliding kit',
+        // "Sliding kit" era o nome da caixa de ferragem, não o do produto que
+        // o cliente comprou. A linha do orçamento diz a janela, como na tabela
+        // de preços de qualquer vidraçaria.
+        nome: 'Sliding window, 2 leaves',
         detalhe: 'top and bottom track, rollers, latch',
       },
       perfil: {
@@ -185,8 +188,12 @@ export default {
     vao: {
       selo: 'What you did on site',
       titulo: (vao, medida) => `${vao} · ${medida}`,
+      // "Thirty seconds with the phone in your hand" era número inventado: o
+      // site não mede isso em lugar nenhum. Saiu, e no lugar entrou a divisão
+      // de trabalho, que é verificável — ele dá três coisas, o resto é do
+      // sistema.
       texto:
-        'A photo of the opening, two measurements, the type of wall. Thirty seconds with the phone in your hand — that is all the system asks of you.',
+        'A photo, two measurements and the type of wall. That is all the system asks of you — the rest it puts together on its own.',
       ficha: {
         vao: 'Opening',
         parede: 'Wall',

@@ -70,6 +70,7 @@ export default function Industria() {
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}
+        agenda
       />
     </>
   )

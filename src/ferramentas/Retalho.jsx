@@ -24,10 +24,30 @@ import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
 const CHAPA = { l: 3210, a: 2250 }
 
+/* O retalho tem IDENTIDADE, não só medida.
+   Era esse o buraco da demonstração: dois retângulos tracejados com uma medida
+   dentro parecem sobra achada por acaso. O que convence dono de fábrica é o
+   contrário — que a sobra virou item de estoque, com código, endereço e data,
+   e que por isso o otimizador consegue contar com ela. `codigo` e `posicao`
+   fazem esse trabalho; `origem` e `dias` mostram que o registro nasceu sozinho
+   de um pedido anterior, e não de alguém lembrando de cadastrar. */
 const RETALHOS = [
-  { l: 2100, a: 1300 },
-  { l: 1480, a: 1200 },
+  { l: 2100, a: 1300, codigo: 'RT-0412', posicao: 'B · 03', origem: '25-1180', dias: 12 },
+  { l: 1480, a: 1200, codigo: 'RT-0389', posicao: 'B · 07', origem: '25-1147', dias: 26 },
 ]
+
+/* O cavalete inteiro, e não só o que serve para este pedido. É a diferença
+   entre "achamos duas sobras" e "o seu estoque está sob controle": o visitante
+   vê seis peças catalogadas, e o sistema escolhendo duas. As outras quatro
+   existem para ele reconhecer o próprio cavalete. */
+const ESTOQUE = [
+  ...RETALHOS,
+  { l: 980, a: 1450, codigo: 'RT-0401', posicao: 'B · 05', origem: '25-1166', dias: 18 },
+  { l: 1620, a: 640, codigo: 'RT-0377', posicao: 'A · 02', origem: '25-1131', dias: 31 },
+  { l: 740, a: 700, codigo: 'RT-0420', posicao: 'A · 09', origem: '25-1192', dias: 6 },
+  { l: 2260, a: 480, codigo: 'RT-0355', posicao: 'A · 11', origem: '25-1104', dias: 44 },
+]
+const SERVE = new Set(RETALHOS.map((r) => r.codigo))
 
 // `chave` é o nome da peça no módulo de textos: a medida é a mesma em todo
 // idioma, o nome do produto não.
@@ -236,20 +256,185 @@ function Cavalete() {
             strokeWidth="11"
             strokeDasharray="38 24"
           />
+          {/* O código vem ANTES da medida, e maior. É o que separa "sobra
+              encostada" de "item de estoque": no cavalete de verdade essa é a
+              etiqueta colada na peça, e é por ela que o encarregado acha o
+              vidro sem medir nada. A medida vira a legenda. */}
           <text
             x={x + r.l / 2}
-            y={CHAO - r.a / 2}
+            y={CHAO - r.a / 2 - 90}
             textAnchor="middle"
             dominantBaseline="central"
-            fontSize="140"
+            fontSize="165"
+            fontFamily="IBM Plex Mono, monospace"
+            fontWeight="700"
+            fill="#0e7b9c"
+          >
+            {r.codigo}
+          </text>
+          <text
+            x={x + r.l / 2}
+            y={CHAO - r.a / 2 + 105}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="120"
             fontFamily="IBM Plex Mono, monospace"
             fontWeight="600"
             fill="#0e7b9c"
+            opacity="0.75"
           >
             {mm(r.l)}×{mm(r.a)}
           </text>
         </g>
       ))}
+    </svg>
+  )
+}
+
+/* ── o cavalete inteiro, desenhado ──────────────────────────────────────────
+   A primeira versão desta tela era uma TABELA com código, medida, posição e
+   dias. Estava correta e era ilegível: número em coluna não conta história, e
+   quem abre o site não está auditando estoque — está tentando entender numa
+   olhada se aquilo serve para ele.
+
+   Aqui o mesmo dado vira desenho. As seis peças aparecem em escala real, umas
+   maiores que as outras, encostadas no cavalete como ficam na fábrica. As duas
+   que servem para o pedido acendem em verde e ganham um visto; as outras quatro
+   ficam apagadas, e é o contraste entre acesas e apagadas que diz "o sistema
+   escolheu" sem precisar de uma frase explicando.
+
+   O código continua na peça, porque é ele que faz a sobra virar item de
+   estoque — mas agora ele está numa etiqueta desenhada, como a de verdade. */
+function CavaleteCheio({ acesos, rotulos }) {
+  /* Dois níveis, e não uma fileira só.
+     Em fila única as seis peças davam um desenho de 4600 × 1400 — largo e raso,
+     que no cartão vira uma tira de vidros minúsculos. Empilhado em dois
+     cavaletes o quadro fica quase quadrado e cada peça cresce três vezes. E é
+     como a fábrica guarda de verdade: um cavalete por lado do corredor. */
+  /* Cada nível tem a altura da SUA peça mais alta, e não uma altura fixa: com
+     altura fixa sobrava vazio embaixo do cavalete das peças baixas e o rótulo
+     do de cima saía fora do quadro. */
+  const ROTULO = 190
+  const RESPIRO = 210
+  const GAP = 150
+  const niveis = ['B', 'A'].map((letra) => {
+    const pecas = ESTOQUE.filter((r) => r.posicao.startsWith(letra))
+    // O rótulo do nível fica ACIMA da peça mais alta daquele cavalete, e não
+    // numa altura fixa: com altura fixa ele caía dentro do vidro de 1.450.
+    return { letra, pecas, maisAlta: Math.max(...pecas.map((r) => r.a)) }
+  })
+  const largura = Math.max(
+    ...niveis.map((n) => n.pecas.reduce((soma, r) => soma + r.l, 0) + GAP * (n.pecas.length + 1)),
+  )
+
+  // A linha de chão de cada nível, empilhando de cima para baixo.
+  let acumulado = 0
+  const chaos = niveis.map((nivel) => {
+    acumulado += ROTULO + nivel.maisAlta
+    const chao = acumulado
+    acumulado += RESPIRO
+    return chao
+  })
+
+  return (
+    <svg
+      viewBox={`0 0 ${largura} ${acumulado}`}
+      className="block w-full"
+      aria-hidden="true"
+    >
+      {niveis.map((nivel, n) => {
+        const chao = chaos[n]
+        let x = GAP
+        return (
+          <g key={nivel.letra}>
+            <text
+              x={GAP}
+              y={chao - nivel.maisAlta - 70}
+              fontSize="105"
+              fontFamily="IBM Plex Mono, monospace"
+              fontWeight="600"
+              letterSpacing="14"
+              fill="#96a4b4"
+            >
+              {rotulos.cavalete} {nivel.letra}
+            </text>
+            <line x1="0" y1={chao} x2={largura} y2={chao} stroke="#b6c2d1" strokeWidth="22" />
+            {nivel.pecas.map((r, i) => {
+              const on = acesos.has(r.codigo)
+              const meu = x
+              x += r.l + GAP
+              const giro = i % 2 ? 1.2 : -1.4
+              return (
+                <g
+                  key={r.codigo}
+                  transform={`rotate(${giro} ${meu + r.l / 2} ${chao})`}
+                  className="sobe"
+                  style={{ animationDelay: `${140 + (n * 3 + i) * 130}ms` }}
+                >
+                  <rect
+                    x={meu}
+                    y={chao - r.a}
+                    width={r.l}
+                    height={r.a}
+                    rx="18"
+                    fill={on ? 'rgba(14,140,106,.17)' : 'rgba(182,194,209,.2)'}
+                    stroke={on ? '#0e8c6a' : '#b6c2d1'}
+                    strokeWidth={on ? 20 : 11}
+                  />
+                  {/* a etiqueta colada na peça — é ela que faz a sobra virar item */}
+                  <g transform={`translate(${meu + r.l / 2} ${chao - r.a + 130})`}>
+                    <rect
+                      x="-235"
+                      y="-78"
+                      width="470"
+                      height="156"
+                      rx="40"
+                      fill={on ? '#0e8c6a' : '#ffffff'}
+                      stroke={on ? '#0e8c6a' : '#b6c2d1'}
+                      strokeWidth="10"
+                    />
+                    <text
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize="104"
+                      fontFamily="IBM Plex Mono, monospace"
+                      fontWeight="700"
+                      fill={on ? '#ffffff' : '#5c7280'}
+                    >
+                      {r.codigo}
+                    </text>
+                  </g>
+                  <text
+                    x={meu + r.l / 2}
+                    y={chao - r.a / 2 + 60}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fontSize="112"
+                    fontFamily="IBM Plex Mono, monospace"
+                    fontWeight="600"
+                    fill={on ? '#0e8c6a' : '#96a4b4'}
+                  >
+                    {mm(r.l)}×{mm(r.a)}
+                  </text>
+                  {on && (
+                    <g transform={`translate(${meu + r.l / 2} ${chao - r.a / 2 + 290})`}>
+                      <circle r="92" fill="#0e8c6a" />
+                      <path
+                        d="M-40 4 L-12 34 L40 -28"
+                        fill="none"
+                        stroke="#fff"
+                        strokeWidth="24"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                  )}
+                </g>
+              )
+            })}
+          </g>
+        )
+      })}
     </svg>
   )
 }
@@ -295,7 +480,7 @@ function Barra({ duracao }) {
 
 /* ── o quadro ────────────────────────────────────────────────────────────── */
 
-const FASES = ['pronto', 'otimizando', 'plano', 'realocando', 'economia']
+const FASES = ['pronto', 'otimizando', 'plano', 'catalogo', 'realocando', 'economia']
 const TEMPO = { otimizando: 2400, realocando: 1800 }
 
 export default function Retalho() {
@@ -317,6 +502,11 @@ export default function Retalho() {
     evento('ferramenta', { qual: 'retalho', passo: 'otimizar' })
     setFase('otimizando')
     avancar('plano', TEMPO.otimizando)
+  }
+
+  const verEstoque = () => {
+    evento('ferramenta', { qual: 'retalho', passo: 'ver-estoque' })
+    setFase('catalogo')
   }
 
   const usarRetalhos = () => {
@@ -349,7 +539,14 @@ export default function Retalho() {
   }, [fase])
 
   const trabalhando = fase === 'otimizando' || fase === 'realocando'
-  const passo = fase === 'pronto' || fase === 'otimizando' ? 1 : fase === 'economia' ? 3 : 2
+  const passo =
+    fase === 'pronto' || fase === 'otimizando'
+      ? 1
+      : fase === 'plano'
+        ? 2
+        : fase === 'economia'
+          ? 4
+          : 3
 
   const semRetalho = R.recipientesSemRetalho
   const comRetalho = R.recipientes
@@ -369,7 +566,7 @@ export default function Retalho() {
         <span className="cota rounded-full border border-line bg-card px-3 py-1 uppercase">
           {t.barra.pedido}
         </span>
-        <span className="cota ml-auto uppercase">{t.barra.passo(passo, 3)}</span>
+        <span className="cota ml-auto uppercase">{t.barra.passo(passo, 4)}</span>
       </div>
 
       <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
@@ -387,6 +584,27 @@ export default function Retalho() {
                 <Cavalete />
               </div>
             </>
+          )}
+
+          {fase === 'catalogo' && (
+            <div className="mx-auto w-full max-w-[620px]">
+              <p className="cota uppercase" style={{ color: '#0e7b9c', opacity: 1 }}>
+                {t.catalogo.selo}
+              </p>
+              <div className="mt-4">
+                <CavaleteCheio acesos={SERVE} rotulos={t.catalogo} />
+              </div>
+              <p className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] font-semibold text-dim">
+                <span className="flex items-center gap-2">
+                  <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#0e8c6a' }} />
+                  {t.catalogo.legendaServe}
+                </span>
+                <span className="flex items-center gap-2">
+                  <i aria-hidden="true" className="h-2.5 w-2.5 rounded-[3px]" style={{ background: '#b6c2d1' }} />
+                  {t.catalogo.legendaEspera}
+                </span>
+              </p>
+            </div>
           )}
 
           {(fase === 'plano' || fase === 'realocando') && (
@@ -556,6 +774,58 @@ export default function Retalho() {
             </>
           )}
 
+          {fase === 'catalogo' && (
+            <>
+              <p className="cota uppercase">{t.catalogo.painel.selo}</p>
+              <h3 className="display mt-2 text-[24px]">{t.catalogo.painel.titulo(ESTOQUE.length)}</h3>
+
+              {/* A frase do Higor, e ela é o argumento inteiro: o corte de hoje
+                  já é calculado pensando no pedido de amanhã. Fica em destaque
+                  porque nada mais nesta tela precisa ser lido com atenção. */}
+              <p
+                className="bate mt-6 rounded-[16px] border px-5 py-4 text-[15px] font-bold leading-snug text-ink"
+                style={{
+                  borderColor: 'rgba(14,140,106,.3)',
+                  background: 'rgba(14,140,106,.07)',
+                  animationDelay: '520ms',
+                }}
+              >
+                {t.catalogo.painel.frase}
+              </p>
+
+              <dl className="mt-7 space-y-4">
+                {t.catalogo.painel.pontos.map(([titulo, detalhe], i) => (
+                  <div
+                    key={titulo}
+                    className="sobe flex items-start gap-3"
+                    style={{ animationDelay: `${680 + i * 140}ms` }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                      style={{ background: 'rgba(14,140,106,.12)' }}
+                    >
+                      <svg viewBox="0 0 16 16" className="h-3 w-3">
+                        <path
+                          d="M3 8.5l3.2 3.2L13 5"
+                          fill="none"
+                          stroke="#0e8c6a"
+                          strokeWidth="2.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[14px] font-bold text-ink">{titulo}</span>
+                      <span className="block text-[13.5px] leading-snug text-dim">{detalhe}</span>
+                    </span>
+                  </div>
+                ))}
+              </dl>
+            </>
+          )}
+
           {fase === 'realocando' && (
             <>
               <p className="cota uppercase">{t.realocando.selo}</p>
@@ -648,6 +918,17 @@ export default function Retalho() {
         )}
 
         {fase === 'plano' && (
+          <button
+            type="button"
+            onClick={verEstoque}
+            className="botao-marca px-7 py-3.5 text-[15px]"
+            style={{ background: 'linear-gradient(90deg,#0e7b9c,#0e8c6a)' }}
+          >
+            {t.botoes.verEstoque}
+          </button>
+        )}
+
+        {fase === 'catalogo' && (
           <button
             type="button"
             onClick={usarRetalhos}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Marca from './Marca.jsx'
 import Formulario from './Formulario.jsx'
+import Agenda from './Agenda.jsx'
 import Idiomas from './Idiomas.jsx'
 import { CONFIG, acaoComecar, ehExterno, linkAgendar, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
@@ -213,7 +214,13 @@ export function Origem({ folha = 'FL. 04/05' }) {
   )
 }
 
-export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos }) {
+/**
+ * `agenda` liga o Calendly embutido no lugar do formulário. É o que a aba da
+ * indústria quer: ali a venda é consultiva e o passo seguinte é uma reunião,
+ * não deixar um telefone para alguém retornar depois. O formulário continua
+ * existindo para onde ele fizer mais sentido.
+ */
+export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false }) {
   const c = useTextos()
   return (
     <Revelar
@@ -255,7 +262,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos }) 
             <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
           </div>
 
-          <Formulario />
+          {agenda && CONFIG.agendar ? <Agenda /> : <Formulario />}
         </div>
       </div>
     </Revelar>

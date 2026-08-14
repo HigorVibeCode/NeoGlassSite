@@ -80,6 +80,12 @@ export default {
     comNeoGlass: 'Con NeoGlass',
   },
 
+  agenda: {
+    semScript: 'La agenda no cargó aquí — la red o una extensión la bloqueó.',
+    abrirFora: 'Abrir la agenda',
+    carregando: 'Cargando los horarios…',
+  },
+
   // ── As mensagens prontas do WhatsApp ──────────────────────────────────
   whatsapp: {
     demonstracao: '¡Hola! Vengo desde la web de NeoGlass y quiero ver una demostración.',

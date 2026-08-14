@@ -73,6 +73,31 @@ export default {
         'They have been leaning on the wall since another order. As long as nobody uses them, they are money standing still.',
     },
 
+    /* A tela do estoque de retalhos — a fase nova.
+       Ela responde a objeção que o dono de fábrica não diz em voz alta: "sobra
+       boa eu já tenho; o que me falta é saber o que é e onde está". Por isso o
+       texto gira em torno de código, endereço e cadastro automático — a
+       economia fica para a tela seguinte. */
+    /* A tela do cavalete. A primeira versão era uma tabela de seis linhas —
+       correta e ilegível. Virou desenho, e sobrou pouco texto de propósito. */
+    catalogo: {
+      selo: 'Your rack today · 6 offcuts on file',
+      cavalete: 'Rack',
+      legendaServe: 'fit this order',
+      legendaEspera: 'waiting for the right order',
+      painel: {
+        selo: 'The rack under control',
+        titulo: (n) => `${n} offcuts the system knows`,
+        frase:
+          'Intelligence that stores leftovers: the software works out today\u2019s cut already thinking about how the offcuts get used on the orders that follow.',
+        pontos: [
+          ['Every offcut becomes a part with a code', 'RT-0412, not "that big sheet behind the shower door".'],
+          ['With an address on the rack', 'Whoever fetches it finds it on the first trip.'],
+          ['Nobody keys anything in', 'The record is written at the end of the run that left the offcut.'],
+        ],
+      },
+    },
+
     realocando: {
       selo: 'Re-nesting',
       titulo: 'Rack first, new sheet after…',
@@ -114,6 +139,7 @@ export default {
       otimizar: 'Optimize the cut',
       otimizando: 'Optimizing…',
       realocando: 'Re-nesting…',
+      verEstoque: 'See the offcut stock',
       usarRetalhos: (retalhos) => `Use the ${retalhos} offcuts`,
       agendar: 'Do this with my order',
       denovo: 'Run it again',

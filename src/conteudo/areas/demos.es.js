@@ -71,6 +71,31 @@ export default {
         'Están apoyados contra la pared desde otro pedido. Mientras nadie los use, son plata parada.',
     },
 
+    /* A tela do estoque de retalhos — a fase nova.
+       Ela responde a objeção que o dono de fábrica não diz em voz alta: "sobra
+       boa eu já tenho; o que me falta é saber o que é e onde está". Por isso o
+       texto gira em torno de código, endereço e cadastro automático — a
+       economia fica para a tela seguinte. */
+    /* A tela do cavalete. A primeira versão era uma tabela de seis linhas —
+       correta e ilegível. Virou desenho, e sobrou pouco texto de propósito. */
+    catalogo: {
+      selo: 'Tu caballete hoy · 6 recortes fichados',
+      cavalete: 'Caballete',
+      legendaServe: 'sirven para este pedido',
+      legendaEspera: 'esperando el pedido justo',
+      painel: {
+        selo: 'El caballete bajo control',
+        titulo: (n) => `${n} sobras que el sistema conoce`,
+        frase:
+          'Inteligencia que guarda las sobras: el software calcula el corte de hoy pensando ya en cómo aprovechar los recortes en los pedidos siguientes.',
+        pontos: [
+          ['Cada sobra se vuelve pieza con código', 'RT-0412, y no "ese vidrio grande atrás de la mampara".'],
+          ['Con su lugar en el caballete', 'El que va a buscarlo lo encuentra a la primera.'],
+          ['Sin que nadie cargue nada', 'El registro nace al final de la optimización que dejó la sobra.'],
+        ],
+      },
+    },
+
     realocando: {
       selo: 'Reubicando',
       titulo: 'Primero el caballete, después la plancha…',
@@ -112,6 +137,7 @@ export default {
       otimizar: 'Optimizar el corte',
       otimizando: 'Optimizando…',
       realocando: 'Reubicando…',
+      verEstoque: 'Ver el stock de recortes',
       usarRetalhos: (retalhos) => `Usar los ${retalhos} recortes`,
       agendar: 'Hacerlo con un pedido mío',
       denovo: 'Repetir',

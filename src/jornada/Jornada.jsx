@@ -241,36 +241,39 @@ export default function Jornada() {
       <div className="shrink-0">
         <div className="flex items-baseline justify-between gap-4 border-t border-line pt-3">
           <p className="cota uppercase">{t9n.secao.rotulo}</p>
-          <div className="flex shrink-0 items-center gap-3">
-            <button
-              type="button"
-              onClick={alternar}
-              aria-pressed={pausado}
-              aria-label={pausado ? t9n.secao.tocar : t9n.secao.pausar}
-              className="flex min-h-[34px] items-center gap-2 rounded-full border border-line bg-card px-3 text-[12px] font-bold text-dim transition-colors hover:text-ink"
-            >
-              <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0" aria-hidden="true">
-                {pausado ? (
-                  <path d="M2.5 1.4 10 6l-7.5 4.6z" fill="currentColor" />
-                ) : (
-                  <>
-                    <rect x="2.4" y="1.6" width="2.6" height="8.8" rx="0.8" fill="currentColor" />
-                    <rect x="7" y="1.6" width="2.6" height="8.8" rx="0.8" fill="currentColor" />
-                  </>
-                )}
-              </svg>
-              {pausado ? t9n.secao.tocar : t9n.secao.pausar}
-            </button>
-            <p className="cota opacity-70">{t9n.secao.folha}</p>
-          </div>
+          <p className="cota shrink-0 opacity-70">{t9n.secao.folha}</p>
         </div>
         <h2 className="display mt-4 max-w-[26ch] text-[clamp(21px,3vw,38px)]">
           {t9n.secao.titulo}
         </h2>
       </div>
 
-      <div className="shrink-0">
-        <Trilha indice={i} t={barra} ir={ir} etapas={t9n.cenas} />
+      {/* O botão fica colado na régua, e não lá em cima no carimbo da folha.
+          Ali ele estava a meia tela do palco: o visitante via o filme trocar
+          sozinho e não tinha como saber que existia um controle. A régua é
+          onde o olho já está — é ela que mostra o tempo passando. */}
+      <div className="flex shrink-0 items-start gap-3 sm:gap-4">
+        <button
+          type="button"
+          onClick={alternar}
+          aria-pressed={pausado}
+          aria-label={pausado ? t9n.secao.tocar : t9n.secao.pausar}
+          className="mt-1 flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border border-line bg-card text-dim shadow-[0_6px_16px_-8px_rgba(20,55,80,.4)] transition-colors hover:border-verde hover:text-verde sm:h-[42px] sm:w-[42px]"
+        >
+          <svg viewBox="0 0 12 12" className="h-[13px] w-[13px]" aria-hidden="true">
+            {pausado ? (
+              <path d="M2.6 1.3 10.2 6l-7.6 4.7z" fill="currentColor" />
+            ) : (
+              <>
+                <rect x="2.4" y="1.6" width="2.6" height="8.8" rx="0.9" fill="currentColor" />
+                <rect x="7" y="1.6" width="2.6" height="8.8" rx="0.9" fill="currentColor" />
+              </>
+            )}
+          </svg>
+        </button>
+        <div className="min-w-0 flex-1">
+          <Trilha indice={i} t={barra} ir={ir} etapas={t9n.cenas} />
+        </div>
       </div>
 
       {/* o palco: as três chapas, sempre no centro. Altura mínima garantida —

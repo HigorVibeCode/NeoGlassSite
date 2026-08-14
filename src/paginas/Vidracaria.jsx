@@ -121,6 +121,7 @@ export default function Vidracaria() {
           titulo={t.chamadaDemo.titulo}
           texto={t.chamadaDemo.texto}
           passos={t.chamadaDemo.passos}
+          agenda
         />
       )}
     </>

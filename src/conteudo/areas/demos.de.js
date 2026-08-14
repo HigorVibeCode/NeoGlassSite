@@ -76,6 +76,35 @@ export default {
         'Sie lehnen seit einem anderen Auftrag an der Wand. Solange sie niemand nutzt, ist das totes Kapital.',
     },
 
+    /* A tela do estoque de retalhos — a fase nova.
+       Ela responde a objeção calada do dono de Flachglas-Betrieb: sobra boa ele
+       já tem; o que falta é saber o que é e onde está. Por isso o texto todo
+       gira em torno de Nummer, Platz e cadastro automático — a economia é a
+       tela seguinte.
+       O alemão é o idioma que estoura esta tabela: quase toda palavra certa
+       aqui tem duas sílabas a mais que o português, e cabeçalho de coluna e
+       prefixo de posição têm teto duro. As trocas estão comentadas linha a
+       linha. */
+    /* A tela do cavalete. A primeira versão era uma tabela de seis linhas —
+       correta e ilegível. Virou desenho, e sobrou pouco texto de propósito. */
+    catalogo: {
+      selo: 'Ihr Gestell heute · 6 erfasste Reststücke',
+      cavalete: 'Gestell',
+      legendaServe: 'passen zu diesem Auftrag',
+      legendaEspera: 'warten auf den passenden Auftrag',
+      painel: {
+        selo: 'Das Gestell im Griff',
+        titulo: (n) => `${n} Reste, die das System kennt`,
+        frase:
+          'Intelligenz, die Reste aufbewahrt: Die Software rechnet den heutigen Schnitt schon mit Blick darauf, wie das Restglas in den nächsten Aufträgen genutzt wird.',
+        pontos: [
+          ['Jeder Rest wird ein Teil mit Nummer', 'RT-0412, nicht "die große Scheibe hinter der Dusche".'],
+          ['Mit Platz am Gestell', 'Wer sie holt, findet sie beim ersten Gang.'],
+          ['Niemand tippt etwas ein', 'Der Eintrag entsteht am Ende der Optimierung, die den Rest übrig ließ.'],
+        ],
+      },
+    },
+
     realocando: {
       selo: 'Wird umverteilt',
       titulo: 'Erst das Gestell, dann die Tafel…',
@@ -117,6 +146,7 @@ export default {
       otimizar: 'Schnitt optimieren',
       otimizando: 'Optimiert…',
       realocando: 'Ordnet um…',
+      verEstoque: 'Restglaslager ansehen',
       usarRetalhos: (retalhos) => `${retalhos} Reststücke nutzen`,
       agendar: 'Mit meinem Auftrag',
       denovo: 'Neu starten',

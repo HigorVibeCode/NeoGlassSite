@@ -86,6 +86,35 @@ export default {
         'Eles estão encostados na parede desde outro pedido. Enquanto ninguém os usa, são prejuízo parado.',
     },
 
+    /* A tela do estoque de retalhos — a fase nova.
+       Ela existe para responder a objeção silenciosa do dono de fábrica: "sobra
+       boa eu já tenho; o que eu não tenho é como saber o que é e onde está".
+       Por isso o texto todo gira em torno de código, endereço e automatismo do
+       cadastro, e não em torno de economia — a economia é a tela seguinte. */
+    /* A tela do cavalete — a fase nova.
+       A primeira versão era uma tabela de seis linhas com código, medida,
+       posição e dias. Correta e ilegível: quem abre o site não está auditando
+       estoque, está tentando entender numa olhada se aquilo serve para ele.
+       Virou desenho. Sobrou pouco texto, e de propósito. */
+    catalogo: {
+      selo: 'Seu cavalete hoje · 6 peças catalogadas',
+      // Prefixo do nível no desenho: sai como "Cavalete B".
+      cavalete: 'Cavalete',
+      legendaServe: 'servem para este pedido',
+      legendaEspera: 'esperando o pedido certo',
+      painel: {
+        selo: 'O cavalete sob controle',
+        titulo: (n) => `${n} sobras que o sistema conhece`,
+        frase:
+          'Inteligência que armazena sobras: o software calcula o corte atual já pensando em como aproveitar os retalhos nos pedidos seguintes.',
+        pontos: [
+          ['Cada sobra vira peça com código', 'RT-0412, e não "aquele vidro grande atrás do box".'],
+          ['Com endereço no cavalete', 'Quem for buscar acha na primeira ida.'],
+          ['Sem ninguém cadastrar nada', 'O registro nasce no fim da otimização que gerou a sobra.'],
+        ],
+      },
+    },
+
     realocando: {
       selo: 'Realocando',
       titulo: 'Cavalete primeiro, chapa depois…',
@@ -128,6 +157,7 @@ export default {
       otimizar: 'Otimizar corte',
       otimizando: 'Otimizando…',
       realocando: 'Realocando…',
+      verEstoque: 'Ver o estoque de retalhos',
       usarRetalhos: (retalhos) => `Usar os ${retalhos} retalhos`,
       agendar: 'Fazer isso com um pedido meu',
       denovo: 'Rodar de novo',

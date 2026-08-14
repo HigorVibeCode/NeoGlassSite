@@ -12,7 +12,7 @@ export const CONFIG = {
   // VAZIO É SEGURO: todos os botões de agendar caem no WhatsApp com a mensagem
   // pronta. Endereço errado aqui derruba o site inteiro num 404 — foi o que
   // aconteceu com o `cal.com/neoglass/apresentacao` que estava aqui de exemplo.
-  agendar: '',
+  agendar: 'https://calendly.com/higorlucas2/30min',
   // Só os números, com país e DDD. Ex.: 5511999998888
   whatsappNumero: '41782439213',
   email: 'contato@neoglass.online',

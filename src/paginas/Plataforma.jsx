@@ -116,6 +116,7 @@ export default function Plataforma() {
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}
+        agenda
       />
     </>
   )

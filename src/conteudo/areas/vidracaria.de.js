@@ -36,10 +36,19 @@ export default {
     },
     texto:
       'Sie messen auf der Baustelle, der Kunde sieht den Preis sofort und unterschreibt auf dem Display. Ohne Excel, ohne Kladde, ohne Schulung.',
+    /* As três antigas mediam a INSTALAÇÃO ("1 Nachmittag", "0 Excel", "1
+       App") — problema de quem já comprou. Estas medem o dia dele.
+       Comprimento: a legenda tem ~28 caracteres antes de quebrar em três
+       linhas no celular, e alemão estoura isso com facilidade. Por isso:
+       · 'vom Maß bis zur Unterschrift' (28, no limite) em vez de 'vom Maß zum
+         unterschriebenen PDF' (32) — o PDF já está na demo logo abaixo;
+       · 'Abschluss, bevor Sie gehen' (26) em vez de 'der Auftrag ist
+         unterschrieben, bevor Sie gehen'. "Abschluss" é a palavra de venda
+         alemã para fechar o serviço, e cabe. */
     marcas: [
-      ['1 Nachmittag', 'und Sie arbeiten wirklich damit'],
-      ['0', 'Excel-Tabellen zu pflegen'],
-      ['1', 'App — Baustelle, Werkbank, Büro'],
+      ['4 Min.', 'vom Maß bis zur Unterschrift'],
+      ['1×', 'tippen Sie das Maß ein'],
+      ['vor Ort', 'Abschluss, bevor Sie gehen'],
     ],
     linhaPreco: (preco) => `${preco} pro Monat. Keine Einrichtungsgebühr, keine Laufzeit.`,
   },
@@ -99,8 +108,8 @@ export default {
         'Es kommt mit Maß zurück ins Lager — und in den nächsten Schnittplan',
       ],
       [
-        'Das falsche Maß fällt erst bei der Montage auf',
-        'Das System meldet den fehlenden Winkel, bevor geschnitten wird',
+        'Das Maß geht zwischen Baustellenzettel und Werksauftrag verloren',
+        'Das Maß, das Sie genommen haben, ist das Maß, das geschnitten wird — ohne Abtippen',
       ],
       [
         'Am Monatsende weiß niemand, welcher Auftrag Geld gebracht hat',
@@ -111,12 +120,21 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Preis · ohne Kleingedrucktes',
+    rotulo: 'Glaserei-Paket · Preis ohne Kleingedrucktes',
     titulo: 'Eine Zahl — und sie bleibt diese Zahl.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo.
     texto: () =>
       'Das Angebot, das sich oben von selbst gerechnet hat, war ein Wohnzimmerfenster: Glas, Beschlag und Montage — der Auftrag, der an jedem Dienstag reinkommt. Behalten Sie diesen Auftrag im Kopf, während Sie die Zahl darunter lesen.',
-    cota: 'NeoGlass für Glasereien',
+    /* O nome do pacote, dito por extenso, num selo de ~120 px em maiúscula:
+       'NeoGlass für Glasereien' (23) não cabe. 'Glaserei-Paket' são 14
+       caracteres, é composto alemão normal e diz o mesmo — o nome do produto
+       já está três vezes na mesma tela. */
+    cota: 'Glaserei-Paket',
+    // A separação entre os dois produtos, ao lado do número: sem ela um dono
+    // de fábrica lê o preço da vidraçaria e acha que é o do sistema inteiro.
+    // 'Industrie' é o nome da aba em alemão (ver `paginas.industria.nome`).
+    soParaVidracaria:
+      'Das hier ist das Glaserei-Paket. Die Industrie ist ein anderes Produkt, dort wird der Preis im Einzelfall gemacht — siehe Reiter Industrie.',
     porMes: '/Monat',
     fixo: 'Fester Preis — heute und in einem Jahr.',
     semTaxa:

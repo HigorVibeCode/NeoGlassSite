@@ -14,7 +14,10 @@ export default {
     rotulo: 'One order, six stages · plays by itself',
     // SH. de sheet, a numeração de prancha
     folha: 'SH. 03/06',
-    titulo: 'A whole order, from the phone on site to the margin on screen.',
+    /* Era "from the phone on site to the margin on screen" — dois lugares e
+       nenhum verbo. O que o filme mostra é um pedido só atravessando a empresa
+       inteira sem ninguém redigitar nada. */
+    titulo: 'One order, from the site to the invoice. Nobody retypes a thing.',
   },
 
   // ── A narração das seis cenas ─────────────────────────────────────────
@@ -27,13 +30,19 @@ export default {
     },
     {
       etapa: 'Approval',
-      titulo: 'He approves it before it exists.',
+      /* "He approves it before it exists" era enigma: o leitor precisa parar
+         para entender quem é "he" e o que não existe. Numa cena de quatro
+         segundos, enigma é tempo perdido. */
+      titulo: 'The customer sees the glass on his own wall.',
       sub: 'The AI fits the glass into the photo of the customer’s own room. He sees the door where it will stand, on his own wall, before a single lite is cut.',
       medidor: (n) => `Checking the order · ${n}/4`,
     },
     {
       etapa: 'Cutting',
-      titulo: 'Cut it right. What’s left becomes stock.',
+      /* "Cut it right" é o mínimo que se espera de qualquer sistema, então não
+         é promessa. O que impressiona é a sobra sair do chão e virar
+         matéria-prima com endereço. */
+      titulo: 'The offcut comes off the floor and goes into stock.',
       sub: 'The cutting plan comes out ready for the table. And the piece left over goes back on the rack with its size, its color and its address, to compete for the next optimization.',
       medidor: (p) => `Yield · ${p}%`,
       medidorFim: 'Offcut reserved · rack A-03',

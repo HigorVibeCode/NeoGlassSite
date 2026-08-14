@@ -150,7 +150,7 @@ export default {
     desenho: {
       aria: 'O vão medido na obra',
       janela: '2 folhas de correr · 6 mm',
-      medindo: 'conferindo esquadro…',
+      medindo: 'anotando as diagonais…',
       vaoMedido: 'Vão medido na obra',
       montando: 'Montando a janela no vão',
       janelaDoVao: 'A janela deste vão',
@@ -197,11 +197,16 @@ export default {
       titulo: (vao, medida) => `${vao} · ${medida}`,
       texto:
         'Foto do vão, duas medidas, o tipo de parede. Trinta segundos com o celular na mão — é tudo o que o sistema pede de você.',
+      /* A ficha dizia "Esquadro — conferido no ato", que é a checagem
+         automática que não existe. Trocado pelas duas diagonais medidas: é o
+         DADO que o vidraceiro anota na obra, não um veredito que o sistema
+         emite. Os dois números diferem de 4 mm de propósito — quem é do ramo
+         lê isso e entende sozinho que o vão está fora de esquadro. */
       ficha: {
         vao: 'Vão',
         parede: 'Parede',
-        esquadro: 'Esquadro',
-        esquadroValor: 'conferido no ato',
+        esquadro: 'Diagonais',
+        esquadroValor: '1.947 e 1.951 mm',
         foto: 'Foto',
         fotoValor: '2 imagens anexadas',
       },

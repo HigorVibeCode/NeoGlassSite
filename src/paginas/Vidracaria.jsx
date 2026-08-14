@@ -48,10 +48,14 @@ export default function Vidracaria() {
 
   const acao = preco ? acaoComecar(idioma, c) : undefined
 
-  // O valor já vem formatado na moeda do idioma — o texto só recebe e encaixa.
-  // Nenhum símbolo de moeda é escrito no módulo de conteúdo, porque em alemão
-  // ele vem depois do número e em inglês antes.
-  const nota = preco ? t.hero.linhaPreco(preco) : undefined
+  /* O preço NÃO aparece mais na abertura.
+     Ele ficava numa linha discreta logo abaixo dos botões — ou seja, o
+     visitante via o número antes de ver uma única coisa que o sistema faz. Não
+     dá para achar caro ou barato o que ainda não tem valor associado; a única
+     leitura possível era "mais um software com mensalidade". Agora ele aparece
+     na seção de preço, depois da demonstração, do dia inteiro e do contraste —
+     quando já existe algo contra o que comparar. */
+  const nota = undefined
 
   return (
     <>

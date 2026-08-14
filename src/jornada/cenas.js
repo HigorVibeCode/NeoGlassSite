@@ -21,6 +21,10 @@ import { APROVEITAMENTO } from './conteudos.jsx'
  * a fábrica, vira dinheiro — e tudo isso de qualquer tela.
  */
 
+/* As durações subiram 45% em 13/08. Com 3,9 s a cena trocava enquanto o
+   visitante ainda estava lendo o subtítulo — o desenho terminava de se montar e
+   já saía. Vale mais uma cena a menos vista do que seis pela metade.
+   Quem quiser correr rola a página; o filme não prende ninguém. */
 export const PALCO = { largura: 1180, altura: 700 }
 export const PALCO_MOVEL = { largura: 380, altura: 560 }
 
@@ -49,7 +53,7 @@ export const CENAS = [
   {
     id: 'orcamento',
     cor: '#0e8c6a',
-    duracao: 3900,
+    duracao: 5700,
     conteudo: ['feedAntigo2', 'feedAntigo1', 'feed'],
     medidor: (t, tx) => {
       const n = Math.min(4, Math.floor(ease(range(t, 0.06, 0.72)) * 4.6))
@@ -71,7 +75,7 @@ export const CENAS = [
   {
     id: 'simulacao',
     cor: '#e4586f',
-    duracao: 3900,
+    duracao: 5700,
     conteudo: ['antes', 'simulacao', 'checagem'],
     medidor: (t, tx) => {
       const n = Math.min(4, Math.floor(ease(range(t, 0.24, 0.82)) * 4.6))
@@ -95,7 +99,7 @@ export const CENAS = [
   {
     id: 'corte',
     cor: '#0e7b9c',
-    duracao: 5200,
+    duracao: 7500,
     conteudo: ['chapa0', 'chapa1', 'chapa2'],
     medidor: (t, tx) => {
       const k = ease(range(t, 0.32, 0.58))
@@ -143,7 +147,7 @@ export const CENAS = [
   {
     id: 'fabrica',
     cor: '#7c6ad6',
-    duracao: 4600,
+    duracao: 6700,
     conteudo: ['painel', 'etiqueta', 'expedicao'],
     medidor: (t, tx) => {
       const n = Math.min(5, Math.floor(ease(range(t, 0.46, 0.94)) * 5.6))
@@ -165,7 +169,7 @@ export const CENAS = [
   {
     id: 'dinheiro',
     cor: '#b8862c',
-    duracao: 4400,
+    duracao: 6400,
     conteudo: ['nota', 'recebimento', 'margem'],
     medidor: (t, tx) => {
       const k = ease(range(t, 0.66, 0.88))
@@ -187,7 +191,7 @@ export const CENAS = [
   {
     id: 'onde-roda',
     cor: '#4a6ae0',
-    duracao: 2900,
+    duracao: 4200,
     // aqui as chapas viram aparelhos: sem o acabamento de vidro por cima
     nu: true,
     conteudo: ['navegador', 'tablet', 'celular'],

@@ -25,10 +25,14 @@ export default {
     },
     texto:
       'Você mede na obra, o cliente vê o preço na hora e assina na tela. Sem planilha, sem caderno, sem curso.',
+    /* As três anteriores mediam a INSTALAÇÃO ("1 tarde para rodar", "0
+       planilha", "1 app"), que é o problema de quem já comprou — não de quem
+       está decidindo. Estas medem o dia dele: quanto tempo leva um orçamento,
+       quantas vezes ele reescreve a mesma medida, e onde o serviço é fechado. */
     marcas: [
-      ['1 tarde', 'para estar rodando de verdade'],
-      ['0', 'planilha para manter'],
-      ['1', 'app — obra, bancada e escritório'],
+      ['4 min', 'da medida ao PDF assinado'],
+      ['1×', 'você digita a medida — uma vez só'],
+      ['na obra', 'o serviço fecha antes de você sair'],
     ],
     // O preço chega pronto: em pt 'R$ 197', em de '79 €' com o símbolo depois.
     // Daí ser função e não frase escrita.
@@ -92,9 +96,14 @@ export default {
         'A sobra encosta atrás da bancada e vira lixo',
         'Volta ao estoque com medida — e entra no próximo corte',
       ],
+      /* O lado direito dizia "O sistema acusa o fora de esquadro antes de
+         cortar" — a mesma checagem inventada que já tinha saído da aba da
+         indústria, e que eu deixei viva aqui. Trocado pelo que o sistema faz
+         de fato: a medida tirada na obra é a que desce para o corte, sem
+         ninguém redigitar no meio. */
       [
-        'A medida errada só aparece na hora de instalar',
-        'O sistema acusa o fora de esquadro antes de cortar',
+        'A medida some entre o caderno da obra e o pedido da fábrica',
+        'A medida que você tirou é a que a fábrica corta — a mesma, sem redigitar',
       ],
       [
         'No fim do mês ninguém sabe qual serviço deu lucro',
@@ -105,15 +114,21 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Preço · sem letra miúda',
-    titulo: 'Um número só. E ele cabe numa janela.',
+    rotulo: 'Plano Vidraçaria · preço sem letra miúda',
+    titulo: 'Um número só, e ele cabe numa janela.',
     // `valor` é o total da demonstração (R$ 1.169) já formatado em reais. Ele
     // só existe em real: a demonstração inteira é feita com preço de m² e
     // ferragem do Brasil. Por isso só o português cita o número — os outros
     // três idiomas recebem o mesmo argumento e não usam o parâmetro.
     texto: (valor) =>
       `O orçamento que você montou aqui em cima fechou em ${valor} — e era uma janela de sala. Guarde esse número enquanto lê o de baixo.`,
-    cota: 'NeoGlass para vidraçaria',
+    /* O nome do plano, dito por extenso. Antes a seção só dizia "NeoGlass para
+       vidraçaria" e o visitante não tinha como saber se aquele número valia
+       para a fábrica também. São produtos e vendas diferentes: a indústria é
+       consultiva e não tem preço em lugar nenhum do site. */
+    cota: 'Plano Vidraçaria',
+    soParaVidracaria:
+      'Este é o plano da vidraçaria. A indústria é outro produto, com preço fechado caso a caso — veja a aba Indústria.',
     porMes: '/mês',
     fixo: 'Preço fixo, na hora de assinar e daqui a um ano.',
     semTaxa:

@@ -38,9 +38,14 @@ export default {
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
     rotulo: 'Demo · erst das Gestell, dann die Tafel',
-    titulo: 'Bevor Sie neues Glas anschneiden: sehen Sie nach, was schon am Gestell steht.',
+    /* O título dizia de novo o que o hero já diz duas telas acima ("erst am
+       Gestell nachsehen"). Agora ele mostra o RESULTADO que o leitor vai ver
+       acontecer, e o texto cabe em duas frases: o resto ele descobre
+       apertando. "Vor Ihren Augen" é o "na sua frente" — em alemão o lugar
+       natural dessa expressão é no fim. */
+    titulo: 'Aus drei Tafeln werden zwei. Vor Ihren Augen.',
     texto:
-      'Drei Klicks, ein echter Auftrag mit 20 Teilen. Sie klicken auf Optimieren, der Plan entsteht — und genau dann meldet das System, dass am Gestell Restglas liegt, das passt. Zweiter Klick, und Sie sehen die Rechnung. Das läuft alles hier im Browser, mit einem echten Optimierer.',
+      'Ein echter Auftrag mit 20 Teilen, gerechnet vom echten Optimierer, hier in Ihrem Browser. Drücken Sie auf Optimieren und sehen Sie, welches Glas Sie nicht kaufen.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -61,13 +66,18 @@ export default {
         'Der Preis hängt an der Erfahrung des Verkäufers',
         'Der Preis kommt aus der Preisliste, die Marge steht pro Auftrag',
       ],
+      /* Aqui estava "Das System meldet den fehlenden Winkel vor dem Schnitt":
+         essa checagem de esquadro NÃO existe no produto e não pode voltar em
+         nenhuma forma. No lugar dela entram os formatos, que existem. Nomes de
+         programa (Opty-Way, Perfect Cut) não se traduzem. */
       [
         'Das falsche Maß fällt auf, wenn das Glas schon ESG ist',
-        'Das System meldet den fehlenden Winkel vor dem Schnitt',
+        'Ausgabe als DXF, CNI und FBT — oder direkt an Opty-Way und Perfect Cut',
       ],
+      // G-Code saiu junto com os outros formatos: não existe no sistema.
       [
-        'Der Plan wird im CAD neu gezeichnet, der Tisch steht still',
-        'Ausgabe als DXF, G-Code, ASC oder CNI+FBT',
+        'Der Plan wird im CAD neu gezeichnet, der Tisch wartet',
+        'Der Plan entsteht fertig und geht direkt an den Tisch',
       ],
     ],
   },
@@ -75,7 +85,10 @@ export default {
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
     rotulo: 'Vorführung vereinbaren',
-    titulo: 'Bringen Sie einen eigenen Auftrag mit. Wir bauen ihn vor Ihren Augen.',
+    /* A promessa forte não é montar rápido, é ele SAIR com o plano de corte do
+       pedido dele. Em alemão a segunda frase fica melhor com o objeto na
+       frente ("Den Schnittplan dazu…") do que com o sujeito. */
+    titulo: 'Bringen Sie einen eigenen Auftrag mit. Den Schnittplan dazu nehmen Sie mit.',
     texto:
       'Die Vorführung läuft am offenen System, nicht auf Folien. Wenn es am Ende nicht zu Ihrem Betrieb passt, haben Sie vierzig Minuten verloren und eine Analyse gewonnen.',
     passos: [

@@ -23,7 +23,10 @@ export default {
     rotulo: 'Um pedido, seis etapas · toca sozinho',
     // numeração de prancha, como em folha de projeto
     folha: 'FL. 03/06',
-    titulo: 'Um pedido inteiro, do celular na obra até a margem na tela.',
+    /* Era "do celular na obra até a margem na tela" — dois lugares e nenhum
+       verbo, e "margem na tela" soa a relatório. O que este filme mostra é um
+       pedido só atravessando a empresa inteira sem ser redigitado. */
+    titulo: 'Um pedido só, da obra à nota. Sem ninguém redigitar nada.',
   },
 
   // ── A narração das seis cenas ─────────────────────────────────────────
@@ -38,13 +41,19 @@ export default {
     },
     {
       etapa: 'Aprovação',
-      titulo: 'Ele aprova antes de existir.',
+      /* "Ele aprova antes de existir" era enigma: o leitor precisa parar para
+         entender quem é "ele" e o que não existe. Numa cena que passa em quatro
+         segundos, enigma é tempo perdido. */
+      titulo: 'O cliente vê o vidro na parede dele.',
       sub: 'A IA monta o vidro na foto do ambiente do próprio cliente. Ele vê a porta no lugar dela, na parede dele, antes de qualquer peça ser cortada.',
       medidor: (n) => `Conferindo o pedido · ${n}/4`,
     },
     {
       etapa: 'Corte',
-      titulo: 'Corta certo. Sobra vira estoque.',
+      /* "Corta certo. Sobra vira estoque." estava telegráfico demais — "corta
+         certo" é o mínimo que se espera de qualquer sistema, então não é
+         promessa. O que impressiona é a sobra virar matéria-prima com endereço. */
+      titulo: 'A sobra sai do chão e vira estoque.',
       sub: 'O plano sai pronto para a mesa. E o pedaço que restou volta ao cavalete com medida, cor e endereço, para disputar a próxima otimização.',
       medidor: (p) => `Aproveitamento · ${p}%`,
       // no fim da cena o chip troca de assunto: o retalho ganhou endereço

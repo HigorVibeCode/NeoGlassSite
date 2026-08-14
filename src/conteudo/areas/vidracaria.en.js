@@ -25,10 +25,16 @@ export default {
     },
     texto:
       'You measure on site, the customer sees the price there and then, and signs on your screen. No spreadsheet, no notebook, no training week.',
+    /* As três anteriores mediam a INSTALAÇÃO ("one afternoon", "0
+       spreadsheets", "1 app"), que é o problema de quem já comprou — não de
+       quem está decidindo. Estas medem o dia dele: quanto tempo leva um
+       orçamento, quantas vezes ele reescreve a mesma medida, e onde o serviço
+       fecha. "4 min" e "1×" funcionam nos quatro idiomas; só o terceiro rótulo
+       vira palavra ("on site"). */
     marcas: [
-      ['One afternoon', 'and you are actually running on it'],
-      ['0', 'spreadsheets to keep alive'],
-      ['1', 'app — site, bench and office'],
+      ['4 min', 'from the measurement to a signed PDF'],
+      ['1×', 'you type the size — once, and that is it'],
+      ['on site', 'the job is closed before you drive off'],
     ],
     linhaPreco: (preco) => `${preco} a month. No setup fee, no lock-in.`,
   },
@@ -88,8 +94,8 @@ export default {
         'It goes back into stock with its size — and into the next cutting plan',
       ],
       [
-        'The wrong measurement only shows up at the fitting',
-        'The system flags the opening out of square before you cut',
+        'The size gets lost between the site notebook and the plant order',
+        'The size you took is the size the plant cuts — the same one, never retyped',
       ],
       [
         'At the end of the month nobody knows which job made money',
@@ -100,13 +106,22 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Pricing · no small print',
+    rotulo: 'Glass Shop Plan · pricing with no small print',
     titulo: 'One number, and it stays that number.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo. O parâmetro fica
     // na assinatura para as quatro versões terem a mesma forma.
     texto: () =>
       'The quote you just watched build itself was one living-room window — glass, hardware and fitting, the job you would take on any Tuesday. Keep that job in your head while you read the number below.',
-    cota: 'NeoGlass for glass shops',
+    /* O nome do plano, no selo ao lado do número. Antes dizia "NeoGlass for
+       glass shops" e estourava a pílula de ~120 px em caixa alta; e o visitante
+       não tinha como saber se aquele preço valia para a fábrica também. São
+       produtos e vendas diferentes: a indústria é consultiva e não tem preço
+       em lugar nenhum do site. Máximo de ~18 caracteres aqui. */
+    cota: 'Glass Shop Plan',
+    // A aba da indústria chama-se "Industry" em inglês (ver paginas.industria
+    // .nome em en.js) — o nome citado aqui tem que ser o mesmo do menu.
+    soParaVidracaria:
+      'This is the glass shop plan. A processing plant is a different product, priced case by case — see the Industry tab.',
     porMes: '/month',
     fixo: 'A flat price, the day you sign and a year from now.',
     semTaxa:

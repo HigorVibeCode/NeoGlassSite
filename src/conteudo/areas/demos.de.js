@@ -144,7 +144,7 @@ export default {
     desenho: {
       aria: 'Die auf der Baustelle gemessene Öffnung',
       janela: '2 Schiebeflügel · 6 mm',
-      medindo: 'Winkel wird geprüft…',
+      medindo: 'Diagonalen notieren…',
       vaoMedido: 'Öffnung auf der Baustelle gemessen',
       montando: 'Fenster wird in die Öffnung gesetzt',
       janelaDoVao: 'Das Fenster für diese Öffnung',
@@ -193,8 +193,8 @@ export default {
       ficha: {
         vao: 'Öffnung',
         parede: 'Wand',
-        esquadro: 'Winkel',
-        esquadroValor: 'sofort geprüft',
+        esquadro: 'Diagonalen',
+        esquadroValor: '1.947 und 1.951 mm',
         foto: 'Foto',
         fotoValor: '2 Bilder angehängt',
       },

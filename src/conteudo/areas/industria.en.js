@@ -41,9 +41,13 @@ export default {
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
     rotulo: 'Demo · the rack before the sheet',
-    titulo: 'Before you open new glass, look at what’s already on the rack.',
+    /* O título repetia o hero ("look at what's already on the rack") e o texto
+       gastava quatro frases explicando um botão. Agora o título é o resultado
+       que ele VÊ acontecer, e o texto cabe em duas linhas: o resto ele descobre
+       apertando, que é o motivo de existir uma demonstração. */
+    titulo: 'Three sheets become two. Right in front of you.',
     texto:
-      'Three clicks, a real 20-piece order. You hit optimize, the plan comes up — and that’s when the system tells you it found an offcut on the rack that fits. Hit the second button and see the arithmetic. It all runs right here in your browser, on a real optimizer.',
+      'A real 20-piece order, run by the same optimizer, right here in your browser. Hit the button and watch where the glass stops being bought.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -64,13 +68,19 @@ export default {
         'The price comes out of whatever the salesman remembers',
         'The price comes off the list; margin closes order by order',
       ],
+      /* O lado direito dizia que o sistema acusa o fora de esquadro antes do
+         corte. Essa checagem NÃO EXISTE no produto e saiu de vez: no lugar dela
+         entram os formatos de saída, com os dois nomes de mesa que o comprador
+         reconhece. Não reintroduzir a checagem em nenhuma redação. */
       [
         'The wrong size turns up with the glass already tempered',
-        'The system flags what’s out of square before you cut',
+        'It comes out as DXF, CNI and FBT — or straight into Opty-Way and Perfect Cut',
       ],
+      /* G-code saiu junto: o sistema não gera G-code. O par ficou sendo sobre o
+         retrabalho de CAD, que é onde a mesa para. */
       [
-        'The plan is redrawn in CAD while the table sits idle',
-        'It comes out as DXF, G-code, ASC or CNI+FBT',
+        'The plan is redrawn in CAD while the table sits there waiting',
+        'The plan lands ready and goes straight to the table',
       ],
     ],
   },
@@ -78,7 +88,10 @@ export default {
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
     rotulo: 'Book the walkthrough',
-    titulo: 'Bring one of your own orders. We build it in front of you.',
+    /* "We build it in front of you" vendia a velocidade da montagem. A promessa
+       que pesa é a de saída: ele vai embora com o plano de corte do pedido dele
+       na mão, depois de quarenta minutos. */
+    titulo: 'Bring one of your own orders. You leave with its cutting plan.',
     texto:
       'The walkthrough runs on the live system, not on slides. If it doesn’t add up for your operation, you have lost forty minutes and gained a diagnosis.',
     passos: [

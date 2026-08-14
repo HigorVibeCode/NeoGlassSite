@@ -16,7 +16,10 @@ export default {
     rotulo: 'Un pedido, seis etapas · se reproduce solo',
     // H. de hoja, la numeración de plano
     folha: 'H. 03/06',
-    titulo: 'Un pedido entero, del móvil en la obra al margen en pantalla.',
+    /* Antes eram dois lugares e nenhum verbo. O que o filme mostra é um pedido
+       só atravessando a empresa inteira sem ninguém redigitar nada. "Nota" é
+       nota fiscal: em espanhol, "factura". */
+    titulo: 'Un solo pedido, de la obra a la factura. Sin que nadie vuelva a teclear nada.',
   },
 
   // ── A narração das seis cenas ─────────────────────────────────────────
@@ -29,13 +32,17 @@ export default {
     },
     {
       etapa: 'Aprobación',
-      titulo: 'Lo aprueba antes de que exista.',
+      /* Era enigma: o leitor tinha de parar para entender quem aprova e o que
+         não existe. Numa cena de quatro segundos, enigma é tempo perdido. */
+      titulo: 'El cliente ve el vidrio en su propia pared.',
       sub: 'La IA monta el vidrio sobre la foto del ambiente del propio cliente. Ve la puerta en su sitio, en su pared, antes de cortar una sola pieza.',
       medidor: (n) => `Revisando el pedido · ${n}/4`,
     },
     {
       etapa: 'Corte',
-      titulo: 'Corta bien. Lo que sobra pasa a stock.',
+      /* "Corta bien" é o mínimo que se espera de qualquer sistema — não é
+         promessa. O que impressiona é a sobra sair do chão com endereço. */
+      titulo: 'El recorte se levanta del suelo y entra en el stock.',
       sub: 'El plan de corte sale listo para la mesa. Y el trozo que sobró vuelve al caballete con medida, color y dirección, para pelear la próxima optimización.',
       medidor: (p) => `Aprovechamiento · ${p}%`,
       medidorFim: 'Recorte reservado · caballete A-03',

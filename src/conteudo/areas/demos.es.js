@@ -139,7 +139,7 @@ export default {
     desenho: {
       aria: 'El hueco medido en la obra',
       janela: '2 hojas corredizas · 6 mm',
-      medindo: 'verificando escuadra…',
+      medindo: 'anotando las diagonales…',
       vaoMedido: 'Hueco medido en la obra',
       montando: 'Armando la ventana en el hueco',
       janelaDoVao: 'La ventana de este hueco',
@@ -188,8 +188,8 @@ export default {
       ficha: {
         vao: 'Hueco',
         parede: 'Pared',
-        esquadro: 'Escuadra',
-        esquadroValor: 'verificada en el acto',
+        esquadro: 'Diagonales',
+        esquadroValor: '1.947 y 1.951 mm',
         foto: 'Foto',
         fotoValor: '2 imágenes adjuntas',
       },

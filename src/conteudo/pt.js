@@ -75,7 +75,11 @@ export default {
   // ── De onde vem (aparece nas três páginas) ────────────────────────────
   origem: {
     rotulo: 'De onde vem',
-    titulo: 'Nasceu dentro de uma fábrica de vidro — não numa reunião sobre fábricas de vidro.',
+    /* A segunda metade já foi "e isso muda o que ele pergunta" (abstrata) e
+       "não numa reunião sobre fábricas de vidro" (boa, mas fala do que NÃO é).
+       Esta fala de quem fez — que é o argumento mais forte e o único que um
+       concorrente não copia. */
+    titulo: 'Nasceu dentro de uma fábrica de vidro, escrito por quem tem décadas no ramo.',
     fatos: [
       [
         'Desenvolvido na Suíça',

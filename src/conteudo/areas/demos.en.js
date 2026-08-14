@@ -141,7 +141,7 @@ export default {
     desenho: {
       aria: 'The opening measured on site',
       janela: '2 sliding leaves · 6 mm',
-      medindo: 'checking square…',
+      medindo: 'noting the diagonals…',
       vaoMedido: 'Opening measured on site',
       montando: 'Fitting the window to the opening',
       janelaDoVao: 'The window for this opening',
@@ -190,8 +190,8 @@ export default {
       ficha: {
         vao: 'Opening',
         parede: 'Wall',
-        esquadro: 'Square',
-        esquadroValor: 'checked on the spot',
+        esquadro: 'Diagonals',
+        esquadroValor: '1,947 and 1,951 mm',
         foto: 'Photo',
         fotoValor: '2 images attached',
       },

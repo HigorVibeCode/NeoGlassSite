@@ -27,10 +27,14 @@ export default {
     },
     texto:
       'Mides en obra, el cliente ve el precio al momento y firma en la pantalla. Sin hojas de cálculo, sin cuaderno y sin curso.',
+    /* As três anteriores mediam a INSTALAÇÃO, que é problema de quem já
+       comprou — não de quem está decidindo. Estas medem o dia dele: quanto
+       leva um orçamento, quantas vezes ele reescreve a mesma medida e onde o
+       serviço fecha. "4 min" e "1×" ficam como estão nos quatro idiomas. */
     marcas: [
-      ['Una tarde', 'para estar funcionando de verdad'],
-      ['0', 'hojas de cálculo que mantener'],
-      ['1', 'app — obra, banco y oficina'],
+      ['4 min', 'de la medida al PDF firmado'],
+      ['1×', 'tecleas la medida — una sola vez'],
+      ['en obra', 'el trabajo se cierra antes de que te vayas'],
     ],
     linhaPreco: (preco) => `${preco} al mes. Sin cuota de implantación y sin permanencia.`,
   },
@@ -90,8 +94,8 @@ export default {
         'Vuelve al stock con su medida — y entra en el siguiente corte',
       ],
       [
-        'La medida equivocada aparece solo a la hora de instalar',
-        'El sistema avisa del fuera de escuadra antes de cortar',
+        'La medida se pierde entre la libreta de obra y el pedido de fábrica',
+        'La medida que tomaste es la que corta la fábrica — la misma, sin volver a teclear',
       ],
       [
         'A fin de mes nadie sabe qué trabajo dejó dinero',
@@ -102,12 +106,18 @@ export default {
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
-    rotulo: 'Precio · sin letra pequeña',
+    rotulo: 'Plan Cristalería · precio sin letra pequeña',
     titulo: 'Un solo número, y sigue siendo ese.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo.
     texto: () =>
       'El presupuesto que acabas de ver montarse era una ventana de salón: vidrio, herrajes e instalación, el trabajo que entra cualquier martes. Ten ese trabajo en la cabeza mientras lees el número de abajo.',
-    cota: 'NeoGlass para cristalerías',
+    /* O nome do plano, dito por extenso e curto: o selo tem cerca de 120px.
+       Antes dizia só "NeoGlass para cristalerías" e o visitante não tinha como
+       saber se aquele número valia para a fábrica também. São produtos e
+       vendas diferentes — a indústria é consultiva e não tem preço no site. */
+    cota: 'Plan Cristalería',
+    soParaVidracaria:
+      'Este es el plan de la cristalería. La industria es otro producto, con precio cerrado caso a caso — está en la pestaña Industria.',
     porMes: '/mes',
     fixo: 'Precio fijo, el día que firmas y dentro de un año.',
     semTaxa:

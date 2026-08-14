@@ -70,7 +70,15 @@ export default function Preco({ folha = 'FL. 05/07' }) {
               style={{ background: 'radial-gradient(circle, #0e8c6a, transparent 66%)' }}
             />
             <div className="relative">
-              <p className="cota uppercase">{t.cota}</p>
+              {/* O nome do plano num selo, não numa linha de texto: é a
+                  primeira coisa que o olho pega ao chegar aqui, e responde
+                  antes da pergunta "isso vale para a minha fábrica também?" */}
+              <span
+                className="cota inline-flex items-center rounded-full px-3 py-1.5 uppercase"
+                style={{ background: 'rgba(14,140,106,.1)', color: '#0e8c6a', opacity: 1 }}
+              >
+                {t.cota}
+              </span>
               <p className="mt-4 flex items-baseline gap-2">
                 <span className="display text-[clamp(46px,6.4vw,68px)] leading-none">{preco}</span>
                 <span className="text-[16px] font-bold text-dim">{t.porMes}</span>
@@ -108,6 +116,12 @@ export default function Preco({ folha = 'FL. 05/07' }) {
                   {comecar.rotulo}
                 </a>
                 {temTeste && <p className="cota mt-3 normal-case">{t.semCartao(diasTeste)}</p>}
+                {/* A separação entre os dois produtos, dita onde ela importa:
+                    ao lado do número. Sem isto, um dono de fábrica lê R$ 197 e
+                    conclui que é esse o preço do sistema inteiro. */}
+                <p className="mt-5 border-t border-line pt-4 text-[13.5px] leading-[1.5] text-dim">
+                  {t.soParaVidracaria}
+                </p>
               </div>
             </div>
           </div>

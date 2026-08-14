@@ -89,7 +89,9 @@ export default {
   // ── De onde vem (aparece nas três páginas) ────────────────────────────
   origem: {
     rotulo: 'De dónde viene',
-    titulo: 'Nació dentro de una fábrica de vidrio — no en una reunión sobre fábricas de vidrio.',
+    /* A segunda metade falava do que o sistema NÃO é. Esta fala de quem o fez,
+       que é o argumento mais forte e o único que um concorrente não copia. */
+    titulo: 'Nació dentro de una fábrica de vidrio, escrito por quien lleva décadas en el sector.',
     fatos: [
       [
         'Desarrollado en Suiza',

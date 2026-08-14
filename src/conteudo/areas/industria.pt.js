@@ -53,9 +53,14 @@ export default {
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
     rotulo: 'Demonstração · o cavalete antes da chapa',
-    titulo: 'Antes de abrir vidro novo, olhe o que já está encostado.',
+    /* O título dizia "Antes de abrir vidro novo, olhe o que já está encostado"
+       — que é a mesma frase do hero, duas telas acima, com outras palavras. E o
+       texto tinha quatro frases explicando um botão. Agora o título é o
+       resultado (o que ele vai VER acontecer) e o texto cabe em duas linhas: o
+       resto ele descobre apertando, que é o ponto de existir uma demonstração. */
+    titulo: 'Três chapas viram duas. Na sua frente.',
     texto:
-      'Três cliques, um pedido real de 20 peças. Você aperta otimizar, o plano nasce — e é aí que o sistema avisa que achou retalho no cavalete que serve. Aperte o segundo botão e veja a conta. Tudo roda aqui no seu navegador, com um otimizador de verdade.',
+      'Um pedido real de 20 peças, com o otimizador de verdade rodando aqui no seu navegador. Aperte e veja onde o vidro deixa de ser comprado.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -74,16 +79,19 @@ export default {
       ['O preço sai da experiência do vendedor', 'O preço sai da tabela; a margem fecha por pedido'],
       [
         'A medida errada aparece com o vidro já temperado',
-        'O sistema acusa o fora de esquadro antes de cortar',
+        'Sai em DXF, CNI e FBT — ou direto para o Opty-Way e o Perfect Cut',
       ],
-      ['O plano é redesenhado no CAD, com a mesa parada', 'Sai em DXF, G-code, ASC ou CNI+FBT'],
+      ['O plano é redesenhado no CAD, com a mesa parada esperando', 'O plano nasce pronto e vai direto para a mesa'],
     ],
   },
 
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
     rotulo: 'Agendar a apresentação',
-    titulo: 'Traga um pedido seu. A gente monta na sua frente.',
+    /* "A gente monta na sua frente" soava a mágica de vendedor. A promessa
+       forte não é montar rápido: é ele sair com o plano de corte do PEDIDO
+       DELE na mão, tendo gastado quarenta minutos. */
+    titulo: 'Traga um pedido seu. Você sai com o plano de corte dele.',
     texto:
       'A apresentação é com o sistema aberto, não com slide. Se no fim não fizer sentido para a sua operação, você perdeu quarenta minutos e ganhou um diagnóstico.',
     passos: [

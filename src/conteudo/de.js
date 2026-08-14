@@ -84,7 +84,11 @@ export default {
   // Swissness, e vale para texto, ícone e imagem.
   origem: {
     rotulo: 'Woher es kommt',
-    titulo: 'Entstanden in einer Glasfabrik — nicht in einer Besprechung über Glasfabriken.',
+    /* A segunda metade falava do que o sistema NÃO é ("nicht in einer
+       Besprechung"). Agora fala de quem o escreveu, que é o argumento que
+       nenhum concorrente copia. "Jahrzehnte im Glas" é como o setor fala de
+       si mesmo em alemão — mais curto e mais do ramo que "in der Branche". */
+    titulo: 'Entstanden in einer Glasfabrik, geschrieben von Leuten mit Jahrzehnten im Glas.',
     fatos: [
       [
         'In der Schweiz entwickelt',

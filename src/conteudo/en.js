@@ -83,7 +83,10 @@ export default {
   // ── De onde vem (aparece nas três páginas) ────────────────────────────
   origem: {
     rotulo: 'Where it came from',
-    titulo: 'Born on a glass plant floor — not in a meeting about glass plant floors.',
+    /* A segunda metade dizia o que o produto NÃO é ("not in a meeting about
+       glass plant floors"). Esta fala de quem escreveu — o argumento mais forte
+       e o único que um concorrente não copia. */
+    titulo: 'Born inside a glass plant, written by people with decades in the trade.',
     fatos: [
       [
         // "Built in Switzerland" fica: é o diferencial que o comprador lembra.

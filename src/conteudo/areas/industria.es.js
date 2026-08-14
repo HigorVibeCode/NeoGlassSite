@@ -38,9 +38,13 @@ export default {
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
     rotulo: 'Demostración · el caballete antes que la plancha',
-    titulo: 'Antes de abrir vidrio nuevo, mira lo que ya está apoyado.',
+    /* O título repetia a abertura com outras palavras, e o texto gastava
+       quatro frases explicando um botão. Agora o título é o resultado que ele
+       vai VER acontecer, e o texto cabe em duas linhas — o resto ele descobre
+       apertando, que é para isso que existe a demonstração. */
+    titulo: 'Tres planchas se quedan en dos. Delante de ti.',
     texto:
-      'Tres clics, un pedido real de 20 piezas. Pulsas optimizar, nace el plan — y ahí el sistema avisa de que encontró en el caballete un recorte que sirve. Pulsa el segundo botón y mira la cuenta. Todo corre aquí, en tu navegador, con un optimizador de verdad.',
+      'Un pedido real de 20 piezas, con el optimizador de verdad funcionando aquí, en tu navegador. Pulsa y mira dónde dejas de comprar vidrio.',
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -61,13 +65,17 @@ export default {
         'El precio sale de la experiencia del vendedor',
         'El precio sale de la tarifa; el margen cierra pedido a pedido',
       ],
+      /* O lado direito destes dois pares foi refeito em 13/08. Caíram, e não
+         voltam: a checagem do fora de escuadra antes de cortar (o sistema não
+         faz isso) e o G-code (não existe na saída). No lugar entraram os
+         formatos que a mesa realmente lê e os dois otimizadores do mercado. */
       [
         'La medida equivocada aparece con el vidrio ya templado',
-        'El sistema avisa del fuera de escuadra antes de cortar',
+        'Sale en DXF, CNI y FBT — o directo a Opty-Way y Perfect Cut',
       ],
       [
-        'El plan se vuelve a dibujar en el CAD, con la mesa parada',
-        'Sale en DXF, G-code, ASC o CNI+FBT',
+        'Hay que redibujar el plan en el CAD, con la mesa parada esperando',
+        'El plan nace listo y entra directo en la mesa',
       ],
     ],
   },
@@ -75,7 +83,9 @@ export default {
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
     rotulo: 'Agendar la presentación',
-    titulo: 'Trae un pedido tuyo. Lo montamos delante de ti.',
+    /* "Lo montamos delante de ti" soava a truque de vendedor. A promessa forte
+       é ele sair de lá com o plano de corte do pedido DELE na mão. */
+    titulo: 'Trae un pedido tuyo. Te vas con su plan de corte.',
     texto:
       'La presentación es con el sistema abierto, no con diapositivas. Si al final no te encaja en la operación, has perdido cuarenta minutos y te llevas un diagnóstico.',
     passos: [

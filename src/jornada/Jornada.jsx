@@ -99,9 +99,18 @@ function useFilme(duracoes, ligado, reduzido) {
   const atual = useRef({ i, ms })
   atual.current = { i, ms }
 
+  /* O filme para enquanto o ponteiro está em cima, e volta quando sai.
+     Sem isto, quem quer reler uma cena tem que esperar o ciclo inteiro dar a
+     volta — e o subtítulo de cada cena tem duas linhas de texto que valem ser
+     lidas. Também para no toque longo do celular e quando o foco do teclado
+     entra na seção, para quem navega sem mouse ter a mesma saída. */
+  const [pausado, setPausado] = useState(false)
+  const parar = () => setPausado(true)
+  const seguir = () => setPausado(false)
+
   useEffect(() => {
     if (reduzido) return setEstado({ i: duracoes.length - 1, ms: duracoes[duracoes.length - 1] })
-    if (!ligado) return
+    if (!ligado || pausado) return
 
     // O filme é um desenho vetorial grande sendo remontado a cada quadro. A
     // sessenta quadros por segundo isso derruba celular antigo — e ninguém
@@ -133,14 +142,14 @@ function useFilme(duracoes, ligado, reduzido) {
     }
     raf = requestAnimationFrame(passo)
     return () => cancelAnimationFrame(raf)
-  }, [ligado, reduzido, duracoes])
+  }, [ligado, pausado, reduzido, duracoes])
 
   const duracao = duracoes[i]
   // `t` percorre só a janela de ação; `barra` percorre a cena inteira.
   const t = clamp((ms - CHEGADA) / Math.max(1, duracao - CHEGADA - DESCANSO))
   const barra = clamp(ms / duracao)
 
-  return { i, t, barra, ir: (n) => setEstado({ i: n, ms: 0 }) }
+  return { i, t, barra, pausado, parar, seguir, ir: (n) => setEstado({ i: n, ms: 0 }) }
 }
 
 function Medidor({ cena, t, tx }) {
@@ -216,7 +225,7 @@ export default function Jornada() {
   const reduzido = useReducedMotion()
   const naTela = useNaTela(ref)
   const duracoes = useRef(CENAS.map((c) => c.duracao)).current
-  const { i, t, barra, ir } = useFilme(duracoes, naTela, reduzido)
+  const { i, t, barra, pausado, parar, seguir, ir } = useFilme(duracoes, naTela, reduzido)
 
   const cena = CENAS[i]
   const espaco = compacto ? PALCO_MOVEL : PALCO
@@ -227,6 +236,13 @@ export default function Jornada() {
       ref={ref}
       data-jornada=""
       aria-label={t9n.secao.aria}
+      onMouseEnter={parar}
+      onMouseLeave={seguir}
+      onFocusCapture={parar}
+      onBlurCapture={seguir}
+      onPointerDown={parar}
+      onPointerUp={seguir}
+      onPointerCancel={seguir}
       className="mx-auto flex min-h-[100svh] w-full max-w-[1240px] flex-col gap-5 px-5 py-14 sm:px-8"
     >
       <div className="shrink-0">

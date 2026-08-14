@@ -19,7 +19,10 @@ export default {
     rotulo: 'Ein Auftrag, sechs Stationen · läuft von allein',
     // BL. de Blatt, a numeração de prancha
     folha: 'BL. 03/06',
-    titulo: 'Ein ganzer Auftrag — vom Handy auf der Baustelle bis zur Marge auf dem Bildschirm.',
+    /* Era "vom Handy auf der Baustelle bis zur Marge auf dem Bildschirm" —
+       dois lugares e nenhum verbo. O que o filme mostra é UM pedido
+       atravessando a empresa sem ninguém redigitar nada. */
+    titulo: 'Ein Auftrag, von der Baustelle bis zur Rechnung. Niemand tippt ihn ein zweites Mal.',
   },
 
   // ── A narração das seis cenas ─────────────────────────────────────────
@@ -34,13 +37,19 @@ export default {
     },
     {
       etapa: 'Freigabe',
-      titulo: 'Er gibt frei, bevor es das Glas gibt.',
+      // Era enigma ("Er gibt frei, bevor es das Glas gibt"): numa cena de
+      // quatro segundos, quem precisa decifrar já perdeu a cena.
+      titulo: 'Der Kunde sieht das Glas an seiner eigenen Wand.',
       sub: 'Die KI setzt das Glas in das Foto vom Raum des Kunden. Er sieht die Tür an ihrem Platz, an seiner eigenen Wand, bevor die erste Scheibe geschnitten ist.',
       medidor: (n) => `Auftrag wird geprüft · ${n}/4`,
     },
     {
       etapa: 'Zuschnitt',
-      titulo: 'Richtig schneiden. Der Rest wird Bestand.',
+      /* "Corta certo" é o mínimo que se espera, não é promessa. O que
+         impressiona é a sobra virar matéria-prima com endereço. Na oficina
+         alemã o retalho não fica no chão, fica encostado na parede ou no
+         gestell — daí "an der Wand" e não "vom Boden". */
+      titulo: 'Aus dem Restglas an der Wand wird Bestand.',
       sub: 'Der Schnittplan kommt fertig für den Tisch. Und das Reststück geht mit Maß, Farbe und Platznummer zurück aufs Gestell — bereit für die nächste Verschnittoptimierung.',
       medidor: (p) => `Ausnutzung · ${p}%`,
       medidorFim: 'Restglas belegt · Gestell A-03',

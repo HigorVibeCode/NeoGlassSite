@@ -873,8 +873,63 @@ export default function Projeto({ acao }) {
                 </b>
                 <b className="text-[12px] font-semibold text-white/55">{t.passos.montagem.sub}</b>
               </p>
-              <div className="flex flex-1 items-center">
-                <Perspectiva fase={fase} separa={separa} />
+              {/* No fim a janela não some nem encolhe de vez: ela RECUA para o
+                  alto e à esquerda, e o orçamento ocupa o canto que sobrou. As
+                  duas coisas cabem dentro do mesmo quadro escuro — o container
+                  não cresce um pixel, que era a condição. */}
+              <div className="relative flex flex-1 items-center">
+                <div
+                  className="w-full origin-top-left transition-transform duration-[900ms]"
+                  style={{
+                    transform: ato === 'fim' ? 'translate(-2%, -8%) scale(.66)' : 'none',
+                    transitionTimingFunction: 'cubic-bezier(.2,.7,.3,1)',
+                  }}
+                >
+                  <Perspectiva fase={fase} separa={separa} />
+                </div>
+
+                {ato === 'fim' && conta && (
+                  /* O orçamento nasce junto com o projeto, e no mesmo quadro:
+                     é a mesma tela que mostra a janela e o que ela custa. A
+                     palavra "simulação" fica colada no número, e as duas
+                     quantidades que o vidraceiro sabe conferir — os m² de
+                     vidro e os metros de perfil — aparecem ao lado de cada
+                     linha. Número sem origem declarada não entra neste site. */
+                  <div className="orca absolute bottom-0 right-0 w-[66%] max-w-[228px] overflow-hidden rounded-[12px] border border-white/12 bg-white/[0.07] px-3 py-2.5">
+                    <p className="flex items-baseline justify-between gap-2">
+                      <span className="cota uppercase text-[#8fb6ff] opacity-100">
+                        {t.orcamento.rotulo}
+                      </span>
+                      <span className="font-mono text-[9px] text-white/35">
+                        {VAO3D.L}×{VAO3D.A}
+                      </span>
+                    </p>
+                    <dl className="mt-1.5 grid gap-[3px]">
+                      {[
+                        [t.orcamento.linhas.vidro, `${AREA_VIDRO.toFixed(2).replace('.', ',')} m²`, conta.vidro],
+                        [t.orcamento.linhas.aluminio, `${METROS_PERFIL.toFixed(2).replace('.', ',')} m`, conta.aluminio],
+                        [t.orcamento.linhas.ferragem, '', conta.ferragem],
+                        [t.orcamento.linhas.obra, '', conta.obra],
+                      ].map(([nome, qtd, valor]) => (
+                        <div key={nome} className="flex items-baseline justify-between gap-2">
+                          <dt className="min-w-0 truncate text-[10px] text-white/50 sm:text-[10.5px]">
+                            {nome}
+                            {qtd && <span className="ml-1 hidden font-mono text-[9px] text-white/30 min-[380px]:inline">{qtd}</span>}
+                          </dt>
+                          <dd className="shrink-0 whitespace-nowrap font-mono text-[10px] text-white/80 sm:text-[10.5px]">
+                            {emReais(valor)}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <p className="mt-1.5 flex items-baseline justify-between gap-2 border-t border-white/12 pt-1.5">
+                      <span className="text-[10.5px] font-bold text-white/70">{t.orcamento.total}</span>
+                      <b className="display text-[17px] leading-none text-white">
+                        {emReais(conta.total)}
+                      </b>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -903,44 +958,7 @@ export default function Projeto({ acao }) {
             </button>
           ) : ato === 'fim' ? (
             <>
-              {conta ? (
-                /* O orçamento nasce junto com o projeto. A palavra "simulação"
-                   fica colada no número, e as duas quantidades que o vidraceiro
-                   sabe conferir — os m² de vidro e os metros de perfil —
-                   aparecem do lado de cada linha. Número sem origem declarada
-                   não entra neste site. */
-                <div className="sobe w-full max-w-[300px] rounded-[14px] border border-line bg-white px-4 py-3 text-left">
-                  <p className="flex items-baseline justify-between">
-                    <span className="cota uppercase">{t.orcamento.rotulo}</span>
-                    <span className="cota normal-case opacity-80">
-                      {VAO3D.L} × {VAO3D.A}
-                    </span>
-                  </p>
-                  <dl className="mt-2.5 grid gap-1 text-[12.5px]">
-                    {[
-                      [t.orcamento.linhas.vidro, `${AREA_VIDRO.toFixed(2).replace('.', ',')} m²`, conta.vidro],
-                      [t.orcamento.linhas.aluminio, `${METROS_PERFIL.toFixed(2).replace('.', ',')} m`, conta.aluminio],
-                      [t.orcamento.linhas.ferragem, '', conta.ferragem],
-                      [t.orcamento.linhas.obra, '', conta.obra],
-                    ].map(([nome, qtd, valor]) => (
-                      <div key={nome} className="flex items-baseline justify-between gap-3">
-                        <dt className="truncate text-dim">
-                          {nome}
-                          {qtd && <span className="ml-1.5 font-mono text-[11px] opacity-70">{qtd}</span>}
-                        </dt>
-                        <dd className="shrink-0 font-mono text-ink">{emReais(valor)}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p className="mt-2.5 flex items-baseline justify-between border-t border-line pt-2.5">
-                    <span className="text-[13px] font-extrabold text-ink">{t.orcamento.total}</span>
-                    <b className="display text-[22px] leading-none">{emReais(conta.total)}</b>
-                  </p>
-                  <p className="cota mt-2 normal-case leading-snug">{t.orcamento.nota}</p>
-                </div>
-              ) : (
-                <p className="sobe text-[15.5px] font-bold leading-snug text-ink">{t.pronto}</p>
-              )}
+              <p className="sobe text-[15.5px] font-bold leading-snug text-ink">{t.pronto}</p>
               {/* Quem acabou de ver o projeto nascer em vinte segundos está no
                   ponto mais quente da página. O pedido vem aqui, e não três
                   seções abaixo. */}

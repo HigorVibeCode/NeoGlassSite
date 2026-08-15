@@ -891,3 +891,18 @@ html[data-parado] {
 .marca-acende {
   animation: marca-acende 900ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
+
+/* O orçamento entra no canto do quadro escuro depois que a janela recua. */
+@keyframes orca {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.orca {
+  animation: orca 520ms 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}

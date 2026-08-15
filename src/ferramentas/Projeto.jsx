@@ -313,7 +313,9 @@ function facesDoVao(fase, separa) {
   }
 
   // ── as paredes do nicho: piso, teto e as duas laterais ─────────────────
-  const recuo = separa * 300
+  // +25% em toda a expansão: as camadas ficavam próximas demais para o
+  // olho separar o que era perfil, o que era vidro e o que era ferragem
+  const recuo = separa * 375
   const pd = (v) => v - recuo
   addBox(-E, L + E, -E, 0, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
   addBox(-E, L + E, A, A + E, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
@@ -329,7 +331,7 @@ function facesDoVao(fase, separa) {
      (z = 0) e o outro as móveis (z = 34). São as duas cordinhas na soleira, e
      é por elas que se entende de cara por que uma folha passa na frente da
      outra. */
-  const alu = -separa * 160
+  const alu = -separa * 200
   const z1a = -12 + alu
   const z2a = 54 + alu
   addBox(0, L, A - TRILHO, A, z1a, z2a, COR.aluF, COR.aluL) // trilho superior · 55
@@ -347,7 +349,7 @@ function facesDoVao(fase, separa) {
   for (const f of FOLHAS) {
     // explodida, a fixa recua e a móvel avança: elas se separam no eixo em que
     // já correm de verdade
-    const zb = f.z + separa * (f.papel === 'fixa' ? -20 : 150)
+    const zb = f.z + separa * (f.papel === 'fixa' ? -25 : 188)
     const x1 = VIDRO_X0 + f.i * FOLHA
     const x2 = x1 + FOLHA
     const desloca = f.dir * fase * CURSO
@@ -367,13 +369,20 @@ function facesDoVao(fase, separa) {
     )
 
     if (f.papel === 'movel') {
-      const zf = zb + separa * 170
-      // roldanas: um disco por furo, 10 mm maior que ele no diâmetro — a regra
-      // do produto (furo Ø14 → rodinha Ø24). Elas moram no ALTO da folha, que é
-      // por onde a móvel pendura no trilho.
+      const zf = zb + separa * 213
+      /* As roldanas correm DENTRO do trilho — é lá que elas rodam. Por isso
+         ficam a 18 mm do topo da folha, o que as põe dentro da faixa dos 55 mm
+         do perfil, e não abaixo dela.
+
+         A consequência é a certa e não precisa de truque nenhum para
+         acontecer: com a janela montada, o alumínio é opaco e está na frente
+         delas, então elas somem. Quando as peças se afastam, o perfil recua e
+         a ferragem avança — e aí elas aparecem, que é justamente o momento em
+         que interessa mostrá-las. */
+      const yRoldana = topo - 18
       for (const fx of [x1 + 90, x2 - 90]) {
-        addDisco(fx, topo - 46, 12, zf + ESPV + 2, zf + ESPV + 10, COR.ferrF, COR.ferrL, map, 12)
-        addDisco(fx, topo - 46, 5, zf + ESPV + 10, zf + ESPV + 13, COR.ferrL, COR.ferrL, map, 8)
+        addDisco(fx, yRoldana, 12, zf + ESPV + 2, zf + ESPV + 10, COR.ferrF, COR.ferrL, map, 12)
+        addDisco(fx, yRoldana, 5, zf + ESPV + 10, zf + ESPV + 13, COR.ferrL, COR.ferrL, map, 8)
       }
       // puxador redondo de um furo, dupla face e discreto
       const px = f.i === 1 ? x2 - 70 : x1 + 70
@@ -388,7 +397,7 @@ function facesDoVao(fase, separa) {
   // enquadramento estável: os cantos do cenário, não do quadro corrente — sem
   // isto a caixa "pula" de tamanho quando as folhas correm
   const ext = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity }
-  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 300, DEPTH + 320]) {
+  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 380, DEPTH + 420]) {
     const p = proj(x, y, z)
     ext.minX = Math.min(ext.minX, p[0]); ext.maxX = Math.max(ext.maxX, p[0])
     ext.minY = Math.min(ext.minY, p[1]); ext.maxY = Math.max(ext.maxY, p[1])

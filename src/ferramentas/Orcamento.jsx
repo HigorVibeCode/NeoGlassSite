@@ -681,13 +681,7 @@ export default function Orcamento() {
         <span className="cota ml-auto uppercase">{t.barra.passo(passo, passos)}</span>
       </div>
 
-      {/* Uma coluna só, centralizada.
-          Duas colunas obrigavam o olho a escolher entre o desenho e o texto, e
-          no celular viravam uma pilha onde o painel aparecia antes de o
-          visitante ver qualquer coisa se mexer. Centralizado, a leitura é uma
-          só: primeiro o que acontece, depois o que aquilo significa. */}
-      <div className="mx-auto w-full">
-        {/* ── o palco ─────────────────────────────────────────────────── */}
+      {/* O palco é largo. O texto e o botão cabem na coluna de leitura. */}
         <div
           className={`demo-palco relative border-b border-line bg-soft/30 px-4 py-5 sm:px-7 ${
             fase === 'pdf' || fase === 'enviar' || fase === 'preco' ? '' : 'demo-palco-vao'
@@ -758,8 +752,9 @@ export default function Orcamento() {
           )}
         </div>
 
+        <div className="demo-leitura">
         {/* ── o painel ────────────────────────────────────────────────── */}
-        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center px-5 py-7 sm:px-7">
+        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center py-8">
           {fase === 'vao' && (
             <>
               <p className="cota uppercase">{t.vao.selo}</p>
@@ -1015,12 +1010,10 @@ export default function Orcamento() {
             </>
           )}
         </div>
-      </div>
 
-      {/* ── a barra de ação ─────────────────────────────────────────────── */}
-      <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
+        <div className="demo-acao">
         {fase === 'vao' && (
-          <button type="button" onClick={usarVao} className="botao-marca px-7 py-3.5 text-[15px]">
+          <button type="button" onClick={usarVao} className="botao-marca">
             {t.botoes.usarVao}
           </button>
         )}
@@ -1031,10 +1024,10 @@ export default function Orcamento() {
           fase === 'montando' ||
           fase === 'orcamento' ||
           fase === 'gerando') && (
-          <span className="botao-marca inline-flex items-center gap-2.5 px-7 py-3.5 text-[15px] opacity-70">
+          <span className="botao-marca opacity-70">
             <i
               aria-hidden="true"
-              className="h-2 w-2 animate-pulse rounded-full"
+              className="mr-2.5 h-2 w-2 animate-pulse rounded-full"
               style={{ background: '#fff' }}
             />
             {fase === 'gerando' ? t.botoes.gerando : t.botoes.montando}
@@ -1042,18 +1035,14 @@ export default function Orcamento() {
         )}
 
         {fase === 'pdf' && (
-          <button type="button" onClick={enviar} className="botao-marca px-7 py-3.5 text-[15px]">
+          <button type="button" onClick={enviar} className="botao-marca">
             {t.botoes.enviar}
           </button>
         )}
 
         {fase === 'enviar' &&
           (preco ? (
-            <button
-              type="button"
-              onClick={verPreco}
-              className="botao-marca px-7 py-3.5 text-[15px]"
-            >
+            <button type="button" onClick={verPreco} className="botao-marca">
               {t.botoes.naObra}
             </button>
           ) : (
@@ -1062,7 +1051,7 @@ export default function Orcamento() {
               target={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? '_blank' : undefined}
               rel={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? 'noreferrer' : undefined}
               onClick={() => evento('agendar', { origem: 'ferramenta-orcamento' })}
-              className="botao-marca px-7 py-3.5 text-[15px]"
+              className="botao-marca"
             >
               {t.botoes.naObra}
             </a>
@@ -1075,14 +1064,11 @@ export default function Orcamento() {
               target={comecar.externo ? '_blank' : undefined}
               rel={comecar.externo ? 'noreferrer' : undefined}
               onClick={() => evento('comecar', { origem: 'ferramenta-orcamento' })}
-              className="botao-marca px-7 py-3.5 text-[15px]"
+              className="botao-marca"
             >
               {comecar.rotulo}
             </a>
-            <a
-              href="#preco"
-              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
-            >
+            <a href="#preco" className="botao-fantasma">
               {t.botoes.incluido}
             </a>
             <button
@@ -1102,7 +1088,7 @@ export default function Orcamento() {
               target="_blank"
               rel="noreferrer"
               onClick={() => evento('whatsapp', { origem: 'ferramenta-orcamento' })}
-              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+              className="botao-fantasma"
             >
               {t.botoes.zap}
             </a>
@@ -1118,10 +1104,11 @@ export default function Orcamento() {
 
         {/* Na tela do preço a ressalva tem que mudar: senão o visitante lê
             "valores de exemplo" e acha que a mensalidade também é chute. */}
-        <p className="cota ml-auto max-w-[32ch] normal-case leading-snug">
+        <p className="cota normal-case leading-snug">
           {fase === 'preco' ? t.nota.preco : t.nota.padrao}
         </p>
-      </div>
+        </div>
+        </div>
     </div>
   )
 }

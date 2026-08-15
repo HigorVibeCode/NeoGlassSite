@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import Fluxo from '../components/Fluxo.jsx'
-import { Revelar, Secao } from '../components/Comum.jsx'
+import Telas from '../components/Telas.jsx'
+import { Revelar } from '../components/Comum.jsx'
 import { gravarLado, lerLado } from '../lib/lado.js'
 import { caminhoDe } from '../lib/paginasSeo.js'
 import { evento } from '../lib/rastreio.js'
@@ -32,106 +32,64 @@ const LADOS = {
 }
 
 /**
- * Vidraçaria: a trena medindo a chapa.
+ * Vidraçaria: a chapa e a trena.
  *
- * O desenho anterior era um vão de janela com uma cota embaixo — e vão de
- * janela é vocabulário de construção civil, não de vidro. Martelo, furadeira e
- * janela ficaram de fora pelo mesmo motivo. O que identifica este ofício é o
- * gesto de medir o vidro: a chapa com o reflexo, e a trena aberta por baixo
- * dela, com o gancho na ponta.
+ * Redesenhado com traço único e pontas arredondadas. A versão anterior
+ * misturava três espessuras e picotava a fita em marcações minúsculas — no
+ * tamanho de 60 px isso vira sujeira. Aqui são duas formas limpas: a chapa com
+ * um reflexo, e a trena com corpo redondo e quatro marcas espaçadas.
  */
 function IconeVidracaria({ cor }) {
   return (
-    <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-      {/* a chapa, com dois reflexos que é o que faz o olho ler "vidro" */}
-      <g transform="rotate(-3 32 24)">
-        <rect
-          x="15"
-          y="7"
-          width="34"
-          height="31"
-          rx="1.5"
-          fill={cor}
-          fillOpacity=".10"
-          stroke={cor}
-          strokeWidth="3"
-        />
-        <path d="M21 34 L33 11" stroke={cor} strokeWidth="2.2" opacity=".5" strokeLinecap="round" />
-        <path d="M29 35 L41 12" stroke={cor} strokeWidth="2.2" opacity=".3" strokeLinecap="round" />
-      </g>
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" className="h-full w-full">
+      <g stroke={cor} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+        {/* a chapa */}
+        <rect x="15" y="7" width="34" height="29" rx="4" fill={cor} fillOpacity=".10" />
+        <path d="M23 31 L34 14" opacity=".5" />
 
-      {/* a trena: corpo, fita esticada, marcações e o gancho na ponta */}
-      <rect
-        x="5"
-        y="45"
-        width="13"
-        height="13"
-        rx="3.5"
-        fill={cor}
-        fillOpacity=".18"
-        stroke={cor}
-        strokeWidth="2.8"
-      />
-      <path d="M18 51.5 H55" stroke={cor} strokeWidth="3.4" strokeLinecap="round" />
-      <g stroke={cor} strokeWidth="2.2" strokeLinecap="round" opacity=".75">
-        <path d="M26 51.5v-5M34 51.5v-3.5M42 51.5v-5M49 51.5v-3.5" />
+        {/* a trena, claramente separada da chapa: corpo redondo, fita reta,
+            quatro marcas espaçadas — não um pente de riscos */}
+        <circle cx="13" cy="51" r="6" fill={cor} fillOpacity=".14" />
+        <path d="M19 51 H52" />
+        <path d="M27 51 v-5M35 51 v-5M43 51 v-5" strokeWidth="2.8" opacity=".75" />
       </g>
-      <path d="M56.5 46v11" stroke={cor} strokeWidth="3.2" strokeLinecap="round" />
     </svg>
   )
 }
 
 /**
- * Indústria: a chapa entrando na linha de produção.
+ * Indústria: a chapa e a engrenagem.
  *
- * Duas chapas empilhadas à esquerda, a seta do processo, e a engrenagem à
- * direita. É a leitura mais direta de "fábrica de vidro" — matéria-prima
- * entrando em beneficiamento — e não depende de reconhecer uma mesa de corte
- * ou um forno, que variam de fábrica para fábrica.
+ * A engrenagem antes era feita de riscos soltos em volta de um círculo e lia
+ * como um sol. Agora os dentes são parte do contorno, no mesmo traço da chapa.
  */
 function IconeIndustria({ cor }) {
-  const dentes = [0, 45, 90, 135, 180, 225, 270, 315]
+  // oito dentes desenhados como trapézios sobre o círculo
+  const dentes = Array.from({ length: 8 }, (_, k) => k * 45)
   return (
-    <svg viewBox="0 0 64 64" className="h-full w-full" aria-hidden="true">
-      {/* as chapas empilhadas, uma atrás da outra */}
-      <rect
-        x="3"
-        y="19"
-        width="22"
-        height="30"
-        rx="1.5"
-        fill={cor}
-        fillOpacity=".07"
-        stroke={cor}
-        strokeWidth="2.4"
-      />
-      <rect
-        x="9"
-        y="14"
-        width="22"
-        height="30"
-        rx="1.5"
-        fill={cor}
-        fillOpacity=".16"
-        stroke={cor}
-        strokeWidth="3"
-      />
-      <path d="M14 40 L24 19" stroke={cor} strokeWidth="2" opacity=".45" strokeLinecap="round" />
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" className="h-full w-full">
+      <g stroke={cor} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+        {/* a chapa, em pé */}
+        <rect x="6" y="15" width="19" height="34" rx="4" fill={cor} fillOpacity=".12" />
+        <path d="M11 43 L20 22" opacity=".5" />
 
-      {/* a passagem para a produção */}
-      <g stroke={cor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <path d="M33 29 H39" />
-        <path d="M36 26 L39.5 29 L36 32" />
+        {/* a engrenagem */}
+        <g>
+          {dentes.map((g) => (
+            <path
+              key={g}
+              d="M40.6 19 h4.8 l-0.7 4.6 h-3.4 z"
+              fill={cor}
+              stroke={cor}
+              strokeWidth="2.4"
+              transform={`rotate(${g} 43 32)`}
+            />
+          ))}
+          <circle cx="43" cy="32" r="10" fill="#fff" />
+          <circle cx="43" cy="32" r="10" fill={cor} fillOpacity=".12" />
+          <circle cx="43" cy="32" r="3.8" />
+        </g>
       </g>
-
-      {/* a engrenagem */}
-      <g stroke={cor} strokeWidth="2.8" strokeLinecap="round" fill="none">
-        {dentes.map((g) => (
-          <path key={g} d="M53 19 V14.5" transform={`rotate(${g} 53 29)`} />
-        ))}
-      </g>
-      <circle cx="53" cy="29" r="8.5" fill={cor} fillOpacity=".14" stroke={cor} strokeWidth="3" />
-      <circle cx="53" cy="29" r="2.8" fill={cor} />
     </svg>
   )
 }
@@ -159,137 +117,120 @@ export default function Home({ rota }) {
   }
 
   return (
-    <>
-      <Revelar as="section" className="secao faixa pt-[104px]">
-        <div className="coluna">
-          <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-verde" aria-hidden="true" />
-            <span className="cota normal-case">{t.etiqueta}</span>
-          </p>
-
-          <h1 className="titulo-hero mt-6">
-            {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
-          </h1>
-
-          <p className="texto-secao mt-6">{t.texto}</p>
-
-          <p id="portas" className="pergunta mt-12 scroll-mt-[124px]">
-            {t.escolha}
-          </p>
-
-          <div className="mt-6 grid gap-4">
-            {t.portas.map((porta) => {
-              const lado = LADOS[porta.id]
-              const Icone = ICONES[porta.id]
-              return (
-                <a
-                  key={porta.id}
-                  href={caminhoDe(porta.id, idioma)}
-                  onClick={escolher(porta.id)}
-                  className="cartao group relative flex min-h-[88px] flex-col overflow-hidden px-6 py-8 text-center"
-                  style={{ borderWidth: 2, borderColor: 'var(--line, #e4e9ee)' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = lado.cor)}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
-                >
-                  <span aria-hidden="true" className="absolute inset-x-0 top-0 h-[5px]" style={{ background: lado.cor }} />
-                  <span
-                    className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-[16px] p-2.5"
-                    style={{ background: lado.claro }}
-                  >
-                    <Icone cor={lado.cor} />
-                  </span>
-                  <h2 className="titulo-bloco relative mt-4">{porta.rotulo}</h2>
-                  <p className="texto-bloco relative mx-auto mt-2 max-w-[32ch]">{porta.texto}</p>
-                  <span
-                    className="relative mx-auto mt-5 inline-flex items-center gap-2 text-[16px] font-extrabold"
-                    style={{ color: lado.cor }}
-                  >
-                    {porta.acao}
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
-                      <path
-                        d="M5 12h13m-5-6l6 6-6 6"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </a>
-              )
-            })}
-          </div>
-
-          <a
-            href={caminhoDe('plataforma', idioma)}
-            onClick={(e) => {
-              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
-              e.preventDefault()
-              evento('porta', { lado: 'duvida', idioma })
-              rota.ir('plataforma')
-            }}
-            className="botao-fantasma mt-4 w-full"
-          >
-            {t.duvida}
-          </a>
-        </div>
-      </Revelar>
-
-      <Fluxo titulo={t.fluxo.titulo} texto={t.fluxo.texto} rotulo={t.fluxo.rotulo} />
-
-      <Secao rotulo={t.problema.rotulo} titulo={t.problema.titulo}>
-        <ul className="mt-8 grid gap-2">
-          {t.problema.itens.map((item) => (
-            <li key={item} className="cartao px-5 py-3 text-[16px] font-semibold text-dim">
-              {item}
-            </li>
-          ))}
-        </ul>
-        <p className="cota mt-8 uppercase" style={{ color: '#0e8c6a', opacity: 1 }}>
-          {t.problema.depoisTitulo}
+    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-14 pt-[92px] sm:px-8 sm:pt-[104px]">
+      {/* ── 1º: a promessa ─────────────────────────────────────────────── */}
+      <div className="mx-auto max-w-[860px] text-center">
+        <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-verde" aria-hidden="true" />
+          <span className="cota normal-case">{t.etiqueta}</span>
         </p>
-        <ul className="mt-3 grid gap-2">
-          {t.problema.depois.map((item) => (
-            <li
-              key={item}
-              className="rounded-[20px] px-5 py-3 text-[16px] font-extrabold text-verde"
-              style={{ background: 'rgba(14,140,106,.1)' }}
+
+        <h1 className="display mx-auto mt-5 max-w-[17ch] text-[clamp(27px,5vw,58px)] leading-[1.06]">
+          {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span> {t.titulo.depois}
+        </h1>
+
+        {/* A frase da marca desceu para cá: pequena, discreta, como assinatura
+            do título. No topo ela competia com a promessa; aqui ela confirma. */}
+        <p className="mt-4 text-[14px] font-semibold text-dim sm:text-[15px]">{t.legenda}</p>
+      </div>
+
+      {/* ── 2º: a escolha ──────────────────────────────────────────────── */}
+      <p className="mt-9 text-center text-[16px] font-extrabold text-ink sm:mt-11 sm:text-[18px]">
+        {t.pergunta}
+      </p>
+
+      {/* Dois por linha TAMBÉM no celular. É o que mantém a página numa tela
+          só — e o que obriga cada cartão a caber em ~170 px: uma palavra de
+          título, três de apoio, e o cartão inteiro como área de clique. Uma
+          linha de "ver como funciona" não caberia aqui, e não faz falta: o
+          cartão já é o botão. */}
+      <div className="mx-auto mt-5 grid max-w-[720px] grid-cols-2 gap-3 sm:mt-6 sm:gap-5">
+        {t.portas.map((porta) => {
+          const lado = LADOS[porta.id]
+          const Icone = ICONES[porta.id]
+          return (
+            <a
+              key={porta.id}
+              href={caminhoDe(porta.id, idioma)}
+              onClick={escolher(porta.id)}
+              className="group relative flex flex-col items-center overflow-hidden rounded-[20px] border bg-card px-3 pb-6 pt-7 text-center transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-30px_rgba(20,55,80,.45)] sm:px-6 sm:pb-8 sm:pt-9"
+              style={{ borderColor: 'var(--line, #e4e9ee)' }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = lado.cor)}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
             >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </Secao>
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-[5px]"
+                style={{ background: lado.cor }}
+              />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                style={{ background: lado.claro }}
+              />
 
-      <Secao rotulo={t.diferencial.rotulo} titulo={t.diferencial.titulo} texto={t.diferencial.texto} />
+              <span
+                className="relative flex h-[62px] w-[62px] items-center justify-center rounded-[18px] p-3 transition-transform duration-200 group-hover:scale-105 sm:h-[74px] sm:w-[74px] sm:p-3.5"
+                style={{ background: lado.claro }}
+              >
+                <Icone cor={lado.cor} />
+              </span>
 
-      <Secao rotulo={t.prova.rotulo} titulo={t.prova.titulo}>
-        <ul className="mt-10 grid gap-3">
-          {t.prova.itens.map(([titulo, texto]) => (
-            <li key={titulo} className="cartao px-6 py-6">
-              <p className="titulo-bloco">{titulo}</p>
-              <p className="texto-bloco mx-auto mt-2 max-w-[36ch]">{texto}</p>
-            </li>
-          ))}
-        </ul>
-      </Secao>
+              <h2 className="display relative mt-4 max-w-[12ch] text-[clamp(16px,3.9vw,24px)] leading-[1.12]">
+                {porta.rotulo}
+              </h2>
+              <span
+                aria-hidden="true"
+                className="relative mt-3 block h-[3px] w-8 rounded-full"
+                style={{ background: lado.cor }}
+              />
+              <p className="relative mt-3 max-w-[22ch] text-[13px] leading-[1.45] text-dim sm:text-[14.5px]">
+                {porta.texto}
+              </p>
+            </a>
+          )
+        })}
+      </div>
 
-      <Secao titulo={t.chamada.titulo}>
-        <div className="mt-8 grid gap-3">
-          <a href={caminhoDe('vidracaria', idioma)} onClick={escolher('vidracaria')} className="botao-marca w-full">
-            {t.chamada.vidracaria}
-          </a>
-          <a
-            href={caminhoDe('industria', idioma)}
-            onClick={escolher('industria')}
-            className="botao-fantasma w-full"
-            style={{ borderColor: '#0e7b9c', color: '#0e7b9c' }}
+      {/* A terceira saída, agora como pílula: no celular ela era um link de
+          texto solto e ninguém percebia que era clicável. */}
+      <p className="mt-5 text-center sm:mt-6">
+        <a
+          href={caminhoDe('plataforma', idioma)}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+            e.preventDefault()
+            evento('porta', { lado: 'duvida', idioma })
+            rota.ir('plataforma')
+          }}
+          className="inline-flex items-center gap-2 rounded-full border border-line bg-card px-5 py-2.5 text-[14px] font-bold text-dim transition-colors hover:border-verde hover:text-ink"
+        >
+          {t.duvida}
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden="true">
+            <path
+              d="M5 12h13m-5-6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
+      </p>
+
+      {/* ── 3º: o produto, menor e ao fundo ────────────────────────────── */}
+      <div className="mt-12 sm:mt-16">
+        <p className="cota mb-4 text-center uppercase">{t.painel}</p>
+        <div className="flex justify-center">
+          <div
+            className="w-full max-w-[440px] origin-top"
+            style={{ transform: 'perspective(1600px) rotateX(7deg)' }}
           >
-            {t.chamada.industria}
-          </a>
+            <Telas variantes={['pedidos', 'corte', 'design']} />
+          </div>
         </div>
-      </Secao>
-    </>
+      </div>
+    </Revelar>
   )
 }

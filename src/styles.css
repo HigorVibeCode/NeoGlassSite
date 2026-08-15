@@ -686,6 +686,9 @@ html[data-parado] .varre {
     position: sticky;
     bottom: 0;
     z-index: 5;
+    margin-inline: -20px;
+    padding: 16px 20px calc(18px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--color-line);
     background: color-mix(in oklab, var(--color-bg) 88%, white);
     backdrop-filter: blur(8px);
     box-shadow: 0 -10px 24px -18px rgba(20, 55, 80, 0.55);
@@ -831,11 +834,33 @@ html[data-parado] {
   scroll-behavior: auto;
 }
 
-/* O palco das demonstrações, em proporção quadrada.
-   O site inteiro migrou para leitura centralizada — e um palco largo e baixo
-   não centraliza: no computador ele estica, e no celular ele espreme o desenho
-   numa faixa. Quadrado funciona nas duas larguras sem mudar de forma, que é o
-   que faz a animação parecer a mesma peça em qualquer tela. */
+/* O palco é largo. O texto e o botão não.
+   Com a demo em 1040 px, a barra virava uma faixa: botão num canto, nota no
+   outro, colados na borda do cartão. A leitura volta para 680 px, o botão
+   fica embaixo do que o visitante acabou de ler, a nota embaixo do botão. */
+.demo-leitura {
+  width: 100%;
+  max-width: 680px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+.demo-acao {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 8px 0 32px;
+}
+.demo-acao .botao-marca,
+.demo-acao .botao-fantasma {
+  width: 100%;
+}
+.demo-acao .cota {
+  margin-left: 0;
+  max-width: none;
+  text-align: center;
+}
+
 .demo-palco {
   display: flex;
   /* `aspect-ratio` aqui encolhia a LARGURA para casar com a altura, e sobrava

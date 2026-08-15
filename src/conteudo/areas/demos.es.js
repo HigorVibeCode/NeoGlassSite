@@ -379,6 +379,12 @@ export default {
     titulo: 'Añadir vano',
     continuar: 'Continuar',
     cancelar: 'Cancelar',
+    orcamento: {
+      rotulo: 'Simulación',
+      linhas: { vidro: 'Vidrio', aluminio: 'Perfil de aluminio', ferragem: 'Kit de herrajes', obra: 'Mano de obra' },
+      total: 'Total',
+      nota: 'Con tu precio, no con el nuestro.',
+    },
     passos: {
       canvas: {
         titulo: 'Crear Proyecto 2D',

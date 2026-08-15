@@ -385,6 +385,12 @@ export default {
     titulo: 'Öffnung hinzufügen',
     continuar: 'Weiter',
     cancelar: 'Abbrechen',
+    orcamento: {
+      rotulo: 'Simulation',
+      linhas: { vidro: 'Glas', aluminio: 'Aluminiumprofil', ferragem: 'Beschlagsatz', obra: 'Montage' },
+      total: 'Gesamt',
+      nota: 'Mit Ihren Preisen, nicht mit unseren.',
+    },
     passos: {
       canvas: {
         titulo: '2D-Projekt erstellen',

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
-import { useTextos } from '../i18n/idioma.jsx'
+import { useIdioma, useTextos } from '../i18n/idioma.jsx'
+import { moedaDe, simulacaoProjeto } from '../config.js'
 import { Simbolo } from '../components/Marca.jsx'
 
 /**
@@ -235,6 +236,31 @@ const VIDRO_X0 = MONTANTE - PISA
 const VIDRO_X1 = VAO3D.L - (MONTANTE - PISA)
 const FOLHA = (VIDRO_X1 - VIDRO_X0) / 4
 const CURSO = FOLHA * 0.82
+
+/* ── a conta do orçamento ────────────────────────────────────────────────
+   NADA aqui é escrito à mão. A área de vidro sai das quatro folhas como elas
+   são desenhadas — inclusive a diferença de altura entre fixa e móvel e o
+   transpasse —, e os metros de perfil saem do perímetro do vão. Mexer numa
+   medida lá em cima corrige o orçamento aqui embaixo sozinho.
+
+   É por isso que o número pode aparecer na tela: ele é consequência do
+   desenho, não um valor bonito escolhido para a vitrine. */
+const ALT_MOVEL = VAO3D.A - 14 - (SOLEIRA - PISA)
+const ALT_FIXA = VAO3D.A - TRILHO + PISA - (SOLEIRA - PISA)
+const AREA_VIDRO = (2 * FOLHA * ALT_MOVEL + 2 * FOLHA * ALT_FIXA) / 1e6 // m²
+const METROS_PERFIL = (2 * (VAO3D.L + VAO3D.A)) / 1000 // m
+
+function orcar(precos) {
+  const vidro = AREA_VIDRO * precos.vidro
+  const aluminio = METROS_PERFIL * precos.aluminio
+  return {
+    vidro,
+    aluminio,
+    ferragem: precos.ferragem,
+    obra: precos.obra,
+    total: vidro + aluminio + precos.ferragem + precos.obra,
+  }
+}
 
 /* O alumínio é OPACO de propósito. Toda a cena é translúcida — parede, vidro —
    e num conjunto todo translúcido nada tem peso. O perfil sólido é o que dá
@@ -508,6 +534,14 @@ export const EVENTO_CTA = 'neoglass:cta-demo'
 
 export default function Projeto({ acao }) {
   const t = useTextos().demos.projeto
+  const { idioma } = useIdioma()
+  // Só em real: nos outros idiomas o bloco de dinheiro não existe, e a
+  // demonstração termina no desenho. Converter preço de vidraçaria brasileira
+  // para euro seria inventar um mercado que não conhecemos.
+  const precos = simulacaoProjeto(idioma)
+  const conta = precos ? orcar(precos) : null
+  const emReais = (v) =>
+    v.toLocaleString('pt-BR', { style: 'currency', currency: moedaDe(idioma), maximumFractionDigits: 0 })
   const [ato, setAto] = useState('parado')
   const [beat, setBeat] = useState('entra')
   // quantos algarismos já foram digitados em cada campo, e qual está em foco
@@ -869,7 +903,44 @@ export default function Projeto({ acao }) {
             </button>
           ) : ato === 'fim' ? (
             <>
-              <p className="sobe text-[15.5px] font-bold leading-snug text-ink">{t.pronto}</p>
+              {conta ? (
+                /* O orçamento nasce junto com o projeto. A palavra "simulação"
+                   fica colada no número, e as duas quantidades que o vidraceiro
+                   sabe conferir — os m² de vidro e os metros de perfil —
+                   aparecem do lado de cada linha. Número sem origem declarada
+                   não entra neste site. */
+                <div className="sobe w-full max-w-[300px] rounded-[14px] border border-line bg-white px-4 py-3 text-left">
+                  <p className="flex items-baseline justify-between">
+                    <span className="cota uppercase">{t.orcamento.rotulo}</span>
+                    <span className="cota normal-case opacity-80">
+                      {VAO3D.L} × {VAO3D.A}
+                    </span>
+                  </p>
+                  <dl className="mt-2.5 grid gap-1 text-[12.5px]">
+                    {[
+                      [t.orcamento.linhas.vidro, `${AREA_VIDRO.toFixed(2).replace('.', ',')} m²`, conta.vidro],
+                      [t.orcamento.linhas.aluminio, `${METROS_PERFIL.toFixed(2).replace('.', ',')} m`, conta.aluminio],
+                      [t.orcamento.linhas.ferragem, '', conta.ferragem],
+                      [t.orcamento.linhas.obra, '', conta.obra],
+                    ].map(([nome, qtd, valor]) => (
+                      <div key={nome} className="flex items-baseline justify-between gap-3">
+                        <dt className="truncate text-dim">
+                          {nome}
+                          {qtd && <span className="ml-1.5 font-mono text-[11px] opacity-70">{qtd}</span>}
+                        </dt>
+                        <dd className="shrink-0 font-mono text-ink">{emReais(valor)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-2.5 flex items-baseline justify-between border-t border-line pt-2.5">
+                    <span className="text-[13px] font-extrabold text-ink">{t.orcamento.total}</span>
+                    <b className="display text-[22px] leading-none">{emReais(conta.total)}</b>
+                  </p>
+                  <p className="cota mt-2 normal-case leading-snug">{t.orcamento.nota}</p>
+                </div>
+              ) : (
+                <p className="sobe text-[15.5px] font-bold leading-snug text-ink">{t.pronto}</p>
+              )}
               {/* Quem acabou de ver o projeto nascer em vinte segundos está no
                   ponto mais quente da página. O pedido vem aqui, e não três
                   seções abaixo. */}

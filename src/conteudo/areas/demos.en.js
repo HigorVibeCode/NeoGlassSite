@@ -380,6 +380,12 @@ export default {
     titulo: 'Add opening',
     continuar: 'Continue',
     cancelar: 'Cancel',
+    orcamento: {
+      rotulo: 'Simulation',
+      linhas: { vidro: 'Glass', aluminio: 'Aluminium profile', ferragem: 'Hardware kit', obra: 'Labour' },
+      total: 'Total',
+      nota: 'With your prices, not ours.',
+    },
     passos: {
       canvas: {
         titulo: 'Create 2D Project',

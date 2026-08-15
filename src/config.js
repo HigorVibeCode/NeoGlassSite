@@ -88,6 +88,30 @@ export const CONFIG = {
     //      autoatendimento. Nenhum botão do site pode levar a lugar nenhum.
     cadastroRota: 'comecar',
     cadastro: '',
+
+    /* Os preços da SIMULAÇÃO da demonstração do projeto — informados pelo Higor
+       em 15/08/2026. Eles NÃO são preço do software: são o que uma vidraçaria
+       cobraria pela janela que a demonstração desenha, e servem só para o
+       visitante ver o orçamento nascer junto com o projeto.
+
+       Ficam aqui, e não dentro do desenho, pela mesma razão do preço da chapa:
+       quando o custo mudar, muda em um lugar só. E nenhum total é escrito à
+       mão — a área de vidro e os metros de perfil saem da geometria da própria
+       janela, então mexer numa medida corrige o orçamento sozinho.
+
+       Só existem em real. Converter preço de vidraçaria brasileira para euro
+       seria inventar um mercado que não conhecemos: nos outros idiomas o bloco
+       de dinheiro simplesmente não aparece — a mesma regra da chapa de R$ 80. */
+    simulacao: {
+      BRL: {
+        vidro: 300, // por m²
+        aluminio: 100, // por metro de perfil
+        ferragem: 70, // o jogo de roldanas, puxadores e trinco
+        obra: 700, // mão de obra e instalação
+      },
+      EUR: null,
+      USD: null,
+    },
   },
 
   // Onde o formulário de cadastro entrega o lead. É um endereço público — a
@@ -124,6 +148,10 @@ export const precoVidracaria = (idioma = 'pt') => {
     maximumFractionDigits: 0,
   })
 }
+
+/** Os preços da simulação naquele idioma, ou nada onde eles não existem. */
+export const simulacaoProjeto = (idioma = 'pt') =>
+  CONFIG.vidracaria.simulacao[moedaDe(idioma)] ?? null
 
 /**
  * Para onde vai um botão de agendar. Nenhum botão do site pode levar a lugar

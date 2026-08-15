@@ -41,8 +41,14 @@ import { useTextos } from '../i18n/idioma.jsx'
    e conseguir acompanhar. */
 const ATO = 3200
 const BEATS = { dedo: 560, toque: 1400, confirma: 2400 }
-const MONTAGEM = 5800
+const MONTAGEM = 6600
 const TOTAL = ATO * 4 + MONTAGEM
+
+/* A mesma curva que a plataforma usa em `AnimacaoAbertura.jsx`. Sem ela, a
+   janela SALTAVA de fechada para aberta e de montada para explodida: os dois
+   estados existiam, o caminho entre eles não. É o caminho que o visitante
+   precisa ver — é dele que sai a leitura de "isto se move de verdade". */
+const suave = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
 
 const PASSOS = ['vao', 'medida', 'tipo', 'folhas']
 
@@ -196,13 +202,36 @@ const CAM = { yaw: 0.55, pitch: 0.2 }
 const E = 45
 const DEPTH = 100
 const ESPV = 8
+/* As medidas dos perfis são as que o dono passou, e não escolha de desenho:
+     trilho superior  55 mm  — é ele que carrega as roldanas, por isso é o largo
+     soleira          20 mm
+     montantes        20 mm
+   O perfil PISA 5 mm sobre o vidro em toda a volta: o vidro fixo começa onde o
+   trilho termina e entra 5 mm por baixo dele. É essa sobreposição que segura a
+   peça na obra, e é ela que faz a junta parecer junta em vez de dois retângulos
+   encostados. */
+const TRILHO = 55
+const SOLEIRA = 20
+const MONTANTE = 20
+const PISA = 5
+
 const VAO3D = { L: 1800, A: 1100 }
-const FOLHA = VAO3D.L / 4
+/* O campo de vidro não é o vão inteiro: ele começa depois dos montantes, com a
+   sobreposição de 5 mm. As quatro folhas dividem ESSE campo, não o vão. */
+const VIDRO_X0 = MONTANTE - PISA
+const VIDRO_X1 = VAO3D.L - (MONTANTE - PISA)
+const FOLHA = (VIDRO_X1 - VIDRO_X0) / 4
 const CURSO = FOLHA * 0.82
+
+/* O alumínio é OPACO de propósito. Toda a cena é translúcida — parede, vidro —
+   e num conjunto todo translúcido nada tem peso. O perfil sólido é o que dá
+   estrutura ao desenho e o que faz o vidro parecer vidro por contraste. */
 
 const COR = {
   vidro: 'rgba(150,180,225,.16)',
   borda: '#9db4e8',
+  aluF: '#aab7d2',
+  aluL: '#7885a8',
   paredeF: 'rgba(148,163,196,.20)',
   paredeL: 'rgba(148,163,196,.10)',
   ferrF: '#b9c4de',
@@ -291,34 +320,66 @@ function facesDoVao(fase, separa) {
   addBox(-E, 0, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
   addBox(L, L + E, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
 
+  /* ── o alumínio: trilho superior, soleira e os dois montantes ──────────
+     Faltava, e faz falta: sem o marco, o vidro parecia flutuar dentro de um
+     buraco na parede. O perfil é OPACO — é esse contraste com o vidro
+     transparente que faz o olho ler "metal" sem precisar de legenda.
+
+     O trilho tem DOIS canais, e eles não são enfeite: um recebe as fixas
+     (z = 0) e o outro as móveis (z = 34). São as duas cordinhas na soleira, e
+     é por elas que se entende de cara por que uma folha passa na frente da
+     outra. */
+  const alu = -separa * 160
+  const z1a = -12 + alu
+  const z2a = 54 + alu
+  addBox(0, L, A - TRILHO, A, z1a, z2a, COR.aluF, COR.aluL) // trilho superior · 55
+  addBox(0, L, 0, SOLEIRA, z1a, z2a, COR.aluF, COR.aluL) // soleira · 20
+  addBox(0, MONTANTE, SOLEIRA, A - TRILHO, z1a, z2a, COR.aluF, COR.aluL) // montante esq. · 20
+  addBox(L - MONTANTE, L, SOLEIRA, A - TRILHO, z1a, z2a, COR.aluF, COR.aluL) // montante dir. · 20
+  // os dois canais em relevo sobre a soleira: um para as fixas (z 0), outro
+  // para as móveis (z 34) — é por eles que se entende por que uma passa na
+  // frente da outra
+  for (const zc of [0, 34]) {
+    addBox(MONTANTE, L - MONTANTE, SOLEIRA - 4, SOLEIRA + 3, zc - 4 + alu, zc + ESPV + 4 + alu, COR.aluL, COR.aluL)
+  }
+
   // ── as folhas ──────────────────────────────────────────────────────────
   for (const f of FOLHAS) {
     // explodida, a fixa recua e a móvel avança: elas se separam no eixo em que
     // já correm de verdade
-    const zb = f.z + separa * (f.papel === 'fixa' ? -150 : 150)
-    const x1 = f.i * FOLHA
+    const zb = f.z + separa * (f.papel === 'fixa' ? -20 : 150)
+    const x1 = VIDRO_X0 + f.i * FOLHA
     const x2 = x1 + FOLHA
     const desloca = f.dir * fase * CURSO
     const map = ([x, y, z]) => [x + desloca, y, z]
 
+    // o vidro entra POR BAIXO dos perfis: a soleira e o trilho cobrem a borda,
+    // como na obra. A fixa ainda para mais baixo, e é por isso que sobra o
+    // rasgo do trilho vazio acima dela.
+    const base = SOLEIRA - PISA
+    // A fixa termina exatamente onde o trilho começa, entrando PISA por baixo
+    // dele. A móvel sobe mais: ela pendura nas roldanas lá em cima, e é essa
+    // diferença que deixa o rasgo do trilho aparecendo sobre a fixa.
+    const topo = f.papel === 'fixa' ? A - TRILHO + PISA : A - 14
     addPrisma(
-      [[x1, 0], [x2, 0], [x2, A], [x1, A]],
+      [[x1, base], [x2, base], [x2, topo], [x1, topo]],
       zb, zb + ESPV, COR.vidro, COR.borda, map,
     )
 
     if (f.papel === 'movel') {
       const zf = zb + separa * 170
       // roldanas: um disco por furo, 10 mm maior que ele no diâmetro — a regra
-      // do produto (furo Ø14 → rodinha Ø24)
+      // do produto (furo Ø14 → rodinha Ø24). Elas moram no ALTO da folha, que é
+      // por onde a móvel pendura no trilho.
       for (const fx of [x1 + 90, x2 - 90]) {
-        addDisco(fx, A - 60, 12, zf + ESPV + 2, zf + ESPV + 10, COR.ferrF, COR.ferrL, map, 16)
-        addDisco(fx, A - 60, 5, zf + ESPV + 10, zf + ESPV + 13, COR.ferrL, COR.ferrL, map, 10)
+        addDisco(fx, topo - 46, 12, zf + ESPV + 2, zf + ESPV + 10, COR.ferrF, COR.ferrL, map, 12)
+        addDisco(fx, topo - 46, 5, zf + ESPV + 10, zf + ESPV + 13, COR.ferrL, COR.ferrL, map, 8)
       }
       // puxador redondo de um furo, dupla face e discreto
       const px = f.i === 1 ? x2 - 70 : x1 + 70
-      addDisco(px, A / 2, 6, zf - 8, zf + ESPV + 8, COR.ferrL, COR.ferrL, map, 10)
-      addDisco(px, A / 2, 17, zf + ESPV + 8, zf + ESPV + 18, COR.ferrF, COR.ferrL, map, 16)
-      addDisco(px, A / 2, 17, zf - 18, zf - 8, COR.ferrF, COR.ferrL, map, 16)
+      addDisco(px, A / 2, 6, zf - 8, zf + ESPV + 8, COR.ferrL, COR.ferrL, map, 8)
+      addDisco(px, A / 2, 17, zf + ESPV + 8, zf + ESPV + 18, COR.ferrF, COR.ferrL, map, 12)
+      addDisco(px, A / 2, 17, zf - 18, zf - 8, COR.ferrF, COR.ferrL, map, 12)
     }
   }
 
@@ -364,16 +425,23 @@ function Perspectiva({ fase, separa }) {
    branco por cima (o preenchimento). É esse truque que faz a mão ter um
    contorno só.
 
-   Era exatamente isso que estava errado antes: cada forma tinha o próprio
-   contorno, então o polegar virava um gancho solto no ar e os dois dedos
-   dobrados liam como a letra "B". */
+   Duas tentativas anteriores erraram, e por motivos diferentes. Na primeira,
+   cada forma tinha o próprio contorno: o polegar virava um gancho solto no ar
+   e os dedos dobrados liam como a letra "B". Na segunda o contorno já era
+   único, mas o indicador ficava no MEIO de um punho largo dos dois lados — e
+   um dedo no meio do punho é outro gesto, não o cursor de link.
+
+   Este é o desenho do cursor que o navegador usa em cima de um link: indicador
+   FINO e encostado na borda esquerda, punho crescendo só para a direita, os
+   três dedos dobrados em degrau descendo, e o polegar como um calço baixo. */
 const MAO = (
   <>
-    <rect x="8" y="26" width="32" height="28" rx="13" />
-    <rect x="16" y="6" width="11" height="26" rx="5.5" />
-    <rect x="26" y="28" width="14" height="11" rx="5.5" />
-    <rect x="26" y="37" width="12" height="11" rx="5.5" />
-    <rect x="4" y="31" width="11" height="17" rx="5.5" transform="rotate(-18 9.5 39.5)" />
+    <rect x="10" y="3" width="9" height="31" rx="4.5" />
+    <rect x="10" y="29" width="28" height="25" rx="10" />
+    <rect x="19" y="25" width="9" height="13" rx="4.5" />
+    <rect x="26" y="28" width="9" height="13" rx="4.5" />
+    <rect x="31" y="33" width="8" height="12" rx="4" />
+    <rect x="4" y="35" width="9" height="13" rx="4.5" transform="rotate(-16 8.5 41.5)" />
   </>
 )
 
@@ -402,10 +470,12 @@ function Dedo({ em, tocando }) {
           {MAO}
         </g>
         <g fill="#fff">{MAO}</g>
-        {/* duas dobras discretas, só para a mão não ficar um borrão branco */}
-        <g stroke="#26384a" strokeWidth="1.6" strokeLinecap="round" opacity=".45">
-          <path d="M28 33h8" />
-          <path d="M28 42h6" />
+        {/* as dobras dos três dedos. Em 46 px de altura, sem elas a silhueta
+            vira um borrão branco e o gesto some. */}
+        <g stroke="#26384a" strokeWidth="1.7" strokeLinecap="round" opacity=".5">
+          <path d="M19 31h8" />
+          <path d="M26 36h7" />
+          <path d="M31 41h5" />
         </g>
       </svg>
     </span>
@@ -438,13 +508,30 @@ export default function Projeto() {
   const [ato, setAto] = useState('parado')
   const [beat, setBeat] = useState('entra')
   const [digitou, setDigitou] = useState(0)
-  const [explode, setExplode] = useState(false)
-  const [abre, setAbre] = useState(0)
+  // 0 montada .. 1 explodida  ·  0 fechada .. 1 aberta — números, não bandeiras
+  const [separa, setSepara] = useState(0)
+  const [fase, setFase] = useState(0)
   const relogios = useRef([])
+  const quadros = useRef([])
 
   const parar = () => {
     relogios.current.forEach(clearTimeout)
     relogios.current = []
+    quadros.current.forEach(cancelAnimationFrame)
+    quadros.current = []
+  }
+
+  /* Percorre um valor de `de` até `para` em `dur`, quadro a quadro. Cada quadro
+     reprojeta a cena inteira — é o preço de ter 3D de verdade em SVG, e é o
+     mesmo preço que a plataforma paga. */
+  const percorrer = (setter, de, para, dur) => {
+    const inicio = performance.now()
+    const passo = (agora) => {
+      const t = Math.min(1, (agora - inicio) / dur)
+      setter(de + (para - de) * suave(t))
+      if (t < 1) quadros.current.push(requestAnimationFrame(passo))
+    }
+    quadros.current.push(requestAnimationFrame(passo))
   }
   useEffect(() => parar, [])
   const marcar = (ms, fn) => relogios.current.push(setTimeout(fn, ms))
@@ -452,15 +539,15 @@ export default function Projeto() {
   function tocar() {
     parar()
     evento('demo', { qual: 'projeto' })
-    setExplode(false)
-    setAbre(0)
+    setSepara(0)
+    setFase(0)
     setDigitou(0)
 
     // Quem pediu menos movimento recebe o desfecho, parado. Não é versão
     // pobre: é o quadro que a sequência inteira existe para entregar.
     if (semMovimento()) {
       setAto('fim')
-      setAbre(1)
+      setFase(1)
       return
     }
 
@@ -481,9 +568,11 @@ export default function Projeto() {
 
     const fim = ATO * 4
     marcar(fim, () => setAto('montagem'))
-    marcar(fim + 900, () => setExplode(true))
-    marcar(fim + 3100, () => setExplode(false))
-    marcar(fim + 4400, () => setAbre(1))
+    // as peças se afastam, seguram um instante, e voltam a se encaixar
+    marcar(fim + 700, () => percorrer(setSepara, 0, 1, 1500))
+    marcar(fim + 3000, () => percorrer(setSepara, 1, 0, 1400))
+    // e então a janela abre, no mesmo compasso do sistema
+    marcar(fim + 4900, () => percorrer(setFase, 0, 1, 1700))
     marcar(TOTAL, () => setAto('fim'))
   }
 
@@ -615,7 +704,7 @@ export default function Projeto() {
                 {t.passos.montagem.dica}
               </p>
               <div className="flex flex-1 items-center">
-                <Perspectiva fase={abre} separa={explode ? 1 : 0} />
+                <Perspectiva fase={fase} separa={separa} />
               </div>
             </div>
           )}

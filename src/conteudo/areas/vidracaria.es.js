@@ -164,7 +164,7 @@ export default {
       ['Permanencia', 'cancelas cuando quieras'],
     ],
     semCartao: (dias) =>
-      `Sin tarjeta. Al final de los ${dias} días decides — y si no decides, no se cobra nada.`,
+      `Sin tarjeta. Si no sigues, no se cobra nada.`,
     tudoIncluido: 'Está todo incluido',
     incluso: [
       'Presupuesto en obra desde el teléfono, con foto y firma',
@@ -200,11 +200,11 @@ export default {
     // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `Ningún cliente que dar de alta, ningún histórico que importar: pones tu precio por m² y el próximo presupuesto que te entre ya sale de aquí. ${
+      `Pones tu precio por m² y el próximo presupuesto ya sale de aquí. ${
         dias > 0
           ? `Son ${dias} días sin tarjeta y sin compromiso.`
           : 'Sin permanencia: si no te sirve, te vas.'
-      } Y si prefieres que lo montemos juntos, nos escribes por WhatsApp.`,
+      }`,
     /* Os três passos agora carregam o QUANDO: quem lê "hoy" no primeiro e "en
        la próxima obra" no segundo entende que dá para testar sem parar a
        semana. */

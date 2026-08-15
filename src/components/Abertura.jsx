@@ -60,7 +60,7 @@ export default function Abertura({
       <div
         className={
           centro
-            ? 'mt-2 flex min-w-0 flex-col items-center gap-10 text-center'
+            ? 'mx-auto mt-2 flex w-full min-w-0 max-w-[680px] flex-col items-center gap-10 overflow-x-clip text-center'
             : 'mt-8 grid min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-8'
         }
       >

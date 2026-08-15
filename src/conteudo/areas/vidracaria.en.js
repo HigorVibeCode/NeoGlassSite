@@ -168,7 +168,7 @@ export default {
       ['Lock-in', 'cancel whenever you want'],
     ],
     semCartao: (dias) =>
-      `No card. At the end of the ${dias} days you decide — and if you decide nothing, nothing is charged.`,
+      `No card. If you do not carry on, nothing is charged.`,
     tudoIncluido: 'It is all in there',
     incluso: [
       'Quoting on site from your phone, with photo and signature',
@@ -203,11 +203,11 @@ export default {
     // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `No customers to set up, no history to import: you enter your own price per m² and the next quote that comes in already goes out from here. ${
+      `You enter your own price per m² and the next quote already goes out from here. ${
         dias > 0
           ? `That is ${dias} days with no card and no commitment.`
           : 'No lock-in: if it does not suit you, you leave.'
-      } If you would rather we set it up together, just message us on WhatsApp.`,
+      }`,
     /* Os três passos agora carregam o QUANDO: quem lê "today" no primeiro e
        "on the next job" no segundo entende que dá para testar sem parar a
        semana. */

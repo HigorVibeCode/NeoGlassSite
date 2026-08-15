@@ -128,17 +128,10 @@
 }
 
 @utility botao-marca {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 14px 28px;
   background: linear-gradient(90deg, #0e8c6a, #0e7b9c);
   color: #fff;
-  border-radius: 14px;
-  font-size: 16px;
+  border-radius: 13px;
   font-weight: 800;
-  line-height: 1.2;
   box-shadow:
     0 14px 30px -8px rgba(14, 140, 106, 0.55),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
@@ -373,124 +366,18 @@ html[data-parado] .pulso {
 /* ── Cota: a anotação de desenho técnico ─────────────────────────────────── */
 .cota {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: color-mix(in oklab, var(--color-dim) 90%, transparent);
 }
 
-/* ── Régua do site ────────────────────────────────────────────────────────
-   Três tamanhos de letra. Uma coluna. Um botão. Um canto.
-   Se uma seção inventar outro número, o visitante acha que mudou de site.
-
-   hero    = a frase da capa
-   secao   = o título de cada bloco
-   bloco   = o nome dentro do cartão
-   texto   = o parágrafo, sempre o mesmo
-   botão   = 52 px de altura, dá para acertar com o dedo */ 
-@layer components {
-  .faixa {
-    width: 100%;
-    max-width: 1240px;
-    margin-inline: auto;
-    padding-inline: 20px;
-    padding-bottom: 80px;
-  }
-  @media (min-width: 640px) {
-    .faixa {
-      padding-inline: 32px;
-      padding-bottom: 96px;
-    }
-  }
-
-  .coluna {
-    width: 100%;
-    max-width: 680px;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .titulo-hero {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 112%;
-    letter-spacing: -0.032em;
-    line-height: 1.02;
-    text-wrap: balance;
-    overflow-wrap: break-word;
-    font-size: clamp(34px, 7vw, 60px);
-    max-width: 14ch;
-    margin-inline: auto;
-  }
-
-  .titulo-secao {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 112%;
-    letter-spacing: -0.032em;
-    line-height: 1.08;
-    text-wrap: balance;
-    overflow-wrap: break-word;
-    font-size: clamp(26px, 5vw, 40px);
-    max-width: 16ch;
-    margin-inline: auto;
-  }
-
-  .titulo-bloco {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 112%;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    font-size: 22px;
-  }
-
-  .texto-secao {
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--color-dim);
-    max-width: 36ch;
-    margin-inline: auto;
-  }
-
-  .texto-bloco {
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--color-dim);
-  }
-
-  .pergunta {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 112%;
-    letter-spacing: -0.02em;
-    font-size: clamp(22px, 3.4vw, 26px);
-    line-height: 1.2;
-  }
-
-  .cartao {
-    border-radius: 20px;
-    border: 1px solid var(--color-line);
-    background: var(--color-card);
-  }
-
-  .botao-fantasma {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 52px;
-    padding: 14px 28px;
-    border-radius: 14px;
-    border: 1px solid var(--color-line);
-    background: var(--color-card);
-    font-size: 16px;
-    font-weight: 800;
-    line-height: 1.2;
-    color: var(--color-ink);
-  }
-  .botao-fantasma:hover {
-    border-color: var(--color-verde);
-    color: var(--color-verde);
+/* No celular a mesma anotação sobe meio ponto: 10,5 px de monoespaçada em tela
+   pequena, com sol batendo, ninguém lê. */
+@media (max-width: 767px) {
+  .cota {
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
   }
 }
 
@@ -679,16 +566,13 @@ html[data-parado] .varre {
        JSX é `lg:overflow-hidden`: no computador ele arredonda os cantos, no
        celular não existe canto para arredondar e a barra volta a colar. */
   }
-  .demo-palco:not(.demo-palco-vao) svg {
+  .demo-palco svg {
     max-height: 34vh;
   }
   .demo-acao {
     position: sticky;
     bottom: 0;
     z-index: 5;
-    margin-inline: -20px;
-    padding: 16px 20px calc(18px + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid var(--color-line);
     background: color-mix(in oklab, var(--color-bg) 88%, white);
     backdrop-filter: blur(8px);
     box-shadow: 0 -10px 24px -18px rgba(20, 55, 80, 0.55);
@@ -834,33 +718,11 @@ html[data-parado] {
   scroll-behavior: auto;
 }
 
-/* O palco é largo. O texto e o botão não.
-   Com a demo em 1040 px, a barra virava uma faixa: botão num canto, nota no
-   outro, colados na borda do cartão. A leitura volta para 680 px, o botão
-   fica embaixo do que o visitante acabou de ler, a nota embaixo do botão. */
-.demo-leitura {
-  width: 100%;
-  max-width: 680px;
-  margin-inline: auto;
-  padding-inline: 20px;
-}
-.demo-acao {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 12px;
-  padding: 8px 0 32px;
-}
-.demo-acao .botao-marca,
-.demo-acao .botao-fantasma {
-  width: 100%;
-}
-.demo-acao .cota {
-  margin-left: 0;
-  max-width: none;
-  text-align: center;
-}
-
+/* O palco das demonstrações, em proporção quadrada.
+   O site inteiro migrou para leitura centralizada — e um palco largo e baixo
+   não centraliza: no computador ele estica, e no celular ele espreme o desenho
+   numa faixa. Quadrado funciona nas duas larguras sem mudar de forma, que é o
+   que faz a animação parecer a mesma peça em qualquer tela. */
 .demo-palco {
   display: flex;
   /* `aspect-ratio` aqui encolhia a LARGURA para casar com a altura, e sobrava
@@ -887,149 +749,4 @@ html[data-parado] {
   .demo-palco {
     padding-bottom: 6rem;
   }
-}
-
-/* O vão da vidraçaria precisa de palco próprio.
-   O palco genérico espreme o SVG em 34vh no celular e deixa a parede comer
-   o desenho — o buraco some. Aqui o vão é o assunto: ocupa a caixa. */
-.demo-palco-vao {
-  aspect-ratio: 4 / 3;
-  min-height: min(92vw, 420px);
-  max-height: min(78vh, 680px);
-  padding-bottom: 4.25rem;
-  overflow: hidden;
-}
-.demo-palco-vao svg {
-  height: 100%;
-  max-height: none;
-}
-@media (max-width: 1023px) {
-  .demo-palco-vao svg {
-    max-height: none;
-  }
-}
-
-/* A pergunta de tipo/folhas fica DENTRO do vão, não no lugar dele. */
-.demo-palco > .escolha-sobre {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  z-index: 8;
-  width: min(88%, 420px);
-  transform: translate(-50%, -50%);
-  border-radius: 18px;
-  border: 1px solid color-mix(in oklab, var(--color-line) 70%, white);
-  background: color-mix(in oklab, var(--color-card, #fff) 92%, white);
-  padding: 12px 12px 14px;
-  box-shadow: 0 22px 44px -22px rgba(20, 55, 80, 0.5);
-  animation: escolha-sobe 0.35s ease-out both;
-}
-@keyframes escolha-sobe {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -44%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* A fita da trena estica da esquerda para a direita, depois de cima para baixo. */
-@keyframes trena-x {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-@keyframes trena-y {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
-.trena-x {
-  transform-box: fill-box;
-  transform-origin: left center;
-  animation: trena-x 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.trena-y {
-  transform-box: fill-box;
-  transform-origin: top center;
-  animation: trena-y 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
-}
-
-/* O flash da foto na obra. */
-@keyframes flash-foto {
-  0% {
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.72;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.flash-foto {
-  animation: flash-foto 0.7s ease-out both;
-}
-
-/* As folhas entram no vão, uma de cada lado. */
-@keyframes folha-e {
-  from {
-    transform: translateX(-22%);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-@keyframes folha-d {
-  from {
-    transform: translateX(26%);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-.folha-e {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: folha-e 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
-}
-.folha-d {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: folha-d 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
-}
-
-@keyframes marco-nasce {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-.marco-nasce {
-  stroke-dasharray: 1;
-  animation: marco-nasce 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-html[data-parado] .trena-x,
-html[data-parado] .trena-y,
-html[data-parado] .flash-foto,
-html[data-parado] .folha-e,
-html[data-parado] .folha-d,
-html[data-parado] .marco-nasce,
-html[data-parado] .escolha-sobre {
-  animation: none;
 }

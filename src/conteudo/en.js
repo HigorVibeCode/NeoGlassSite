@@ -88,10 +88,6 @@ export default {
     // na indústria e na vidraçaria, por isso fica no tronco comum e não nos
     // módulos de área. Ver Contraste.jsx.
     comNeoGlass: 'With NeoGlass',
-    escolherPerfil: 'Choose my profile',
-    escolherPerfilCurto: 'My profile',
-    solicitarDemo: 'Request a demo',
-    solicitarDemoCurto: 'Demo',
   },
 
   agenda: {
@@ -112,9 +108,7 @@ export default {
     /* A segunda metade dizia o que o produto NÃO é ("not in a meeting about
        glass plant floors"). Esta fala de quem escreveu — o argumento mais forte
        e o único que um concorrente não copia. */
-    titulo: 'It was not born in a software agency. It was born on the floor.',
-    texto:
-      'Built by people who know cutting, processing, production, delivery and the problems that happen on the shop floor.',
+    titulo: 'Born inside a glass plant, written by people with decades in the trade.',
     fatos: [
       [
         // "Built in Switzerland" fica: é o diferencial que o comprador lembra.

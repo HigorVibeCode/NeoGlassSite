@@ -181,7 +181,7 @@ export default {
       ['Laufzeit', 'jederzeit kündbar'],
     ],
     semCartao: (dias) =>
-      `Ohne Karte. Nach ${dias} Tagen entscheiden Sie — und wenn Sie nichts entscheiden, wird nichts abgebucht.`,
+      `Ohne Karte. Wenn Sie nicht weitermachen, wird nichts abgebucht.`,
     tudoIncluido: 'Alles inbegriffen',
     incluso: [
       'Angebot auf der Baustelle am Handy, mit Foto und Unterschrift',
@@ -217,11 +217,11 @@ export default {
     // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `Keine Kunden anzulegen, keine Historie zu importieren: Sie hinterlegen Ihren Preis pro m², und das nächste Angebot, das reinkommt, entsteht schon hier. ${
+      `Sie hinterlegen Ihren Preis pro m², und das nächste Angebot entsteht schon hier. ${
         dias > 0
           ? `${dias} Tage lang ohne Karte und ohne Verpflichtung.`
           : 'Keine Laufzeit: Wenn es nicht passt, gehen Sie.'
-      } Wenn wir es zusammen aufsetzen sollen, schreiben Sie uns per WhatsApp.`,
+      }`,
     /* Os três passos agora carregam o QUANDO. Eles moram em cartões estreitos:
        cada linha fica em ~60 caracteres, senão quebra feio em alemão — daí
        'Heute:' e 'Beim nächsten Auftrag:' curtos, no infinitivo. */

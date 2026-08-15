@@ -94,10 +94,6 @@ export default {
     // na indústria e na cristalería, por isso fica no tronco comum e não nos
     // módulos de área. Ver Contraste.jsx.
     comNeoGlass: 'Con NeoGlass',
-    escolherPerfil: 'Elegir mi perfil',
-    escolherPerfilCurto: 'Mi perfil',
-    solicitarDemo: 'Pedir una demostración',
-    solicitarDemoCurto: 'Demo',
   },
 
   agenda: {
@@ -117,9 +113,7 @@ export default {
     rotulo: 'De dónde viene',
     /* A segunda metade falava do que o sistema NÃO é. Esta fala de quem o fez,
        que é o argumento mais forte e o único que um concorrente não copia. */
-    titulo: 'No nació en una agencia de software. Nació en la operación.',
-    texto:
-      'Construido por quien conoce el corte, el procesado, la producción, la entrega y los problemas del suelo de fábrica.',
+    titulo: 'Nació dentro de una fábrica de vidrio, escrito por quien lleva décadas en el sector.',
     fatos: [
       [
         'Desarrollado en Suiza',

@@ -19,7 +19,7 @@ export default {
     verOtimizacao: 'Die Optimierung in Aktion sehen',
     etiqueta: 'Ein Blick ins System',
     titulo: {
-      antes: 'Bevor eine neue Tafel gekauft wird, sucht NeoGlass',
+      antes: 'Bevor eine neue Tafel geschnitten wird, sucht das System',
       destaque: 'in den Reststücken.',
     },
     /* A segunda metade dizia a margem pela venda que não aconteceu ("ohne dass
@@ -32,7 +32,7 @@ export default {
        primeira frase perdeu peso ("sucht" no lugar de "schaut auf", plural
        "neue Tafeln" no lugar de "eine neue Tafel") — 149 no total. Quem mexer
        aqui, conte os caracteres antes de dar por pronto. */
-    texto: 'Verschnittoptimierung, Restglas, Fertigung, Rückverfolgung und Versand am selben Auftrag.',
+    texto: 'Auf eine neue Tafel geht nur, was in kein Reststück gepasst hat.',
     // Vírgula decimal como em português — em alemão é a mesma convenção.
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
@@ -56,61 +56,6 @@ export default {
     titulo: 'Aus drei Tafeln werden zwei. Vor Ihren Augen.',
     texto:
       'Ein echter Auftrag mit 20 Teilen, gerechnet vom echten Optimierer, hier in Ihrem Browser. Drücken Sie auf Optimieren und sehen Sie, welches Rohglas Sie nicht kaufen.',
-    nota: 'Die Zahlen in diesem Abschnitt kommen aus der Demo — sie sind kein Kundendurchschnitt.',
-  },
-
-  producao: {
-    rotulo: 'Die Fertigung',
-    titulo: 'Das Rohglas kommt einmal rein. Die Information begleitet die Scheibe ganz.',
-    etapas: ['Auftrag', 'Optimierung', 'Zuschnitt', 'Veredelung', 'Fertigung', 'Versand'],
-  },
-
-  rastreio: {
-    rotulo: 'Rückverfolgung',
-    titulo: 'Wissen Sie, wo jede Scheibe ist, ohne drei Leute zu fragen.',
-    campos: [
-      ['Code', 'P-184'],
-      ['Auftrag', '26-0431'],
-      ['Phase', 'Vorspannen'],
-      ['Verantwortlich', 'Werkbank 2'],
-      ['Uhrzeit', '14:22'],
-      ['Ziel', 'Ladung 118'],
-    ],
-  },
-
-  financeiro: {
-    rotulo: 'Der Auftrag in Zahlen',
-    titulo: 'Sehen Sie nicht nur den Umsatz. Sehen Sie die Marge je Auftrag.',
-    linhas: [
-      ['Erlös', 'was dieser Auftrag gebracht hat'],
-      ['Rohglas', 'das Glas, das reinkam'],
-      ['Fertigung', 'Zuschnitt, Vorspannen, Veredelung'],
-      ['Kosten', 'was außer dem Glas rausging'],
-      ['Ergebnis', 'die Marge dieses Auftrags'],
-    ],
-  },
-
-  faq: {
-    rotulo: 'Häufige Fragen',
-    titulo: 'Bevor Sie die Vorführung anfragen.',
-    itens: [
-      [
-        'Läuft die Vorführung mit einem Auftrag von mir?',
-        'Ja. Sie bringen einen echten Auftrag. Wir bauen ihn im System und Sie gehen mit seinem Schnittplan.',
-      ],
-      [
-        'Kommen die Optimierungszahlen von Kunden?',
-        'Nein. Ausnutzung und eingesparte Quadratmeter kommen aus der Demo im Browser. Das ist kein Werkdurchschnitt.',
-      ],
-      [
-        'Muss ich den Schneidtisch tauschen?',
-        'Nein. Der Plan kommt als DXF, CNI und FBT — oder direkt in Opty-Way und Perfect Cut.',
-      ],
-      [
-        'Ersetzt das meine heutige Fertigungssteuerung?',
-        'Der Auftrag trägt künftig Optimierung, Zuschnitt, Rückverfolgung und Versand. Sie hören auf, an drei Stellen zu fragen, wo die Scheibe ist.',
-      ],
-    ],
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -149,7 +94,7 @@ export default {
 
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
-    rotulo: 'Vorführung anfragen',
+    rotulo: 'Vorführung vereinbaren',
     /* A promessa forte não é montar rápido, é ele SAIR com o plano de corte do
        pedido dele. Em alemão a segunda frase fica melhor com o objeto na
        frente ("Den Schnittplan dazu…") do que com o sujeito. */

@@ -670,7 +670,13 @@ export default function Retalho() {
         <span className="cota ml-auto uppercase">{t.barra.passo(passo, 4)}</span>
       </div>
 
-      {/* O palco é largo. O texto e o botão cabem na coluna de leitura. */}
+      {/* Uma coluna só, centralizada.
+          Duas colunas obrigavam o olho a escolher entre o desenho e o texto, e
+          no celular viravam uma pilha onde o painel aparecia antes de o
+          visitante ver qualquer coisa se mexer. Centralizado, a leitura é uma
+          só: primeiro o que acontece, depois o que aquilo significa. */}
+      <div className="mx-auto w-full max-w-[880px]">
+        {/* ── o palco ─────────────────────────────────────────────────── */}
         <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7">
           <Balao key={fase} texto={t.baloes?.[fase]} />
           {(fase === 'pronto' || fase === 'otimizando') && (
@@ -760,9 +766,8 @@ export default function Retalho() {
           )}
         </div>
 
-        <div className="demo-leitura">
         {/* ── o painel ────────────────────────────────────────────────── */}
-        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center py-8">
+        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center px-5 py-7 sm:px-7">
           {fase === 'pronto' && (
             <>
               <p className="cota uppercase">{t.pronto.selo}</p>
@@ -1004,24 +1009,28 @@ export default function Retalho() {
             </>
           )}
         </div>
+      </div>
 
-        <div className="demo-acao">
+      {/* ── a barra de ação ─────────────────────────────────────────────── */}
+      <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
         {fase === 'pronto' && (
-          <button type="button" onClick={otimizar} className="botao-marca">
+          <button type="button" onClick={otimizar} className="botao-marca px-7 py-3.5 text-[15px]">
             {t.botoes.otimizar}
           </button>
         )}
 
         {trabalhando && (
-          <span className="botao-marca opacity-70">
+          <span className="botao-marca inline-flex items-center gap-2.5 px-7 py-3.5 text-[15px] opacity-70">
             <i
               aria-hidden="true"
-              className="mr-2.5 h-2 w-2 animate-pulse rounded-full"
+              className="h-2 w-2 animate-pulse rounded-full"
               style={{ background: '#fff' }}
             />
             {fase === 'otimizando' ? t.botoes.otimizando : t.botoes.realocando}
           </span>
         )}
+
+
 
         {fase === 'economia' && (
           <>
@@ -1030,21 +1039,24 @@ export default function Retalho() {
               target={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? '_blank' : undefined}
               rel={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? 'noreferrer' : undefined}
               onClick={() => evento('agendar', { origem: 'ferramenta-retalho' })}
-              className="botao-marca"
+              className="botao-marca px-7 py-3.5 text-[15px]"
             >
               {t.botoes.agendar}
             </a>
-            <button type="button" onClick={recomecar} className="botao-fantasma">
+            <button
+              type="button"
+              onClick={recomecar}
+              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+            >
               {t.botoes.denovo}
             </button>
           </>
         )}
 
-        <p className="cota normal-case leading-snug">
+        <p className="cota ml-auto max-w-[38ch] normal-case leading-snug">
           {fase === 'economia' ? t.nota.economia : t.nota.padrao}
         </p>
-        </div>
-        </div>
+      </div>
     </div>
   )
 }

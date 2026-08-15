@@ -18,7 +18,7 @@ export default {
     verOtimizacao: 'Ver la optimización funcionando',
     etiqueta: 'El sistema por dentro',
     titulo: {
-      antes: 'Antes de comprar plancha nueva, NeoGlass',
+      antes: 'Antes de cortar plancha nueva, el sistema',
       destaque: 'busca en los retales.',
     },
     // "ganancia" e não "beneficio": as duas se entendem dos dois lados do
@@ -29,7 +29,7 @@ export default {
        ritmo da oposição; "desperdiciando" e não "tirando" porque é a palavra
        que o dono usa para o vidro que se perde. Mantém o "tú" do resto do
        arquivo. */
-    texto: 'Optimización de corte, retales, producción, trazabilidad y expedición conectados al mismo pedido.',
+    texto: 'Solo va a plancha nueva lo que no cupo en ningún retal.',
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
        sistema não está definida, e prometer o que a fatura não cumpre é a
@@ -51,61 +51,6 @@ export default {
     titulo: 'Tres planchas se quedan en dos. Delante de ti.',
     texto:
       'Un pedido real de 20 piezas, con el optimizador de verdad funcionando aquí, en tu navegador. Pulsa y mira dónde dejas de comprar materia prima.',
-    nota: 'Los números de esta sección salen de la demostración — no son media de cliente.',
-  },
-
-  producao: {
-    rotulo: 'La producción',
-    titulo: 'La materia prima entra una vez. La información acompaña la pieza entera.',
-    etapas: ['Pedido', 'Optimización', 'Corte', 'Procesado', 'Producción', 'Expedición'],
-  },
-
-  rastreio: {
-    rotulo: 'Trazabilidad',
-    titulo: 'Sabe dónde está cada pieza sin preguntar a tres personas.',
-    campos: [
-      ['Código', 'P-184'],
-      ['Pedido', '26-0431'],
-      ['Fase', 'Templado'],
-      ['Responsable', 'Banco 2'],
-      ['Hora', '14:22'],
-      ['Destino', 'Carga 118'],
-    ],
-  },
-
-  financeiro: {
-    rotulo: 'El pedido en dinero',
-    titulo: 'No mires solo la facturación. Mira el margen por pedido.',
-    linhas: [
-      ['Ingresos', 'lo que facturó este pedido'],
-      ['Materia prima', 'el vidrio que entró'],
-      ['Producción', 'corte, templado, procesado'],
-      ['Costes', 'lo que salió además del vidrio'],
-      ['Resultado', 'el margen de este pedido'],
-    ],
-  },
-
-  faq: {
-    rotulo: 'Preguntas frecuentes',
-    titulo: 'Antes de pedir la demostración.',
-    itens: [
-      [
-        '¿La demostración usa un pedido mío?',
-        'Sí. Traes un pedido real. Lo montamos en el sistema y te vas con su plan de corte.',
-      ],
-      [
-        '¿Los números de la optimización son de clientes?',
-        'No. El aprovechamiento y los m² ahorrados salen de la demostración que corre en el navegador. No son media de fábrica.',
-      ],
-      [
-        '¿Tengo que cambiar la mesa de corte?',
-        'No. El plan sale en DXF, CNI y FBT — o directo a Opty-Way y Perfect Cut.',
-      ],
-      [
-        '¿Esto sustituye el control de producción que ya tengo?',
-        'El pedido pasa a cargar optimización, corte, trazabilidad y expedición. Dejas de preguntar en tres sitios dónde está la pieza.',
-      ],
-    ],
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -143,7 +88,7 @@ export default {
 
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
-    rotulo: 'Pedir una demostración',
+    rotulo: 'Agendar la presentación',
     /* "Lo montamos delante de ti" soava a truque de vendedor. A promessa forte
        é ele sair de lá com o plano de corte do pedido DELE na mão. */
     titulo: 'Trae un pedido tuyo. Te vas con su plan de corte.',

@@ -17,7 +17,7 @@ export default {
     verOtimizacao: 'See the optimisation run',
     etiqueta: 'Inside the system',
     titulo: {
-      antes: 'Before buying a new sheet, NeoGlass',
+      antes: 'Before cutting a new sheet, the system',
       destaque: 'searches the offcuts.',
     },
     /* A segunda metade dizia a margem pelo lado fraco — pela venda que não
@@ -26,7 +26,7 @@ export default {
        decide. Em inglês falado de fábrica quem lucra "makes money", não
        "profits"; e os dois gerúndios ficam sem "by" dos dois lados para o
        contraste bater no mesmo ritmo do português. */
-    texto: 'Cutting optimisation, offcuts, production, tracking and dispatch connected to the same order.',
+    texto: 'Only what fits in no offcut goes to a new sheet.',
     // Ponto decimal em vez de vírgula: o número é o mesmo, muda só a
     // convenção de leitura. A unidade (m²) fica, é padrão do setor também
     // em inglês.
@@ -51,61 +51,6 @@ export default {
     titulo: 'Three sheets become two. Right in front of you.',
     texto:
       'A real 20-piece order, run by the same optimizer, right here in your browser. Hit the button and watch where the raw material stops being bought.',
-    nota: 'The numbers in this section come from the demo — they are not a customer average.',
-  },
-
-  producao: {
-    rotulo: 'Production',
-    titulo: 'The raw material comes in once. The information follows the piece all the way.',
-    etapas: ['Order', 'Optimisation', 'Cutting', 'Processing', 'Production', 'Dispatch'],
-  },
-
-  rastreio: {
-    rotulo: 'Tracking',
-    titulo: 'Know where every piece is without asking three people.',
-    campos: [
-      ['Code', 'P-184'],
-      ['Order', '26-0431'],
-      ['Stage', 'Tempering'],
-      ['Owner', 'Bench 2'],
-      ['Time', '14:22'],
-      ['Destination', 'Load 118'],
-    ],
-  },
-
-  financeiro: {
-    rotulo: 'The order in money',
-    titulo: 'Do not just look at revenue. Look at the margin per order.',
-    linhas: [
-      ['Revenue', 'what this order billed'],
-      ['Raw material', 'the glass that went in'],
-      ['Production', 'cutting, tempering, processing'],
-      ['Costs', 'what left besides the glass'],
-      ['Result', 'the margin of this order'],
-    ],
-  },
-
-  faq: {
-    rotulo: 'Common questions',
-    titulo: 'Before you request the demo.',
-    itens: [
-      [
-        'Does the demo use one of my orders?',
-        'Yes. You bring a real order. We build it in the system and you leave with its cutting plan.',
-      ],
-      [
-        'Are the optimisation numbers from customers?',
-        'No. Yield and square metres saved come from the demo running in the browser. They are not a plant average.',
-      ],
-      [
-        'Do I need to replace the cutting table?',
-        'No. The plan comes out as DXF, CNI and FBT — or straight into Opty-Way and Perfect Cut.',
-      ],
-      [
-        'Does this replace the production control I already have?',
-        'The order starts carrying optimisation, cutting, tracking and dispatch. You stop asking in three places where the piece is.',
-      ],
-    ],
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -145,7 +90,7 @@ export default {
 
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
-    rotulo: 'Request a demo',
+    rotulo: 'Book the walkthrough',
     /* "We build it in front of you" vendia a velocidade da montagem. A promessa
        que pesa é a de saída: ele vai embora com o plano de corte do pedido dele
        na mão, depois de quarenta minutos. */

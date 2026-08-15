@@ -256,48 +256,73 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
         <div
           className={
             centro
-              ? 'relative flex flex-col items-center gap-9 px-7 py-14 text-center sm:px-14 sm:py-20'
+              ? 'relative mx-auto flex max-w-[520px] flex-col items-center gap-7 px-6 py-12 text-center sm:px-8 sm:py-14'
               : 'relative grid gap-10 px-7 py-14 sm:px-14 sm:py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16'
           }
         >
-          <div>
+          {/* No modo centralizado esta seção é só o pedido: título, uma linha e
+              o botão. Os três passos numerados e a linha de horários saíram —
+              eles repetiam, em rodapé, o que a página inteira já explicou, e
+              faziam este bloco ter três vezes a altura das outras seções. */}
+          <div className={centro ? 'w-full' : ''}>
             {!centro && <Bloco rotulo={rotulo} folha={folha} />}
-            <h2 className={`display mt-7 max-w-[16ch] text-[clamp(29px,4vw,50px)] ${centro ? 'mx-auto' : ''}`}>{titulo}</h2>
-            <p className={`mt-5 max-w-[46ch] text-[16px] text-dim ${centro ? 'mx-auto' : ''}`}>{texto}</p>
+            <h2 className={`display max-w-[16ch] text-[clamp(29px,4vw,50px)] ${centro ? 'mx-auto' : 'mt-7'}`}>{titulo}</h2>
+            <p className={`mt-4 max-w-[46ch] text-[16px] leading-[1.55] text-dim ${centro ? 'mx-auto' : 'mt-5'}`}>{texto}</p>
 
-            <ol className={`mt-8 space-y-3 ${centro ? 'mx-auto inline-block text-left' : ''}`}>
-              {passos.map((t, i) => (
-                <li key={t} className="flex items-center gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-soft font-mono text-[11px] font-bold text-verde"
-                  >
-                    {i + 1}
-                  </span>
-                  <span className="text-[15.5px] font-semibold text-ink">{t}</span>
-                </li>
-              ))}
-            </ol>
+            {!centro && (
+              <>
+                <ol className="mt-8 space-y-3">
+                  {passos.map((t, i) => (
+                    <li key={t} className="flex items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-soft font-mono text-[11px] font-bold text-verde"
+                      >
+                        {i + 1}
+                      </span>
+                      <span className="text-[15.5px] font-semibold text-ink">{t}</span>
+                    </li>
+                  ))}
+                </ol>
 
-            <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
+                <p className="mt-8 text-[13.5px] font-semibold text-dim">{c.chrome.horarios}</p>
+              </>
+            )}
           </div>
 
           {/* `convite` troca o formulário inteiro por um botão.
               Na vidraçaria o cadastro já foi oferecido logo depois da
               demonstração; repetir os quatro campos no rodapé fazia a mesma
               pergunta duas vezes na mesma página e custava 800 px. Quem chegou
-              até aqui já decidiu — um clique a mais não é atrito. */}
+              até aqui já decidiu — um clique a mais não é atrito.
+
+              Centralizado ele perde a caixa própria: uma moldura dentro de
+              outra moldura, com o mesmo fundo, é o "quadro branco" que não diz
+              nada. Fica só o botão e a nota. */}
           {convite ? (
-            <div className="flex flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-card px-7 py-9">
-              <a
-                href={convite.href}
-                onClick={() => evento('comecar', { origem: 'chamada' })}
-                className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
-              >
-                {convite.rotulo}
-              </a>
-              <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
-            </div>
+            centro ? (
+              <div className="flex w-full flex-col items-center gap-3">
+                <a
+                  href={convite.href}
+                  onClick={() => evento('comecar', { origem: 'chamada' })}
+                  className="botao-marca px-8 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  {convite.rotulo}
+                </a>
+                <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-card px-7 py-9">
+                <a
+                  href={convite.href}
+                  onClick={() => evento('comecar', { origem: 'chamada' })}
+                  className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  {convite.rotulo}
+                </a>
+                <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
+              </div>
+            )
           ) : agenda && CONFIG.agendar ? (
             <Agenda />
           ) : (

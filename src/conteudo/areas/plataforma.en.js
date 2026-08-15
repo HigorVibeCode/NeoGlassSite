@@ -14,11 +14,10 @@ export default {
       antes: 'One order. From quote to invoice.',
       destaque: 'Without switching systems.',
     },
-    verSistema: 'See the system running',
     texto:
       'Every step works from the same information, from first contact to delivery.',
     marcas: [
-      ['1', 'order runs through everything'],
+      ['7', 'modules, one single order'],
       ['4', 'output formats for the table'],
       ['0', 'spreadsheets between one step and the next'],
     ],
@@ -56,18 +55,17 @@ export default {
      ferramenta não existe no sistema. Os números foram corridos de 01 a 07 e
      o título deixou de dizer oito. */
   modulos: {
-    rotulo: 'What works on the order',
-    titulo: 'Everything works on the same order.',
-    texto: 'Seven parts of the system. None of them asks you to retype what already went in.',
+    rotulo: 'Module index',
+    titulo: 'Seven modules. All of them open in the same plant, every day.',
     selo: 'in production',
     lista: [
-      ['01', 'Quote and proposal', 'You record the job and the customer without starting from scratch.'],
-      ['02', 'AI simulation', 'The glass in the customer’s room before the piece exists.'],
-      ['03', 'Cutting optimization', 'Finds offcuts before consuming a new sheet.'],
-      ['04', 'Stock and offcuts', 'Use an offcut before buying another sheet.'],
-      ['05', 'Production and tracking', 'Know where every piece is without asking three people.'],
-      ['06', 'Dispatch and delivery', 'See what left, what is in progress and what is still missing.'],
-      ['07', 'Finance per order', 'See this order’s margin, not just the month’s revenue.'],
+      ['01', 'Quote and proposal', 'Feed with a site photo, the measurements and a signature on the customer’s screen'],
+      ['02', 'AI simulation', 'The glass in the customer’s room before the piece exists'],
+      ['03', 'Cutting optimization', 'Offcuts go into the plan first; output in DXF, G-code, ASC and CNI+FBT'],
+      ['04', 'Stock and offcuts', 'Every offcut with its size, colour, thickness and rack address'],
+      ['05', 'Production and tracking', 'A label and a code on every piece, with stage, time and who handled it'],
+      ['06', 'Dispatch and delivery', 'Scanned on the way out, the load checked piece by piece'],
+      ['07', 'Finance per order', 'Invoice, payment and the real margin of that order, not of the month'],
     ],
   },
 
@@ -76,7 +74,6 @@ export default {
   aparelhos: {
     rotulo: 'Where it opens',
     titulo: 'The same order, from the glazier’s pocket to the cutting table.',
-    texto: 'The same information, in different places.',
     lista: [
       ['celular', 'On site', 'Measure, photograph, price it and take the signature — on your feet, in the customer’s hallway.'],
       ['tablet', 'At the bench', 'The production order and the piece label, right where the glass is being cut.'],
@@ -89,31 +86,22 @@ export default {
      nota eletrônica no formato que cada país está fechando — sem prazo e sem
      citar norma, porque nem o prazo nem a norma são nossos de prometer. */
   adiante: {
-    rotulo: 'What is coming',
-    titulo: 'What is coming.',
-    grupos: [
-      {
-        selo: 'In development',
-        itens: [
-          [
-            'AI simulation closer to the real thing',
-            'The image we generate in the customer’s room still does not match the piece that leaves the plant 100%. Closing that gap is the work of right now.',
-          ],
-          [
-            'More machine outputs',
-            'Every cutting table speaks its own dialect; the list grows as the plants ask for them.',
-          ],
-        ],
-      },
-      {
-        selo: 'Planned',
-        itens: [
-          [
-            'Electronic invoicing',
-            'Invoice formats are being rewritten market by market. We are preparing the issuing side so the invoice goes out in the format your country asks for. In preparation — no date we can promise yet.',
-          ],
-        ],
-      },
+    rotulo: 'What comes next',
+    titulo: 'What is not ready yet — and we would rather say so.',
+    selo: 'on the way',
+    itens: [
+      [
+        'AI simulation closer to the real thing',
+        'The image we generate in the customer’s room still does not match the piece that leaves the plant 100%. Closing that gap is the work of right now.',
+      ],
+      [
+        'Electronic invoicing',
+        'Invoice formats are being rewritten market by market. We are preparing the issuing side so the invoice goes out in the format your country asks for. In preparation — no date we can promise yet.',
+      ],
+      [
+        'More machine outputs',
+        'Every cutting table speaks its own dialect; the list grows as the plants ask for them.',
+      ],
     ],
   },
 

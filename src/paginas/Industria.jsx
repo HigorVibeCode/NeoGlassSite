@@ -1,10 +1,13 @@
 import Abertura from '../components/Abertura.jsx'
-import Faq from '../components/Faq.jsx'
+import Jornada from '../jornada/Jornada.jsx'
 import Retalho from '../ferramentas/Retalho.jsx'
-import { Chamada, Origem, Secao } from '../components/Comum.jsx'
+import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
 
 export default function Industria() {
+  // Toda a copy desta página mora em `conteudo/areas/industria.<idioma>.js`.
+  // Aqui fica só a arquitetura: qual seção vem antes de qual, e o que é
+  // numeração de prancha (FL. 0x/06), que não muda de idioma.
   const t = useTextos().industria
 
   return (
@@ -12,78 +15,61 @@ export default function Industria() {
       <Abertura
         telas={['corte', 'producao']}
         zap={false}
-        acao={{ rotulo: t.hero.verOtimizacao, href: '#otimizador', externo: false, evento: 'ver' }}
+        /* O botão da abertura NÃO abre mais a agenda.
+           Pedir reunião a quem acabou de chegar é cobrar antes de entregar: o
+           visitante ainda não viu nada que prove que vale a pena. Agora ele
+           desce para a demonstração — três chapas virando duas, com o dinheiro
+           no fim — e a agenda espera lá embaixo, depois da prova. */
+        acao={{ rotulo: t.hero.verOtimizacao, href: '#otimizador', externo: false }}
         rotulo={t.hero.rotulo}
-        folha="FL. 01/08"
+        folha="FL. 01/04"
         origem="abertura-industria"
         etiqueta={t.hero.etiqueta}
+        /* O título é uma frase só com metade em gradiente, e a divisão fica no
+           conteúdo, não aqui: em português o destaque cai em "é lucro", em
+           alemão a mesma força só existe no fim da frase, depois da oração
+           relativa. Montar o JSX aqui, com as duas chaves, é o que deixa cada
+           idioma escolher onde o verde entra. */
         titulo={
           <>
             {t.hero.titulo.antes} <span className="marca">{t.hero.titulo.destaque}</span>
           </>
         }
         texto={t.hero.texto}
+        marcas={t.hero.marcas}
       />
 
-      <Secao
+      {/* A demonstração vem ANTES do filme de propósito. Ela era a quarta
+          tela de rolagem: o visitante tinha que atravessar a abertura e
+          vinte e cinco segundos de filme para só então poder tocar em
+          alguma coisa. O momento em que ele aperta um botão e vê três
+          chapas virarem duas é o único ponto da página que arranca um
+          "isso é para mim" — e ele estava enterrado. O filme continua
+          logo abaixo, para quem já quer o resto da história. */}
+      <Revelar
+        as="section"
         id="otimizador"
-        rotulo={t.demo.rotulo}
-        folha="FL. 02/08"
-        titulo={t.demo.titulo}
-        texto={t.demo.texto}
-        nota={t.demo.nota}
+        className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
       >
+        <Bloco rotulo={t.demo.rotulo} folha="FL. 02/04" />
+        <h2 className="display mx-auto mt-7 max-w-[20ch] text-center text-[clamp(28px,4vw,50px)]">{t.demo.titulo}</h2>
+        <p className="mx-auto mt-5 max-w-[58ch] text-center text-[16.5px] leading-[1.55] text-dim">{t.demo.texto}</p>
+
         <div className="mt-10">
           <Retalho />
         </div>
-      </Secao>
+      </Revelar>
 
-      <Secao rotulo={t.producao.rotulo} folha="FL. 03/08" titulo={t.producao.titulo}>
-        <ol className="mt-10 text-left">
-          {t.producao.etapas.map((nome, i) => (
-            <li key={nome} className="relative pl-12 pb-8 last:pb-0">
-              {i < t.producao.etapas.length - 1 && (
-                <span aria-hidden="true" className="absolute bottom-0 left-[15px] top-10 w-px bg-line" />
-              )}
-              <span
-                aria-hidden="true"
-                className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-soft font-mono text-[13px] font-bold text-verde"
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <p className="titulo-bloco pt-1">{nome}</p>
-            </li>
-          ))}
-        </ol>
-      </Secao>
 
-      <Secao rotulo={t.rastreio.rotulo} folha="FL. 04/08" titulo={t.rastreio.titulo}>
-        <dl className="cartao mt-10 overflow-hidden text-left">
-          {t.rastreio.campos.map(([rotulo, valor], i) => (
-            <div key={rotulo} className={`flex items-baseline justify-between gap-6 px-5 py-4 ${i ? 'border-t border-line' : ''}`}>
-              <dt className="cota uppercase">{rotulo}</dt>
-              <dd className="text-[16px] font-extrabold text-ink">{valor}</dd>
-            </div>
-          ))}
-        </dl>
-      </Secao>
+      {/* `comNeoGlass` não vai daqui: o cabeçalho da coluna da direita é o
+          mesmo nas duas páginas que usam este componente, e o padrão dele sai
+          do tronco comum do idioma. Ver Contraste.jsx. */}
 
-      <Secao rotulo={t.financeiro.rotulo} folha="FL. 05/08" titulo={t.financeiro.titulo}>
-        <ul className="cartao mt-10 overflow-hidden">
-          {t.financeiro.linhas.map(([nome, texto], i) => (
-            <li key={nome} className={`px-6 py-5 ${i ? 'border-t border-line' : ''}`}>
-              <p className="titulo-bloco">{nome}</p>
-              <p className="texto-bloco mt-1">{texto}</p>
-            </li>
-          ))}
-        </ul>
-      </Secao>
+      <Origem folha="FL. 03/04" />
 
-      <Origem folha="FL. 06/08" />
-      <Faq rotulo={t.faq.rotulo} folha="FL. 07/08" titulo={t.faq.titulo} itens={t.faq.itens} />
       <Chamada
         rotulo={t.chamada.rotulo}
-        folha="FL. 08/08"
+        folha="FL. 04/04"
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}

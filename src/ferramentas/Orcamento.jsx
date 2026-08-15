@@ -104,196 +104,178 @@ function useContagem(alvo, ligado, duracao = 950, atraso = 0) {
   return v
 }
 
-/* ── o desenho: o vão é o assunto, não a parede ──────────────────────────── */
+/* ── o desenho: a parede, o vão e a janela ───────────────────────────────── */
 
-const S = { W: 1940, H: 1400, x: 100, y: 160, w: 1480, h: 1060 }
+const P = { W: 2680, H: 1880, x: 400, y: 340 }
 
-function Cena({ medindo, medido, preview, montando, montada }) {
+function Parede({ comJanela, medindo, cotando }) {
   const t = useTextos().demos.orcamento.desenho
-  const l = useContagem(VAO.l, medindo, 900, 80)
-  const a = useContagem(VAO.a, medindo, 900, 420)
-  const travada = medido || montando || montada
-  const largura = medindo ? l : travada ? VAO.l : 0
-  const altura = medindo ? a : travada ? VAO.a : 0
-  const mostraCota = medindo || travada
-  const comVidro = montando || montada
-  const ox = S.x
-  const oy = S.y
-  const ow = S.w
-  const oh = S.h
-  const folhaW = ow * 0.52
-  const folhaH = oh - 64
-
+  // Sem `cotando` o número é o valor final direto: quem chega numa fase
+  // adiantada da animação não pode ver a cota zerada.
+  const l = useContagem(VAO.l, cotando, 800, 120)
+  const a = useContagem(VAO.a, cotando, 800, 380)
+  const larguraContada = cotando ? l : VAO.l
+  const alturaContada = cotando ? a : VAO.a
   return (
-    <svg viewBox={`0 0 ${S.W} ${S.H}`} className="block h-full w-full" role="img" aria-label={t.aria}>
+    <svg viewBox={`0 0 ${P.W} ${P.H}`} className="block w-full" role="img" aria-label={t.aria}>
       <defs>
-        <pattern id="orc-tijolo" width="140" height="68" patternUnits="userSpaceOnUse">
-          <rect width="140" height="68" fill="#dfe4ea" />
-          <path d="M0 34 H140 M70 34 V68 M0 68 H140" stroke="#c8d0d8" strokeWidth="4" />
+        <pattern id="orc-tijolo" width="150" height="150" patternUnits="userSpaceOnUse">
+          <rect width="150" height="150" fill="#eef0f3" />
+          <path d="M0 150 L150 0 M-40 40 L40 -40 M110 190 L190 110" stroke="#e0e4ea" strokeWidth="9" />
         </pattern>
-        <pattern id="orc-ticks" width="36" height="22" patternUnits="userSpaceOnUse">
-          <path d="M0 0 V11 M18 0 V6" stroke="#3a2f12" strokeWidth="2" />
-        </pattern>
-        <linearGradient id="orc-buraco" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#24343c" />
-          <stop offset="1" stopColor="#0b1418" />
-        </linearGradient>
-        <linearGradient id="orc-sombra" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#000" stopOpacity="0.35" />
-          <stop offset="0.45" stopColor="#000" stopOpacity="0" />
-          <stop offset="1" stopColor="#000" stopOpacity="0.22" />
-        </linearGradient>
         <linearGradient id="orc-vidro" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#e8f6f8" stopOpacity="0.97" />
-          <stop offset="0.45" stopColor="#f7fcfd" stopOpacity="0.78" />
-          <stop offset="1" stopColor="#c5e4ee" stopOpacity="0.92" />
+          <stop offset="0" stopColor="#dff0f4" stopOpacity="0.92" />
+          <stop offset="0.5" stopColor="#f4fbfc" stopOpacity="0.8" />
+          <stop offset="1" stopColor="#cfe6ee" stopOpacity="0.88" />
         </linearGradient>
-        <linearGradient id="orc-reflexo" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#fff" stopOpacity="0" />
-          <stop offset="0.45" stopColor="#fff" stopOpacity="0.58" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="orc-fita" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f6e06a" />
-          <stop offset="1" stopColor="#e2c43a" />
-        </linearGradient>
-        <clipPath id="orc-vao">
-          <rect x={ox} y={oy} width={ow} height={oh} />
-        </clipPath>
       </defs>
 
-      <rect width={S.W} height={S.H} fill="url(#orc-tijolo)" />
+      <rect width={P.W} height={P.H} fill="url(#orc-tijolo)" />
 
-      {/* peitoril — o vão tem profundidade, não é um retângulo no meio da parede */}
-      <rect x={ox - 22} y={oy + oh} width={ow + 44} height="26" rx="3" fill="#c5ccd4" />
+      {/* o vão */}
+      <rect x={P.x} y={P.y} width={VAO.l} height={VAO.a} fill="#fbfdfd" />
+      <rect
+        x={P.x}
+        y={P.y}
+        width={VAO.l}
+        height={VAO.a}
+        fill="none"
+        stroke="#9aa8b6"
+        strokeWidth="12"
+      />
 
-      <rect x={ox} y={oy} width={ow} height={oh} fill="url(#orc-buraco)" />
-      <rect x={ox} y={oy} width={ow} height={oh} fill="url(#orc-sombra)" />
-      <rect x={ox - 16} y={oy - 16} width={ow + 32} height={oh + 32} fill="none" stroke="#bcc4cc" strokeWidth="32" />
-      <rect x={ox} y={oy} width={ow} height={oh} fill="none" stroke="#7f8b96" strokeWidth="8" />
-
-      {preview && !comVidro && (
-        <g clipPath="url(#orc-vao)" opacity="0.5">
-          <line
-            x1={ox + ow / 2}
-            y1={oy + 20}
-            x2={ox + ow / 2}
-            y2={oy + oh - 20}
-            stroke="#7fe0c8"
-            strokeWidth="10"
-            strokeDasharray="18 16"
-          />
-        </g>
-      )}
-
-      {medindo && (
-        <rect className="flash-foto" x={ox} y={oy} width={ow} height={oh} fill="#fff" />
-      )}
-
-      {comVidro && (
-        <g clipPath="url(#orc-vao)">
+      {comJanela && (
+        <g className="surge">
+          {/* marco */}
           <rect
-            x={ox + 12}
-            y={oy + 14}
-            width={ow - 24}
-            height={oh - 28}
+            x={P.x + 5}
+            y={P.y + 10}
+            width={VAO.l - 10}
+            height={VAO.a - 20}
             fill="none"
-            stroke="#3f4c56"
-            strokeWidth="30"
-            pathLength="1"
-            className={montando ? 'marco-nasce' : undefined}
+            stroke="#5d6b78"
+            strokeWidth="26"
           />
-          <g className={montando ? 'folha-e' : undefined}>
+          {/* folha fixa */}
+          <g className="surge" style={{ animationDelay: '160ms' }}>
             <rect
-              x={ox + 30}
-              y={oy + 32}
-              width={folhaW - 42}
-              height={folhaH}
+              x={P.x + 18}
+              y={P.y + 23}
+              width={FOLHA.l - 26}
+              height={FOLHA.a - 26}
               fill="url(#orc-vidro)"
-              stroke="#65727c"
+              stroke="#7d8b98"
               strokeWidth="14"
             />
-            <rect x={ox + 72} y={oy + 72} width="34" height={folhaH - 86} fill="url(#orc-reflexo)" opacity="0.55" />
           </g>
-          <g className={montando ? 'folha-d' : undefined}>
+          {/* folha móvel, sobreposta */}
+          <g className="surge" style={{ animationDelay: '340ms' }}>
             <rect
-              x={ox + ow - folhaW - 10}
-              y={oy + 44}
-              width={folhaW - 36}
-              height={folhaH - 22}
+              x={P.x + VAO.l - FOLHA.l - 8}
+              y={P.y + 34}
+              width={FOLHA.l - 26}
+              height={FOLHA.a - 26}
               fill="url(#orc-vidro)"
-              stroke="#334047"
+              stroke="#5d6b78"
               strokeWidth="16"
             />
             <rect
-              x={ox + ow - folhaW + 30}
-              y={oy + oh / 2 - 68}
+              x={P.x + VAO.l - FOLHA.l + 30}
+              y={P.y + VAO.a / 2 - 90}
               width="22"
-              height="148"
+              height="180"
               rx="11"
-              fill="#334047"
+              fill="#5d6b78"
             />
           </g>
+          <text
+            x={P.x + VAO.l / 2}
+            y={P.y + VAO.a + 130}
+            textAnchor="middle"
+            fontSize="86"
+            fontFamily="IBM Plex Mono, monospace"
+            fontWeight="600"
+            fill="#0e8c6a"
+          >
+            {t.janela}
+          </text>
         </g>
       )}
 
-      {comVidro && (
-        <text
-          x={ox + ow / 2}
-          y={oy + oh + 78}
-          textAnchor="middle"
-          fontSize="48"
-          fontFamily="IBM Plex Mono, monospace"
-          fontWeight="600"
-          fill="#0e8c6a"
-        >
-          {t.janela}
-        </text>
-      )}
+      {/* As cotas. Elas sempre estiveram aqui, paradas; na fase da medida
+          passam a se desenhar de uma borda à outra e o número sobe até o
+          valor — que é o gesto da trena, e o único momento da animação em que
+          o vidraceiro se vê na tela. */}
+      <g stroke="#0e8c6a" strokeWidth="7" fill="none">
+        <line
+          x1={P.x}
+          y1={P.y - 130}
+          x2={P.x + VAO.l}
+          y2={P.y - 130}
+          pathLength="1"
+          className={cotando ? 'cota-linha' : undefined}
+        />
+        <line x1={P.x} y1={P.y - 175} x2={P.x} y2={P.y - 85} />
+        <line x1={P.x + VAO.l} y1={P.y - 175} x2={P.x + VAO.l} y2={P.y - 85} />
+        <line
+          x1={P.x + VAO.l + 130}
+          y1={P.y}
+          x2={P.x + VAO.l + 130}
+          y2={P.y + VAO.a}
+          pathLength="1"
+          className={cotando ? 'cota-linha' : undefined}
+          style={cotando ? { animationDelay: '260ms' } : undefined}
+        />
+        <line x1={P.x + VAO.l + 85} y1={P.y} x2={P.x + VAO.l + 175} y2={P.y} />
+        <line x1={P.x + VAO.l + 85} y1={P.y + VAO.a} x2={P.x + VAO.l + 175} y2={P.y + VAO.a} />
+      </g>
+      <text
+        x={P.x + VAO.l / 2}
+        y={P.y - 175}
+        textAnchor="middle"
+        fontSize="96"
+        fontFamily="IBM Plex Mono, monospace"
+        fontWeight="600"
+        fill="#0e8c6a"
+      >
+        {larguraContada}
+      </text>
+      <text
+        x={P.x + VAO.l + 200}
+        y={P.y + VAO.a / 2}
+        dominantBaseline="central"
+        fontSize="96"
+        fontFamily="IBM Plex Mono, monospace"
+        fontWeight="600"
+        fill="#0e8c6a"
+      >
+        {alturaContada}
+      </text>
 
-      {mostraCota && (
-        <g>
-          {/* corpo da trena — largura */}
-          <rect x={ox - 78} y={oy - 124} width="78" height="62" rx="14" fill="#0a5c46" />
-          <rect x={ox - 70} y={oy - 116} width="62" height="46" rx="10" fill="#0e8c6a" />
-          <circle cx={ox - 39} cy={oy - 93} r="8" fill="#0a5c46" />
-          <g className={medindo ? 'trena-x' : undefined}>
-            <rect x={ox} y={oy - 104} width={ow} height="22" fill="url(#orc-fita)" />
-            <rect x={ox} y={oy - 104} width={ow} height="22" fill="url(#orc-ticks)" />
-          </g>
+      {medindo && (
+        <g className="surge" style={{ animationDelay: '120ms' }}>
+          <rect
+            x={P.x + VAO.l / 2 - 470}
+            y={P.y + VAO.a / 2 - 78}
+            width="940"
+            height="156"
+            rx="78"
+            fill="#ffffff"
+            fillOpacity="0.94"
+            stroke="#0e8c6a"
+            strokeWidth="8"
+          />
           <text
-            x={ox + ow / 2}
-            y={oy - 93}
+            x={P.x + VAO.l / 2}
+            y={P.y + VAO.a / 2}
             textAnchor="middle"
             dominantBaseline="central"
-            fontSize="28"
+            fontSize="86"
             fontFamily="IBM Plex Mono, monospace"
-            fontWeight="700"
-            fill="#2a2410"
-          >
-            {largura || '—'}
-          </text>
-          <path d={`M${ox + ow} ${oy - 110} h12 v34 h-12`} fill="#c5ccd4" stroke="#8b97a3" strokeWidth="3" />
-
-          {/* corpo da trena — altura */}
-          <rect x={ox + ow + 66} y={oy - 78} width="62" height="78" rx="14" fill="#0a5c46" />
-          <rect x={ox + ow + 74} y={oy - 70} width="46" height="62" rx="10" fill="#0e8c6a" />
-          <g className={medindo ? 'trena-y' : undefined}>
-            <rect x={ox + ow + 85} y={oy} width="22" height={oh} fill="url(#orc-fita)" />
-            <rect x={ox + ow + 85} y={oy} width="22" height={oh} fill="url(#orc-ticks)" />
-          </g>
-          <path d={`M${ox + ow + 78} ${oy + oh} v12 h34 v-12`} fill="#c5ccd4" stroke="#8b97a3" strokeWidth="3" />
-          <text
-            x={ox + ow + 168}
-            y={oy + oh / 2}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize="42"
-            fontFamily="IBM Plex Mono, monospace"
-            fontWeight="700"
+            fontWeight="600"
             fill="#0e8c6a"
           >
-            {altura || '—'}
+            {t.medindo}
           </text>
         </g>
       )}
@@ -312,19 +294,19 @@ function Cena({ medindo, medido, preview, montando, montada }) {
  */
 function Escolha({ rotulo, opcoes, escolhida, desenho }) {
   return (
-    <div>
+    <div className="mx-auto w-full max-w-[560px]">
       <p className="cota uppercase">{rotulo}</p>
-      <div className="mt-2.5 grid grid-cols-3 gap-2">
+      <div className="mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
         {opcoes.map((op, i) => (
           <div
             key={op.rotulo ?? op}
-            className={`rounded-[14px] border bg-card px-1.5 py-2.5 text-center sm:px-2.5 ${
+            className={`rounded-[16px] border bg-card px-2.5 py-3.5 text-center sm:px-3 ${
               i === escolhida ? 'escolhido border-verde' : 'border-line'
             }`}
           >
-            <div className="mx-auto w-full max-w-[72px]">{desenho(i, i === escolhida)}</div>
+            <div className="mx-auto w-full max-w-[92px]">{desenho(i, i === escolhida)}</div>
             <p
-              className={`mt-1.5 text-[12px] font-extrabold leading-tight sm:text-[13px] ${
+              className={`mt-2.5 text-[13px] font-extrabold leading-tight ${
                 i === escolhida ? 'text-verde' : 'text-dim'
               }`}
             >
@@ -472,15 +454,20 @@ function Documento({ compacto = false }) {
 
 /* ── o quadro ────────────────────────────────────────────────────────────── */
 
-/* Um play só: medir, escolher, montar, precificar, imprimir.
-   A montagem é o payoff — leva mais tempo que a pergunta. ~12 s até o PDF. */
+/* Cinco tempos, um play só.
+   A ordem veio da narração do Higor: o vão vazio, a medida, que peça é, de
+   quantas folhas, e o vidro se montando. Antes a demonstração pulava direto do
+   vão para o vidro pronto — sumia justamente a parte em que o sistema pergunta
+   as duas coisas que definem o preço. */
+/* O mesmo compasso da outra demonstração: cada ato com tempo de ser lido e
+   visto, e um respiro antes do próximo. ~14 s do vão vazio ao PDF. */
 const TEMPO = {
-  medindo: 2200,
-  tipo: 1800,
-  folhas: 1600,
-  montando: 2800,
-  orcamento: 2200,
-  gerando: 1400,
+  medindo: 2600,
+  tipo: 2600,
+  folhas: 2400,
+  montando: 2400,
+  orcamento: 2400,
+  gerando: 1600,
 }
 
 /* O que o sistema escolhe sozinho na animação: janela, duas folhas.
@@ -681,61 +668,55 @@ export default function Orcamento() {
         <span className="cota ml-auto uppercase">{t.barra.passo(passo, passos)}</span>
       </div>
 
-      {/* O palco é largo. O texto e o botão cabem na coluna de leitura. */}
-        <div
-          className={`demo-palco relative border-b border-line bg-soft/30 px-4 py-5 sm:px-7 ${
-            fase === 'pdf' || fase === 'enviar' || fase === 'preco' ? '' : 'demo-palco-vao'
-          }`}
-        >
+      {/* Uma coluna só, centralizada.
+          Duas colunas obrigavam o olho a escolher entre o desenho e o texto, e
+          no celular viravam uma pilha onde o painel aparecia antes de o
+          visitante ver qualquer coisa se mexer. Centralizado, a leitura é uma
+          só: primeiro o que acontece, depois o que aquilo significa. */}
+      <div className="mx-auto w-full max-w-[880px]">
+        {/* ── o palco ─────────────────────────────────────────────────── */}
+        <div className="demo-palco relative border-b border-line bg-soft/30 px-5 py-6 sm:px-7">
           <Balao key={fase} texto={t.baloes?.[fase]} />
+          {fase === 'tipo' && (
+            <Escolha
+              rotulo={t.escolhas.tipo.rotulo}
+              opcoes={t.escolhas.tipo.opcoes}
+              escolhida={TIPO_ESCOLHIDO}
+              desenho={DesenhoTipo}
+            />
+          )}
 
-          {(fase === 'vao' ||
-            fase === 'medindo' ||
-            fase === 'tipo' ||
-            fase === 'folhas' ||
-            fase === 'montando' ||
-            fase === 'orcamento' ||
-            fase === 'gerando') && (
+          {fase === 'folhas' && (
+            <Escolha
+              rotulo={t.escolhas.folhas.rotulo}
+              opcoes={t.escolhas.folhas.opcoes}
+              escolhida={FOLHAS_ESCOLHIDAS}
+              desenho={DesenhoFolhas}
+            />
+          )}
+
+          {(fase === 'vao' || fase === 'medindo' || fase === 'montando') && (
             <>
-              <p className="cota relative z-[1] mb-2 uppercase">
+              <p className="cota mb-2 uppercase">
                 {fase === 'vao'
                   ? t.desenho.vaoVazio
-                  : fase === 'montando'
-                    ? t.desenho.montando
-                    : fase === 'orcamento' || fase === 'gerando'
-                      ? t.desenho.janelaDoVao
-                      : t.desenho.vaoMedido}
+                  : fase === 'medindo'
+                    ? t.desenho.vaoMedido
+                    : t.desenho.montando}
               </p>
-              <Cena
-                medindo={fase === 'medindo'}
-                medido={fase === 'tipo' || fase === 'folhas'}
-                preview={fase === 'tipo' || fase === 'folhas'}
-                montando={fase === 'montando'}
-                montada={fase === 'orcamento' || fase === 'gerando'}
+              <Parede
+                comJanela={fase === 'montando'}
+                medindo={fase === 'montando'}
+                cotando={fase === 'medindo'}
               />
             </>
           )}
 
-          {fase === 'tipo' && (
-            <div className="escolha-sobre">
-              <Escolha
-                rotulo={t.escolhas.tipo.rotulo}
-                opcoes={t.escolhas.tipo.opcoes}
-                escolhida={TIPO_ESCOLHIDO}
-                desenho={DesenhoTipo}
-              />
-            </div>
-          )}
-
-          {fase === 'folhas' && (
-            <div className="escolha-sobre">
-              <Escolha
-                rotulo={t.escolhas.folhas.rotulo}
-                opcoes={t.escolhas.folhas.opcoes}
-                escolhida={FOLHAS_ESCOLHIDAS}
-                desenho={DesenhoFolhas}
-              />
-            </div>
+          {(fase === 'orcamento' || fase === 'gerando') && (
+            <>
+              <p className="cota mb-2 uppercase">{t.desenho.janelaDoVao}</p>
+              <Parede comJanela />
+            </>
           )}
 
           {(fase === 'pdf' || fase === 'enviar' || fase === 'preco') && (
@@ -752,9 +733,8 @@ export default function Orcamento() {
           )}
         </div>
 
-        <div className="demo-leitura">
         {/* ── o painel ────────────────────────────────────────────────── */}
-        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center py-8">
+        <div ref={painel} className="flex scroll-mt-[118px] flex-col justify-center px-5 py-7 sm:px-7">
           {fase === 'vao' && (
             <>
               <p className="cota uppercase">{t.vao.selo}</p>
@@ -1010,10 +990,12 @@ export default function Orcamento() {
             </>
           )}
         </div>
+      </div>
 
-        <div className="demo-acao">
+      {/* ── a barra de ação ─────────────────────────────────────────────── */}
+      <div className="demo-acao flex flex-wrap items-center gap-3 border-t border-line bg-soft/40 px-5 py-4 sm:px-7">
         {fase === 'vao' && (
-          <button type="button" onClick={usarVao} className="botao-marca">
+          <button type="button" onClick={usarVao} className="botao-marca px-7 py-3.5 text-[15px]">
             {t.botoes.usarVao}
           </button>
         )}
@@ -1024,10 +1006,10 @@ export default function Orcamento() {
           fase === 'montando' ||
           fase === 'orcamento' ||
           fase === 'gerando') && (
-          <span className="botao-marca opacity-70">
+          <span className="botao-marca inline-flex items-center gap-2.5 px-7 py-3.5 text-[15px] opacity-70">
             <i
               aria-hidden="true"
-              className="mr-2.5 h-2 w-2 animate-pulse rounded-full"
+              className="h-2 w-2 animate-pulse rounded-full"
               style={{ background: '#fff' }}
             />
             {fase === 'gerando' ? t.botoes.gerando : t.botoes.montando}
@@ -1035,14 +1017,18 @@ export default function Orcamento() {
         )}
 
         {fase === 'pdf' && (
-          <button type="button" onClick={enviar} className="botao-marca">
+          <button type="button" onClick={enviar} className="botao-marca px-7 py-3.5 text-[15px]">
             {t.botoes.enviar}
           </button>
         )}
 
         {fase === 'enviar' &&
           (preco ? (
-            <button type="button" onClick={verPreco} className="botao-marca">
+            <button
+              type="button"
+              onClick={verPreco}
+              className="botao-marca px-7 py-3.5 text-[15px]"
+            >
               {t.botoes.naObra}
             </button>
           ) : (
@@ -1051,7 +1037,7 @@ export default function Orcamento() {
               target={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? '_blank' : undefined}
               rel={ehExterno(linkAgendar(c.whatsapp.demonstracao)) ? 'noreferrer' : undefined}
               onClick={() => evento('agendar', { origem: 'ferramenta-orcamento' })}
-              className="botao-marca"
+              className="botao-marca px-7 py-3.5 text-[15px]"
             >
               {t.botoes.naObra}
             </a>
@@ -1064,11 +1050,14 @@ export default function Orcamento() {
               target={comecar.externo ? '_blank' : undefined}
               rel={comecar.externo ? 'noreferrer' : undefined}
               onClick={() => evento('comecar', { origem: 'ferramenta-orcamento' })}
-              className="botao-marca"
+              className="botao-marca px-7 py-3.5 text-[15px]"
             >
               {comecar.rotulo}
             </a>
-            <a href="#preco" className="botao-fantasma">
+            <a
+              href="#preco"
+              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+            >
               {t.botoes.incluido}
             </a>
             <button
@@ -1088,7 +1077,7 @@ export default function Orcamento() {
               target="_blank"
               rel="noreferrer"
               onClick={() => evento('whatsapp', { origem: 'ferramenta-orcamento' })}
-              className="botao-fantasma"
+              className="rounded-[13px] border border-line bg-card px-6 py-3.5 text-[14.5px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
             >
               {t.botoes.zap}
             </a>
@@ -1104,11 +1093,10 @@ export default function Orcamento() {
 
         {/* Na tela do preço a ressalva tem que mudar: senão o visitante lê
             "valores de exemplo" e acha que a mensalidade também é chute. */}
-        <p className="cota normal-case leading-snug">
+        <p className="cota ml-auto max-w-[32ch] normal-case leading-snug">
           {fase === 'preco' ? t.nota.preco : t.nota.padrao}
         </p>
-        </div>
-        </div>
+      </div>
     </div>
   )
 }

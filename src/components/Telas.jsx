@@ -28,7 +28,7 @@ export default function Telas({ variantes, intervalo = 4000 }) {
   }, [n, intervalo])
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-[540px]">
       {/* A pilha. A altura vem da tela da frente; as de trás são posicionadas
           por cima dela, deslocadas, então não empurram nada. */}
       <div className="relative">

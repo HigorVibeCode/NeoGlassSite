@@ -169,7 +169,7 @@ export default {
       ['Fidelidade', 'cancela quando quiser'],
     ],
     semCartao: (dias) =>
-      `Sem cartão. No fim dos ${dias} dias você decide — e se não decidir, nada é cobrado.`,
+      `Sem cartão. Se não continuar, nada é cobrado.`,
     tudoIncluido: 'Está tudo incluído',
     incluso: [
       'Orçamento na obra pelo celular, com foto e assinatura',
@@ -204,11 +204,11 @@ export default {
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro,
     // e não no componente.
     texto: (dias) =>
-      `Nenhum cliente para cadastrar, nenhum histórico para importar: você põe o seu preço do m² e o próximo orçamento que entrar já sai daqui. ${
+      `Você põe o seu preço do m² e o próximo orçamento já sai daqui. ${
         dias > 0
           ? `São ${dias} dias sem cartão e sem compromisso.`
           : 'Sem fidelidade: se não servir, você sai.'
-      } Se preferir que a gente monte o primeiro junto, chame no WhatsApp.`,
+      }`,
     /* Os três passos são o tamanho do compromisso, escritos em minutos: quem
        lê "hoje" no primeiro e "na próxima obra" no terceiro entende que dá para
        testar sem parar a semana. */

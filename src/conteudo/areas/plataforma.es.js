@@ -14,11 +14,10 @@ export default {
       antes: 'Un pedido. Del presupuesto a la factura.',
       destaque: 'Sin cambiar de sistema.',
     },
-    verSistema: 'Ver el sistema funcionando',
     texto:
       'Cada etapa trabaja con la misma información, del primer contacto a la entrega.',
     marcas: [
-      ['1', 'pedido atraviesa todo'],
+      ['7', 'módulos, un solo pedido'],
       ['4', 'formatos de salida para la mesa'],
       ['0', 'hojas de cálculo entre una etapa y otra'],
     ],
@@ -56,18 +55,17 @@ export default {
      ferramenta não existe no sistema. Os números foram corridos de 01 a 07 e
      o título deixou de dizer oito. */
   modulos: {
-    rotulo: 'Lo que trabaja sobre el pedido',
-    titulo: 'Todo trabaja sobre el mismo pedido.',
-    texto: 'Siete partes del sistema. Ninguna pide que vuelvas a escribir lo que ya entró.',
+    rotulo: 'Índice de módulos',
+    titulo: 'Siete módulos. Todos abiertos en la misma fábrica, todos los días.',
     selo: 'en producción',
     lista: [
-      ['01', 'Presupuesto y propuesta', 'Registras la obra y el cliente sin empezar de cero.'],
-      ['02', 'Simulación con IA', 'El vidrio en el ambiente del cliente antes de que la pieza exista.'],
-      ['03', 'Optimización de corte', 'Encuentra recortes antes de consumir plancha nueva.'],
-      ['04', 'Stock y recortes', 'Usa un recorte antes de comprar otra plancha.'],
-      ['05', 'Producción y trazabilidad', 'Sabe dónde está cada pieza sin preguntar a tres personas.'],
-      ['06', 'Expedición y entrega', 'Sigue lo que salió, lo que está en marcha y lo que falta.'],
-      ['07', 'Finanzas por pedido', 'Mira el margen de este pedido, no solo la facturación del mes.'],
+      ['01', 'Presupuesto y propuesta', 'Feed con foto de la obra, medida y firma en la pantalla del cliente'],
+      ['02', 'Simulación con IA', 'El vidrio en el ambiente del cliente antes de que la pieza exista'],
+      ['03', 'Optimización de corte', 'El plan usa primero los recortes; salida en DXF, G-code, ASC y CNI+FBT'],
+      ['04', 'Stock y recortes', 'Cada recorte con medida, color, espesor y dirección de caballete'],
+      ['05', 'Producción y trazabilidad', 'Etiqueta y código por pieza, con fase, hora y responsable'],
+      ['06', 'Expedición y entrega', 'Lectura a la salida, carga comprobada pieza a pieza'],
+      ['07', 'Finanzas por pedido', 'Factura, cobro y margen real del pedido, no del mes'],
     ],
   },
 
@@ -76,7 +74,6 @@ export default {
   aparelhos: {
     rotulo: 'Dónde se abre',
     titulo: 'El mismo pedido, del bolsillo del cristalero a la mesa de corte.',
-    texto: 'La misma información, en sitios distintos.',
     lista: [
       ['celular', 'En la obra', 'Mide, fotografía, presupuesta y recoge la firma — de pie, en casa del cliente.'],
       ['tablet', 'En el banco', 'La orden de producción y la etiqueta de la pieza, donde se está cortando el vidrio.'],
@@ -89,31 +86,22 @@ export default {
      formato de cada país — sem prazo e sem citar norma, porque nem o prazo
      nem a norma são nossos de prometer. */
   adiante: {
-    rotulo: 'Lo que está llegando',
-    titulo: 'Lo que está llegando.',
-    grupos: [
-      {
-        selo: 'En desarrollo',
-        itens: [
-          [
-            'Simulación con IA más fiel',
-            'La imagen generada en el ambiente del cliente todavía no coincide al 100% con la pieza que sale de fábrica. Acortar esa distancia es el trabajo de ahora.',
-          ],
-          [
-            'Más salidas de máquina',
-            'Cada mesa de corte habla su propio dialecto; la lista crece según lo que va pidiendo la fábrica.',
-          ],
-        ],
-      },
-      {
-        selo: 'Planificado',
-        itens: [
-          [
-            'Factura electrónica',
-            'Cada país está fijando su propio formato de factura electrónica. Estamos preparando la emisión para que salga en el formato que exija el suyo. En preparación, sin fecha que podamos prometer.',
-          ],
-        ],
-      },
+    rotulo: 'Lo que viene después',
+    titulo: 'Lo que todavía no está listo — y preferimos decirlo.',
+    selo: 'en camino',
+    itens: [
+      [
+        'Simulación con IA más fiel',
+        'La imagen generada en el ambiente del cliente todavía no coincide al 100% con la pieza que sale de fábrica. Acortar esa distancia es el trabajo de ahora.',
+      ],
+      [
+        'Factura electrónica',
+        'Cada país está fijando su propio formato de factura electrónica. Estamos preparando la emisión para que salga en el formato que exija el suyo. En preparación, sin fecha que podamos prometer.',
+      ],
+      [
+        'Más salidas de máquina',
+        'Cada mesa de corte habla su propio dialecto; la lista crece según lo que va pidiendo la fábrica.',
+      ],
     ],
   },
 

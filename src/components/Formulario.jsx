@@ -4,7 +4,7 @@ import { evento } from '../lib/rastreio.js'
 import { useTextos } from '../i18n/idioma.jsx'
 
 const campo =
-  'w-full rounded-[11px] border border-line bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-dim/70 focus:border-verde'
+  'w-full min-h-12 rounded-[14px] border border-line bg-card px-4 py-3 text-[16px] text-ink outline-none transition-colors placeholder:text-dim/70 focus:border-verde'
 
 /**
  * O texto deste formulário mora em `conteudo/areas/plataforma.<idioma>.js`,
@@ -85,7 +85,7 @@ export default function Formulario({ zap = true }) {
 
   if (estado === 'pronto') {
     return (
-      <div className="rounded-[20px] border border-line bg-card px-7 py-9 text-center">
+      <div className="cartao px-7 py-9 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-verde/12">
           <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
             <path
@@ -98,13 +98,13 @@ export default function Formulario({ zap = true }) {
             />
           </svg>
         </div>
-        <h3 className="display mt-5 text-[22px]">{t.sucesso.titulo}</h3>
-        <p className="mx-auto mt-3 max-w-[34ch] text-[15px] text-dim">{t.sucesso.texto}</p>
+        <h3 className="titulo-bloco mt-5">{t.sucesso.titulo}</h3>
+        <p className="texto-secao mt-3">{t.sucesso.texto}</p>
         {zap && (
           <a
             href={linkWhatsapp(t.sucesso.whatsapp)}
             onClick={() => evento('whatsapp', { origem: 'pos-formulario' })}
-            className="mt-6 inline-block rounded-[13px] border border-line px-6 py-3 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+            className="botao-fantasma mt-6"
           >
             {t.sucesso.botao}
           </a>
@@ -114,11 +114,9 @@ export default function Formulario({ zap = true }) {
   }
 
   return (
-    <form onSubmit={enviar} className="rounded-[20px] border border-line bg-card px-6 py-7 sm:px-7">
-      <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-dim">
-        {t.rotulo}
-      </p>
-      <h3 className="display mt-2.5 text-[21px]">{t.titulo}</h3>
+    <form onSubmit={enviar} className="cartao px-6 py-7">
+      <p className="cota uppercase">{t.rotulo}</p>
+      <h3 className="titulo-bloco mt-2">{t.titulo}</h3>
 
       <div className="mt-6 grid gap-3">
         <input
@@ -156,7 +154,7 @@ export default function Formulario({ zap = true }) {
       <button
         type="submit"
         disabled={estado === 'enviando'}
-        className="botao-marca mt-5 w-full px-6 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
+        className="botao-marca mt-5 w-full disabled:opacity-70"
       >
         {estado === 'enviando' ? t.enviando : t.botao}
       </button>

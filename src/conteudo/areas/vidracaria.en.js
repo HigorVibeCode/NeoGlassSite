@@ -27,6 +27,7 @@ export default {
   hero: {
     rotulo: 'NeoGlass · for the glass shop',
     verOrcamento: 'Watch the quote come out',
+    verSistema: 'See the system running',
     etiqueta: 'Inside the app',
     titulo: {
       antes: 'You measure.',
@@ -57,6 +58,9 @@ export default {
        vidraceiro usa para dizer "foi rápido", e ele mesmo faz a conta. É a
        mesma imagem da linha das 08:40, de propósito. */
     titulo: 'Measure the opening. The PDF quote is ready before you put the tape away.',
+    texto:
+      'Photo, measurements and wall type. The system turns the visit into a quote without making you type it all again.',
+    micro: 'Less typing. Fewer mistakes. Less time between the site and the quote.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -100,29 +104,28 @@ export default {
        less" listava dois efeitos e gastava o título nisso; a lista de pares
        logo abaixo já mostra os dois, um por linha. O título agora só nomeia o
        ganho, e deixa a prova para a lista. */
-    titulo: 'The same crew, working far more efficiently.',
-    hoje: 'Today, on the notepad and WhatsApp',
+    titulo: 'What is scattered today starts living in the same order.',
+    hoje: 'Today, scattered',
     pares: [
-      [
-        'The quote goes in a notebook and is gone by Monday',
-        'It leaves your phone with a photo of the opening and a signature',
-      ],
-      [
-        'The customer calls three times asking if it is ready',
-        'He follows the order through a link, without calling',
-      ],
-      [
-        'The offcut ends up behind the bench and turns into scrap',
-        'It goes back into stock with its size — and into the next cutting plan',
-      ],
-      [
-        'The size gets lost between the site notebook and the plant order',
-        'The size you took is the size the plant cuts — the same one, never retyped',
-      ],
-      [
-        'At the end of the month nobody knows which job made money',
-        'The margin on every job is on the screen',
-      ],
+      ['The measurement sits on the phone', 'The job is recorded'],
+      ['The quote goes out on WhatsApp', 'The quote stays saved'],
+      ['The PDF gets lost between chats', 'The order is centralized'],
+      ['Production runs by message', 'Production is connected'],
+      ['The offcut has no control', 'Delivery is followed'],
+      ['Nobody sees the job margin', 'The margin is visible'],
+    ],
+  },
+
+  resultados: {
+    rotulo: 'What the order carries',
+    titulo: 'Every step works from what was already agreed.',
+    itens: [
+      ['Quote', 'You record the job and the customer without starting from scratch.'],
+      ['Design', 'Turn the measurement into a faster proposal.'],
+      ['Order', 'Everything that was agreed stays attached to the job.'],
+      ['Production', 'The order goes to whoever needs to produce it.'],
+      ['Delivery', 'See what left, what is in progress and what is still missing.'],
+      ['Margin', 'See what each job actually left.'],
     ],
   },
 
@@ -132,7 +135,7 @@ export default {
     /* "One number, and it stays that number" era o trocadilho da janela em
        outra forma: dizia do preço, não do que ele compra. Esta já entrega a
        comparação — um serviço contra doze meses. */
-    titulo: 'One job a month pays for the whole year.',
+    titulo: 'One job can pay for several months of the system.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo. O parâmetro fica
     // na assinatura para as quatro versões terem a mesma forma.
     // "Keep that job in your head while you read the number below" pedia uma
@@ -179,6 +182,45 @@ export default {
     extras: [
       ['Your data is yours', 'export the lot whenever, without asking'],
       ['Leave when you like', 'cancel from the screen, no phone call to anyone'],
+    ],
+  },
+
+  faq: {
+    rotulo: 'Common questions',
+    titulo: 'What usually stops the click.',
+    itens: [
+      [
+        'What happens after the 14 days?',
+        'Nothing is charged on its own. If you want to continue, you subscribe. If you do not decide, the account never turns into a bill.',
+      ],
+      [
+        'Do I need to install anything?',
+        'No. The system opens in the browser and on the phone. No app to download and no technician in the shop.',
+      ],
+      [
+        'Does it work on a phone?',
+        'Yes. The site visit, the photo of the opening and the quote were built for a phone screen.',
+      ],
+      [
+        'Can I use it for as many quotes as I want?',
+        'Yes. There is no charge per quote. The monthly price does not change with volume.',
+      ],
+      [
+        'Is my data mine?',
+        'Yes. You export everything whenever you want, without asking permission.',
+      ],
+      [
+        'Can I cancel whenever I want?',
+        'Yes. No lock-in and no phone call — cancellation is on the screen.',
+      ],
+      [
+        'Does NeoGlass calculate the price automatically?',
+        'It builds the quote from your price list. The price per square metre and the hardware stay yours.',
+      ],
+      [
+        'Does NeoGlass replace my current order control?',
+        'It concentrates quote, order, production and delivery in the same flow. You stop spreading the same information across tools that do not talk to each other.',
+      ],
     ],
   },
 

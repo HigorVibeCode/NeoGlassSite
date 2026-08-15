@@ -24,6 +24,7 @@ export default {
   hero: {
     rotulo: 'NeoGlass · para a vidraçaria',
     verOrcamento: 'Ver o orçamento nascer',
+    verSistema: 'Ver o sistema funcionando',
     etiqueta: 'O app por dentro',
     // O título é montado no componente: `antes` sai normal e `destaque` sai no
     // gradiente da marca. Separado porque a palavra que merece o gradiente não
@@ -55,6 +56,9 @@ export default {
        "Guardar a trena" mede o tempo sem inventar número — é a unidade que o
        vidraceiro usa para dizer "foi rápido", e ele mesmo faz a conta. */
     titulo: 'Meça o vão. A proposta em PDF sai antes de você guardar a trena.',
+    texto:
+      'Foto, medidas e tipo de parede. O sistema transforma a visita em orçamento sem fazer você redigitar tudo.',
+    micro: 'Menos digitação. Menos erro. Menos tempo entre a obra e o orçamento.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -97,35 +101,28 @@ export default {
     /* "sem o retrabalho" descrevia a ausência de um problema. Esta diz o que
        a semana passa a ter — e "a mesma gente" mata na largada a objeção de
        que profissionalizar exige contratar alguém. */
-    titulo: 'A mesma gente, com muito mais eficiência.',
-    hoje: 'Hoje, no caderno e no WhatsApp',
-    // O lado esquerdo é a chave da lista: nenhum par pode começar igual.
+    titulo: 'O que hoje fica espalhado passa a morar no mesmo pedido.',
+    hoje: 'Hoje, espalhado',
     pares: [
-      [
-        'O orçamento sai no caderno e some até segunda',
-        'Sai do celular com foto do vão e assinatura',
-      ],
-      [
-        'O cliente liga três vezes perguntando se ficou pronto',
-        'Ele acompanha o pedido por um link, sem ligar',
-      ],
-      [
-        'A sobra encosta atrás da bancada e vira lixo',
-        'Volta ao estoque com medida — e entra no próximo corte',
-      ],
-      /* O lado direito dizia "O sistema acusa o fora de esquadro antes de
-         cortar" — a mesma checagem inventada que já tinha saído da aba da
-         indústria, e que eu deixei viva aqui. Trocado pelo que o sistema faz
-         de fato: a medida tirada na obra é a que desce para o corte, sem
-         ninguém redigitar no meio. */
-      [
-        'A medida some entre o caderno da obra e o pedido da fábrica',
-        'A medida que você tirou é a que a fábrica corta — a mesma, sem redigitar',
-      ],
-      [
-        'No fim do mês ninguém sabe qual serviço deu lucro',
-        'A margem de cada serviço fica na tela',
-      ],
+      ['A medida fica no celular', 'A obra fica registrada'],
+      ['O orçamento vai pelo WhatsApp', 'O orçamento fica salvo'],
+      ['O PDF se perde entre conversas', 'O pedido fica centralizado'],
+      ['A produção anda por mensagem', 'A produção fica conectada'],
+      ['O retalho não tem controle', 'A entrega é acompanhada'],
+      ['Ninguém vê a margem do serviço', 'A margem fica visível'],
+    ],
+  },
+
+  resultados: {
+    rotulo: 'O que o pedido carrega',
+    titulo: 'Cada etapa trabalha com o que já foi combinado.',
+    itens: [
+      ['Orçamento', 'Você registra a obra e o cliente sem começar do zero.'],
+      ['Projeto', 'Transforme a medida em uma proposta mais rápida.'],
+      ['Pedido', 'Tudo que foi combinado permanece associado ao serviço.'],
+      ['Produção', 'O pedido segue para quem precisa produzir.'],
+      ['Entrega', 'Acompanhe o que saiu, o que está em andamento e o que falta.'],
+      ['Margem', 'Veja quanto cada serviço realmente deixou.'],
     ],
   },
 
@@ -135,7 +132,7 @@ export default {
     /* "cabe numa janela" era trocadilho que exigia o parágrafo abaixo para
        fazer sentido — trocadilho que precisa de explicação não é trocadilho.
        Esta diz a mesma coisa e já entrega a comparação. */
-    titulo: 'Um serviço por mês paga o ano inteiro.',
+    titulo: 'Um serviço pode pagar vários meses do sistema.',
     // `valor` é o total da demonstração (R$ 1.169) já formatado em reais. Ele
     // só existe em real: a demonstração inteira é feita com preço de m² e
     // ferragem do Brasil. Por isso só o português cita o número — os outros
@@ -182,6 +179,45 @@ export default {
     extras: [
       ['Os dados são seus', 'exporta tudo quando quiser, sem pedir'],
       ['Sai quando quiser', 'cancelamento pela tela, sem ligar para ninguém'],
+    ],
+  },
+
+  faq: {
+    rotulo: 'Perguntas frequentes',
+    titulo: 'O que costuma travar o clique.',
+    itens: [
+      [
+        'O que acontece depois dos 14 dias?',
+        'Nada é cobrado sozinho. Se você quiser continuar, assina. Se não decidir, a conta simplesmente não vira cobrança.',
+      ],
+      [
+        'Preciso instalar alguma coisa?',
+        'Não. O sistema abre no navegador e no celular. Sem aplicativo para baixar e sem técnico na loja.',
+      ],
+      [
+        'Funciona no celular?',
+        'Sim. A obra, a foto do vão e o orçamento foram feitos para a tela do celular.',
+      ],
+      [
+        'Posso usar para quantos orçamentos quiser?',
+        'Sim. Não há cobrança por orçamento. O preço do mês não muda com o volume.',
+      ],
+      [
+        'Meus dados são meus?',
+        'Sim. Você exporta tudo quando quiser, sem pedir autorização.',
+      ],
+      [
+        'Posso cancelar quando quiser?',
+        'Sim. Sem fidelidade e sem ligar para ninguém — o cancelamento é pela tela.',
+      ],
+      [
+        'A NeoGlass calcula o preço automaticamente?',
+        'Ela monta o orçamento com a sua tabela. O preço do m² e da ferragem continua sendo o seu.',
+      ],
+      [
+        'A NeoGlass substitui meu atual controle de pedidos?',
+        'Ela concentra orçamento, pedido, produção e entrega no mesmo fluxo. Você para de espalhar a mesma informação em ferramentas que não se falam.',
+      ],
     ],
   },
 

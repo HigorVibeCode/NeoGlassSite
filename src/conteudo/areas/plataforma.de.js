@@ -17,10 +17,11 @@ export default {
       antes: 'Ein Auftrag. Vom Angebot bis zur Rechnung.',
       destaque: 'Ohne Systemwechsel.',
     },
+    verSistema: 'Das System in Aktion sehen',
     texto:
       'Jeder Schritt arbeitet mit denselben Daten, vom ersten Kontakt bis zur Lieferung.',
     marcas: [
-      ['7', 'Module, ein Auftrag'],
+      ['1', 'Auftrag geht durch alles'],
       ['4', 'Ausgabeformate für den Tisch'],
       ['0', 'Excel-Listen zwischen den Schritten'],
     ],
@@ -58,18 +59,18 @@ export default {
      ferramenta não existe no sistema. Os números foram corridos de 01 a 07 e
      o título deixou de dizer oito. */
   modulos: {
-    rotulo: 'Modulübersicht',
-    titulo: 'Sieben Module. Alle im selben Betrieb, jeden Tag offen.',
-    // 'im Einsatz' porque a etiqueta é estreita: 'in Produktion' não cabe.
+    rotulo: 'Was am Auftrag arbeitet',
+    titulo: 'Alles arbeitet am selben Auftrag.',
+    texto: 'Sieben Teile des Systems. Keines verlangt, dass Sie neu tippen, was schon drin ist.',
     selo: 'im Einsatz',
     lista: [
-      ['01', 'Angebot und Auftrag', 'Verlauf mit Foto von der Baustelle, Maß und Unterschrift auf dem Display des Kunden'],
-      ['02', 'KI-Simulation', 'Das Glas im Raum des Kunden, bevor die Scheibe existiert'],
-      ['03', 'Verschnittoptimierung', 'Restglas zuerst in den Schnittplan; Ausgabe in DXF, G-code, ASC und CNI+FBT'],
-      ['04', 'Lager und Restglas', 'Jedes Reststück mit Maß, Farbe, Dicke und Gestellplatz'],
-      ['05', 'Fertigung und Rückverfolgung', 'Etikett und Code je Scheibe, mit Phase, Uhrzeit und Verantwortlichem'],
-      ['06', 'Versand und Lieferung', 'Scan beim Verladen, Ladung Scheibe für Scheibe geprüft'],
-      ['07', 'Zahlen je Auftrag', 'Rechnung, Zahlungseingang und echte Marge des Auftrags, nicht des Monats'],
+      ['01', 'Angebot und Auftrag', 'Sie erfassen Baustelle und Kunden, ohne bei null anzufangen.'],
+      ['02', 'KI-Simulation', 'Das Glas im Raum des Kunden, bevor die Scheibe existiert.'],
+      ['03', 'Verschnittoptimierung', 'Findet Restglas, bevor eine neue Tafel verbraucht wird.'],
+      ['04', 'Lager und Restglas', 'Nutzen Sie ein Reststück, bevor Sie eine neue Tafel kaufen.'],
+      ['05', 'Fertigung und Rückverfolgung', 'Wissen Sie, wo jede Scheibe ist, ohne drei Leute zu fragen.'],
+      ['06', 'Versand und Lieferung', 'Sehen Sie, was raus ist, was läuft und was fehlt.'],
+      ['07', 'Zahlen je Auftrag', 'Sehen Sie die Marge dieses Auftrags, nicht nur den Monatsumsatz.'],
     ],
   },
 
@@ -78,6 +79,7 @@ export default {
   aparelhos: {
     rotulo: 'Wo es läuft',
     titulo: 'Derselbe Auftrag, von der Hosentasche des Glasers bis zum Schneidtisch.',
+    texto: 'Dieselben Daten, an verschiedenen Orten.',
     lista: [
       ['celular', 'Auf der Baustelle', 'Messen, fotografieren, kalkulieren und unterschreiben lassen — im Stehen, beim Kunden.'],
       ['tablet', 'An der Werkbank', 'Fertigungsauftrag und Etikett der Scheibe dort, wo das Glas geschnitten wird.'],
@@ -90,23 +92,31 @@ export default {
      cada país exige — sem prazo e sem citar norma, porque nem o prazo nem a
      norma são nossos de prometer. */
   adiante: {
-    rotulo: 'Was als Nächstes kommt',
-    titulo: 'Was noch nicht fertig ist — und wir sagen es lieber selbst.',
-    // 'in Arbeit': mesma largura de etiqueta que 'a caminho'.
-    selo: 'in Arbeit',
-    itens: [
-      [
-        'KI-Simulation näher am Ergebnis',
-        'Das Bild im Raum des Kunden trifft die Scheibe, die aus der Fertigung kommt, noch nicht zu 100 %. Diesen Abstand zu verkleinern ist die Arbeit von jetzt.',
-      ],
-      [
-        'E-Rechnung',
-        'Die Formate für die elektronische Rechnung werden gerade Land für Land festgelegt. Wir bereiten die Ausgabe so vor, dass die Rechnung im geforderten Format rausgeht. In Vorbereitung — ein Datum versprechen wir noch nicht.',
-      ],
-      [
-        'Mehr Maschinenformate',
-        'Jeder Schneidtisch spricht seinen eigenen Dialekt; die Liste wächst, wie die Betriebe es verlangen.',
-      ],
+    rotulo: 'Was kommt',
+    titulo: 'Was kommt.',
+    grupos: [
+      {
+        selo: 'In Arbeit',
+        itens: [
+          [
+            'KI-Simulation näher am Ergebnis',
+            'Das Bild im Raum des Kunden trifft die Scheibe, die aus der Fertigung kommt, noch nicht zu 100 %. Diesen Abstand zu verkleinern ist die Arbeit von jetzt.',
+          ],
+          [
+            'Mehr Maschinenformate',
+            'Jeder Schneidtisch spricht seinen eigenen Dialekt; die Liste wächst, wie die Betriebe es verlangen.',
+          ],
+        ],
+      },
+      {
+        selo: 'Geplant',
+        itens: [
+          [
+            'E-Rechnung',
+            'Die Formate für die elektronische Rechnung werden gerade Land für Land festgelegt. Wir bereiten die Ausgabe so vor, dass die Rechnung im geforderten Format rausgeht. In Vorbereitung — ein Datum versprechen wir noch nicht.',
+          ],
+        ],
+      },
     ],
   },
 

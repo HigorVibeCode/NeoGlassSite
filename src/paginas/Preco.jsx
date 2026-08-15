@@ -1,4 +1,4 @@
-import { Bloco, Revelar } from '../components/Comum.jsx'
+import { Secao } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria, valorMensal } from '../config.js'
 import { destinoComecar } from '../lib/paginasSeo.js'
 import { ORCAMENTO_EXEMPLO } from '../ferramentas/Orcamento.jsx'
@@ -52,19 +52,11 @@ export default function Preco({ folha = 'FL. 05/07' }) {
   const exemplo = reais(ORCAMENTO_EXEMPLO)
 
   return (
-    <Revelar
-      as="section"
-      id="preco"
-      className="secao mx-auto max-w-[1240px] scroll-mt-[124px] px-5 pb-24 sm:px-8 sm:pb-32"
-    >
-      <Bloco rotulo={t.rotulo} folha={folha} />
-      <h2 className="display mt-7 max-w-[17ch] text-[clamp(30px,4.4vw,54px)]">{t.titulo}</h2>
-      <p className="mt-5 max-w-[58ch] text-[16.5px] leading-[1.55] text-dim">{t.texto(exemplo)}</p>
-
-      <div className="mt-11 overflow-hidden rounded-[26px] border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <Secao id="preco" rotulo={t.rotulo} folha={folha} titulo={t.titulo} texto={t.texto(exemplo)}>
+      <div className="cartao mt-10 overflow-hidden text-left">
+        <div className="grid">
           {/* ── o número ───────────────────────────────────────────────── */}
-          <div className="relative overflow-hidden border-b border-line bg-soft/50 px-7 py-9 sm:px-9 lg:border-b-0 lg:border-r">
+          <div className="relative overflow-hidden border-b border-line bg-soft/50 px-6 py-8">
             <span
               aria-hidden="true"
               className="pointer-events-none absolute -right-[30%] -top-[60%] h-[420px] w-[420px] rounded-full opacity-[0.16]"
@@ -81,7 +73,7 @@ export default function Preco({ folha = 'FL. 05/07' }) {
                 {t.cota}
               </span>
               <p className="mt-4 flex items-baseline gap-2">
-                <span className="display text-[clamp(46px,6.4vw,68px)] leading-none">{preco}</span>
+                <span className="titulo-hero">{preco}</span>
                 <span className="text-[16px] font-bold text-dim">{t.porMes}</span>
               </p>
               {/* Aqui também dizia "por vidraçaria, não por pessoa", com o
@@ -112,7 +104,7 @@ export default function Preco({ folha = 'FL. 05/07' }) {
                   target={comecar.externo ? '_blank' : undefined}
                   rel={comecar.externo ? 'noreferrer' : undefined}
                   onClick={() => evento('comecar', { origem: 'preco' })}
-                  className="botao-marca inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+                  className="botao-marca w-full"
                 >
                   {comecar.rotulo}
                 </a>
@@ -128,7 +120,7 @@ export default function Preco({ folha = 'FL. 05/07' }) {
           </div>
 
           {/* ── o que vem junto ────────────────────────────────────────── */}
-          <div className="px-7 py-9 sm:px-9">
+          <div className="px-6 py-8">
             <p className="cota uppercase">{t.tudoIncluido}</p>
             <ul className="mt-4 space-y-2.5">
               {t.incluso.map((item) => (
@@ -166,6 +158,6 @@ export default function Preco({ folha = 'FL. 05/07' }) {
           </div>
         </div>
       </div>
-    </Revelar>
+    </Secao>
   )
 }

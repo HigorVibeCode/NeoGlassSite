@@ -80,6 +80,10 @@ export default {
     // vidraçaria com a mesma frase — repeti-la em cada área seria criar duas
     // fontes para o mesmo texto. Ver Contraste.jsx.
     comNeoGlass: 'Com o NeoGlass',
+    escolherPerfil: 'Escolher meu perfil',
+    escolherPerfilCurto: 'Meu perfil',
+    solicitarDemo: 'Solicitar demonstração',
+    solicitarDemoCurto: 'Demonstração',
   },
 
   agenda: {
@@ -101,7 +105,9 @@ export default {
        "não numa reunião sobre fábricas de vidro" (boa, mas fala do que NÃO é).
        Esta fala de quem fez — que é o argumento mais forte e o único que um
        concorrente não copia. */
-    titulo: 'Nasceu dentro de uma fábrica de vidro, escrito por quem tem décadas no ramo.',
+    titulo: 'Não nasceu em uma agência de software. Nasceu na operação.',
+    texto:
+      'Construído por quem conhece corte, beneficiamento, produção, entrega e os problemas que acontecem no chão de fábrica.',
     fatos: [
       [
         'Desenvolvido na Suíça',

@@ -27,14 +27,14 @@ export default {
     // história fica aqui, junto da copy, para não voltar por engano numa
     // tradução.)
     titulo: {
-      antes: 'Antes de cortar chapa nova, o sistema',
+      antes: 'Antes de comprar chapa nova, a NeoGlass',
       destaque: 'procura nas sobras.',
     },
     // Duas frases e ponto. O anterior tinha quatro linhas no desktop e oito
     // no celular — ninguém lê oito linhas antes de decidir se fica. O número
     // saiu daqui porque ele já está três vezes na mesma tela: na régua de
     // marcas, no cartão e na demonstração.
-    texto: 'Só vai para chapa nova o que não coube em sobra nenhuma.',
+    texto: 'Otimização de corte, retalhos, produção, rastreio e expedição conectados ao mesmo pedido.',
     // Números e unidades não se traduzem; só a vírgula decimal vira ponto em
     // inglês, que é como o leitor de lá lê 3,42 sem tropeçar.
     // ("6 etapas, da obra à margem" saiu daqui: seis etapas não é bom nem
@@ -65,6 +65,61 @@ export default {
     titulo: 'Três chapas viram duas. Na sua frente.',
     texto:
       'Um pedido real de 20 peças, com o otimizador de verdade rodando aqui no seu navegador. Aperte e veja onde a matéria-prima deixa de ser comprada.',
+    nota: 'Os números desta seção saem da demonstração — não são média de cliente.',
+  },
+
+  producao: {
+    rotulo: 'A produção',
+    titulo: 'A matéria-prima entra uma vez. A informação acompanha a peça inteira.',
+    etapas: ['Pedido', 'Otimização', 'Corte', 'Beneficiamento', 'Produção', 'Expedição'],
+  },
+
+  rastreio: {
+    rotulo: 'Rastreio',
+    titulo: 'Saiba onde cada peça está sem perguntar para três pessoas.',
+    campos: [
+      ['Código', 'P-184'],
+      ['Pedido', '26-0431'],
+      ['Fase', 'Têmpera'],
+      ['Responsável', 'Bancada 2'],
+      ['Hora', '14:22'],
+      ['Destino', 'Carga 118'],
+    ],
+  },
+
+  financeiro: {
+    rotulo: 'O pedido em dinheiro',
+    titulo: 'Não veja apenas o faturamento. Veja a margem por pedido.',
+    linhas: [
+      ['Receita', 'o que este pedido faturou'],
+      ['Matéria-prima', 'o vidro que entrou'],
+      ['Produção', 'corte, têmpera, beneficiamento'],
+      ['Custos', 'o que saiu além do vidro'],
+      ['Resultado', 'a margem deste pedido'],
+    ],
+  },
+
+  faq: {
+    rotulo: 'Perguntas frequentes',
+    titulo: 'Antes de pedir a demonstração.',
+    itens: [
+      [
+        'A demonstração usa um pedido meu?',
+        'Sim. Você traz um pedido real. A gente monta no sistema e você sai com o plano de corte dele.',
+      ],
+      [
+        'Os números da otimização são de clientes?',
+        'Não. O aproveitamento e os m² economizados saem da demonstração que roda no navegador. Não são média de fábrica.',
+      ],
+      [
+        'Preciso trocar a mesa de corte?',
+        'Não. O plano sai em DXF, CNI e FBT — ou direto para o Opty-Way e o Perfect Cut.',
+      ],
+      [
+        'Isso substitui o controle de produção que eu já tenho?',
+        'O pedido passa a carregar otimização, corte, rastreio e expedição. Você para de perguntar em três lugares onde a peça está.',
+      ],
+    ],
   },
 
   // ── O contraste em duas colunas (FL. 04/06) ───────────────────────────
@@ -91,7 +146,7 @@ export default {
 
   // ── A chamada final (FL. 06/06) ───────────────────────────────────────
   chamada: {
-    rotulo: 'Agendar a apresentação',
+    rotulo: 'Solicitar demonstração',
     /* "A gente monta na sua frente" soava a mágica de vendedor. A promessa
        forte não é montar rápido: é ele sair com o plano de corte do PEDIDO
        DELE na mão, tendo gastado quarenta minutos. */

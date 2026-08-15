@@ -19,8 +19,40 @@ export default {
       acao: 'Ver cómo funciona para mi fábrica',
     },
   ],
-  painel: 'El sistema por dentro',
+  escolha: '¿Cuál es tu negocio?',
   duvida: 'Todavía tengo dudas',
+  fluxo: {
+    rotulo: 'El pedido en un solo flujo',
+    titulo: 'Un pedido. Una información. Toda la operación.',
+    texto: 'El mismo pedido acompaña a la empresa del presupuesto a la producción, de la producción a la entrega.',
+  },
+  problema: {
+    rotulo: 'El problema',
+    titulo: 'Tu problema no es la falta de una hoja de cálculo. Es la información dispersa.',
+    itens: ['WhatsApp', 'Excel', 'PDF', 'cuaderno', 'teléfono', 'mensajes', 'órdenes impresas'],
+    depoisTitulo: 'NeoGlass',
+    depois: ['Un pedido', 'Una información', 'Un flujo'],
+  },
+  diferencial: {
+    rotulo: 'Lo que lo diferencia',
+    titulo: 'Hecho para quien trabaja con vidrio. No adaptado a eso.',
+    texto:
+      'NeoGlass se construyó alrededor de la operación del vidrio: medidas, proyectos, corte, retales, producción, entrega y margen.',
+  },
+  prova: {
+    rotulo: 'Por qué confiar',
+    titulo: 'Construido en la operación. En producción. En Suiza.',
+    itens: [
+      ['Desarrollado en Suiza', 'Donde el plazo y la escuadra no se negocian.'],
+      ['Nació en la operación de vidrio', 'Ninguna pantalla salió de una reunión de agencia.'],
+      ['En producción', 'Hoy hay fábricas cortando y entregando con él.'],
+    ],
+  },
+  chamada: {
+    titulo: 'Mira lo que NeoGlass cambia en tu operación.',
+    vidracaria: 'Tengo una cristalería →',
+    industria: 'Tengo una fábrica →',
+  },
   lembrete: {
     vidracaria: 'Estás viendo la versión para cristalería.',
     industria: 'Estás viendo la versión para fábrica de vidrio.',

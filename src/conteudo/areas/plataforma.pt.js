@@ -20,12 +20,11 @@ export default {
       antes: 'Um pedido. Do orçamento à nota.',
       destaque: 'Sem trocar de sistema.',
     },
+    verSistema: 'Ver o sistema funcionando',
     texto:
       'Cada etapa trabalha com a mesma informação, do primeiro contato à entrega.',
-    // O primeiro número acompanha o tamanho da lista de módulos: eram oito
-    // antes de a checagem do pedido sair, são sete agora.
     marcas: [
-      ['7', 'módulos, um pedido só'],
+      ['1', 'pedido atravessa tudo'],
       ['4', 'formatos de saída para a mesa'],
       ['0', 'planilha entre uma etapa e outra'],
     ],
@@ -69,17 +68,18 @@ export default {
      abertura (ver CartaoIA.jsx). Com ela fora, a lista tem sete módulos, os
      números foram corridos de 01 a 07 e o título deixou de dizer oito. */
   modulos: {
-    rotulo: 'Índice dos módulos',
-    titulo: 'Sete módulos. Todos abertos na mesma fábrica, todo dia.',
+    rotulo: 'O que trabalha sobre o pedido',
+    titulo: 'Tudo trabalha sobre o mesmo pedido.',
+    texto: 'Sete partes do sistema. Nenhuma delas pede que você redigite o que já entrou.',
     selo: 'em produção',
     lista: [
-      ['01', 'Orçamento e proposta', 'Feed com foto da obra, medida e assinatura na tela do cliente'],
-      ['02', 'Simulação com IA', 'O vidro no ambiente do cliente antes de a peça existir'],
-      ['03', 'Otimização de corte', 'Plano com retalho primeiro; saída em DXF, G-code, ASC e CNI+FBT'],
-      ['04', 'Estoque e retalhos', 'Cada sobra com medida, cor, espessura e endereço de cavalete'],
-      ['05', 'Produção e rastreio', 'Etiqueta e código por peça, com fase, hora e responsável'],
-      ['06', 'Expedição e entrega', 'Leitura na saída, carga conferida peça a peça'],
-      ['07', 'Financeiro por pedido', 'Nota, recebimento e margem real do pedido, não do mês'],
+      ['01', 'Orçamento e proposta', 'Você registra a obra e o cliente sem começar do zero.'],
+      ['02', 'Simulação com IA', 'O vidro no ambiente do cliente antes de a peça existir.'],
+      ['03', 'Otimização de corte', 'Encontra retalhos antes de consumir chapa nova.'],
+      ['04', 'Estoque e retalhos', 'Use uma sobra antes de comprar outra chapa.'],
+      ['05', 'Produção e rastreio', 'Saiba onde cada peça está sem perguntar para três pessoas.'],
+      ['06', 'Expedição e entrega', 'Acompanhe o que saiu, o que está em andamento e o que falta.'],
+      ['07', 'Financeiro por pedido', 'Veja a margem deste pedido, não só o faturamento do mês.'],
     ],
   },
 
@@ -90,6 +90,7 @@ export default {
   aparelhos: {
     rotulo: 'Onde ele abre',
     titulo: 'O mesmo pedido, do bolso do vidraceiro à mesa de corte.',
+    texto: 'A mesma informação, em lugares diferentes.',
     lista: [
       ['celular', 'Na obra', 'Mede, fotografa, orça e colhe a assinatura — de pé, na casa do cliente.'],
       ['tablet', 'Na bancada', 'A ordem de produção e a etiqueta da peça, onde o vidro está sendo cortado.'],
@@ -109,22 +110,31 @@ export default {
      só existe nesta versão: en, es e de trazem no lugar dele a nota fiscal
      eletrônica no formato de cada país. */
   adiante: {
-    rotulo: 'O que vem a seguir',
-    titulo: 'O que ainda não está pronto — e a gente prefere dizer.',
-    selo: 'a caminho',
-    itens: [
-      [
-        'Simulação com IA mais fiel',
-        'A imagem gerada no ambiente do cliente ainda não bate 100% com a peça que sai da fábrica. Encurtar essa distância é o trabalho de agora.',
-      ],
-      [
-        'Nota fiscal no modelo da reforma',
-        'Emissão com CBS e IBS e o recebimento com split payment — em preparação antes de a fase B2B começar, prevista para 2027.',
-      ],
-      [
-        'Mais saídas de máquina',
-        'Cada mesa de corte fala um dialeto; a lista cresce conforme a fábrica pede.',
-      ],
+    rotulo: 'O que está chegando',
+    titulo: 'O que está chegando.',
+    grupos: [
+      {
+        selo: 'Em desenvolvimento',
+        itens: [
+          [
+            'Simulação com IA mais fiel',
+            'A imagem gerada no ambiente do cliente ainda não bate 100% com a peça que sai da fábrica. Encurtar essa distância é o trabalho de agora.',
+          ],
+          [
+            'Mais saídas de máquina',
+            'Cada mesa de corte fala um dialeto; a lista cresce conforme a fábrica pede.',
+          ],
+        ],
+      },
+      {
+        selo: 'Planejado',
+        itens: [
+          [
+            'Nota fiscal no modelo da reforma',
+            'Emissão com CBS e IBS e o recebimento com split payment — em preparação antes de a fase B2B começar, prevista para 2027.',
+          ],
+        ],
+      },
     ],
   },
 

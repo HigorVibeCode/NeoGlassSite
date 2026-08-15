@@ -29,6 +29,7 @@ export default {
   hero: {
     rotulo: 'NeoGlass · para la cristalería',
     verOrcamento: 'Ver el presupuesto nacer',
+    verSistema: 'Ver el sistema funcionando',
     etiqueta: 'La app por dentro',
     titulo: {
       antes: 'Tú mides.',
@@ -58,6 +59,9 @@ export default {
        mesma imagem da linha das 08:40, de propósito. Tratamento por "tú", como
        no resto do arquivo. */
     titulo: 'Mide el hueco. El presupuesto en PDF sale antes de que guardes el metro.',
+    texto:
+      'Foto, medidas y tipo de pared. El sistema convierte la visita en presupuesto sin hacerte volver a escribirlo todo.',
+    micro: 'Menos tecleo. Menos error. Menos tiempo entre la obra y el presupuesto.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -100,36 +104,35 @@ export default {
        rehaciendo menos" listava dois efeitos e gastava o título nisso; a lista
        de pares logo abaixo já mostra os dois, um por linha. O título agora só
        nomeia o ganho e deixa a prova para a lista. */
-    titulo: 'La misma gente de siempre, con mucha más eficiencia.',
-    hoje: 'Hoy, en el cuaderno y en WhatsApp',
+    titulo: 'Lo que hoy está disperso pasa a vivir en el mismo pedido.',
+    hoje: 'Hoy, disperso',
     pares: [
-      [
-        'El presupuesto se apunta en el cuaderno y desaparece hasta el lunes',
-        'Sale del teléfono con foto del hueco y firma',
-      ],
-      [
-        'El cliente llama tres veces para saber si ya está',
-        'Sigue su pedido por un enlace, sin llamar',
-      ],
-      [
-        'El recorte acaba detrás del banco y se convierte en basura',
-        'Vuelve al stock con su medida — y entra en el siguiente corte',
-      ],
-      [
-        'La medida se pierde entre la libreta de obra y el pedido de fábrica',
-        'La medida que tomaste es la que corta la fábrica — la misma, sin volver a teclear',
-      ],
-      [
-        'A fin de mes nadie sabe qué trabajo dejó dinero',
-        'El margen de cada trabajo está en la pantalla',
-      ],
+      ['La medida se queda en el teléfono', 'La obra queda registrada'],
+      ['El presupuesto se va por WhatsApp', 'El presupuesto queda guardado'],
+      ['El PDF se pierde entre conversaciones', 'El pedido queda centralizado'],
+      ['La producción camina por mensaje', 'La producción queda conectada'],
+      ['El recorte no tiene control', 'La entrega se sigue'],
+      ['Nadie ve el margen del trabajo', 'El margen queda visible'],
+    ],
+  },
+
+  resultados: {
+    rotulo: 'Lo que carga el pedido',
+    titulo: 'Cada etapa trabaja con lo que ya se acordó.',
+    itens: [
+      ['Presupuesto', 'Registras la obra y el cliente sin empezar de cero.'],
+      ['Proyecto', 'Convierte la medida en una propuesta más rápida.'],
+      ['Pedido', 'Todo lo acordado sigue asociado al trabajo.'],
+      ['Producción', 'El pedido sigue hacia quien tiene que producirlo.'],
+      ['Entrega', 'Sigue lo que salió, lo que está en marcha y lo que falta.'],
+      ['Margen', 'Mira cuánto dejó de verdad cada trabajo.'],
     ],
   },
 
   // ── O preço ───────────────────────────────────────────────────────────
   preco: {
     rotulo: 'Plan Cristalería · lo que cuesta y lo que no',
-    titulo: 'Un trabajo al mes paga el año entero.',
+    titulo: 'Un trabajo puede pagar varios meses del sistema.',
     /* `valor` chega e não é usado: ver o cabeçalho do arquivo. A versão antiga
        mandava "ten ese trabajo en la cabeza mientras lees el número de abajo"
        — tarefa para o leitor. Agora a frase já fecha a conta por ele, que era
@@ -174,6 +177,45 @@ export default {
     extras: [
       ['Los datos son tuyos', 'exportas todo cuando quieras, sin pedir permiso'],
       ['Te vas cuando quieras', 'cancelación desde la pantalla, sin llamar a nadie'],
+    ],
+  },
+
+  faq: {
+    rotulo: 'Preguntas frecuentes',
+    titulo: 'Lo que suele frenar el clic.',
+    itens: [
+      [
+        '¿Qué pasa después de los 14 días?',
+        'Nada se cobra solo. Si quieres seguir, contratas. Si no decides, la cuenta no se convierte en cobro.',
+      ],
+      [
+        '¿Tengo que instalar algo?',
+        'No. El sistema se abre en el navegador y en el móvil. Sin app que descargar y sin técnico en el local.',
+      ],
+      [
+        '¿Funciona en el móvil?',
+        'Sí. La obra, la foto del hueco y el presupuesto están hechos para la pantalla del teléfono.',
+      ],
+      [
+        '¿Puedo usarlo para todos los presupuestos que quiera?',
+        'Sí. No hay cobro por presupuesto. El precio del mes no cambia con el volumen.',
+      ],
+      [
+        '¿Los datos son míos?',
+        'Sí. Exportas todo cuando quieras, sin pedir permiso.',
+      ],
+      [
+        '¿Puedo cancelar cuando quiera?',
+        'Sí. Sin permanencia y sin llamar a nadie — la cancelación es en la pantalla.',
+      ],
+      [
+        '¿NeoGlass calcula el precio solo?',
+        'Monta el presupuesto con tu tarifa. El precio del m² y de los herrajes sigue siendo el tuyo.',
+      ],
+      [
+        '¿NeoGlass sustituye mi control actual de pedidos?',
+        'Concentra presupuesto, pedido, producción y entrega en el mismo flujo. Dejas de repartir la misma información en herramientas que no se hablan.',
+      ],
     ],
   },
 

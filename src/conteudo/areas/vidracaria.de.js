@@ -36,6 +36,7 @@ export default {
   hero: {
     rotulo: 'NeoGlass · für die Glaserei',
     verOrcamento: 'Das Angebot entstehen sehen',
+    verSistema: 'Das System in Aktion sehen',
     etiqueta: 'Ein Blick in die App',
     // O gradiente cai na condição ('ohne dass es kompliziert wird'), que é o
     // que este leitor duvida — em alemão a promessa sozinha não convence.
@@ -74,6 +75,9 @@ export default {
        primeiro verbo ficou de fora: 'Messen Sie die Öffnung' levaria a frase a
        80, e 'von der Öffnung zum PDF' já está no rótulo logo acima. */
     titulo: 'Messen Sie. Das PDF-Angebot ist da, bevor Sie das Bandmaß einpacken.',
+    texto:
+      'Foto, Maße und Wandtyp. Das System macht aus dem Besuch ein Angebot, ohne dass Sie alles neu tippen.',
+    micro: 'Weniger tippen. Weniger Fehler. Weniger Zeit zwischen Baustelle und Angebot.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -119,29 +123,28 @@ export default {
        logo abaixo já mostra os dois, um por linha. O título agora só nomeia o
        ganho e deixa a prova para a lista — e de quebra cai de 57 para 42
        caracteres, dentro do teto deste h2. */
-    titulo: 'Dieselbe Mannschaft, deutlich effizienter.',
-    hoje: 'Heute, in Kladde und WhatsApp',
+    titulo: 'Was heute verstreut ist, wohnt künftig im selben Auftrag.',
+    hoje: 'Heute, verstreut',
     pares: [
-      [
-        'Das Angebot landet in der Kladde und ist bis Montag verschwunden',
-        'Es geht vom Handy raus, mit Foto der Öffnung und Unterschrift',
-      ],
-      [
-        'Der Kunde ruft dreimal an und fragt, ob es fertig ist',
-        'Er verfolgt den Auftrag über einen Link, ohne anzurufen',
-      ],
-      [
-        'Das Reststück landet hinter der Werkbank und wird zu Bruch',
-        'Es kommt mit Maß zurück ins Lager — und in den nächsten Schnittplan',
-      ],
-      [
-        'Das Maß geht zwischen Baustellenzettel und Werksauftrag verloren',
-        'Das Maß, das Sie genommen haben, ist das Maß, das geschnitten wird — ohne Abtippen',
-      ],
-      [
-        'Am Monatsende weiß niemand, welcher Auftrag Geld gebracht hat',
-        'Die Marge jedes Auftrags steht auf dem Bildschirm',
-      ],
+      ['Das Maß bleibt im Handy', 'Der Auftrag ist erfasst'],
+      ['Das Angebot geht über WhatsApp', 'Das Angebot bleibt gespeichert'],
+      ['Das PDF geht zwischen Chats verloren', 'Der Auftrag ist zentral'],
+      ['Die Fertigung läuft über Nachrichten', 'Die Fertigung ist verbunden'],
+      ['Das Restglas hat keine Kontrolle', 'Die Lieferung wird verfolgt'],
+      ['Niemand sieht die Marge des Auftrags', 'Die Marge ist sichtbar'],
+    ],
+  },
+
+  resultados: {
+    rotulo: 'Was der Auftrag trägt',
+    titulo: 'Jeder Schritt arbeitet mit dem, was schon vereinbart war.',
+    itens: [
+      ['Angebot', 'Sie erfassen Baustelle und Kunden, ohne bei null anzufangen.'],
+      ['Entwurf', 'Machen Sie aus dem Maß ein schnelleres Angebot.'],
+      ['Auftrag', 'Alles Vereinbarte bleibt an diesem Job hängen.'],
+      ['Fertigung', 'Der Auftrag geht an die, die ihn produzieren müssen.'],
+      ['Lieferung', 'Sehen Sie, was raus ist, was läuft und was fehlt.'],
+      ['Marge', 'Sehen Sie, was jeder Auftrag wirklich gebracht hat.'],
     ],
   },
 
@@ -151,7 +154,7 @@ export default {
     /* Este h2 é grande: acima de ~42 caracteres ele vira quatro linhas. Daí a
        forma curta — 'Ein Auftrag im Monat deckt das ganze Jahr.' bate os 42 no
        fio, e sem 'ganze' a frase diz o mesmo em 36. */
-    titulo: 'Ein Auftrag im Monat deckt das Jahr.',
+    titulo: 'Ein Auftrag kann mehrere Monate System bezahlen.',
     /* `valor` chega e não é usado: ver o cabeçalho do arquivo. A versão antiga
        terminava em "Behalten Sie diesen Auftrag im Kopf" — tarefa para o
        leitor. Agora a própria frase fecha a conta, que era o ponto. */
@@ -198,6 +201,45 @@ export default {
     extras: [
       ['Ihre Daten', 'jederzeit exportieren, ohne zu fragen'],
       ['Jederzeit kündbar', 'Kündigung im System, ohne Anruf'],
+    ],
+  },
+
+  faq: {
+    rotulo: 'Häufige Fragen',
+    titulo: 'Was den Klick meistens aufhält.',
+    itens: [
+      [
+        'Was passiert nach den 14 Tagen?',
+        'Es wird nichts von allein abgebucht. Wenn Sie weitermachen wollen, buchen Sie. Wenn Sie nicht entscheiden, wird daraus keine Rechnung.',
+      ],
+      [
+        'Muss ich etwas installieren?',
+        'Nein. Das System läuft im Browser und auf dem Handy. Keine App zum Laden, kein Techniker im Laden.',
+      ],
+      [
+        'Geht das auf dem Handy?',
+        'Ja. Baustelle, Foto der Öffnung und Angebot sind für das Handy gebaut.',
+      ],
+      [
+        'Kann ich so viele Angebote machen, wie ich will?',
+        'Ja. Es gibt keine Gebühr pro Angebot. Der Monatspreis ändert sich nicht mit der Menge.',
+      ],
+      [
+        'Gehören die Daten mir?',
+        'Ja. Sie exportieren alles, wann Sie wollen, ohne nachzufragen.',
+      ],
+      [
+        'Kann ich jederzeit kündigen?',
+        'Ja. Keine Laufzeit, kein Anruf — die Kündigung läuft über die Maske.',
+      ],
+      [
+        'Rechnet NeoGlass den Preis automatisch?',
+        'Es baut das Angebot aus Ihrer Liste. Quadratmeterpreis und Beschlag bleiben Ihre.',
+      ],
+      [
+        'Ersetzt NeoGlass meine heutige Auftragssteuerung?',
+        'Es bündelt Angebot, Auftrag, Fertigung und Lieferung in einem Fluss. Sie hören auf, dieselbe Information in Werkzeugen zu verstreuen, die nicht miteinander sprechen.',
+      ],
     ],
   },
 

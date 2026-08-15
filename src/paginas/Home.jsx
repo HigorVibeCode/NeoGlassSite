@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import Telas from '../components/Telas.jsx'
-import { Revelar } from '../components/Comum.jsx'
+import Fluxo from '../components/Fluxo.jsx'
+import { Revelar, Secao } from '../components/Comum.jsx'
 import { gravarLado, lerLado } from '../lib/lado.js'
 import { caminhoDe } from '../lib/paginasSeo.js'
 import { evento } from '../lib/rastreio.js'
@@ -159,121 +159,137 @@ export default function Home({ rota }) {
   }
 
   return (
-    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-16 pt-[104px] sm:px-8">
-      {/* ── 1º: a promessa ─────────────────────────────────────────────── */}
-      <div className="mx-auto max-w-[900px] text-center">
-        <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-verde" aria-hidden="true" />
-          <span className="cota normal-case">{t.etiqueta}</span>
-        </p>
+    <>
+      <Revelar as="section" className="secao faixa pt-[104px]">
+        <div className="coluna">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-verde" aria-hidden="true" />
+            <span className="cota normal-case">{t.etiqueta}</span>
+          </p>
 
-        <h1 className="display mx-auto mt-6 max-w-[15ch] text-[clamp(36px,6.2vw,74px)] leading-[1]">
-          {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
-        </h1>
-      </div>
+          <h1 className="titulo-hero mt-6">
+            {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
+          </h1>
 
-      <p className="mx-auto mt-6 max-w-[52ch] text-center text-[17px] leading-[1.55] text-dim">
-        {t.texto}
-      </p>
+          <p className="texto-secao mt-6">{t.texto}</p>
 
-      {/* ── 2º: as duas portas ─────────────────────────────────────────── */}
-      <div className="mx-auto mt-11 grid max-w-[900px] gap-4 sm:grid-cols-2 sm:gap-5">
-        {t.portas.map((porta) => {
-          const lado = LADOS[porta.id]
-          const Icone = ICONES[porta.id]
-          return (
-            <a
-              key={porta.id}
-              href={caminhoDe(porta.id, idioma)}
-              onClick={escolher(porta.id)}
-              className="group relative flex flex-col overflow-hidden rounded-[22px] border-2 bg-card px-6 pb-7 pt-9 text-center transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-30px_rgba(20,55,80,.45)] sm:px-8 sm:pb-9 sm:pt-11"
-              style={{ borderColor: 'var(--line, #e4e9ee)' }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = lado.cor)}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
-            >
-              {/* a tarja de cor no topo: é ela que dá identidade ao cartão
-                  antes de o visitante ler qualquer palavra */}
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-[5px]"
-                style={{ background: lado.cor }}
-              />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                style={{ background: lado.claro }}
-              />
+          <p id="portas" className="pergunta mt-12 scroll-mt-[124px]">
+            {t.escolha}
+          </p>
 
-              <span
-                className="relative mx-auto flex h-[82px] w-[82px] items-center justify-center rounded-[22px] p-3.5 transition-transform duration-200 group-hover:scale-105"
-                style={{ background: lado.claro }}
-              >
-                <Icone cor={lado.cor} />
-              </span>
-
-              <h2 className="display relative mt-5 text-[clamp(22px,2.6vw,30px)] leading-[1.12]">
-                {porta.rotulo}
-              </h2>
-              <p className="relative mx-auto mt-2.5 max-w-[32ch] text-[15px] leading-[1.5] text-dim">
-                {porta.texto}
-              </p>
-
-              <span
-                className="relative mx-auto mt-auto inline-flex items-center gap-2 pt-6 text-[15px] font-extrabold"
-                style={{ color: lado.cor }}
-              >
-                {porta.acao}
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                  aria-hidden="true"
+          <div className="mt-6 grid gap-4">
+            {t.portas.map((porta) => {
+              const lado = LADOS[porta.id]
+              const Icone = ICONES[porta.id]
+              return (
+                <a
+                  key={porta.id}
+                  href={caminhoDe(porta.id, idioma)}
+                  onClick={escolher(porta.id)}
+                  className="cartao group relative flex min-h-[88px] flex-col overflow-hidden px-6 py-8 text-center"
+                  style={{ borderWidth: 2, borderColor: 'var(--line, #e4e9ee)' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = lado.cor)}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
                 >
-                  <path
-                    d="M5 12h13m-5-6l6 6-6 6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </a>
-          )
-        })}
-      </div>
-
-      {/* A terceira saída. Existe porque a pesquisa é clara: obrigado a escolher
-          entre duas caixas, quem não se reconhece em nenhuma vai embora. */}
-      <p className="mt-7 text-center">
-        <a
-          href={caminhoDe('plataforma', idioma)}
-          onClick={(e) => {
-            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
-            e.preventDefault()
-            evento('porta', { lado: 'duvida', idioma })
-            rota.ir('plataforma')
-          }}
-          className="text-[14.5px] font-semibold text-dim underline decoration-line underline-offset-4 transition-colors hover:text-ink"
-        >
-          {t.duvida}
-        </a>
-      </p>
-
-      {/* ── 3º: o produto, ao fundo ────────────────────────────────────── */}
-      <div className="relative mt-14 sm:mt-16">
-        <p className="cota mb-5 text-center uppercase">{t.painel}</p>
-        {/* Inclinado e um pouco menor: o desenho fica presente sem disputar com
-            as portas. Quem quiser olhar de perto tem os três nomes embaixo. */}
-        <div className="flex justify-center">
-          <div
-            className="w-full max-w-[560px] origin-top"
-            style={{ transform: 'perspective(1600px) rotateX(7deg)' }}
-          >
-            <Telas variantes={['pedidos', 'corte', 'design']} />
+                  <span aria-hidden="true" className="absolute inset-x-0 top-0 h-[5px]" style={{ background: lado.cor }} />
+                  <span
+                    className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-[16px] p-2.5"
+                    style={{ background: lado.claro }}
+                  >
+                    <Icone cor={lado.cor} />
+                  </span>
+                  <h2 className="titulo-bloco relative mt-4">{porta.rotulo}</h2>
+                  <p className="texto-bloco relative mx-auto mt-2 max-w-[32ch]">{porta.texto}</p>
+                  <span
+                    className="relative mx-auto mt-5 inline-flex items-center gap-2 text-[16px] font-extrabold"
+                    style={{ color: lado.cor }}
+                  >
+                    {porta.acao}
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                      <path
+                        d="M5 12h13m-5-6l6 6-6 6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </a>
+              )
+            })}
           </div>
+
+          <a
+            href={caminhoDe('plataforma', idioma)}
+            onClick={(e) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+              e.preventDefault()
+              evento('porta', { lado: 'duvida', idioma })
+              rota.ir('plataforma')
+            }}
+            className="botao-fantasma mt-4 w-full"
+          >
+            {t.duvida}
+          </a>
         </div>
-      </div>
-    </Revelar>
+      </Revelar>
+
+      <Fluxo titulo={t.fluxo.titulo} texto={t.fluxo.texto} rotulo={t.fluxo.rotulo} />
+
+      <Secao rotulo={t.problema.rotulo} titulo={t.problema.titulo}>
+        <ul className="mt-8 grid gap-2">
+          {t.problema.itens.map((item) => (
+            <li key={item} className="cartao px-5 py-3 text-[16px] font-semibold text-dim">
+              {item}
+            </li>
+          ))}
+        </ul>
+        <p className="cota mt-8 uppercase" style={{ color: '#0e8c6a', opacity: 1 }}>
+          {t.problema.depoisTitulo}
+        </p>
+        <ul className="mt-3 grid gap-2">
+          {t.problema.depois.map((item) => (
+            <li
+              key={item}
+              className="rounded-[20px] px-5 py-3 text-[16px] font-extrabold text-verde"
+              style={{ background: 'rgba(14,140,106,.1)' }}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </Secao>
+
+      <Secao rotulo={t.diferencial.rotulo} titulo={t.diferencial.titulo} texto={t.diferencial.texto} />
+
+      <Secao rotulo={t.prova.rotulo} titulo={t.prova.titulo}>
+        <ul className="mt-10 grid gap-3">
+          {t.prova.itens.map(([titulo, texto]) => (
+            <li key={titulo} className="cartao px-6 py-6">
+              <p className="titulo-bloco">{titulo}</p>
+              <p className="texto-bloco mx-auto mt-2 max-w-[36ch]">{texto}</p>
+            </li>
+          ))}
+        </ul>
+      </Secao>
+
+      <Secao titulo={t.chamada.titulo}>
+        <div className="mt-8 grid gap-3">
+          <a href={caminhoDe('vidracaria', idioma)} onClick={escolher('vidracaria')} className="botao-marca w-full">
+            {t.chamada.vidracaria}
+          </a>
+          <a
+            href={caminhoDe('industria', idioma)}
+            onClick={escolher('industria')}
+            className="botao-fantasma w-full"
+            style={{ borderColor: '#0e7b9c', color: '#0e7b9c' }}
+          >
+            {t.chamada.industria}
+          </a>
+        </div>
+      </Secao>
+    </>
   )
 }

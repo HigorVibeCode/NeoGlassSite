@@ -19,8 +19,40 @@ export default {
       acao: 'Wie es für meine Fabrik funktioniert',
     },
   ],
-  painel: 'Ein Blick ins System',
+  escolha: 'Was ist Ihr Betrieb?',
   duvida: 'Ich habe noch Fragen',
+  fluxo: {
+    rotulo: 'Ein Auftrag, ein Fluss',
+    titulo: 'Ein Auftrag. Eine Information. Der ganze Betrieb.',
+    texto: 'Derselbe Auftrag begleitet den Betrieb vom Angebot bis zur Fertigung, von der Fertigung bis zur Lieferung.',
+  },
+  problema: {
+    rotulo: 'Das Problem',
+    titulo: 'Ihr Problem ist nicht die fehlende Tabelle. Es sind verstreute Informationen.',
+    itens: ['WhatsApp', 'Excel', 'PDF', 'Notizbuch', 'Telefon', 'Nachrichten', 'gedruckte Aufträge'],
+    depoisTitulo: 'NeoGlass',
+    depois: ['Ein Auftrag', 'Eine Information', 'Ein Fluss'],
+  },
+  diferencial: {
+    rotulo: 'Der Unterschied',
+    titulo: 'Für alle gemacht, die mit Glas arbeiten. Nicht dafür umgebaut.',
+    texto:
+      'NeoGlass entstand um den Glasbetrieb: Aufmaß, Entwurf, Zuschnitt, Reststücke, Fertigung, Lieferung und Marge.',
+  },
+  prova: {
+    rotulo: 'Warum darauf vertrauen',
+    titulo: 'In der Fertigung entstanden. Im Einsatz. In der Schweiz.',
+    itens: [
+      ['In der Schweiz entwickelt', 'Wo Termin und Winkel nicht verhandelbar sind.'],
+      ['Im Glasbetrieb entstanden', 'Keine Maske kam aus einer Agentursitzung.'],
+      ['Im Einsatz', 'Betriebe schneiden und liefern heute damit.'],
+    ],
+  },
+  chamada: {
+    titulo: 'Sehen Sie, was NeoGlass in Ihrem Betrieb ändert.',
+    vidracaria: 'Ich habe eine Glaserei →',
+    industria: 'Ich habe eine Fabrik →',
+  },
   lembrete: {
     vidracaria: 'Sie sehen die Version für Glasereien.',
     industria: 'Sie sehen die Version für Glasfabriken.',

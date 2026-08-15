@@ -86,6 +86,10 @@ export default {
     // na indústria e na Glaserei, por isso fica no tronco comum e não nos
     // módulos de área. Ver Contraste.jsx.
     comNeoGlass: 'Mit NeoGlass',
+    escolherPerfil: 'Mein Profil wählen',
+    escolherPerfilCurto: 'Profil',
+    solicitarDemo: 'Vorführung anfragen',
+    solicitarDemoCurto: 'Demo',
   },
 
   agenda: {
@@ -110,7 +114,9 @@ export default {
        Besprechung"). Agora fala de quem o escreveu, que é o argumento que
        nenhum concorrente copia. "Jahrzehnte im Glas" é como o setor fala de
        si mesmo em alemão — mais curto e mais do ramo que "in der Branche". */
-    titulo: 'Entstanden in einer Glasfabrik, geschrieben von Leuten mit Jahrzehnten im Glas.',
+    titulo: 'Nicht in einer Softwareagentur entstanden. Entstanden in der Fertigung.',
+    texto:
+      'Gebaut von Leuten, die Zuschnitt, Veredelung, Fertigung, Lieferung und die Probleme in der Halle kennen.',
     fatos: [
       [
         'In der Schweiz entwickelt',

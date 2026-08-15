@@ -31,9 +31,40 @@ export default {
       acao: 'Ver como funciona para minha fábrica',
     },
   ],
-  painel: 'O sistema por dentro',
+  escolha: 'Qual é o seu negócio?',
   duvida: 'Ainda tenho dúvidas',
-  // A tarja que aparece quando o site lembra o lado escolhido.
+  fluxo: {
+    rotulo: 'O pedido em um só fluxo',
+    titulo: 'Um pedido. Uma informação. Toda a operação.',
+    texto: 'O mesmo pedido acompanha a empresa do orçamento à produção, da produção à entrega.',
+  },
+  problema: {
+    rotulo: 'O problema',
+    titulo: 'Seu problema não é falta de planilha. É informação espalhada.',
+    itens: ['WhatsApp', 'Excel', 'PDF', 'caderno', 'telefone', 'mensagens', 'ordens impressas'],
+    depoisTitulo: 'NeoGlass',
+    depois: ['Um pedido', 'Uma informação', 'Um fluxo'],
+  },
+  diferencial: {
+    rotulo: 'O diferencial',
+    titulo: 'Feito para quem trabalha com vidro. Não adaptado para isso.',
+    texto:
+      'A NeoGlass foi construída em torno da operação do vidro: medidas, projetos, corte, retalhos, produção, entrega e margem.',
+  },
+  prova: {
+    rotulo: 'Por que confiar',
+    titulo: 'Construído na operação. Em produção. Na Suíça.',
+    itens: [
+      ['Desenvolvido na Suíça', 'Onde prazo e esquadro não são negociáveis.'],
+      ['Nasceu na operação de vidro', 'Nenhuma tela veio de reunião de agência.'],
+      ['Em produção', 'Fábricas cortam e entregam com ele hoje.'],
+    ],
+  },
+  chamada: {
+    titulo: 'Veja o que a NeoGlass muda na sua operação.',
+    vidracaria: 'Tenho uma vidraçaria →',
+    industria: 'Tenho uma fábrica →',
+  },
   lembrete: {
     vidracaria: 'Você está vendo a versão para vidraçaria.',
     industria: 'Você está vendo a versão para fábrica de vidro.',

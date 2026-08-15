@@ -414,7 +414,6 @@ export default {
       montagem: {
         rotulo: 'Test the opening',
         sub: 'Sliding window · 4 panels',
-        etapas: ['Fitting the profiles', 'Setting the glass', 'Adding the hardware'],
       },
     },
   },

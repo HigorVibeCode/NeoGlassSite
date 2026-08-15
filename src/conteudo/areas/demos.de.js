@@ -419,7 +419,6 @@ export default {
       montagem: {
         rotulo: 'Öffnung testen',
         sub: 'Schiebefenster · 4 Flügel',
-        etapas: ['Profile einbauen', 'Gläser einsetzen', 'Beschläge montieren'],
       },
     },
   },

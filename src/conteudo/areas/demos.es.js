@@ -413,7 +413,6 @@ export default {
       montagem: {
         rotulo: 'Probar la apertura',
         sub: 'Ventana corredera · 4 hojas',
-        etapas: ['Instalando los perfiles', 'Fijando los vidrios', 'Colocando los herrajes'],
       },
     },
   },

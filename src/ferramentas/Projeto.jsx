@@ -46,20 +46,18 @@ const BEATS = { dedo: 620, toque: 1560, confirma: 2650 }
 const MONTAGEM = 7000 // a janela sendo construída, e então aberta
 const TOTAL = ABRINDO + ATO * 4 + MONTAGEM
 
-/* A janela NASCE, em vez de aparecer pronta. Cada família de peça chega no seu
-   tempo, vindo de longe: primeiro os perfis, depois os vidros, por último as
-   ferragens. Era isto que faltava — uma barra de carregamento não constrói
-   nada, e a janela brotava na tela sem nada explicando de onde tinha vindo.
+/* A montagem: a janela aparece pronta, as peças se afastam, seguram um
+   instante e voltam a se encaixar. Depois ela abre.
 
-   E some a vista explodida separada: montar é a mesma informação, na ordem
-   certa. Explodir uma coisa pronta é dissecar; vê-la nascer é ver fabricar. */
-const CHEGADA = [
-  { chave: 'alu', em: 400, dur: 950 },
-  { chave: 'vid', em: 1500, dur: 950 },
-  { chave: 'fer', em: 2600, dur: 950 },
-]
-const ABRE_EM = 4500
-const ABRE_DUR = 1900
+   Cheguei a trocar isto por uma construção em etapas, com legenda a cada
+   família de peça. O dono não gostou e mandou voltar — o que ele queria era só
+   uma expansão um pouco maior. Fica registrado para não se tentar de novo. */
+const EXPLODE_EM = 700
+const EXPLODE_DUR = 1500
+const VOLTA_EM = 3100
+const VOLTA_DUR = 1400
+const ABRE_EM = 5000
+const ABRE_DUR = 1800
 
 /* A mesma curva que a plataforma usa em `AnimacaoAbertura.jsx`. Sem ela, a
    janela SALTAVA de fechada para aberta e de montada para explodida: os dois
@@ -262,10 +260,9 @@ const FOLHAS = [
 ]
 
 /* Constrói a lista de faces do quadro atual. `fase` é 0 fechado / 1 aberto e
-   `sep` diz, para cada família de peça, o quanto ela ainda está longe do lugar:
-   1 = ainda vindo, 0 = encaixada. Elas viajam pelo MESMO eixo z do desenho, e é
-   por isso que a chegada se lê como montagem em vez de peças voando. */
-function facesDoVao(fase, sep) {
+   `separa` é 0 montado / 1 explodido. As camadas se afastam ao longo do MESMO
+   eixo z do desenho — é por isso que a explosão se lê. */
+function facesDoVao(fase, separa) {
   const { L, A } = VAO3D
   const cxw = L / 2
   const cyw = A / 2
@@ -329,13 +326,12 @@ function facesDoVao(fase, sep) {
   }
 
   // ── as paredes do nicho: piso, teto e as duas laterais ─────────────────
-  /* As paredes NÃO se mexem. Elas são o vão — a obra já está lá quando o
-     vidraceiro chega. Antes elas recuavam junto com o resto e a cena inteira
-     parecia explodir; agora só a janela se monta, dentro de um vão parado. */
-  addBox(-E, L + E, -E, 0, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
-  addBox(-E, L + E, A, A + E, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
-  addBox(-E, 0, 0, A, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
-  addBox(L, L + E, 0, A, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
+  const recuo = separa * 430
+  const pd = (v) => v - recuo
+  addBox(-E, L + E, -E, 0, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(-E, L + E, A, A + E, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(-E, 0, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(L, L + E, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
 
   /* ── o alumínio: trilho superior, soleira e os dois montantes ──────────
      Faltava, e faz falta: sem o marco, o vidro parecia flutuar dentro de um
@@ -346,7 +342,7 @@ function facesDoVao(fase, sep) {
      (z = 0) e o outro as móveis (z = 34). São as duas cordinhas na soleira, e
      é por elas que se entende de cara por que uma folha passa na frente da
      outra. */
-  const alu = -sep.alu * 320
+  const alu = -separa * 260
   const z1a = -12 + alu
   const z2a = 54 + alu
   addBox(0, L, A - TRILHO, A, z1a, z2a, COR.aluF, COR.aluL) // trilho superior · 55
@@ -364,7 +360,7 @@ function facesDoVao(fase, sep) {
   for (const f of FOLHAS) {
     // explodida, a fixa recua e a móvel avança: elas se separam no eixo em que
     // já correm de verdade
-    const zb = f.z + sep.vid * (f.papel === 'fixa' ? -190 : 300)
+    const zb = f.z + separa * (f.papel === 'fixa' ? -110 : 235)
     const x1 = VIDRO_X0 + f.i * FOLHA
     const x2 = x1 + FOLHA
     const desloca = f.dir * fase * CURSO
@@ -384,7 +380,7 @@ function facesDoVao(fase, sep) {
     )
 
     if (f.papel === 'movel') {
-      const zf = zb + sep.fer * 300
+      const zf = zb + separa * 265
       /* As roldanas correm DENTRO do trilho — é lá que elas rodam. Por isso
          ficam a 18 mm do topo da folha, o que as põe dentro da faixa dos 55 mm
          do perfil, e não abaixo dela.
@@ -412,7 +408,7 @@ function facesDoVao(fase, sep) {
   // enquadramento estável: os cantos do cenário, não do quadro corrente — sem
   // isto a caixa "pula" de tamanho quando as folhas correm
   const ext = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity }
-  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 360, DEPTH + 620]) {
+  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 440, DEPTH + 520]) {
     const p = proj(x, y, z)
     ext.minX = Math.min(ext.minX, p[0]); ext.maxX = Math.max(ext.maxX, p[0])
     ext.minY = Math.min(ext.minY, p[1]); ext.maxY = Math.max(ext.maxY, p[1])
@@ -424,10 +420,8 @@ function facesDoVao(fase, sep) {
   }
 }
 
-const ZERO = { alu: 0, vid: 0, fer: 0 }
-
-function Perspectiva({ fase, sep }) {
-  const { faces, vb } = facesDoVao(fase, sep)
+function Perspectiva({ fase, separa }) {
+  const { faces, vb } = facesDoVao(fase, separa)
   return (
     <svg viewBox={vb} className="mx-auto h-full w-full" aria-hidden="true">
       {faces.map((f, i) => (
@@ -519,11 +513,10 @@ export default function Projeto({ acao }) {
   // quantos algarismos já foram digitados em cada campo, e qual está em foco
   const [digitos, setDigitos] = useState({ l: 0, a: 0 })
   const [foco, setFoco] = useState(null)
-  const [etapa, setEtapa] = useState(-1) // qual peça está sendo instalada
   const palco = useRef(null)
   const [dedoEm, setDedoEm] = useState({ x: 50, y: 46 })
   // 0 montada .. 1 explodida  ·  0 fechada .. 1 aberta — números, não bandeiras
-  const [sep, setSep] = useState({ alu: 1, vid: 1, fer: 1 })
+  const [separa, setSepara] = useState(0)
   const [fase, setFase] = useState(0)
   const relogios = useRef([])
   const quadros = useRef([])
@@ -554,17 +547,16 @@ export default function Projeto({ acao }) {
     parar()
     evento('demo', { qual: 'projeto' })
     window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: false } }))
-    setSep({ alu: 1, vid: 1, fer: 1 })
+    setSepara(0)
     setFase(0)
     setDigitos({ l: 0, a: 0 })
     setFoco(null)
-    setEtapa(-1)
 
     // Quem pediu menos movimento recebe o desfecho, parado. Não é versão
     // pobre: é o quadro que a sequência inteira existe para entregar.
     if (semMovimento()) {
       setAto('fim')
-      setSep({ alu: 0, vid: 0, fer: 0 })
+      setSepara(0)
       setFase(1)
       window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
       return
@@ -574,6 +566,9 @@ export default function Projeto({ acao }) {
     // assistente aparecia do nada, e o visitante não tinha como saber de onde
     // ela saiu — era um corte seco logo depois do clique.
     setAto('abrindo')
+    setBeat('entra')
+    marcar(320, () => setBeat('dedo'))
+    marcar(1050, () => setBeat('toque'))
 
     PASSOS.forEach((passo, i) => {
       const base = ABRINDO + ATO * i
@@ -604,14 +599,9 @@ export default function Projeto({ acao }) {
 
     const fim = ABRINDO + ATO * 4
     marcar(fim, () => setAto('montagem'))
-    // cada família de peça vem de longe e se encaixa, uma depois da outra
-    CHEGADA.forEach(({ chave, em, dur }, i) => {
-      marcar(fim + em, () => {
-        setEtapa(i)
-        percorrer((v) => setSep((atual) => ({ ...atual, [chave]: v })), 1, 0, dur)
-      })
-    })
-    marcar(fim + 3700, () => setEtapa(3)) // montada: a legenda sai
+    // as peças se afastam, seguram um instante, e voltam a se encaixar
+    marcar(fim + EXPLODE_EM, () => percorrer(setSepara, 0, 1, EXPLODE_DUR))
+    marcar(fim + VOLTA_EM, () => percorrer(setSepara, 1, 0, VOLTA_DUR))
     // e então a janela abre, no mesmo compasso do sistema
     marcar(fim + ABRE_EM, () => percorrer(setFase, 0, 1, ABRE_DUR))
     marcar(TOTAL, () => {
@@ -633,7 +623,9 @@ export default function Projeto({ acao }) {
      fica em branco. Aconteceu. */
   const noAssistente = PASSOS.includes(ato)
   const confirmando = beat === 'confirma'
-  const mira = confirmando
+  const mira = ato === 'abrindo'
+    ? 'abrir'
+    : confirmando
     ? 'confirmar'
     : ato === 'medida'
       ? foco === 'a'
@@ -645,7 +637,7 @@ export default function Projeto({ acao }) {
      (`requestAnimationFrame`) porque o elemento do passo novo ainda não existe
      no instante em que o ato troca. */
   useEffect(() => {
-    if (!noAssistente) return
+    if (!noAssistente && ato !== 'abrindo') return
     let vivo = true
     const medir = () => {
       if (!vivo || !palco.current) return
@@ -681,22 +673,43 @@ export default function Projeto({ acao }) {
       <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_40px_80px_-50px_rgba(20,55,80,.5)]">
         <div ref={palco} className="demo-palco palco-app relative">
           {/* ── a abertura ────────────────────────────────────────────────
-              A primeira versão desta parte mostrava a tela do app inteira —
-              cabeçalho, quatro botões, prancheta vazia — antes de qualquer
-              coisa acontecer. Ficou ruim, e por um motivo simples: era uma
-              SEGUNDA interface para o visitante decifrar antes da que
-              interessa, e ele ainda nem sabia o que estava vendo.
+              Duas tentativas anteriores morreram aqui. A primeira mostrava a
+              tela do app inteira — cabeçalho, quatro botões, prancheta vazia —
+              e era uma SEGUNDA interface para decifrar antes da que interessa.
+              A segunda mostrava a marca acendendo, que é bonito e não diz nada.
 
-              O que ficou é o mínimo: o fundo escuro do sistema, a marca
-              acendendo no meio, e a folha do assistente subindo por cima. Não
-              há nada para ler — só a sensação de que algo abriu. */}
+              Esta diz: um botão "Adicionar vão", o cursor vai até ele e clica.
+              Em dois segundos o visitante entende de onde a folha saiu, e a
+              gramática do toque já começa aqui — é a mesma dos quatro passos
+              seguintes. */}
           {(ato === 'abrindo' || noAssistente) && (
-            <div className="absolute inset-0 flex items-center justify-center bg-[#111a33]">
-              <span className="marca-acende block h-14 w-14 opacity-90">
-                <Simbolo />
+            <div className="absolute inset-0 flex items-center justify-center bg-soft/40">
+              <span
+                data-alvo="abrir"
+                className="inline-flex items-center gap-2.5 rounded-[14px] px-6 py-3.5 text-[15px] font-bold text-white transition-transform duration-200"
+                style={{
+                  background: AZUL,
+                  boxShadow: '0 14px 30px -14px rgba(61,81,214,.7)',
+                  transform: ato === 'abrindo' && beat === 'toque' ? 'scale(.95)' : 'none',
+                }}
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+                  <path
+                    d="M12 5v14M5 12h14"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                {t.titulo}
               </span>
             </div>
           )}
+
+          {/* o cursor existe desde a abertura: ele clica no botão e só então a
+              folha sobe */}
+          {ato === 'abrindo' && <Dedo em={dedoEm} tocando={beat === 'toque'} />}
 
           {/* ── a folha do assistente, subindo por cima ──────────────────── */}
           {noAssistente && (
@@ -821,17 +834,8 @@ export default function Projeto({ acao }) {
                 </b>
                 <b className="text-[12px] font-semibold text-white/55">{t.passos.montagem.sub}</b>
               </p>
-              {/* A etapa que está acontecendo, e nada mais. Some quando a
-                  janela fica pronta, para o quadro final ficar limpo. */}
-              <p className="mt-1 h-[16px] font-mono text-[11.5px] font-semibold text-[#8fb6ff]">
-                {etapa >= 0 && etapa < 3 && (
-                  <span key={etapa} className="sobe inline-block">
-                    {t.passos.montagem.etapas[etapa]}
-                  </span>
-                )}
-              </p>
               <div className="flex flex-1 items-center">
-                <Perspectiva fase={fase} sep={sep} />
+                <Perspectiva fase={fase} separa={separa} />
               </div>
             </div>
           )}
@@ -840,7 +844,7 @@ export default function Projeto({ acao }) {
           {ato === 'parado' && (
             <div className="flex h-full w-full items-center bg-[#111a33] px-5 sm:px-6">
               <div className="w-full opacity-60">
-                <Perspectiva fase={0} sep={ZERO} />
+                <Perspectiva fase={0} separa={0} />
               </div>
             </div>
           )}

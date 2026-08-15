@@ -436,7 +436,6 @@ export default {
       montagem: {
         rotulo: 'Testar abertura',
         sub: 'Janela de correr · 4 folhas',
-        etapas: ['Instalando os perfis', 'Fixando os vidros', 'Colocando as ferragens'],
       },
     },
   },

@@ -535,13 +535,15 @@ export const EVENTO_CTA = 'neoglass:cta-demo'
 export default function Projeto({ acao }) {
   const t = useTextos().demos.projeto
   const { idioma } = useIdioma()
-  // Só em real: nos outros idiomas o bloco de dinheiro não existe, e a
-  // demonstração termina no desenho. Converter preço de vidraçaria brasileira
-  // para euro seria inventar um mercado que não conhecemos.
+  // Cada idioma vê o orçamento na moeda e nos preços do mercado dele — os
+  // números vivem em `config.js`, com a fonte de cada linha escrita ao lado.
+  // O formato acompanha o idioma, não só a moeda: alemão escreve "1.909 €" e
+  // americano escreve "$1,909". A mesma regra do preço do software.
   const precos = simulacaoProjeto(idioma)
   const conta = precos ? orcar(precos) : null
+  const local = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }[idioma] ?? 'pt-BR'
   const emReais = (v) =>
-    v.toLocaleString('pt-BR', { style: 'currency', currency: moedaDe(idioma), maximumFractionDigits: 0 })
+    v.toLocaleString(local, { style: 'currency', currency: moedaDe(idioma), maximumFractionDigits: 0 })
   const [ato, setAto] = useState('parado')
   const [beat, setBeat] = useState('entra')
   // quantos algarismos já foram digitados em cada campo, e qual está em foco
@@ -881,7 +883,7 @@ export default function Projeto({ acao }) {
                 <div
                   className="w-full origin-top-left transition-transform duration-[900ms]"
                   style={{
-                    transform: ato === 'fim' ? 'translate(-2%, -8%) scale(.66)' : 'none',
+                    transform: ato === 'fim' ? 'translate(-1%, -5%) scale(.86)' : 'none',
                     transitionTimingFunction: 'cubic-bezier(.2,.7,.3,1)',
                   }}
                 >
@@ -895,16 +897,21 @@ export default function Projeto({ acao }) {
                      quantidades que o vidraceiro sabe conferir — os m² de
                      vidro e os metros de perfil — aparecem ao lado de cada
                      linha. Número sem origem declarada não entra neste site. */
-                  <div className="orca absolute bottom-0 right-0 w-[66%] max-w-[228px] overflow-hidden rounded-[12px] border border-white/12 bg-white/[0.07] px-3 py-2.5">
+                  /* A janela cresceu, então ela e o orçamento se encontram no
+                     mesmo canto. Em vez de fugir um do outro — o que só daria
+                     para fazer encolhendo os dois de novo —, o cartão assume
+                     que está POR CIMA: fundo sólido, sombra própria e z-20. É
+                     a mesma coisa que o sistema faz na tela de verdade. */
+                  <div className="orca absolute bottom-0 right-0 z-20 w-[74%] max-w-[268px] overflow-hidden rounded-[14px] border border-white/15 bg-[#0b1329]/[0.94] px-3.5 py-3 shadow-[0_18px_42px_-12px_rgba(0,0,0,.65)] backdrop-blur-[3px]">
                     <p className="flex items-baseline justify-between gap-2">
                       <span className="cota uppercase text-[#8fb6ff] opacity-100">
                         {t.orcamento.rotulo}
                       </span>
-                      <span className="font-mono text-[9px] text-white/35">
+                      <span className="font-mono text-[10px] text-white/35">
                         {VAO3D.L}×{VAO3D.A}
                       </span>
                     </p>
-                    <dl className="mt-1.5 grid gap-[3px]">
+                    <dl className="mt-2 grid gap-[4px]">
                       {[
                         [t.orcamento.linhas.vidro, `${AREA_VIDRO.toFixed(2).replace('.', ',')} m²`, conta.vidro],
                         [t.orcamento.linhas.aluminio, `${METROS_PERFIL.toFixed(2).replace('.', ',')} m`, conta.aluminio],
@@ -912,19 +919,19 @@ export default function Projeto({ acao }) {
                         [t.orcamento.linhas.obra, '', conta.obra],
                       ].map(([nome, qtd, valor]) => (
                         <div key={nome} className="flex items-baseline justify-between gap-2">
-                          <dt className="min-w-0 truncate text-[10px] text-white/50 sm:text-[10.5px]">
+                          <dt className="min-w-0 truncate text-[11.5px] text-white/55 sm:text-[12px]">
                             {nome}
-                            {qtd && <span className="ml-1 hidden font-mono text-[9px] text-white/30 min-[380px]:inline">{qtd}</span>}
+                            {qtd && <span className="ml-1 hidden font-mono text-[10px] text-white/30 min-[380px]:inline">{qtd}</span>}
                           </dt>
-                          <dd className="shrink-0 whitespace-nowrap font-mono text-[10px] text-white/80 sm:text-[10.5px]">
+                          <dd className="shrink-0 whitespace-nowrap font-mono text-[11.5px] text-white/85 sm:text-[12px]">
                             {emReais(valor)}
                           </dd>
                         </div>
                       ))}
                     </dl>
-                    <p className="mt-1.5 flex items-baseline justify-between gap-2 border-t border-white/12 pt-1.5">
-                      <span className="text-[10.5px] font-bold text-white/70">{t.orcamento.total}</span>
-                      <b className="display text-[17px] leading-none text-white">
+                    <p className="mt-2 flex items-baseline justify-between gap-2 border-t border-white/15 pt-2">
+                      <span className="text-[11.5px] font-bold text-white/70">{t.orcamento.total}</span>
+                      <b className="display text-[21px] leading-none text-white sm:text-[23px]">
                         {emReais(conta.total)}
                       </b>
                     </p>

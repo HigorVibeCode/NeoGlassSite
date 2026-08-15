@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import Telas from '../components/Telas.jsx'
 import { Revelar } from '../components/Comum.jsx'
 import { gravarLado, lerLado } from '../lib/lado.js'
 import { caminhoDe } from '../lib/paginasSeo.js'
@@ -219,18 +218,11 @@ export default function Home({ rota }) {
         </a>
       </p>
 
-      {/* ── 3º: o produto, menor e ao fundo ────────────────────────────── */}
-      <div className="mt-12 sm:mt-16">
-        <p className="cota mb-4 text-center uppercase">{t.painel}</p>
-        <div className="flex justify-center">
-          <div
-            className="w-full max-w-[440px] origin-top"
-            style={{ transform: 'perspective(1600px) rotateX(7deg)' }}
-          >
-            <Telas variantes={['pedidos', 'corte', 'design']} />
-          </div>
-        </div>
-      </div>
+      {/* O leque de telas saiu daqui e foi para a Plataforma, a pedido do dono.
+          A home é uma bifurcação: ela pergunta quem é a pessoa e manda para o
+          lado certo. Mostrar o produto antes de saber isso é responder uma
+          pergunta que ninguém fez — e a Plataforma é justamente a página de
+          quem clicou em "ainda tenho dúvidas". */}
     </Revelar>
   )
 }

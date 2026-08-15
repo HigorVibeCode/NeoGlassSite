@@ -89,9 +89,11 @@ export default function Vidracaria() {
         id="prova"
         className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24"
       >
+        {/* Só o título. A linha explicativa saiu a pedido do dono: a animação
+            logo abaixo mostra exatamente o que ela dizia, e dizer antes de
+            mostrar só atrasa o que interessa. */}
         <div className="mx-auto mt-8 max-w-[50ch] text-center">
           <h2 className="display text-[clamp(26px,3.8vw,44px)] leading-[1.08]">{t.prova.titulo}</h2>
-          <p className="mt-5 text-[16.5px] leading-[1.55] text-dim">{t.prova.texto}</p>
         </div>
 
         {/* A demonstração. Aqui a tela parada não bastava: a promessa da página

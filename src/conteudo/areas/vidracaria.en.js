@@ -29,7 +29,6 @@ export default {
   prova: {
     rotulo: 'The proof',
     titulo: 'Standardised projects in under a minute.',
-    texto: 'You pick the type of part and the measurements. The project comes out finished, to standard, for the customer to see before any glass is cut.',
     legendas: ['The project in 3D, for the customer to rotate on screen', 'Hardware on and off in the same drawing', 'The same project becomes a quote and an order'],
   },
 

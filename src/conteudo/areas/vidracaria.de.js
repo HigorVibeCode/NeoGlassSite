@@ -38,7 +38,6 @@ export default {
   prova: {
     rotulo: 'Der Beweis',
     titulo: 'Standardisierte Projekte in unter einer Minute.',
-    texto: 'Sie wählen die Art des Teils und die Maße. Das Projekt kommt fertig heraus, im Standard, damit der Kunde es sieht, bevor Glas geschnitten wird.',
     legendas: ['Das Projekt in 3D, zum Drehen auf dem Bildschirm', 'Beschläge im selben Bild ein- und ausblenden', 'Aus demselben Projekt werden Angebot und Auftrag'],
   },
 

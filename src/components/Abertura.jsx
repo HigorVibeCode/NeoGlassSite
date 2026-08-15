@@ -146,7 +146,12 @@ export default function Abertura({
           </dl>
         </div>
 
-        <div className={`flex min-w-0 flex-col gap-3 ${centro ? 'w-full items-center' : 'items-start lg:items-center'}`}>
+        {/* `overflow-x-clip` aqui pelo mesmo motivo do modo centralizado: as
+            cartas de trás do leque ficam deslocadas 26 px para a direita cada
+            uma, e no celular esses pixels viravam rolagem horizontal na página
+            inteira. Elas são enfeite — podem ser aparadas na borda; a página
+            balançando de lado, não. */}
+        <div className={`flex min-w-0 flex-col gap-3 overflow-x-clip ${centro ? 'w-full items-center' : 'items-start lg:items-center'}`}>
           <p className="cota flex items-center gap-2 uppercase">
             <i
               aria-hidden="true"

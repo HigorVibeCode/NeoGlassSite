@@ -31,7 +31,6 @@ export default {
   prova: {
     rotulo: 'La prueba',
     titulo: 'Proyectos estandarizados en menos de 1 minuto.',
-    texto: 'Eliges el tipo de pieza y las medidas. El proyecto sale listo, en el estándar, para que el cliente lo vea antes de cortar vidrio.',
     legendas: ['El proyecto en 3D, para que el cliente lo gire en pantalla', 'Herrajes activados y desactivados en el mismo dibujo', 'El mismo proyecto se convierte en presupuesto y pedido'],
   },
 

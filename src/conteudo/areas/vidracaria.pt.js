@@ -26,7 +26,6 @@ export default {
   prova: {
     rotulo: 'A prova',
     titulo: 'Projetos padronizados em menos de 1 minuto.',
-    texto: 'Você escolhe o tipo de peça e as medidas. O projeto sai pronto, no padrão, para o cliente ver antes de qualquer vidro ser cortado.',
     legendas: ['O projeto em 3D, para o cliente girar na tela', 'Ferragens ligadas e desligadas no mesmo desenho', 'O mesmo projeto vira orçamento e pedido'],
   },
 

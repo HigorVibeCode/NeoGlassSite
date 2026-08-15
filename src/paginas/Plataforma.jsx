@@ -14,8 +14,15 @@ export default function Plataforma() {
 
   return (
     <>
+      {/* O leque de telas veio da home, a pedido do dono. Ele estava lá embaixo
+          de uma bifurcação — antes de a pessoa ter dito quem é. Aqui ele chega
+          na hora certa: esta é a página de quem clicou em "ainda tenho
+          dúvidas", e a primeira dúvida é "isso existe mesmo?". Três telas de
+          verdade, trocando sozinhas, respondem isso antes de qualquer frase.
+          Entra no lugar da tela parada de pedidos — que é a primeira do leque,
+          então nada se perdeu. */}
       <Abertura
-        tela="pedidos"
+        telas={['pedidos', 'corte', 'design']}
         rotulo={t.hero.rotulo}
         folha="FL. 01/08"
         origem="abertura-plataforma"

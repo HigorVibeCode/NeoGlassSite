@@ -99,9 +99,20 @@ export const CONFIG = {
        mão — a área de vidro e os metros de perfil saem da geometria da própria
        janela, então mexer numa medida corrige o orçamento sozinho.
 
-       Só existem em real. Converter preço de vidraçaria brasileira para euro
-       seria inventar um mercado que não conhecemos: nos outros idiomas o bloco
-       de dinheiro simplesmente não aparece — a mesma regra da chapa de R$ 80. */
+       O euro e o dólar NÃO são o real convertido — isso seria inventar um
+       mercado. Cada linha foi buscada no mercado dela, e a origem está escrita
+       ao lado. Onde não achei fonte publicada (perfil de alumínio por metro, e
+       o kit de ferragem na Europa), está marcado ESTIMATIVA: são as duas
+       únicas linhas para o Higor conferir com um fornecedor de lá.
+
+       Consultado em 15/08/2026. Fontes:
+         · ESG 8 mm na Alemanha: glaserei.org, média 165 €/m² (faixa 135–190);
+           daibau.at, ESG 80–240 €/m²  →  adotado 150 €/m²
+         · vidro temperado nos EUA: mannleecw.com, US$ 15–20 por pé quadrado
+           (US$ 161–215/m²)  →  adotado US$ 170/m²
+         · montagem de porta/janela de correr: daibau.at ~600 €/peça;
+           homeguide.com US$ 300–600 de mão de obra por porta (4 a 6 h)
+         · kit de ferragem nos EUA: slidup.com, US$ 192–226 o jogo completo */
     simulacao: {
       BRL: {
         vidro: 300, // por m²
@@ -109,8 +120,18 @@ export const CONFIG = {
         ferragem: 70, // o jogo de roldanas, puxadores e trinco
         obra: 700, // mão de obra e instalação
       },
-      EUR: null,
-      USD: null,
+      EUR: {
+        vidro: 150, // ESG 8 mm por m²
+        aluminio: 32, // ESTIMATIVA — perfil de correr por metro
+        ferragem: 180, // ESTIMATIVA — jogo completo
+        obra: 600, // montagem, daibau.at
+      },
+      USD: {
+        vidro: 170, // temperado por m² (US$ 15,80/pé²)
+        aluminio: 35, // ESTIMATIVA — perfil de correr por metro
+        ferragem: 200, // jogo completo, slidup.com
+        obra: 550, // mão de obra por porta, homeguide.com
+      },
     },
   },
 

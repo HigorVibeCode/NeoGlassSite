@@ -29,9 +29,15 @@ export default function Telas({ variantes, intervalo = 4000 }) {
 
   return (
     <div className="w-full max-w-[540px]">
-      {/* A pilha. A altura vem da tela da frente; as de trás são posicionadas
-          por cima dela, deslocadas, então não empurram nada. */}
-      <div className="relative">
+      {/* A pilha. As três telas ocupam a MESMA célula de grade — é o que faz a
+          altura do bloco ser sempre a da tela mais alta, e não a da que está
+          na frente. Antes a de trás era `absolute` sobre a da frente: quando a
+          de trás era a mais alta (o plano de corte tem 449 px, o painel de
+          pedidos tem 371), ela sobrava por baixo e o rodapé dela aparecia
+          cortando o cartão da frente. E a cada quatro segundos a página inteira
+          pulava, porque a altura mudava junto com a troca. Uma célula só
+          resolve as duas coisas. */}
+      <div className="grid items-start">
         {variantes.map((v, i) => {
           // 0 = na frente, 1 = logo atrás, 2 = no fundo
           const pos = (i - frente + n) % n
@@ -41,9 +47,10 @@ export default function Telas({ variantes, intervalo = 4000 }) {
               key={v}
               aria-hidden={!naFrente}
               className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                naFrente ? 'relative' : 'pointer-events-none absolute inset-x-0 top-0'
+                naFrente ? '' : 'pointer-events-none'
               }`}
               style={{
+                gridArea: '1 / 1',
                 transform: `translate3d(${pos * 26}px, ${pos * -18}px, 0) scale(${1 - pos * 0.05})`,
                 opacity: naFrente ? 1 : 0.5 - (pos - 1) * 0.18,
                 zIndex: n - pos,

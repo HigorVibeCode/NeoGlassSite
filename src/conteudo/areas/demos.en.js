@@ -382,6 +382,14 @@ export default {
     continuar: 'Continue',
     cancelar: 'Cancel',
     passos: {
+      canvas: {
+        titulo: 'Create 2D Project',
+        voltar: 'Back',
+        botoes: ['Import DXF', 'Library', 'Export DXF', 'Save project'],
+        vazio: 'No glass yet',
+        vazioDica: 'Tap «Add glass» to start.',
+      },
+      montando: 'Building the project…',
       vao: {
         rotulo: 'Step 1 — What kind of opening?',
         opcoes: ['Recess · floor to ceiling', 'Recess · between two walls', 'One wall only', 'Free-standing'],

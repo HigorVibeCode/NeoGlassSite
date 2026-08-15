@@ -387,6 +387,14 @@ export default {
     continuar: 'Weiter',
     cancelar: 'Abbrechen',
     passos: {
+      canvas: {
+        titulo: '2D-Projekt erstellen',
+        voltar: 'Zurück',
+        botoes: ['DXF importieren', 'Bibliothek', 'DXF exportieren', 'Projekt speichern'],
+        vazio: 'Noch kein Glas',
+        vazioDica: 'Auf «Glas hinzufügen» tippen, um zu beginnen.',
+      },
+      montando: 'Projekt wird gebaut…',
       vao: {
         rotulo: 'Schritt 1 — Welche Art von Öffnung?',
         opcoes: ['Nische · Boden bis Decke', 'Nische · zwischen zwei Wänden', 'Nur eine Wand', 'Freistehend'],

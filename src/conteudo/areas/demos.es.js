@@ -381,6 +381,14 @@ export default {
     continuar: 'Continuar',
     cancelar: 'Cancelar',
     passos: {
+      canvas: {
+        titulo: 'Crear Proyecto 2D',
+        voltar: 'Volver',
+        botoes: ['Importar DXF', 'Biblioteca', 'Exportar DXF', 'Guardar proyecto'],
+        vazio: 'Ningún vidrio',
+        vazioDica: 'Pulsa «Añadir vidrio» para empezar.',
+      },
+      montando: 'Montando el proyecto…',
       vao: {
         rotulo: 'Paso 1 — ¿Qué tipo de vano?',
         opcoes: ['Hornacina · de suelo a techo', 'Hornacina · entre dos paredes', 'Una sola pared', 'Libre'],

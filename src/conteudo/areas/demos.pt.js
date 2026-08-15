@@ -404,6 +404,14 @@ export default {
     continuar: 'Continuar',
     cancelar: 'Cancelar',
     passos: {
+      canvas: {
+        titulo: 'Criar Projeto 2D',
+        voltar: 'Voltar',
+        botoes: ['Importar DXF', 'Biblioteca', 'Exportar DXF', 'Salvar projeto'],
+        vazio: 'Nenhum vidro',
+        vazioDica: 'Clique em «Adicionar vidro» para começar.',
+      },
+      montando: 'Montando o projeto…',
       vao: {
         rotulo: 'Passo 1 — Que tipo de vão?',
         opcoes: ['Nicho fechado · piso ao teto', 'Nicho · entre duas paredes', 'Uma parede só', 'Livre'],

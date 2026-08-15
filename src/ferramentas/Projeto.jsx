@@ -39,10 +39,12 @@ import { useTextos } from '../i18n/idioma.jsx'
 /* O compasso. Cada ato tem a mesma batida — conteúdo entra, dedo viaja, toca,
    confirma — e é a repetição dessa batida que faz o visitante aprender o ritmo
    e conseguir acompanhar. */
+const ABRINDO = 1500 // a tela do app, antes de a folha subir
 const ATO = 3200
 const BEATS = { dedo: 560, toque: 1400, confirma: 2400 }
+const MONTANDO = 1700 // a barra, enquanto o projeto é montado
 const MONTAGEM = 6600
-const TOTAL = ATO * 4 + MONTAGEM
+const TOTAL = ABRINDO + ATO * 4 + MONTANDO + MONTAGEM
 
 /* A mesma curva que a plataforma usa em `AnimacaoAbertura.jsx`. Sem ela, a
    janela SALTAVA de fechada para aberta e de montada para explodida: os dois
@@ -429,30 +431,15 @@ function Perspectiva({ fase, separa }) {
 
 /* ── o dedo ──────────────────────────────────────────────────────────────── */
 
-/* As formas da mão, declaradas uma vez e desenhadas DUAS: primeiro todas em
-   traço grosso escuro (a união delas vira a silhueta), depois as mesmas em
-   branco por cima (o preenchimento). É esse truque que faz a mão ter um
-   contorno só.
+/* O cursor. Duas mãos desenhadas foram jogadas fora — uma tinha o polegar solto
+   no ar, a outra lia como outro gesto. O problema é que mão é uma forma difícil:
+   qualquer proporção fora do lugar muda o que ela significa, e num boneco de
+   46 px não sobra margem para errar.
 
-   Duas tentativas anteriores erraram, e por motivos diferentes. Na primeira,
-   cada forma tinha o próprio contorno: o polegar virava um gancho solto no ar
-   e os dedos dobrados liam como a letra "B". Na segunda o contorno já era
-   único, mas o indicador ficava no MEIO de um punho largo dos dois lados — e
-   um dedo no meio do punho é outro gesto, não o cursor de link.
-
-   Este é o desenho do cursor que o navegador usa em cima de um link: indicador
-   FINO e encostado na borda esquerda, punho crescendo só para a direita, os
-   três dedos dobrados em degrau descendo, e o polegar como um calço baixo. */
-const MAO = (
-  <>
-    <rect x="10" y="3" width="9" height="31" rx="4.5" />
-    <rect x="10" y="29" width="28" height="25" rx="10" />
-    <rect x="19" y="25" width="9" height="13" rx="4.5" />
-    <rect x="26" y="28" width="9" height="13" rx="4.5" />
-    <rect x="31" y="33" width="8" height="12" rx="4" />
-    <rect x="4" y="35" width="9" height="13" rx="4.5" transform="rotate(-16 8.5 41.5)" />
-  </>
-)
+   A seta não tem esse risco. É a mesma forma que todo mundo vê o dia inteiro,
+   são sete pontos, e a ponta superior esquerda é o ponto de contato — não
+   precisa de convenção nenhuma para se entender. */
+const SETA = 'M5 3 L5 29.5 L11.4 23.2 L15.6 33.4 L19.8 31.6 L15.7 21.6 L24.6 21.2 Z'
 
 function Dedo({ em, tocando }) {
   return (
@@ -462,30 +449,21 @@ function Dedo({ em, tocando }) {
       style={{
         left: `${em.x}%`,
         top: `${em.y}%`,
-        // a PONTA do indicador é que encosta no cartão, não o canto do desenho
-        transform: `translate(-45%, -9%) scale(${tocando ? 0.9 : 1})`,
-        transformOrigin: '45% 9%',
+        // a ponta da seta é o ponto de contato: ela é que encosta no cartão
+        transform: `translate(-16%, -7%) scale(${tocando ? 0.86 : 1})`,
+        transformOrigin: '16% 7%',
         transition:
-          'left 600ms cubic-bezier(.4,0,.2,1), top 600ms cubic-bezier(.4,0,.2,1), transform 180ms ease',
+          'left 600ms cubic-bezier(.4,0,.2,1), top 600ms cubic-bezier(.4,0,.2,1), transform 160ms ease',
       }}
     >
       {tocando && <span className="onda" />}
       <svg
-        viewBox="0 0 48 60"
-        className="relative h-[48px] w-[38px]"
-        style={{ filter: 'drop-shadow(0 5px 9px rgba(20,55,80,.35))' }}
+        viewBox="0 0 32 40"
+        className="relative h-[34px] w-[27px]"
+        style={{ filter: 'drop-shadow(0 4px 7px rgba(20,55,80,.4))' }}
       >
-        <g fill="#26384a" stroke="#26384a" strokeWidth="6" strokeLinejoin="round">
-          {MAO}
-        </g>
-        <g fill="#fff">{MAO}</g>
-        {/* as dobras dos três dedos. Em 46 px de altura, sem elas a silhueta
-            vira um borrão branco e o gesto some. */}
-        <g stroke="#26384a" strokeWidth="1.7" strokeLinecap="round" opacity=".5">
-          <path d="M19 31h8" />
-          <path d="M26 36h7" />
-          <path d="M31 41h5" />
-        </g>
+        <path d={SETA} fill="#fff" stroke="#26384a" strokeWidth="3.2" strokeLinejoin="round" />
+        <path d={SETA} fill="#fff" />
       </svg>
     </span>
   )
@@ -560,8 +538,13 @@ export default function Projeto() {
       return
     }
 
+    // Um instante de tela do app antes de qualquer coisa. Sem ele a folha do
+    // assistente aparecia do nada, e o visitante não tinha como saber de onde
+    // ela saiu — era um corte seco logo depois do clique.
+    setAto('abrindo')
+
     PASSOS.forEach((passo, i) => {
-      const base = ATO * i
+      const base = ABRINDO + ATO * i
       marcar(base, () => {
         setAto(passo)
         setBeat('entra')
@@ -575,7 +558,12 @@ export default function Projeto() {
       }
     })
 
-    const fim = ATO * 4
+    // A janela não aparece pronta do nada: primeiro o sistema monta o projeto,
+    // e a barra mostra isso acontecendo. É o mesmo instante de espera que
+    // existe no app de verdade.
+    marcar(ABRINDO + ATO * 4, () => setAto('montando'))
+
+    const fim = ABRINDO + ATO * 4 + MONTANDO
     marcar(fim, () => setAto('montagem'))
     // as peças se afastam, seguram um instante, e voltam a se encaixar
     marcar(fim + 700, () => percorrer(setSepara, 0, 1, 1500))
@@ -602,9 +590,61 @@ export default function Projeto() {
     <div className="mx-auto w-full max-w-[520px]">
       <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_40px_80px_-50px_rgba(20,55,80,.5)]">
         <div className="demo-palco palco-app relative">
-          {/* ── a folha do assistente ─────────────────────────────────── */}
+          {/* ── a tela do app: o fundo de onde a folha sai ───────────────
+              É exatamente o que aparece atrás do assistente no sistema. Ela
+              fica visível sozinha por um instante depois do clique, e depois
+              continua ali embaixo enquanto a folha sobe por cima. */}
+          {(ato === 'abrindo' || noAssistente) && (
+            <div className="absolute inset-0 flex flex-col bg-white">
+              <div className="shrink-0 border-b border-line px-5 pt-4 sm:px-6">
+                <p className="flex items-center gap-3">
+                  <span className="rounded-[10px] border border-line px-2.5 py-1 text-[12px] font-bold text-dim">
+                    ← {t.passos.canvas.voltar}
+                  </span>
+                  <b className="display text-[16px] leading-none sm:text-[18px]">
+                    {t.passos.canvas.titulo}
+                  </b>
+                </p>
+                <div className="mt-3 grid grid-cols-2 gap-2 pb-3">
+                  {t.passos.canvas.botoes.map((rot, i) => (
+                    <span
+                      key={rot}
+                      className="truncate rounded-[10px] px-3 py-2 text-center text-[12px] font-bold"
+                      style={
+                        i === 3
+                          ? { background: AZUL, color: '#fff' }
+                          : { border: '1.5px solid #e4e9ee', color: '#5b6b7d' }
+                      }
+                    >
+                      {rot}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {/* a prancheta escura, com a grade */}
+              <div
+                className="relative flex flex-1 items-center justify-center bg-[#131c3e]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)',
+                  backgroundSize: '22px 22px',
+                }}
+              >
+                <p className="px-6 text-center">
+                  <b className="block text-[15px] font-bold text-white/45">
+                    {t.passos.canvas.vazio}
+                  </b>
+                  <span className="mt-1 block text-[12.5px] text-white/25">
+                    {t.passos.canvas.vazioDica}
+                  </span>
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* ── a folha do assistente, subindo por cima ──────────────────── */}
           {noAssistente && (
-            <div className="relative flex h-full w-full flex-col bg-white">
+            <div className="folha-sobe relative flex h-full w-full flex-col bg-white">
               <div className="shrink-0 border-b border-line px-5 pt-4 sm:px-6 sm:pt-5">
                 <p className="display text-[17px] leading-none sm:text-[21px]">{t.titulo}</p>
                 <p key={ato} className="sobe mt-1.5 text-[13.5px] text-dim sm:text-[14.5px]">
@@ -700,9 +740,24 @@ export default function Projeto() {
             </div>
           )}
 
+          {/* ── a montagem: a espera que existe no app de verdade ────────
+              Sem ela a janela pronta aparecia do nada, logo depois de um
+              cartão ser tocado — e nada explicava de onde ela tinha vindo. */}
+          {ato === 'montando' && (
+            <div className="sobe flex h-full w-full flex-col items-center justify-center gap-4 bg-[#111a33] px-8">
+              <span className="block h-[4px] w-full max-w-[220px] overflow-hidden rounded-full bg-white/12">
+                <span
+                  className="block h-full rounded-full"
+                  style={{ background: '#8fb6ff', animation: `correr ${MONTANDO}ms ease-in-out forwards` }}
+                />
+              </span>
+              <p className="font-mono text-[12.5px] font-semibold text-white/55">{t.passos.montando}</p>
+            </div>
+          )}
+
           {/* ── o painel de testar abertura ───────────────────────────── */}
           {escuro && (
-            <div className="sobe flex h-full w-full flex-col bg-[#111a33] px-5 py-5 sm:px-6">
+            <div className="surge-3d flex h-full w-full flex-col bg-[#111a33] px-5 py-5 sm:px-6">
               <p className="flex flex-wrap items-baseline gap-x-2">
                 <b className="text-[17px] font-extrabold text-white sm:text-[19px]">
                   {t.passos.montagem.rotulo}

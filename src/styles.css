@@ -838,3 +838,35 @@ html[data-parado] {
 .palco-app svg {
   max-height: none;
 }
+
+/* A folha do assistente sobe por cima da prancheta, como uma folha de baixo
+   num aplicativo de celular — é assim que ela nasce no sistema. Roda uma vez
+   só, na entrada: o elemento fica montado durante os quatro passos. */
+@keyframes folha-sobe {
+  from {
+    transform: translateY(18%);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.folha-sobe {
+  animation: folha-sobe 480ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/* A janela pronta entra crescendo de leve, depois da barra de montagem. */
+@keyframes surge-3d {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.surge-3d {
+  animation: surge-3d 620ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}

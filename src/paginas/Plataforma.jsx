@@ -1,4 +1,4 @@
-import Abertura from '../components/Abertura.jsx'
+import Apresentacao from '../components/Apresentacao.jsx'
 import Fluxo from '../components/Fluxo.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
 import { Tela } from '../jornada/conteudos.jsx'
@@ -14,27 +14,8 @@ export default function Plataforma() {
 
   return (
     <>
-      {/* O leque de telas veio da home, a pedido do dono. Ele estava lá embaixo
-          de uma bifurcação — antes de a pessoa ter dito quem é. Aqui ele chega
-          na hora certa: esta é a página de quem clicou em "ainda tenho
-          dúvidas", e a primeira dúvida é "isso existe mesmo?". Três telas de
-          verdade, trocando sozinhas, respondem isso antes de qualquer frase.
-          Entra no lugar da tela parada de pedidos — que é a primeira do leque,
-          então nada se perdeu. */}
-      <Abertura
-        telas={['pedidos', 'corte', 'design']}
-        rotulo={t.hero.rotulo}
-        folha="FL. 01/08"
-        origem="abertura-plataforma"
-        etiqueta={t.hero.etiqueta}
-        titulo={
-          <>
-            {t.hero.titulo.antes} <span className="marca">{t.hero.titulo.destaque}</span>
-          </>
-        }
-        texto={t.hero.texto}
-        marcas={t.hero.marcas}
-      />
+      {/* 01 — APRESENTAÇÃO */}
+      <Apresentacao />
 
       {/* O filme de seis telas veio da Indústria. Ele conta um pedido andando
           de ponta a ponta — que é justamente o que esta página vende, e o que

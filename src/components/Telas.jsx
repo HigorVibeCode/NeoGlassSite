@@ -16,7 +16,12 @@ import { semMovimento } from '../lib/dispositivo.js'
  * havia outras. Quem pediu para reduzir movimento no sistema operacional vê a
  * primeira parada, sem troca nenhuma.
  */
-export default function Telas({ variantes, intervalo = 4000 }) {
+export default function Telas({
+  variantes,
+  intervalo = 4000,
+  pistas = true,
+  largura = 'max-w-[540px]',
+}) {
   const t = useTextos().tela
   const [frente, setFrente] = useState(0)
   const n = variantes.length
@@ -28,7 +33,7 @@ export default function Telas({ variantes, intervalo = 4000 }) {
   }, [n, intervalo])
 
   return (
-    <div className="w-full max-w-[540px]">
+    <div className={`w-full ${largura}`}>
       {/* A pilha. As três telas ocupam a MESMA célula de grade — é o que faz a
           altura do bloco ser sempre a da tela mais alta, e não a da que está
           na frente. Antes a de trás era `absolute` sobre a da frente: quando a
@@ -65,7 +70,10 @@ export default function Telas({ variantes, intervalo = 4000 }) {
 
       {/* Os nomes dos módulos, que também são o controle: quem quiser ver o
           plano de corte agora não precisa esperar a vez dele chegar. */}
-      {n > 1 && (
+      {/* Na apresentação da plataforma o leque não é um controle, é uma
+          imagem: os nomes dos módulos são o assunto da SEÇÃO SEGUINTE, e
+          antecipá-los aqui rouba dela o único trabalho que ela tem. */}
+      {pistas && n > 1 && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5">
           {variantes.map((v, i) => (
             <button

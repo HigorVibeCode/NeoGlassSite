@@ -906,3 +906,77 @@ html[data-parado] {
 .orca {
   animation: orca 520ms 320ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
+
+/* ── A apresentação da plataforma (seção 01) ─────────────────────────────
+   O palco precisa de perspectiva no PAI: sem ela o campo de placas atrás do
+   leque é só uma pilha de retângulos menores, e a sensação de profundidade —
+   que é a única coisa que esta seção tem para fazer — não acontece.
+
+   A deriva é lenta de propósito. Rápido vira carrossel e cansa; a 22 s o
+   movimento é quase imperceptível quadro a quadro, mas a composição nunca
+   está parada. É o que faz o produto parecer vivo em vez de fotografado. */
+.palco-plataforma {
+  perspective: 1800px;
+  perspective-origin: 60% 30%;
+}
+.palco-plataforma .deriva {
+  transform-style: preserve-3d;
+}
+
+@keyframes deriva {
+  0% {
+    transform: rotateX(4.2deg) rotateY(-3.4deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotateX(2.6deg) rotateY(-1.4deg) translate3d(0, -10px, 22px);
+  }
+  100% {
+    transform: rotateX(4.2deg) rotateY(-3.4deg) translate3d(0, 0, 0);
+  }
+}
+.deriva {
+  animation: deriva 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* No celular a perspectiva é mais discreta: numa tela de 360 px um giro de
+   3,4° já corta a lateral da janela da frente contra a borda da página. */
+@media (max-width: 640px) {
+  .palco-plataforma {
+    perspective: 1200px;
+  }
+  /* Sem rotateY no celular. Um giro de 1,8° parece nada, mas numa janela de
+     330 px ele empurra a aresta direita uns 16 px para fora e come a coluna
+     de prazo da tela da frente. Sobra só o balanço vertical, que não desloca
+     nada na horizontal. */
+  @keyframes deriva {
+    0% {
+      transform: rotateX(2.4deg);
+    }
+    50% {
+      transform: rotateX(1.4deg) translate3d(0, -6px, 0);
+    }
+    100% {
+      transform: rotateX(2.4deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deriva {
+    animation: none;
+    transform: rotateX(3deg) rotateY(-2.4deg);
+  }
+}
+
+/* A borda direita do palco não pode CORTAR as telas do fundo — corte seco lê
+   como defeito de layout. Ela as dissolve. O recorte vira intenção: o sistema
+   continua para fora do quadro em vez de esbarrar nele.
+   Só no computador: no celular a parede é estreita e a máscara comeria a tela
+   da frente, que é a única legível ali. */
+@media (min-width: 1024px) {
+  .esvai {
+    -webkit-mask-image: linear-gradient(to right, #000 78%, transparent 98%);
+    mask-image: linear-gradient(to right, #000 78%, transparent 98%);
+  }
+}

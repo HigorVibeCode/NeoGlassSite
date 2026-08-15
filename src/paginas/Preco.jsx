@@ -1,4 +1,4 @@
-import { Secao } from '../components/Comum.jsx'
+import { Bloco, Revelar } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria, valorMensal } from '../config.js'
 import { destinoComecar } from '../lib/paginasSeo.js'
 import { ORCAMENTO_EXEMPLO } from '../ferramentas/Orcamento.jsx'
@@ -34,7 +34,7 @@ import { useIdioma } from '../i18n/idioma.jsx'
    definida, esta seção não fala de usuário nenhum — melhor não dizer nada do
    que prometer o que a cobrança não cumpre. Vale para os quatro idiomas. */
 
-export default function Preco({ folha = 'FL. 05/07' }) {
+export default function Preco({ centro = false, folha = 'FL. 05/07' }) {
   const { idioma, c } = useIdioma()
   const t = c.vidracaria.preco
   const preco = precoVidracaria(idioma)
@@ -52,17 +52,31 @@ export default function Preco({ folha = 'FL. 05/07' }) {
   const exemplo = reais(ORCAMENTO_EXEMPLO)
 
   return (
-    <Secao id="preco" rotulo={t.rotulo} folha={folha} titulo={t.titulo} texto={t.texto(exemplo)}>
-      <div className="cartao mt-10 overflow-hidden text-left">
-        <div className="grid">
+    <Revelar
+      as="section"
+      id="preco"
+      className="secao mx-auto max-w-[1240px] scroll-mt-[124px] px-5 pb-24 sm:px-8 sm:pb-32"
+    >
+      {!centro && <Bloco rotulo={t.rotulo} folha={folha} />}
+      <h2 className={`display mt-7 max-w-[17ch] text-[clamp(30px,4.4vw,54px)] ${centro ? 'mx-auto text-center' : ''}`}>{t.titulo}</h2>
+      <p className={`mt-5 max-w-[58ch] text-[16.5px] leading-[1.55] text-dim ${centro ? 'mx-auto text-center' : ''}`}>{t.texto(exemplo)}</p>
+
+      <div className="mt-11 overflow-hidden rounded-[26px] border border-line bg-card shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]">
+        <div
+          className={
+            centro
+              ? 'flex flex-col gap-10 text-center'
+              : 'grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]'
+          }
+        >
           {/* ── o número ───────────────────────────────────────────────── */}
-          <div className="relative overflow-hidden border-b border-line bg-soft/50 px-6 py-8">
+          <div className={`relative overflow-hidden border-b border-line bg-soft/50 px-7 py-9 sm:px-9 ${centro ? '' : 'lg:border-b-0 lg:border-r'}`}>
             <span
               aria-hidden="true"
               className="pointer-events-none absolute -right-[30%] -top-[60%] h-[420px] w-[420px] rounded-full opacity-[0.16]"
               style={{ background: 'radial-gradient(circle, #0e8c6a, transparent 66%)' }}
             />
-            <div className="relative">
+            <div className={centro ? 'relative mx-auto max-w-[38ch] flex flex-col items-center' : 'relative'}>
               {/* O nome do plano num selo, não numa linha de texto: é a
                   primeira coisa que o olho pega ao chegar aqui, e responde
                   antes da pergunta "isso vale para a minha fábrica também?" */}
@@ -72,8 +86,8 @@ export default function Preco({ folha = 'FL. 05/07' }) {
               >
                 {t.cota}
               </span>
-              <p className="mt-4 flex items-baseline gap-2">
-                <span className="titulo-hero">{preco}</span>
+              <p className={`mt-4 flex items-baseline gap-2 ${centro ? 'justify-center' : ''}`}>
+                <span className="display text-[clamp(46px,6.4vw,68px)] leading-none">{preco}</span>
                 <span className="text-[16px] font-bold text-dim">{t.porMes}</span>
               </p>
               {/* Aqui também dizia "por vidraçaria, não por pessoa", com o
@@ -81,9 +95,9 @@ export default function Preco({ folha = 'FL. 05/07' }) {
                   listas acima, dita de outro jeito. Volta quando a regra real
                   de usuários estiver definida. */}
               <p className="mt-3 text-[15px] font-bold text-ink">{t.fixo}</p>
-              <p className="mt-2 max-w-[34ch] text-[14.5px] leading-[1.5] text-dim">{t.semTaxa}</p>
+              <p className={`mt-2 max-w-[34ch] text-[14.5px] leading-[1.5] text-dim ${centro ? 'text-center' : ''}`}>{t.semTaxa}</p>
 
-              <div className="mt-8 grid gap-px overflow-hidden rounded-[16px] bg-line">
+              <div className={`mt-8 grid w-full gap-px overflow-hidden rounded-[16px] bg-line ${centro ? 'text-left' : ''}`}>
                 {t.naoCobramos.map(([rotulo, detalhe]) => (
                   <div key={rotulo} className="flex items-center gap-3 bg-card px-4 py-3">
                     <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0" aria-hidden="true">
@@ -104,7 +118,7 @@ export default function Preco({ folha = 'FL. 05/07' }) {
                   target={comecar.externo ? '_blank' : undefined}
                   rel={comecar.externo ? 'noreferrer' : undefined}
                   onClick={() => evento('comecar', { origem: 'preco' })}
-                  className="botao-marca w-full"
+                  className="botao-marca inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   {comecar.rotulo}
                 </a>
@@ -120,9 +134,12 @@ export default function Preco({ folha = 'FL. 05/07' }) {
           </div>
 
           {/* ── o que vem junto ────────────────────────────────────────── */}
-          <div className="px-6 py-8">
-            <p className="cota uppercase">{t.tudoIncluido}</p>
-            <ul className="mt-4 space-y-2.5">
+          <div className={`px-7 py-9 sm:px-9 ${centro ? 'mx-auto max-w-[52ch]' : ''}`}>
+            <p className={`cota uppercase ${centro ? 'text-center' : ''}`}>{t.tudoIncluido}</p>
+            {/* A lista continua alinhada à esquerda mesmo no modo centralizado:
+                lista com marcador centralizada é ilegível — o olho perde o
+                início da linha seguinte. O bloco é que se centraliza. */}
+            <ul className={`mt-4 space-y-2.5 ${centro ? 'mx-auto inline-block text-left' : ''}`}>
               {t.incluso.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <svg viewBox="0 0 16 16" className="mt-[3px] h-4 w-4 shrink-0" aria-hidden="true">
@@ -158,6 +175,6 @@ export default function Preco({ folha = 'FL. 05/07' }) {
           </div>
         </div>
       </div>
-    </Secao>
+    </Revelar>
   )
 }

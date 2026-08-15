@@ -1,37 +1,51 @@
 import Abertura from '../components/Abertura.jsx'
-import Contraste from '../components/Contraste.jsx'
-import Faq from '../components/Faq.jsx'
-import Orcamento from '../ferramentas/Orcamento.jsx'
+import Tela from '../components/Tela.jsx'
 import Preco from './Preco.jsx'
-import { Chamada, Origem, Secao } from '../components/Comum.jsx'
+import { Bloco, Chamada, Revelar } from '../components/Comum.jsx'
 import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
 import { destinoComecar } from '../lib/paginasSeo.js'
 import { useIdioma } from '../i18n/idioma.jsx'
-import { evento } from '../lib/rastreio.js'
 
+/**
+ * A página da vidraçaria.
+ *
+ * Cinco blocos e nada mais, na ordem que o dono desenhou:
+ *
+ *   HERO           — a promessa, com a objeção respondida na mesma frase
+ *   RECONHECIMENTO — "isso é o meu problema"
+ *   PROVA          — o produto, parado e grande
+ *   RESULTADO      — o que muda depois
+ *   PREÇO + CTA    — o pedido, no fim, depois de tudo
+ *
+ * O que saiu e por quê:
+ *   · a animação do vão — o dono a considerou ruim, e ela era a peça mais
+ *     longa da página. No lugar dela entra a tela do NeoGlass Design parada:
+ *     mesma prova, um segundo em vez de quinze, sem nada para esperar;
+ *   · "nasceu dentro de uma fábrica de vidro" — história de empresa, vive
+ *     melhor na página da indústria;
+ *   · o antes/depois e "o seu dia" — cortados em rodadas anteriores.
+ *
+ * O bloco RESULTADO ganhou uma linha concreta embaixo de cada palavra.
+ * "Mais organização / segurança / controle" sozinho serve para qualquer
+ * software do mundo; com a linha embaixo, passa a servir só para esta.
+ */
 export default function Vidracaria() {
   const { idioma, c } = useIdioma()
   const t = c.vidracaria
   const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
-  const folhas = preco ? '09' : '08'
   const acao = preco ? destinoComecar(acaoComecar(idioma, c), idioma) : undefined
+  const folhas = preco ? '05' : '04'
 
   return (
     <>
       <Abertura
         tela="design"
-        acao={
-          acao
-            ? { rotulo: acao.rotulo, href: acao.href, externo: acao.externo }
-            : { rotulo: t.hero.verOrcamento, href: '#orcamento', externo: false, fantasma: true, evento: 'ver' }
-        }
-        acaoSecundaria={{
-          rotulo: t.hero.verSistema,
-          href: '#orcamento',
-          externo: false,
-          evento: 'ver',
-        }}
+        centro
+        /* O botão da abertura desce até a prova, em contorno e sem o verde da
+           marca: ele guia sem competir com o título. O verde — o teste grátis —
+           só aparece depois de a pessoa ter visto o produto. */
+        acao={{ rotulo: t.hero.verOrcamento, href: '#prova', externo: false, fantasma: true }}
         zap={false}
         rotulo={t.hero.rotulo}
         folha={`FL. 01/${folhas}`}
@@ -45,96 +59,90 @@ export default function Vidracaria() {
         texto={t.hero.texto}
       />
 
-      <Secao titulo={t.memoria.titulo} texto={t.memoria.texto} />
-
-      <Secao
-        id="orcamento"
-        rotulo={t.demo.rotulo}
-        folha={`FL. 02/${folhas}`}
-        titulo={t.demo.titulo}
-        texto={t.demo.texto}
-        nota={t.demo.micro}
-        largo
-      >
-        <div className="mx-auto mt-10 w-full max-w-[1040px]">
-          <Orcamento />
+      {/* ── RECONHECIMENTO ─────────────────────────────────────────────── */}
+      <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24">
+        <div className="mx-auto mt-8 max-w-[46ch] text-center">
+          <h2 className="display text-[clamp(26px,3.8vw,44px)] leading-[1.08]">
+            {t.reconhecimento.titulo}
+          </h2>
+          <p className="mt-5 text-[16.5px] leading-[1.55] text-dim">{t.reconhecimento.texto}</p>
+          <p
+            className="mt-7 rounded-[16px] border px-6 py-5 text-[15.5px] font-bold leading-snug text-ink"
+            style={{ borderColor: 'rgba(14,140,106,.3)', background: 'rgba(14,140,106,.07)' }}
+          >
+            {t.reconhecimento.destaque}
+          </p>
         </div>
-        {preco && acao && (
-          <div className="coluna">
-            <div className="cartao mt-8 px-6 py-6">
-              <a
-                href={acao.href}
-                onClick={() => evento('comecar', { origem: 'apos-orcamento' })}
-                className="botao-marca w-full"
-              >
-                {acao.rotulo}
-              </a>
-              <p className="cota mt-3 normal-case">{c.comecar.formulario.aviso}</p>
-            </div>
-          </div>
-        )}
-      </Secao>
+      </Revelar>
 
-      <Contraste
-        rotulo={t.contraste.rotulo}
-        folha={`FL. 03/${folhas}`}
-        titulo={t.contraste.titulo}
-        hoje={t.contraste.hoje}
-        pares={t.contraste.pares}
-      />
+      {/* ── PROVA ──────────────────────────────────────────────────────── */}
+      <Revelar
+        as="section"
+        id="prova"
+        className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24"
+      >
+        <div className="mx-auto mt-8 max-w-[50ch] text-center">
+          <h2 className="display text-[clamp(26px,3.8vw,44px)] leading-[1.08]">{t.prova.titulo}</h2>
+          <p className="mt-5 text-[16.5px] leading-[1.55] text-dim">{t.prova.texto}</p>
+        </div>
 
-      <Secao rotulo={t.dia.rotulo} folha={`FL. 04/${folhas}`} titulo={t.dia.titulo}>
-        <ol className="mt-10 space-y-8 text-left">
-          {t.dia.horas.map(([hora, titulo, texto]) => (
-            <li key={hora} className="relative pl-6">
-              <span aria-hidden="true" className="absolute bottom-0 left-0 top-1 w-px bg-line" />
-              <span aria-hidden="true" className="absolute left-0 top-1 h-3 w-px" style={{ background: '#0e8c6a' }} />
-              <p className="cota uppercase" style={{ color: '#0e8c6a', opacity: 1 }}>
-                {hora}
-              </p>
-              <h3 className="titulo-bloco mt-2">{titulo}</h3>
-              <p className="texto-bloco mt-2">{texto}</p>
-            </li>
-          ))}
-        </ol>
-      </Secao>
+        {/* A tela do produto, parada e grande. Sem play, sem espera: o
+            visitante vê o sistema no primeiro segundo. */}
+        <div className="mx-auto mt-10 flex w-full max-w-[620px] justify-center">
+          <Tela variante="design" />
+        </div>
 
-      <Secao rotulo={t.resultados.rotulo} folha={`FL. 05/${folhas}`} titulo={t.resultados.titulo}>
-        <ul className="cartao mt-10 overflow-hidden">
-          {t.resultados.itens.map(([nome, texto], i) => (
-            <li key={nome} className={`px-6 py-6 ${i ? 'border-t border-line' : ''}`}>
-              <p className="titulo-bloco">{nome}</p>
-              <p className="texto-bloco mx-auto mt-2 max-w-[36ch]">{texto}</p>
+        <ul className="mx-auto mt-8 grid max-w-[860px] gap-4 sm:grid-cols-3 sm:gap-6">
+          {t.prova.legendas.map((l) => (
+            <li key={l} className="flex items-start gap-2.5 text-center sm:flex-col sm:items-center">
+              <span
+                aria-hidden="true"
+                className="mt-1.5 h-2 w-2 shrink-0 rounded-full sm:mt-0"
+                style={{ background: '#0e8c6a' }}
+              />
+              <span className="text-left text-[14.5px] leading-snug text-dim sm:text-center">
+                {l}
+              </span>
             </li>
           ))}
         </ul>
-      </Secao>
+      </Revelar>
 
-      <Origem folha={`FL. 06/${folhas}`} />
-      <Preco folha={`FL. 07/${folhas}`} />
-      <Faq rotulo={t.faq.rotulo} folha={`FL. 08/${folhas}`} titulo={t.faq.titulo} itens={t.faq.itens} />
+      {/* ── RESULTADO ──────────────────────────────────────────────────── */}
+      <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24">
+        <h2 className="display mx-auto mt-8 max-w-[22ch] text-center text-[clamp(26px,3.8vw,44px)] leading-[1.08]">
+          {t.resultado.titulo}
+        </h2>
 
-      {preco ? (
-        <Chamada
-          rotulo={t.chamada.rotulo}
-          folha={`FL. 09/${folhas}`}
-          titulo={t.chamada.titulo}
-          texto={t.chamada.texto(diasTeste)}
-          passos={t.chamada.passos}
-          zap={false}
-          convite={acao && { href: acao.href, rotulo: acao.rotulo, nota: c.comecar.formulario.aviso }}
-        />
-      ) : (
-        <Chamada
-          rotulo={t.chamadaDemo.rotulo}
-          folha={`FL. 08/${folhas}`}
-          titulo={t.chamadaDemo.titulo}
-          texto={t.chamadaDemo.texto}
-          passos={t.chamadaDemo.passos}
-          zap={false}
-          agenda
-        />
-      )}
+        <dl className="mx-auto mt-10 grid max-w-[900px] gap-4 sm:grid-cols-3 sm:gap-5">
+          {t.resultado.itens.map((item) => (
+            <div
+              key={item.nome}
+              className="rounded-[18px] border border-line bg-card px-6 py-7 text-center"
+            >
+              <span
+                aria-hidden="true"
+                className="mx-auto mb-4 block h-[3px] w-8 rounded-full"
+                style={{ background: '#0e8c6a' }}
+              />
+              <dt className="display text-[19px] leading-tight">{item.nome}</dt>
+              <dd className="mt-3 text-[14.5px] leading-[1.5] text-dim">{item.texto}</dd>
+            </div>
+          ))}
+        </dl>
+      </Revelar>
+
+      {preco && <Preco centro />}
+
+      <Chamada
+        rotulo={t.chamada.rotulo}
+        titulo={t.chamada.titulo}
+        texto={t.chamada.texto(diasTeste)}
+        passos={t.chamada.passos}
+        zap={false}
+        centro
+        convite={acao && { href: acao.href, rotulo: acao.rotulo, nota: c.comecar.formulario.aviso }}
+      />
     </>
   )
 }

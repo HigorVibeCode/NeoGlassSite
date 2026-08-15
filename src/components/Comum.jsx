@@ -55,30 +55,8 @@ export function Bloco({ rotulo, folha, escuro = false }) {
 }
 
 export function Titulo({ children, className = '' }) {
-  return <h2 className={`titulo-secao mt-7 ${className}`}>{children}</h2>
-}
-
-/**
- * Uma seção = uma coluna = os mesmos tamanhos.
- * Sem isto cada página inventava uma largura e um título, e o site parecia
- * vários sites colados.
- */
-export function Secao({ id, rotulo, folha, titulo, texto, nota, children, className = '', largo = false }) {
   return (
-    <Revelar as="section" id={id} className={`secao faixa ${className}`}>
-      <div className="coluna">
-        {folha ? (
-          <Bloco rotulo={rotulo} folha={folha} />
-        ) : rotulo ? (
-          <p className="cota uppercase">{rotulo}</p>
-        ) : null}
-        {titulo && <h2 className="titulo-secao mt-7">{titulo}</h2>}
-        {texto && <p className="texto-secao mt-5">{texto}</p>}
-        {nota && <p className="cota mt-3 normal-case">{nota}</p>}
-        {!largo && children}
-      </div>
-      {largo && children}
-    </Revelar>
+    <h2 className={`display mt-7 text-[clamp(30px,4.4vw,54px)] ${className}`}>{children}</h2>
   )
 }
 
@@ -97,20 +75,9 @@ export function Topo({ rota }) {
   const preco = precoVidracaria(idioma)
   const comecar =
     id === 'vidracaria' && preco ? destinoComecar(acaoComecar(idioma, c), idioma) : null
-
-  // O texto do botão muda com a página: a Home pede a escolha, a vidraçaria
-  // oferece o teste, a indústria pede a demonstração. Um único "ver demo" em
-  // todas as abas apagava o próximo passo.
-  const cta =
-    id === 'home'
-      ? { href: '#portas', rotulo: c.chrome.escolherPerfil, curto: c.chrome.escolherPerfilCurto, externo: false, evento: 'porta' }
-      : comecar
-        ? { href: comecar.href, rotulo: comecar.rotulo, curto: comecar.curto, externo: comecar.externo, evento: 'comecar' }
-        : id === 'industria'
-          ? { href: '#agendar', rotulo: c.chrome.solicitarDemo, curto: c.chrome.solicitarDemoCurto, externo: false, evento: 'agendar' }
-          : id === 'plataforma'
-            ? { href: '#fluxo', rotulo: c.chrome.verDemo, curto: c.chrome.verDemoCurto, externo: false, evento: 'ver' }
-            : { href: linkAgendar(c.whatsapp.demonstracao), rotulo: c.chrome.verDemo, curto: c.chrome.verDemoCurto, externo: ehExterno(linkAgendar(c.whatsapp.demonstracao)), evento: 'agendar' }
+  const alvo = comecar ? comecar.href : linkAgendar(c.whatsapp.demonstracao)
+  const rotuloCurto = comecar ? comecar.curto : c.chrome.verDemoCurto
+  const rotuloLongo = comecar ? comecar.rotulo : c.chrome.verDemo
 
   useEffect(() => {
     const on = () => {
@@ -182,16 +149,16 @@ export function Topo({ rota }) {
               cena. Nas duas ele competiria com a única coisa que aquela tela
               precisa que aconteça: escolher um lado, ou preencher o formulário.
               Duas saídas no mesmo momento é como se perde a que interessa. */}
-          {id !== 'comecar' && passouCapa && (
+          {id !== 'comecar' && id !== 'home' && passouCapa && (
             <a
-              href={cta.href}
-              target={cta.externo ? '_blank' : undefined}
-              rel={cta.externo ? 'noreferrer' : undefined}
-              onClick={() => evento(cta.evento, { origem: 'topo' })}
-              className="botao-marca surge min-h-11 px-4 py-2 text-[15px] sm:px-5"
+              href={alvo}
+              target={ehExterno(alvo) ? '_blank' : undefined}
+              rel={ehExterno(alvo) ? 'noreferrer' : undefined}
+              onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
+              className="botao-marca surge whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
             >
-              <span className="lg:hidden">{cta.curto}</span>
-              <span className="hidden lg:inline">{cta.rotulo}</span>
+              <span className="lg:hidden">{rotuloCurto}</span>
+              <span className="hidden lg:inline">{rotuloLongo}</span>
             </a>
           )}
         </div>
@@ -239,17 +206,20 @@ export function Origem({ folha = 'FL. 04/05' }) {
       />
 
       <Revelar className="relative mx-auto max-w-[1240px] px-5 py-20 sm:px-8 sm:py-24">
-        <div className="coluna">
-          <Bloco rotulo={origem.rotulo} folha={folha} escuro />
-          <h2 className="titulo-secao mt-7 text-white">{origem.titulo}</h2>
-          {origem.texto && <p className="texto-secao mt-5 text-white/65">{origem.texto}</p>}
-        </div>
+        <Bloco rotulo={origem.rotulo} folha={folha} escuro />
+        {/* A segunda metade era "e isso muda o que ele pergunta" — verdadeira,
+            mas abstrata: o visitante não sabe o que um sistema pergunta a ele.
+            Trocada por uma consequência que ele reconhece na hora, porque já
+            perdeu tarde ensinando fábrica de vidro para fornecedor. */}
+        <h2 className="display mt-7 max-w-[22ch] text-[clamp(30px,4.4vw,54px)] text-white">
+          {origem.titulo}
+        </h2>
 
-        <dl className="coluna mt-12 grid gap-px overflow-hidden rounded-[20px] bg-white/[0.12]">
+        <dl className="mt-16 grid gap-px overflow-hidden rounded-[20px] bg-white/[0.12] sm:grid-cols-3">
           {origem.fatos.map(([t, d]) => (
-            <div key={t} className="bg-[#0f2530] px-7 py-8 text-center">
-              <dt className="titulo-bloco text-white">{t}</dt>
-              <dd className="texto-bloco mx-auto mt-3 max-w-[36ch] text-white/60">{d}</dd>
+            <div key={t} className="bg-[#0f2530] px-7 py-8">
+              <dt className="text-[17px] font-extrabold tracking-[-0.015em] text-white">{t}</dt>
+              <dd className="mt-3 text-[15px] leading-[1.55] text-white/60">{d}</dd>
             </div>
           ))}
         </dl>
@@ -264,15 +234,15 @@ export function Origem({ folha = 'FL. 04/05' }) {
  * não deixar um telefone para alguém retornar depois. O formulário continua
  * existindo para onde ele fizer mais sentido.
  */
-export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true, convite }) {
+export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true, convite, centro = false }) {
   const c = useTextos()
   return (
     <Revelar
       as="section"
       id="agendar"
-      className="secao faixa"
+      className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
     >
-      <div className="relative overflow-hidden rounded-[20px] border border-line bg-card">
+      <div className="relative overflow-hidden rounded-[26px] border border-line bg-card">
         <span
           aria-hidden="true"
           className="absolute inset-x-0 top-0 h-px"
@@ -283,13 +253,19 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
           className="pointer-events-none absolute -right-[10%] -top-[70%] h-[620px] w-[620px] rounded-full opacity-[0.13]"
           style={{ background: 'radial-gradient(circle, #0e8c6a, transparent 66%)' }}
         />
-        <div className="relative grid gap-10 px-7 py-14 sm:px-14 sm:py-20">
-          <div className="coluna">
-            <Bloco rotulo={rotulo} folha={folha} />
-            <h2 className="titulo-secao mt-7">{titulo}</h2>
-            <p className="texto-secao mt-5">{texto}</p>
+        <div
+          className={
+            centro
+              ? 'relative flex flex-col items-center gap-9 px-7 py-14 text-center sm:px-14 sm:py-20'
+              : 'relative grid gap-10 px-7 py-14 sm:px-14 sm:py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16'
+          }
+        >
+          <div>
+            {!centro && <Bloco rotulo={rotulo} folha={folha} />}
+            <h2 className={`display mt-7 max-w-[16ch] text-[clamp(29px,4vw,50px)] ${centro ? 'mx-auto' : ''}`}>{titulo}</h2>
+            <p className={`mt-5 max-w-[46ch] text-[16px] text-dim ${centro ? 'mx-auto' : ''}`}>{texto}</p>
 
-            <ol className="mx-auto mt-8 max-w-[46ch] space-y-3 text-left">
+            <ol className={`mt-8 space-y-3 ${centro ? 'mx-auto inline-block text-left' : ''}`}>
               {passos.map((t, i) => (
                 <li key={t} className="flex items-center gap-3">
                   <span
@@ -298,7 +274,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
                   >
                     {i + 1}
                   </span>
-                  <span className="texto-bloco font-semibold text-ink">{t}</span>
+                  <span className="text-[15.5px] font-semibold text-ink">{t}</span>
                 </li>
               ))}
             </ol>
@@ -312,24 +288,20 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
               pergunta duas vezes na mesma página e custava 800 px. Quem chegou
               até aqui já decidiu — um clique a mais não é atrito. */}
           {convite ? (
-            <div className="cartao mx-auto flex w-full max-w-[680px] flex-col items-center justify-center gap-4 px-7 py-9 text-center">
+            <div className="flex flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-card px-7 py-9">
               <a
                 href={convite.href}
                 onClick={() => evento('comecar', { origem: 'chamada' })}
-                className="botao-marca"
+                className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 {convite.rotulo}
               </a>
               <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
             </div>
           ) : agenda && CONFIG.agendar ? (
-            <div className="mx-auto w-full max-w-[640px]">
-              <Agenda />
-            </div>
+            <Agenda />
           ) : (
-            <div className="mx-auto w-full max-w-[480px]">
-              <Formulario zap={zap} />
-            </div>
+            <Formulario zap={zap} />
           )}
         </div>
       </div>

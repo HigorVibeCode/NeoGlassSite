@@ -19,6 +19,30 @@ export default {
   /* A frase que o Higor elegeu. Ela saiu do título quando a abertura
      passou a carregar o posicionamento, e ganhou bloco próprio aqui —
      é o primeiro argumento da página, logo antes da demonstração. */
+  reconhecimento: {
+    rotulo: 'Recognition',
+    titulo: 'Everything in its place. Less to remember.',
+    texto: 'You know what was agreed, what needs doing and what is happening.',
+    destaque: 'Every quote you sent stays saved — you open it and see when it was and for how much.',
+  },
+
+  prova: {
+    rotulo: 'The proof',
+    titulo: 'Standardised projects in under a minute.',
+    texto: 'You pick the type of part and the measurements. The project comes out finished, to standard, for the customer to see before any glass is cut.',
+    legendas: ['The project in 3D, for the customer to rotate on screen', 'Hardware on and off in the same drawing', 'The same project becomes a quote and an order'],
+  },
+
+  resultado: {
+    rotulo: 'The result',
+    titulo: 'More order. More certainty. More control.',
+    itens: [
+      { nome: 'More order', texto: 'Every job with its measurement, its price and its date.' },
+      { nome: 'More certainty', texto: 'What was agreed stays written down and does not get lost.' },
+      { nome: 'More control', texto: 'You see what is still open without asking anyone.' },
+    ],
+  },
+
   memoria: {
     titulo: 'Every quote you sent stays saved.',
     texto: 'You open it and see what was agreed, when, and for how much.',
@@ -26,26 +50,10 @@ export default {
 
   hero: {
     rotulo: 'NeoGlass · for the glass shop',
-    verOrcamento: 'Watch the quote come out',
-    verSistema: 'See the system running',
-    etiqueta: 'Inside the app',
-    titulo: {
-      antes: 'You measure.',
-      destaque: 'NeoGlass handles the rest.',
-    },
-    texto: 'From the measurement on site to the quote, from the order to delivery — without losing information along the way.',
-    /* As três anteriores mediam a INSTALAÇÃO ("one afternoon", "0
-       spreadsheets", "1 app"), que é o problema de quem já comprou — não de
-       quem está decidindo. Estas medem o dia dele: quanto tempo leva um
-       orçamento, quantas vezes ele reescreve a mesma medida, e onde o serviço
-       fecha. "4 min" e "1×" funcionam nos quatro idiomas; só o terceiro rótulo
-       vira palavra ("on site"). */
-    marcas: [
-      ['4 min', 'from the measurement to a signed PDF'],
-      ['1×', 'you type the size — once, and that is it'],
-      ['on site', 'the job is closed before you drive off'],
-    ],
-    linhaPreco: (preco) => `${preco} a month. No setup fee, no lock-in.`,
+    etiqueta: 'See how it works',
+    verOrcamento: 'See how it works',
+    titulo: { antes: 'Your glass shop gets professional', destaque: 'without complicating anything.' },
+    texto: 'You measure. NeoGlass handles the rest.',
   },
 
   // ── A demonstração do orçamento ───────────────────────────────────────
@@ -58,9 +66,6 @@ export default {
        vidraceiro usa para dizer "foi rápido", e ele mesmo faz a conta. É a
        mesma imagem da linha das 08:40, de propósito. */
     titulo: 'Measure the opening. The PDF quote is ready before you put the tape away.',
-    texto:
-      'Photo, measurements and wall type. The system turns the visit into a quote without making you type it all again.',
-    micro: 'Less typing. Fewer mistakes. Less time between the site and the quote.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -104,28 +109,29 @@ export default {
        less" listava dois efeitos e gastava o título nisso; a lista de pares
        logo abaixo já mostra os dois, um por linha. O título agora só nomeia o
        ganho, e deixa a prova para a lista. */
-    titulo: 'What is scattered today starts living in the same order.',
-    hoje: 'Today, scattered',
+    titulo: 'The same crew, working far more efficiently.',
+    hoje: 'Today, on the notepad and WhatsApp',
     pares: [
-      ['The measurement sits on the phone', 'The job is recorded'],
-      ['The quote goes out on WhatsApp', 'The quote stays saved'],
-      ['The PDF gets lost between chats', 'The order is centralized'],
-      ['Production runs by message', 'Production is connected'],
-      ['The offcut has no control', 'Delivery is followed'],
-      ['Nobody sees the job margin', 'The margin is visible'],
-    ],
-  },
-
-  resultados: {
-    rotulo: 'What the order carries',
-    titulo: 'Every step works from what was already agreed.',
-    itens: [
-      ['Quote', 'You record the job and the customer without starting from scratch.'],
-      ['Design', 'Turn the measurement into a faster proposal.'],
-      ['Order', 'Everything that was agreed stays attached to the job.'],
-      ['Production', 'The order goes to whoever needs to produce it.'],
-      ['Delivery', 'See what left, what is in progress and what is still missing.'],
-      ['Margin', 'See what each job actually left.'],
+      [
+        'The quote goes in a notebook and is gone by Monday',
+        'It leaves your phone with a photo of the opening and a signature',
+      ],
+      [
+        'The customer calls three times asking if it is ready',
+        'He follows the order through a link, without calling',
+      ],
+      [
+        'The offcut ends up behind the bench and turns into scrap',
+        'It goes back into stock with its size — and into the next cutting plan',
+      ],
+      [
+        'The size gets lost between the site notebook and the plant order',
+        'The size you took is the size the plant cuts — the same one, never retyped',
+      ],
+      [
+        'At the end of the month nobody knows which job made money',
+        'The margin on every job is on the screen',
+      ],
     ],
   },
 
@@ -135,7 +141,7 @@ export default {
     /* "One number, and it stays that number" era o trocadilho da janela em
        outra forma: dizia do preço, não do que ele compra. Esta já entrega a
        comparação — um serviço contra doze meses. */
-    titulo: 'One job can pay for several months of the system.',
+    titulo: 'One job a month pays for the whole year.',
     // `valor` chega e não é usado: ver o cabeçalho do arquivo. O parâmetro fica
     // na assinatura para as quatro versões terem a mesma forma.
     // "Keep that job in your head while you read the number below" pedia uma
@@ -182,45 +188,6 @@ export default {
     extras: [
       ['Your data is yours', 'export the lot whenever, without asking'],
       ['Leave when you like', 'cancel from the screen, no phone call to anyone'],
-    ],
-  },
-
-  faq: {
-    rotulo: 'Common questions',
-    titulo: 'What usually stops the click.',
-    itens: [
-      [
-        'What happens after the 14 days?',
-        'Nothing is charged on its own. If you want to continue, you subscribe. If you do not decide, the account never turns into a bill.',
-      ],
-      [
-        'Do I need to install anything?',
-        'No. The system opens in the browser and on the phone. No app to download and no technician in the shop.',
-      ],
-      [
-        'Does it work on a phone?',
-        'Yes. The site visit, the photo of the opening and the quote were built for a phone screen.',
-      ],
-      [
-        'Can I use it for as many quotes as I want?',
-        'Yes. There is no charge per quote. The monthly price does not change with volume.',
-      ],
-      [
-        'Is my data mine?',
-        'Yes. You export everything whenever you want, without asking permission.',
-      ],
-      [
-        'Can I cancel whenever I want?',
-        'Yes. No lock-in and no phone call — cancellation is on the screen.',
-      ],
-      [
-        'Does NeoGlass calculate the price automatically?',
-        'It builds the quote from your price list. The price per square metre and the hardware stay yours.',
-      ],
-      [
-        'Does NeoGlass replace my current order control?',
-        'It concentrates quote, order, production and delivery in the same flow. You stop spreading the same information across tools that do not talk to each other.',
-      ],
     ],
   },
 

@@ -179,160 +179,203 @@ function IconeModelo({ folhas }) {
 
 /* ── o ato final: o vão em perspectiva ───────────────────────────────────── */
 
-/* A câmera do "Testar abertura": o vão é uma caixa vista de frente, com a
-   profundidade indo para trás e para cima. `D` é esse vetor — todo o resto do
-   desenho é ele multiplicado por um fator de profundidade. */
-const D = { x: 46, y: -22 }
-const F = { x0: 40, x1: 250, y0: 50, y1: 178 }
-const LARG = (F.x1 - F.x0) / 4
+/* Isto NÃO é um desenho inventado por semelhança. É a projeção do próprio
+   NeoGlass, portada de `src/tools/Design/CriarProjeto2D/vao/AnimacaoAbertura.jsx`
+   da plataforma: mesma câmera (yaw 0.55, pitch 0.2), mesma perspectiva
+   (D = maior lado × 2.6, divisão f = D/(D−z)), mesma ordenação de pintor, e as
+   mesmas cores e espessuras.
 
-/** Um retângulo do desenho, empurrado `f` para dentro da profundidade. */
-const plano = (xa, xb, f) => {
-  const dx = D.x * f
-  const dy = D.y * f
-  return `${xa + dx},${F.y0 + dy} ${xb + dx},${F.y0 + dy} ${xb + dx},${F.y1 + dy} ${xa + dx},${F.y1 + dy}`
+   As constantes vêm de lá com o nome que têm lá, para quem for comparar os dois
+   arquivos achar na hora:
+     E     45   espessura visual das paredes
+     DEPTH 100  profundidade das paredes
+     ESPV  8    espessura do vidro
+     z=0        trilho de trás (as fixas)   ·   z=34  trilho da frente (as móveis)
+   e a folha móvel corre 82% da própria largura em direção à fixa vizinha. */
+const CAM = { yaw: 0.55, pitch: 0.2 }
+const E = 45
+const DEPTH = 100
+const ESPV = 8
+const VAO3D = { L: 1800, A: 1100 }
+const FOLHA = VAO3D.L / 4
+const CURSO = FOLHA * 0.82
+
+const COR = {
+  vidro: 'rgba(150,180,225,.16)',
+  borda: '#9db4e8',
+  paredeF: 'rgba(148,163,196,.20)',
+  paredeL: 'rgba(148,163,196,.10)',
+  ferrF: '#b9c4de',
+  ferrL: '#7f8cb0',
 }
 
-/* Cada camada tem uma profundidade em repouso e um empurrão a mais quando a
-   janela explode. É o MESMO eixo do desenho — por isso a explosão se lê: as
-   peças se afastam para dentro do vão, e não para um lado qualquer. */
-const CAMADA = {
-  aluminio: { repouso: 0, extra: 0.66 },
-  vedacao: { repouso: 0.58, extra: 0.3 },
-  fixas: { repouso: 0.58, extra: 0 },
-  moveis: { repouso: 0.2, extra: -0.34 },
-  ferragem: { repouso: 0.2, extra: -0.7 },
+/** As quatro folhas: duas fixas nas pontas, duas móveis no meio, correndo para fora. */
+const FOLHAS = [
+  { i: 0, papel: 'fixa', z: 0, dir: 0 },
+  { i: 1, papel: 'movel', z: 34, dir: -1 },
+  { i: 2, papel: 'movel', z: 34, dir: 1 },
+  { i: 3, papel: 'fixa', z: 0, dir: 0 },
+]
+
+/* Constrói a lista de faces do quadro atual. `fase` é 0 fechado / 1 aberto e
+   `separa` é 0 montado / 1 explodido — a explosão empurra cada camada ao longo
+   do MESMO eixo z do desenho, que é o que faz ela se ler. */
+function facesDoVao(fase, separa) {
+  const { L, A } = VAO3D
+  const cxw = L / 2
+  const cyw = A / 2
+  const D = Math.max(L, A) * 2.6
+  const { yaw, pitch } = CAM
+
+  const proj = (x, y, z) => {
+    const dx = x - cxw
+    const dy = y - cyw
+    const x1 = dx * Math.cos(yaw) + z * Math.sin(yaw)
+    const z1 = -dx * Math.sin(yaw) + z * Math.cos(yaw)
+    const y2 = dy * Math.cos(pitch) - z1 * Math.sin(pitch)
+    const z2 = dy * Math.sin(pitch) + z1 * Math.cos(pitch)
+    const f = D / (D - z2)
+    return [x1 * f, -y2 * f, z2]
+  }
+
+  const faces = []
+  const zAvg = (arr) => arr.reduce((s, p) => s + p[2], 0) / arr.length
+
+  const addBox = (x1, x2, y1, y2, z1, z2, frente, lado, map) => {
+    let pts = [
+      [x1, y1, z1], [x2, y1, z1], [x2, y2, z1], [x1, y2, z1],
+      [x1, y1, z2], [x2, y1, z2], [x2, y2, z2], [x1, y2, z2],
+    ]
+    if (map) pts = pts.map(map)
+    const P = pts.map((q) => proj(q[0], q[1], q[2]))
+    const F = [
+      { i: [0, 1, 2, 3], f: true }, { i: [4, 5, 6, 7], f: true },
+      { i: [0, 1, 5, 4] }, { i: [3, 2, 6, 7] }, { i: [0, 3, 7, 4] }, { i: [1, 2, 6, 5] },
+    ]
+    for (const fd of F) {
+      faces.push({
+        z: fd.i.reduce((s, i) => s + P[i][2], 0) / 4,
+        pts: fd.i.map((i) => P[i]),
+        fill: fd.f ? frente : lado,
+      })
+    }
+  }
+
+  const addPrisma = (pontos, z1, z2, frente, lado, map) => {
+    const m = map || ((q) => q)
+    const Pb = pontos.map(([x, y]) => proj(...m([x, y, z1])))
+    const Pf = pontos.map(([x, y]) => proj(...m([x, y, z2])))
+    faces.push({ z: zAvg(Pb), pts: Pb, fill: frente })
+    faces.push({ z: zAvg(Pf), pts: Pf, fill: frente, borda: true })
+    for (let i = 0; i < pontos.length; i++) {
+      const j = (i + 1) % pontos.length
+      const quad = [Pb[i], Pb[j], Pf[j], Pf[i]]
+      faces.push({ z: zAvg(quad), pts: quad, fill: lado })
+    }
+  }
+
+  const addDisco = (dcx, dcy, raio, z1, z2, frente, lado, map, n = 14) => {
+    const pts = []
+    for (let i = 0; i < n; i++) {
+      const ang = (i / n) * Math.PI * 2
+      pts.push([dcx + raio * Math.cos(ang), dcy + raio * Math.sin(ang)])
+    }
+    addPrisma(pts, z1, z2, frente, lado, map)
+  }
+
+  // ── as paredes do nicho: piso, teto e as duas laterais ─────────────────
+  const recuo = separa * 300
+  const pd = (v) => v - recuo
+  addBox(-E, L + E, -E, 0, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(-E, L + E, A, A + E, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(-E, 0, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  addBox(L, L + E, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+
+  // ── as folhas ──────────────────────────────────────────────────────────
+  for (const f of FOLHAS) {
+    // explodida, a fixa recua e a móvel avança: elas se separam no eixo em que
+    // já correm de verdade
+    const zb = f.z + separa * (f.papel === 'fixa' ? -150 : 150)
+    const x1 = f.i * FOLHA
+    const x2 = x1 + FOLHA
+    const desloca = f.dir * fase * CURSO
+    const map = ([x, y, z]) => [x + desloca, y, z]
+
+    addPrisma(
+      [[x1, 0], [x2, 0], [x2, A], [x1, A]],
+      zb, zb + ESPV, COR.vidro, COR.borda, map,
+    )
+
+    if (f.papel === 'movel') {
+      const zf = zb + separa * 170
+      // roldanas: um disco por furo, 10 mm maior que ele no diâmetro — a regra
+      // do produto (furo Ø14 → rodinha Ø24)
+      for (const fx of [x1 + 90, x2 - 90]) {
+        addDisco(fx, A - 60, 12, zf + ESPV + 2, zf + ESPV + 10, COR.ferrF, COR.ferrL, map, 16)
+        addDisco(fx, A - 60, 5, zf + ESPV + 10, zf + ESPV + 13, COR.ferrL, COR.ferrL, map, 10)
+      }
+      // puxador redondo de um furo, dupla face e discreto
+      const px = f.i === 1 ? x2 - 70 : x1 + 70
+      addDisco(px, A / 2, 6, zf - 8, zf + ESPV + 8, COR.ferrL, COR.ferrL, map, 10)
+      addDisco(px, A / 2, 17, zf + ESPV + 8, zf + ESPV + 18, COR.ferrF, COR.ferrL, map, 16)
+      addDisco(px, A / 2, 17, zf - 18, zf - 8, COR.ferrF, COR.ferrL, map, 16)
+    }
+  }
+
+  faces.sort((a, b) => a.z - b.z)
+
+  // enquadramento estável: os cantos do cenário, não do quadro corrente — sem
+  // isto a caixa "pula" de tamanho quando as folhas correm
+  const ext = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity }
+  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 300, DEPTH + 320]) {
+    const p = proj(x, y, z)
+    ext.minX = Math.min(ext.minX, p[0]); ext.maxX = Math.max(ext.maxX, p[0])
+    ext.minY = Math.min(ext.minY, p[1]); ext.maxY = Math.max(ext.maxY, p[1])
+  }
+  const mg = Math.max(L, A) * 0.04
+  return {
+    faces,
+    vb: `${ext.minX - mg} ${ext.minY - mg} ${ext.maxX - ext.minX + mg * 2} ${ext.maxY - ext.minY + mg * 2}`,
+  }
 }
 
-function Perspectiva({ explode, abre }) {
-  const empurra = (extra) => ({
-    transform: explode ? `translate(${D.x * extra}px, ${D.y * extra}px)` : 'none',
-    transition: 'transform 1200ms cubic-bezier(.4,0,.2,1)',
-  })
-  const corre = (i) => ({
-    transform: `translateX(${i === 1 ? -abre : abre}px)`,
-    transition: 'transform 1100ms ease-in-out',
-  })
-  const claro = '#e8f0ff'
-
+function Perspectiva({ fase, separa }) {
+  const { faces, vb } = facesDoVao(fase, separa)
   return (
-    <svg viewBox="0 0 320 230" className="mx-auto w-full" aria-hidden="true">
-      <defs>
-        <linearGradient id="pj-vidro" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#a9c8ff" stopOpacity=".26" />
-          <stop offset="1" stopColor="#dbe9ff" stopOpacity=".10" />
-        </linearGradient>
-      </defs>
-
-      {/* a caixa do vão: fundo, teto, chão e a lateral esquerda dão a profundidade */}
-      <polygon points={plano(F.x0, F.x1, 1)} fill="#0a1128" />
-      <polygon
-        points={`${F.x0},${F.y0} ${F.x1},${F.y0} ${F.x1 + D.x},${F.y0 + D.y} ${F.x0 + D.x},${F.y0 + D.y}`}
-        fill="#16204a"
-      />
-      <polygon
-        points={`${F.x0},${F.y1} ${F.x1},${F.y1} ${F.x1 + D.x},${F.y1 + D.y} ${F.x0 + D.x},${F.y1 + D.y}`}
-        fill="#1c2856"
-      />
-      <polygon
-        points={`${F.x0},${F.y0} ${F.x0 + D.x},${F.y0 + D.y} ${F.x0 + D.x},${F.y1 + D.y} ${F.x0},${F.y1}`}
-        fill="#131c3e"
-      />
-
-      {/* ── alumínio: os dois trilhos e os montantes ─────────────────────── */}
-      <g style={empurra(CAMADA.aluminio.extra)}>
-        <g stroke={claro} strokeWidth="2.4" fill="none" strokeLinejoin="round" opacity=".9">
-          <path
-            d={`M${F.x0} ${F.y0} L${F.x1} ${F.y0} L${F.x1 + D.x} ${F.y0 + D.y} L${F.x0 + D.x} ${F.y0 + D.y} Z`}
-          />
-          <path
-            d={`M${F.x0} ${F.y1} L${F.x1} ${F.y1} L${F.x1 + D.x} ${F.y1 + D.y} L${F.x0 + D.x} ${F.y1 + D.y} Z`}
-          />
-          <path d={`M${F.x0} ${F.y0} L${F.x0} ${F.y1}`} strokeWidth="2.2" />
-          <path d={`M${F.x1} ${F.y0} L${F.x1} ${F.y1}`} strokeWidth="2.2" />
-        </g>
-        {/* os dois sulcos do trilho: um para as fixas, um para as móveis */}
-        <g stroke={claro} strokeWidth="1.4" opacity=".45" fill="none">
-          <path d={`M${F.x0 + D.x * 0.2} ${F.y0 + D.y * 0.2} L${F.x1 + D.x * 0.2} ${F.y0 + D.y * 0.2}`} />
-          <path d={`M${F.x0 + D.x * 0.58} ${F.y0 + D.y * 0.58} L${F.x1 + D.x * 0.58} ${F.y0 + D.y * 0.58}`} />
-        </g>
-      </g>
-
-      {/* ── vedação: escova nos montantes e no encontro das móveis ───────── */}
-      <g style={empurra(CAMADA.vedacao.extra)} stroke="#9fd8c8" strokeWidth="2.6" strokeLinecap="round" opacity=".8">
-        <path
-          d={`M${F.x0 + D.x * 0.58} ${F.y0 + D.y * 0.58} L${F.x0 + D.x * 0.58} ${F.y1 + D.y * 0.58}`}
+    <svg viewBox={vb} className="mx-auto h-full w-full" aria-hidden="true">
+      {faces.map((f, i) => (
+        <polygon
+          key={i}
+          points={f.pts.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')}
+          fill={f.fill}
+          stroke={f.borda ? COR.borda : 'none'}
+          strokeWidth={f.borda ? 3 : 0}
+          strokeOpacity=".55"
         />
-        <path
-          d={`M${F.x1 + D.x * 0.58} ${F.y0 + D.y * 0.58} L${F.x1 + D.x * 0.58} ${F.y1 + D.y * 0.58}`}
-        />
-      </g>
-
-      {/* ── as fixas, no trilho de trás ──────────────────────────────────── */}
-      <g style={empurra(CAMADA.fixas.extra)}>
-        {[0, 3].map((i) => (
-          <polygon
-            key={i}
-            points={plano(F.x0 + i * LARG, F.x0 + (i + 1) * LARG, CAMADA.fixas.repouso)}
-            fill="url(#pj-vidro)"
-            stroke={claro}
-            strokeWidth="1.3"
-            strokeOpacity=".5"
-          />
-        ))}
-      </g>
-
-      {/* ── as móveis, no trilho da frente. O transpasse é a sobra de 9 px
-             além do módulo: é ela que cobre a folga quando fecha. ────────── */}
-      <g style={empurra(CAMADA.moveis.extra)}>
-        {[1, 2].map((i) => (
-          <g key={i} style={corre(i)}>
-            <polygon
-              points={plano(
-                F.x0 + i * LARG - (i === 2 ? 9 : 0),
-                F.x0 + (i + 1) * LARG + (i === 1 ? 9 : 0),
-                CAMADA.moveis.repouso,
-              )}
-              fill="url(#pj-vidro)"
-              stroke={claro}
-              strokeWidth="1.9"
-              strokeOpacity=".95"
-            />
-          </g>
-        ))}
-      </g>
-
-      {/* ── ferragem: roldanas no topo e no pé de cada móvel, e o trinco ─── */}
-      <g style={empurra(CAMADA.ferragem.extra)} fill={claro}>
-        {[1, 2].map((i) => {
-          const ex = D.x * CAMADA.ferragem.repouso
-          const ey = D.y * CAMADA.ferragem.repouso
-          const a = F.x0 + i * LARG + 14 + ex
-          const b = F.x0 + (i + 1) * LARG - 14 + ex
-          return (
-            <g key={i} style={corre(i)}>
-              <circle cx={a} cy={F.y0 + 9 + ey} r="3.4" />
-              <circle cx={b} cy={F.y0 + 9 + ey} r="3.4" />
-              <circle cx={a} cy={F.y1 - 9 + ey} r="2.6" opacity=".7" />
-              <circle cx={b} cy={F.y1 - 9 + ey} r="2.6" opacity=".7" />
-              {i === 1 && (
-                <rect
-                  x={F.x0 + LARG * 2 - 3 + ex}
-                  y={(F.y0 + F.y1) / 2 - 11 + ey}
-                  width="6"
-                  height="22"
-                  rx="3"
-                />
-              )}
-            </g>
-          )
-        })}
-      </g>
+      ))}
     </svg>
   )
 }
 
 /* ── o dedo ──────────────────────────────────────────────────────────────── */
+
+/* As formas da mão, declaradas uma vez e desenhadas DUAS: primeiro todas em
+   traço grosso escuro (a união delas vira a silhueta), depois as mesmas em
+   branco por cima (o preenchimento). É esse truque que faz a mão ter um
+   contorno só.
+
+   Era exatamente isso que estava errado antes: cada forma tinha o próprio
+   contorno, então o polegar virava um gancho solto no ar e os dois dedos
+   dobrados liam como a letra "B". */
+const MAO = (
+  <>
+    <rect x="8" y="26" width="32" height="28" rx="13" />
+    <rect x="16" y="6" width="11" height="26" rx="5.5" />
+    <rect x="26" y="28" width="14" height="11" rx="5.5" />
+    <rect x="26" y="37" width="12" height="11" rx="5.5" />
+    <rect x="4" y="31" width="11" height="17" rx="5.5" transform="rotate(-18 9.5 39.5)" />
+  </>
+)
 
 function Dedo({ em, tocando }) {
   return (
@@ -342,25 +385,28 @@ function Dedo({ em, tocando }) {
       style={{
         left: `${em.x}%`,
         top: `${em.y}%`,
-        transform: `translate(-16%, -10%) scale(${tocando ? 0.9 : 1})`,
+        // a PONTA do indicador é que encosta no cartão, não o canto do desenho
+        transform: `translate(-45%, -9%) scale(${tocando ? 0.9 : 1})`,
+        transformOrigin: '45% 9%',
         transition:
           'left 600ms cubic-bezier(.4,0,.2,1), top 600ms cubic-bezier(.4,0,.2,1), transform 180ms ease',
       }}
     >
       {tocando && <span className="onda" />}
       <svg
-        viewBox="0 0 44 52"
-        className="relative h-[44px] w-[36px]"
-        style={{ filter: 'drop-shadow(0 6px 10px rgba(20,55,80,.35))' }}
+        viewBox="0 0 48 60"
+        className="relative h-[48px] w-[38px]"
+        style={{ filter: 'drop-shadow(0 5px 9px rgba(20,55,80,.35))' }}
       >
-        <path
-          d="M15 27V9a5 5 0 0 1 10 0v14M25 23v-4a4.5 4.5 0 0 1 9 0v4M34 23a4.5 4.5 0 0 1 9 0v11c0 9-6 15-14 15h-6c-5 0-8-2-11-6L6 33a4.5 4.5 0 0 1 7-6l2 3"
-          fill="#fff"
-          stroke="#26384a"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <g fill="#26384a" stroke="#26384a" strokeWidth="6" strokeLinejoin="round">
+          {MAO}
+        </g>
+        <g fill="#fff">{MAO}</g>
+        {/* duas dobras discretas, só para a mão não ficar um borrão branco */}
+        <g stroke="#26384a" strokeWidth="1.6" strokeLinecap="round" opacity=".45">
+          <path d="M28 33h8" />
+          <path d="M28 42h6" />
+        </g>
       </svg>
     </span>
   )
@@ -414,7 +460,7 @@ export default function Projeto() {
     // pobre: é o quadro que a sequência inteira existe para entregar.
     if (semMovimento()) {
       setAto('fim')
-      setAbre(LARG)
+      setAbre(1)
       return
     }
 
@@ -437,7 +483,7 @@ export default function Projeto() {
     marcar(fim, () => setAto('montagem'))
     marcar(fim + 900, () => setExplode(true))
     marcar(fim + 3100, () => setExplode(false))
-    marcar(fim + 4400, () => setAbre(LARG))
+    marcar(fim + 4400, () => setAbre(1))
     marcar(TOTAL, () => setAto('fim'))
   }
 
@@ -569,7 +615,7 @@ export default function Projeto() {
                 {t.passos.montagem.dica}
               </p>
               <div className="flex flex-1 items-center">
-                <Perspectiva explode={explode} abre={abre} />
+                <Perspectiva fase={abre} separa={explode ? 1 : 0} />
               </div>
             </div>
           )}
@@ -578,7 +624,7 @@ export default function Projeto() {
           {ato === 'parado' && (
             <div className="flex h-full w-full items-center bg-[#111a33] px-5 sm:px-6">
               <div className="w-full opacity-60">
-                <Perspectiva explode={false} abre={0} />
+                <Perspectiva fase={0} separa={0} />
               </div>
             </div>
           )}

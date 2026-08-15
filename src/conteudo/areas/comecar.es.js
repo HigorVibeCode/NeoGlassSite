@@ -1,14 +1,7 @@
 export default {
   rotulo: 'CREAR CUENTA',
-  etiqueta: (dias) => `${dias} días · sin tarjeta`,
-  titulo: { antes: 'Empieza por el próximo', destaque: 'presupuesto que entre.' },
-  texto:
-    'Rellenas cuatro campos y la invitación llega a tu correo. No pedimos tarjeta para probar — ni ahora, ni a mitad de camino.',
-  passos: [
-    'Rellena los cuatro campos de al lado',
-    'La invitación llega a tu correo en instantes',
-    'Entras y montas el primer presupuesto',
-  ],
+  subtitulo: (dias) => `${dias} días gratis. Sin tarjeta de crédito.`,
+  titulo: { antes: 'Crea tu cuenta y', destaque: 'empieza a usarlo.' },
 
   formulario: {
     titulo: 'Crear mi cuenta',
@@ -18,7 +11,8 @@ export default {
       email: { rotulo: 'Correo', exemplo: 'tu@tucristaleria.es', dica: 'Ahí es donde llega la invitación.' },
       whatsapp: { rotulo: 'WhatsApp', exemplo: '+34 600 000 000', opcional: 'opcional' },
     },
-    enviar: (dias) => `Empezar gratis · ${dias} días`,
+    enviar: () => 'Crear mi cuenta gratis',
+    rapido: 'Tarda menos de 1 minuto.',
     enviando: 'Creando tu cuenta…',
     saida: 'Enviar mis datos por correo',
     aviso: 'Sin tarjeta de crédito. Sin cuota de implantación. Sin instalación.',
@@ -40,9 +34,4 @@ export default {
     contato: 'Escribirnos',
   },
 
-  depois: {
-    titulo: (dias) => `¿Y después de los ${dias} días?`,
-    texto: (preco) =>
-      `Recibes un aviso por correo antes de que acabe, con el enlace para poner la forma de pago. Si no la pones, la cuenta simplemente se pausa — no se cobra nada, nada se convierte en deuda. Si la pones, son ${preco} al mes por la empresa entera, con los usuarios que quieras.`,
-  },
 }

@@ -1,14 +1,7 @@
 export default {
   rotulo: 'CREATE ACCOUNT',
-  etiqueta: (dias) => `${dias} days · no card`,
-  titulo: { antes: 'Start with the next', destaque: 'quote that comes in.' },
-  texto:
-    'Four fields, and the invitation lands in your inbox. We do not ask for a card to try it — not now, not halfway through.',
-  passos: [
-    'Fill in the four fields on the right',
-    'The invitation reaches your inbox in moments',
-    'You log in and build your first quote',
-  ],
+  subtitulo: (dias) => `${dias} days free. No credit card.`,
+  titulo: { antes: 'Create your account and', destaque: 'start using it.' },
 
   formulario: {
     titulo: 'Create my account',
@@ -18,7 +11,8 @@ export default {
       email: { rotulo: 'Email', exemplo: 'you@yourcompany.com', dica: 'This is where the invitation goes.' },
       whatsapp: { rotulo: 'Phone', exemplo: '+1 555 000 0000', opcional: 'optional' },
     },
-    enviar: (dias) => `Start free · ${dias} days`,
+    enviar: () => 'Create my free account',
+    rapido: 'Takes less than a minute.',
     enviando: 'Creating your account…',
     saida: 'Send my details by email',
     aviso: 'No credit card. No setup fee. Nothing to install.',
@@ -40,9 +34,4 @@ export default {
     contato: 'Write to us',
   },
 
-  depois: {
-    titulo: (dias) => `And after the ${dias} days?`,
-    texto: (preco) =>
-      `You get an email before it ends, with a link to add a payment method. If you do not add one, the account simply pauses — nothing is charged, nothing turns into a debt. If you do, it is ${preco} a month for the whole company, with as many users as you like.`,
-  },
 }

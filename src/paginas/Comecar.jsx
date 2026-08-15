@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Bloco, Revelar } from '../components/Comum.jsx'
-import { CONFIG, linkEmail, precoVidracaria } from '../config.js'
+import { Revelar } from '../components/Comum.jsx'
+import { CONFIG, linkEmail } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
@@ -10,10 +10,21 @@ const campo =
 /**
  * A página de cadastro — a única do site onde o visitante digita para valer.
  *
- * Ela chama a função `site-cadastro` do Supabase, que cria a empresa com o
- * prazo de teste e convida o dono por e-mail. Nenhuma chave acompanha a
- * chamada: a função roda sem autenticação de propósito, porque quem se
- * cadastra ainda não tem usuário nenhum.
+ * O desenho é uma coluna só, do celular ao computador: título, uma linha, quatro
+ * campos, um botão. A versão anterior era duas colunas — texto à esquerda,
+ * formulário à direita — e no celular virava uma pilha: a pessoa lia três
+ * parágrafos e uma lista de etapas ANTES de ver o primeiro campo. Quem chega
+ * aqui já decidiu; o que resta é não atrapalhar.
+ *
+ * No celular não é o desktop empilhado: o cartão perde a moldura e vira a
+ * própria página (borda e sombra só entram a partir de `sm`), o respiro do topo
+ * encolhe, e tudo cabe numa tela — os quatro campos e o botão ficam visíveis
+ * juntos, sem rolar.
+ *
+ * A LÓGICA NÃO MUDOU. Ela chama a função `site-cadastro` do Supabase, que cria
+ * a empresa com o prazo de teste e convida o dono por e-mail. Nenhuma chave
+ * acompanha a chamada: a função roda sem autenticação de propósito, porque quem
+ * se cadastra ainda não tem usuário nenhum.
  *
  * Se o endereço não estiver configurado, ou se a rede cair, o formulário NÃO
  * vira um beco sem saída — ele abre o e-mail com os dados já preenchidos.
@@ -29,7 +40,6 @@ export default function Comecar() {
   const t = c.comecar
   const f = t.formulario
   const dias = CONFIG.vidracaria.diasTeste
-  const preco = precoVidracaria(idioma)
 
   const [dados, setDados] = useState({ nome: '', empresa: '', email: '', whatsapp: '', site: '' })
   const [estado, setEstado] = useState('parado') // parado · enviando · pronto
@@ -148,54 +158,31 @@ export default function Comecar() {
   }
 
   return (
-    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-28 pt-[120px] sm:px-8">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:items-start lg:gap-16">
-        <div>
-          <Bloco rotulo={t.rotulo} folha="FL. 01/01" />
+    <Revelar
+      as="section"
+      className="secao mx-auto max-w-[1240px] px-5 pb-20 pt-[104px] sm:px-8 sm:pb-28 sm:pt-[128px]"
+    >
+      <div className="mx-auto w-full max-w-[440px]">
+        {/* `text-balance` reparte as linhas sozinho. Sem ele o título quebrava
+            depois da conjunção, e ela ficava órfã no fim da primeira linha —
+            já em verde, porque o destaque começa ali. */}
+        <h1 className="display text-balance text-center text-[clamp(30px,6.2vw,42px)] leading-[1.08]">
+          {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
+        </h1>
+        <p className="mt-3 text-center text-[15.5px] font-semibold text-dim">
+          {t.subtitulo(dias)}
+        </p>
 
-          <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-verde" aria-hidden="true" />
-            <span className="cota normal-case">{t.etiqueta(dias)}</span>
-          </p>
-
-          <h1 className="display mt-5 max-w-[16ch] text-[clamp(32px,5vw,58px)]">
-            {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
-          </h1>
-
-          <p className="mt-5 max-w-[46ch] text-[16.5px] leading-[1.55] text-dim">{t.texto}</p>
-
-          <ol className="mt-9 space-y-3">
-            {t.passos.map((p, i) => (
-              <li key={p} className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-soft font-mono text-[11px] font-bold text-verde"
-                >
-                  {i + 1}
-                </span>
-                <span className="text-[15.5px] font-semibold text-ink">{p}</span>
-              </li>
-            ))}
-          </ol>
-
-          {preco && (
-            <div className="mt-10 max-w-[46ch] border-t border-line pt-6">
-              <p className="text-[15px] font-extrabold tracking-[-0.015em] text-ink">
-                {t.depois.titulo(dias)}
-              </p>
-              <p className="mt-2 text-[14.5px] leading-[1.6] text-dim">{t.depois.texto(preco)}</p>
-            </div>
-          )}
-        </div>
-
+        {/* No celular o cartão não tem moldura: a página INTEIRA é o
+            formulário, e uma borda em volta de algo que já ocupa a tela toda
+            só rouba 48 px de largura útil. A partir de `sm` a moldura volta,
+            porque aí ela é o que segura a coluna no meio da tela. */}
         <form
           onSubmit={enviar}
           noValidate
-          className="rounded-[22px] border border-line bg-card px-6 py-8 sm:px-8"
+          className="mt-8 rounded-[22px] sm:border sm:border-line sm:bg-card sm:px-8 sm:py-9 sm:shadow-[0_36px_70px_-46px_rgba(20,55,80,.4)]"
         >
-          <h2 className="display text-[22px]">{f.titulo}</h2>
-
-          <div className="mt-7 grid gap-4">
+          <div className="grid gap-4">
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">{f.campos.nome.rotulo}</span>
               <input
@@ -218,6 +205,9 @@ export default function Comecar() {
               />
             </label>
 
+            {/* A dica "é para lá que vai o convite" saiu de baixo do campo: o
+                rótulo já diz e-mail, e cada linha a mais aqui é uma linha entre
+                o visitante e o botão. */}
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">{f.campos.email.rotulo}</span>
               <input
@@ -229,7 +219,6 @@ export default function Comecar() {
                 onChange={muda('email')}
                 autoComplete="email"
               />
-              <span className="text-[12.5px] text-dim">{f.campos.email.dica}</span>
             </label>
 
             <label className="grid gap-1.5">
@@ -264,13 +253,15 @@ export default function Comecar() {
           <button
             type="submit"
             disabled={estado === 'enviando'}
-            className="botao-marca mt-7 w-full px-6 py-4 text-[15.5px] transition-transform duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
+            className="botao-marca mt-6 w-full px-6 py-4 text-[15.5px] transition-transform duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
           >
-            {estado === 'enviando' ? f.enviando : f.enviar(dias)}
+            {estado === 'enviando' ? f.enviando : f.enviar()}
           </button>
 
+          <p className="mt-3 text-center text-[13px] font-semibold text-dim">{f.rapido}</p>
+
           {erro && (
-            <div role="alert" className="mt-3">
+            <div role="alert" className="mt-4 text-center">
               <p className="text-[13px] font-semibold text-ember">{erro}</p>
               {saida && (
                 <a
@@ -283,8 +274,6 @@ export default function Comecar() {
               )}
             </div>
           )}
-
-          <p className="mt-4 text-[12.5px] leading-[1.5] text-dim">{f.aviso}</p>
         </form>
       </div>
     </Revelar>

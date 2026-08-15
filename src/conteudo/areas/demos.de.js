@@ -378,6 +378,20 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
+  /* ── Das Projekt entsteht: von der Öffnung zum fertigen Fenster ───────── */
+  projeto: {
+    tocar: 'So funktioniert es',
+    denovo: 'Noch einmal ansehen',
+    pronto: 'Projekt fertig. In unter einer Minute.',
+    atos: {
+      vao: 'Es beginnt mit der Öffnung — Nische, zwischen Wänden, oder eine Wand.',
+      medida: 'Das Maß, das Sie vor Ort genommen haben.',
+      tipo: 'Dieselbe Öffnung trägt Duschwand, Tür oder Fenster.',
+      folhas: 'Das Modell ist fertig: vier Flügel, die beiden mittleren laufen.',
+      montagem: 'Aluminium, Dichtung, Rollen und Verschluss — Luft und Überlappung sitzen.',
+    },
+  },
+
   cartao: {
     ia: 'KI',
     otimizacao: {

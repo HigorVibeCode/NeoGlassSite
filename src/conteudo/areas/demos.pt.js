@@ -393,6 +393,22 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
+  /* ── O projeto nascendo: do vão à janela montada ───────────────────────
+     Uma legenda por ato, e nada mais. O desenho carrega o argumento; a frase
+     só diz o que a pessoa está vendo, para ninguém precisar adivinhar. */
+  projeto: {
+    tocar: 'Ver como funciona',
+    denovo: 'Ver de novo',
+    pronto: 'Projeto pronto. Menos de um minuto.',
+    atos: {
+      vao: 'Começa pelo vão — nicho, entre paredes, ou uma parede só.',
+      medida: 'A medida que você tirou na obra.',
+      tipo: 'O mesmo vão serve para box, porta ou janela.',
+      folhas: 'O modelo vem pronto: quatro folhas, as duas do meio correm.',
+      montagem: 'Alumínio, vedação, roldana e trinco — com folga e transpasse no lugar.',
+    },
+  },
+
   cartao: {
     ia: 'IA',
     otimizacao: {

@@ -372,6 +372,20 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
+  /* ── El proyecto naciendo: del vano a la ventana montada ──────────────── */
+  projeto: {
+    tocar: 'Ver cómo funciona',
+    denovo: 'Ver de nuevo',
+    pronto: 'Proyecto listo. Menos de un minuto.',
+    atos: {
+      vao: 'Empieza por el vano — hornacina, entre paredes, o una sola pared.',
+      medida: 'La medida que tomaste en la obra.',
+      tipo: 'El mismo vano sirve para mampara, puerta o ventana.',
+      folhas: 'El modelo viene hecho: cuatro hojas, las dos del medio corren.',
+      montagem: 'Aluminio, junta, rodamientos y cierre — con holgura y solape en su sitio.',
+    },
+  },
+
   cartao: {
     ia: 'IA',
     otimizacao: {

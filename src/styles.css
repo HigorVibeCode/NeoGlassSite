@@ -750,3 +750,65 @@ html[data-parado] {
     padding-bottom: 6rem;
   }
 }
+
+/* ── A demonstração do projeto (ferramentas/Projeto.jsx) ─────────────────── */
+
+/* A régua do tempo embaixo da legenda: diz quanto falta sem escrever número. */
+@keyframes correr {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* A linha da cota se desenha da esquerda para a direita. É o traço chegando
+   que faz o número parecer escrito — o número aparecendo sozinho parece
+   carimbo. `pathLength="1"` normaliza o comprimento, então o mesmo tempo vale
+   para a cota da largura e a da altura. */
+@keyframes cota-traco {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.cota-traco {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: cota-traco 600ms ease forwards;
+}
+@keyframes cota-numero {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cota-escreve {
+  animation: cota-numero 400ms 420ms ease both;
+}
+
+/* Cada uso (box, porta, janela, painel) surge dentro do próprio vão. O
+   `transform-box: fill-box` é obrigatório: sem ele o SVG escala a partir do
+   canto do documento e a peça sai voando da tela. */
+@keyframes uso-surge {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.uso-surge {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: uso-surge 400ms ease both;
+}

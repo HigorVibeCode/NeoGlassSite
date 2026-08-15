@@ -373,6 +373,20 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
+  /* ── The project being born: from the opening to the finished window ─── */
+  projeto: {
+    tocar: 'See how it works',
+    denovo: 'Play again',
+    pronto: 'Project done. Under a minute.',
+    atos: {
+      vao: 'It starts with the opening — recess, between walls, or one wall.',
+      medida: 'The measurement you took on site.',
+      tipo: 'The same opening takes a shower screen, a door or a window.',
+      folhas: 'The model comes ready: four panels, the middle two slide.',
+      montagem: 'Aluminium, seals, rollers and latch — clearance and overlap in place.',
+    },
+  },
+
   cartao: {
     ia: 'AI',
     otimizacao: {

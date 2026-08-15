@@ -5,6 +5,7 @@ import { useIdioma } from '../i18n/idioma.jsx'
 import { Bloco } from './Comum.jsx'
 import { ehExterno, linkAgendar, linkWhatsapp } from '../config.js'
 import { evento } from '../lib/rastreio.js'
+import { semMovimento } from '../lib/dispositivo.js'
 
 /**
  * A abertura de cada aba. A mesma arquitetura, o mesmo compasso — o que muda é
@@ -74,7 +75,19 @@ export default function Abertura({
               href={principal.href}
               target={principal.externo ? '_blank' : undefined}
               rel={principal.externo ? 'noreferrer' : undefined}
-              onClick={() => evento(acao ? 'comecar' : 'agendar', { origem })}
+              onClick={() => {
+                evento(acao ? 'comecar' : 'agendar', { origem })
+                // Um clique, uma coisa. Este botão desce até a prova E toca a
+                // demonstração — se fossem dois cliques, o segundo quase
+                // ninguém dá, e a animação morreria parada na tela.
+                if (principal.dispara)
+                  requestAnimationFrame(() =>
+                    setTimeout(
+                      () => window.dispatchEvent(new CustomEvent(principal.dispara)),
+                      semMovimento() ? 0 : 620,
+                    ),
+                  )
+              }}
               className={
                 principal.fantasma
                   ? 'group inline-flex items-center gap-3 rounded-full border-[1.5px] border-ink/15 bg-card py-2 pl-6 pr-2 text-[15px] font-bold text-ink shadow-[0_10px_28px_-18px_rgba(20,55,80,.55)] transition-all duration-200 hover:-translate-y-0.5 hover:border-verde hover:text-verde'

@@ -1,5 +1,5 @@
 import Abertura from '../components/Abertura.jsx'
-import Tela from '../components/Tela.jsx'
+import Projeto, { EVENTO_TOCAR } from '../ferramentas/Projeto.jsx'
 import Preco from './Preco.jsx'
 import { Revelar } from '../components/Comum.jsx'
 import { CONFIG, precoVidracaria } from '../config.js'
@@ -12,14 +12,14 @@ import { useIdioma } from '../i18n/idioma.jsx'
  *
  *   HERO           — a promessa, com a objeção respondida na mesma frase
  *   RECONHECIMENTO — "isso é o meu problema"
- *   PROVA          — o produto, parado e grande
+ *   PROVA          — o projeto nascendo, num clique só
  *   RESULTADO      — o que muda depois
  *   PREÇO + CTA    — o pedido, no fim, depois de tudo
  *
  * O que saiu e por quê:
- *   · a animação do vão — o dono a considerou ruim, e ela era a peça mais
- *     longa da página. No lugar dela entra a tela do NeoGlass Design parada:
- *     mesma prova, um segundo em vez de quinze, sem nada para esperar;
+ *   · a animação antiga do vão — o dono a considerou ruim, e ela era a peça
+ *     mais longa da página. A que está aqui agora é outra coisa: cinco atos,
+ *     um por vez, grandes, e o botão da abertura toca ela de longe;
  *   · "nasceu dentro de uma fábrica de vidro" — história de empresa, vive
  *     melhor na página da indústria;
  *   · o antes/depois e "o seu dia" — cortados em rodadas anteriores.
@@ -43,7 +43,14 @@ export default function Vidracaria() {
         /* O botão da abertura desce até a prova, em contorno e sem o verde da
            marca: ele guia sem competir com o título. O verde — o teste grátis —
            só aparece depois de a pessoa ter visto o produto. */
-        acao={{ rotulo: t.hero.verOrcamento, href: '#prova', externo: false, fantasma: true }}
+        acao={{
+          rotulo: t.hero.verOrcamento,
+          href: '#prova',
+          externo: false,
+          fantasma: true,
+          // desce E toca, no mesmo clique
+          dispara: EVENTO_TOCAR,
+        }}
         zap={false}
         rotulo={t.hero.rotulo}
         folha={`FL. 01/${folhas}`}
@@ -84,10 +91,12 @@ export default function Vidracaria() {
           <p className="mt-5 text-[16.5px] leading-[1.55] text-dim">{t.prova.texto}</p>
         </div>
 
-        {/* A tela do produto, parada e grande. Sem play, sem espera: o
-            visitante vê o sistema no primeiro segundo. */}
-        <div className="mx-auto mt-10 flex w-full max-w-[620px] justify-center">
-          <Tela variante="design" />
+        {/* A demonstração. Aqui a tela parada não bastava: a promessa da página
+            é "projeto em menos de um minuto", e promessa se mostra, não se
+            escreve. O hero mantém a tela parada — ela prova em um segundo que
+            isto é software; esta prova como se usa. */}
+        <div className="mt-10">
+          <Projeto />
         </div>
 
         <ul className="mx-auto mt-8 grid max-w-[860px] gap-4 sm:grid-cols-3 sm:gap-6">

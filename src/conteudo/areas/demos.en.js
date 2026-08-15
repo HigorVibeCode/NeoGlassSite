@@ -373,17 +373,38 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
-  /* ── The project being born: from the opening to the finished window ─── */
+  /* ── The project wizard, being used ─────────────────────────────────── */
   projeto: {
     tocar: 'See how it works',
     denovo: 'Play again',
     pronto: 'Project done. Under a minute.',
-    atos: {
-      vao: 'It starts with the opening — recess, between walls, or one wall.',
-      medida: 'The measurement you took on site.',
-      tipo: 'The same opening takes a shower screen, a door or a window.',
-      folhas: 'The model comes ready: four panels, the middle two slide.',
-      montagem: 'Aluminium, seals, rollers and latch — clearance and overlap in place.',
+    titulo: 'Add opening',
+    continuar: 'Continue',
+    cancelar: 'Cancel',
+    passos: {
+      vao: {
+        rotulo: 'Step 1 — What kind of opening?',
+        opcoes: ['Recess · floor to ceiling', 'Recess · between two walls', 'One wall only', 'Free-standing'],
+      },
+      medida: { rotulo: 'Step 2 — What are the measurements?', largura: 'Opening width', altura: 'Opening height' },
+      tipo: {
+        rotulo: 'Step 3 — What goes in it?',
+        opcoes: [
+          ['Shower screen', 'Sliding · Hinged · Pivot'],
+          ['Door', 'Sliding · Hinged · Pivot'],
+          ['Window', 'Sliding · Hinged · Pivot · Awning'],
+          ['Fixed panel', 'Fixed'],
+        ],
+      },
+      folhas: {
+        rotulo: 'Step 5 — Model',
+        opcoes: [
+          ['Sliding window · 2 panels', '1 fixed + 1 sliding'],
+          ['Sliding window · 3 panels', '2 fixed + 1 sliding'],
+          ['Sliding window · 4 panels', '2 fixed + 2 sliding · open from centre'],
+        ],
+      },
+      montagem: { rotulo: 'Test the opening', sub: 'Sliding window · 4 panels', dica: 'Drag to rotate the camera' },
     },
   },
 

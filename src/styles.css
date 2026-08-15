@@ -753,7 +753,7 @@ html[data-parado] {
 
 /* ── A demonstração do projeto (ferramentas/Projeto.jsx) ─────────────────── */
 
-/* A régua do tempo embaixo da legenda: diz quanto falta sem escrever número. */
+/* A régua do tempo embaixo do quadro: diz quanto falta sem escrever número. */
 @keyframes correr {
   from {
     width: 0;
@@ -763,52 +763,78 @@ html[data-parado] {
   }
 }
 
-/* A linha da cota se desenha da esquerda para a direita. É o traço chegando
-   que faz o número parecer escrito — o número aparecendo sozinho parece
-   carimbo. `pathLength="1"` normaliza o comprimento, então o mesmo tempo vale
-   para a cota da largura e a da altura. */
-@keyframes cota-traco {
+/* A onda que sai do ponto tocado. É o segundo dos três sinais do toque — o
+   dedo chega, a onda sai, o cartão acende. Um sinal só passa despercebido num
+   quadro do tamanho de um celular. */
+@keyframes onda {
   from {
-    stroke-dashoffset: 1;
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.55;
   }
   to {
-    stroke-dashoffset: 0;
-  }
-}
-.cota-traco {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: cota-traco 600ms ease forwards;
-}
-@keyframes cota-numero {
-  from {
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
-.cota-escreve {
-  animation: cota-numero 400ms 420ms ease both;
+.onda {
+  position: absolute;
+  left: 14%;
+  top: 12%;
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(61, 81, 214, 0.45), rgba(61, 81, 214, 0) 68%);
+  animation: onda 620ms ease-out forwards;
+  pointer-events: none;
 }
 
-/* Cada uso (box, porta, janela, painel) surge dentro do próprio vão. O
-   `transform-box: fill-box` é obrigatório: sem ele o SVG escala a partir do
-   canto do documento e a peça sai voando da tela. */
-@keyframes uso-surge {
-  from {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-  to {
+/* O cursor do campo de medida, antes de o número ser digitado. */
+@keyframes pisca {
+  0%,
+  45% {
     opacity: 1;
-    transform: none;
+  }
+  55%,
+  100% {
+    opacity: 0;
   }
 }
-.uso-surge {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: uso-surge 400ms ease both;
+.cursor-pisca {
+  display: inline-block;
+  width: 2px;
+  height: 20px;
+  vertical-align: -3px;
+  background: #3d51d6;
+  animation: pisca 1s steps(1, end) infinite;
+}
+
+/* O palco desta demonstração é a tela do app INTEIRA: ela precisa preencher o
+   quadrado, e não ficar centralizada com faixa branca sobrando embaixo. A
+   classe é própria de propósito — as outras duas demonstrações usam
+   `.demo-palco` e continuam centralizando o desenho delas, que é o certo lá. */
+.palco-app {
+  /* `.demo-palco` reserva 5,5 rem embaixo (6 no computador) para a barra fixa
+     de botões das outras duas demonstrações. Esta aqui não tem barra: aquele
+     espaço virava exatamente os 88 px de branco que sobravam sob a tela do
+     app. */
+  padding-bottom: 0;
+  /* Não é quadrado, e isso é de propósito. As outras duas demonstrações são
+     DESENHOS, e desenho quadrado fica bem. Esta é a tela de um aplicativo de
+     celular — retrato por natureza. Forçada em 92vw, a lista de quatro opções
+     do passo 3 transbordava 46 px e passava por trás dos botões. Com altura de
+     telefone, tudo cabe e ainda sobra respiro. */
+  height: min(124vw, 560px);
+}
+@media (min-width: 640px) {
+  .palco-app {
+    height: 520px;
+  }
+}
+.palco-app > * {
+  flex: 1 0 0;
+  display: flex;
+  min-height: 0;
+}
+.palco-app svg {
+  max-height: none;
 }

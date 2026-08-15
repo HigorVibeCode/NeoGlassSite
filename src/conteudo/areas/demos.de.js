@@ -378,17 +378,38 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
-  /* ── Das Projekt entsteht: von der Öffnung zum fertigen Fenster ───────── */
+  /* ── Der Projekt-Assistent, in Benutzung ────────────────────────────── */
   projeto: {
     tocar: 'So funktioniert es',
     denovo: 'Noch einmal ansehen',
     pronto: 'Projekt fertig. In unter einer Minute.',
-    atos: {
-      vao: 'Es beginnt mit der Öffnung — Nische, zwischen Wänden, oder eine Wand.',
-      medida: 'Das Maß, das Sie vor Ort genommen haben.',
-      tipo: 'Dieselbe Öffnung trägt Duschwand, Tür oder Fenster.',
-      folhas: 'Das Modell ist fertig: vier Flügel, die beiden mittleren laufen.',
-      montagem: 'Aluminium, Dichtung, Rollen und Verschluss — Luft und Überlappung sitzen.',
+    titulo: 'Öffnung hinzufügen',
+    continuar: 'Weiter',
+    cancelar: 'Abbrechen',
+    passos: {
+      vao: {
+        rotulo: 'Schritt 1 — Welche Art von Öffnung?',
+        opcoes: ['Nische · Boden bis Decke', 'Nische · zwischen zwei Wänden', 'Nur eine Wand', 'Freistehend'],
+      },
+      medida: { rotulo: 'Schritt 2 — Welche Maße?', largura: 'Breite der Öffnung', altura: 'Höhe der Öffnung' },
+      tipo: {
+        rotulo: 'Schritt 3 — Was kommt hinein?',
+        opcoes: [
+          ['Duschwand', 'Schiebe · Dreh · Pendel'],
+          ['Tür', 'Schiebe · Dreh · Pendel'],
+          ['Fenster', 'Schiebe · Dreh · Pendel · Klapp'],
+          ['Festfeld', 'Fest'],
+        ],
+      },
+      folhas: {
+        rotulo: 'Schritt 5 — Modell',
+        opcoes: [
+          ['Schiebefenster · 2 Flügel', '1 fest + 1 beweglich'],
+          ['Schiebefenster · 3 Flügel', '2 fest + 1 beweglich'],
+          ['Schiebefenster · 4 Flügel', '2 fest + 2 beweglich · öffnen aus der Mitte'],
+        ],
+      },
+      montagem: { rotulo: 'Öffnung testen', sub: 'Schiebefenster · 4 Flügel', dica: 'Ziehen, um die Kamera zu drehen' },
     },
   },
 

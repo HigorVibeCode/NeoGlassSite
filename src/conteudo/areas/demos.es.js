@@ -372,17 +372,38 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
-  /* ── El proyecto naciendo: del vano a la ventana montada ──────────────── */
+  /* ── El asistente del proyecto, en uso ──────────────────────────────── */
   projeto: {
     tocar: 'Ver cómo funciona',
     denovo: 'Ver de nuevo',
     pronto: 'Proyecto listo. Menos de un minuto.',
-    atos: {
-      vao: 'Empieza por el vano — hornacina, entre paredes, o una sola pared.',
-      medida: 'La medida que tomaste en la obra.',
-      tipo: 'El mismo vano sirve para mampara, puerta o ventana.',
-      folhas: 'El modelo viene hecho: cuatro hojas, las dos del medio corren.',
-      montagem: 'Aluminio, junta, rodamientos y cierre — con holgura y solape en su sitio.',
+    titulo: 'Añadir vano',
+    continuar: 'Continuar',
+    cancelar: 'Cancelar',
+    passos: {
+      vao: {
+        rotulo: 'Paso 1 — ¿Qué tipo de vano?',
+        opcoes: ['Hornacina · de suelo a techo', 'Hornacina · entre dos paredes', 'Una sola pared', 'Libre'],
+      },
+      medida: { rotulo: 'Paso 2 — ¿Cuáles son las medidas?', largura: 'Ancho del vano', altura: 'Alto del vano' },
+      tipo: {
+        rotulo: 'Paso 3 — ¿Qué va en ese vano?',
+        opcoes: [
+          ['Mampara', 'Corredera · Abatible · Pivotante'],
+          ['Puerta', 'Corredera · Abatible · Pivotante'],
+          ['Ventana', 'Corredera · Abatible · Pivotante · Proyectante'],
+          ['Panel fijo', 'Fijo'],
+        ],
+      },
+      folhas: {
+        rotulo: 'Paso 5 — Modelo',
+        opcoes: [
+          ['Ventana corredera · 2 hojas', '1 fija + 1 móvil'],
+          ['Ventana corredera · 3 hojas', '2 fijas + 1 móvil'],
+          ['Ventana corredera · 4 hojas', '2 fijas + 2 móviles · abren del centro'],
+        ],
+      },
+      montagem: { rotulo: 'Probar la apertura', sub: 'Ventana corredera · 4 hojas', dica: 'Arrastra para girar la cámara' },
     },
   },
 

@@ -393,19 +393,40 @@ export default {
   },
 
   // ── O cartão que troca de face na abertura ─────────────────────────────
-  /* ── O projeto nascendo: do vão à janela montada ───────────────────────
-     Uma legenda por ato, e nada mais. O desenho carrega o argumento; a frase
-     só diz o que a pessoa está vendo, para ninguém precisar adivinhar. */
+  /* ── O assistente do projeto, sendo usado ──────────────────────────────
+     As palavras são as do app de verdade, e é essa fidelidade que faz o
+     vidraceiro reconhecer a tela. Nada aqui é frase de site. */
   projeto: {
     tocar: 'Ver como funciona',
     denovo: 'Ver de novo',
     pronto: 'Projeto pronto. Menos de um minuto.',
-    atos: {
-      vao: 'Começa pelo vão — nicho, entre paredes, ou uma parede só.',
-      medida: 'A medida que você tirou na obra.',
-      tipo: 'O mesmo vão serve para box, porta ou janela.',
-      folhas: 'O modelo vem pronto: quatro folhas, as duas do meio correm.',
-      montagem: 'Alumínio, vedação, roldana e trinco — com folga e transpasse no lugar.',
+    titulo: 'Adicionar vão',
+    continuar: 'Continuar',
+    cancelar: 'Cancelar',
+    passos: {
+      vao: {
+        rotulo: 'Passo 1 — Que tipo de vão?',
+        opcoes: ['Nicho fechado · piso ao teto', 'Nicho · entre duas paredes', 'Uma parede só', 'Livre'],
+      },
+      medida: { rotulo: 'Passo 2 — Quais as medidas?', largura: 'Largura do vão', altura: 'Altura do vão' },
+      tipo: {
+        rotulo: 'Passo 3 — O que vai nesse vão?',
+        opcoes: [
+          ['Box', 'De correr · De abrir · pivotante'],
+          ['Porta', 'De correr · De abrir · pivotante'],
+          ['Janela', 'De correr · De abrir · pivotante · Maxim-ar'],
+          ['Painel fixo', 'Fixo'],
+        ],
+      },
+      folhas: {
+        rotulo: 'Passo 5 — Modelo',
+        opcoes: [
+          ['Janela de correr · 2 folhas', '1 fixa + 1 móvel'],
+          ['Janela de correr · 3 folhas', '2 fixas + 1 móvel'],
+          ['Janela de correr · 4 folhas', '2 fixas + 2 móveis · abrem do centro'],
+        ],
+      },
+      montagem: { rotulo: 'Testar abertura', sub: 'Janela de correr · 4 folhas', dica: 'Arraste para girar a câmera' },
     },
   },
 

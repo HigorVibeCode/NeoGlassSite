@@ -575,6 +575,12 @@ export default function Projeto({ acao }) {
       marcar(base, () => {
         setAto(passo)
         setBeat('entra')
+        /* O foco zera na TROCA de ato, e não ao terminar de digitar. Zerar no
+           fim da digitação fazia a mira cair de volta no campo da largura, e o
+           cursor dava uma viagem a mais — largura → altura → largura →
+           Continuar — antes de confirmar. Agora são três trechos: ele vai ao
+           primeiro campo, ao segundo, e ao botão. */
+        setFoco(null)
       })
       marcar(base + BEATS.dedo, () => setBeat('dedo'))
       marcar(base + BEATS.toque, () => setBeat('toque'))
@@ -593,7 +599,6 @@ export default function Projeto({ acao }) {
         for (let d = 1; d <= MEDIDA.altura.length; d++) {
           marcar(base + 1520 + d * TECLA, () => setDigitos((v) => ({ ...v, a: d })))
         }
-        marcar(base + 2100, () => setFoco(null))
       }
     })
 

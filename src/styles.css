@@ -981,129 +981,109 @@ html[data-parado] {
   }
 }
 
-/* ── O cavalete dos ambientes (plataforma, seção 02) ─────────────────────
-   As chapas são um objeto só, não cinco cartões: elas se apoiam no mesmo
-   trilho, se sobrepõem, e entram uma depois da outra. */
-.cavalete {
-  position: relative;
-  perspective: 1500px;
-  perspective-origin: 50% 40%;
-}
-.cavalete-vao {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 0;
-  transform-style: preserve-3d;
-}
-
-.chapa-ambiente {
-  position: relative;
-  flex: 1 1 0;
-  min-width: 0;
-  height: 300px;
-  /* Sobreposição pequena, e não grande. Cinco chapas translúcidas empilhadas
-     com folga larga viram uma poça: as cores se multiplicam uma na outra e
-     nenhuma aresta aparece. O que faz ler como pilha é a ARESTA visível de
-     cada uma, não a quantidade de sobreposição. */
-  margin-inline: -0.8%;
-  transform-origin: bottom center;
-  transform: rotate(var(--giro)) translateY(34px);
-  opacity: 0;
-  transition:
-    transform 780ms cubic-bezier(0.2, 0.8, 0.25, 1),
-    opacity 620ms ease-out;
-  transition-delay: var(--atraso);
-}
-.chapa-ambiente.posta {
-  transform: rotate(var(--giro)) translateY(0);
-  opacity: 1;
-}
-@media (min-width: 640px) {
-  .chapa-ambiente {
-    height: 372px;
-  }
-}
-
-/* a chapa em si: translúcida, tingida no tema do módulo, com o fio de luz na
-   aresta de cima — a mesma aresta do utilitário `.chapa` do resto do site */
-.chapa-vidro {
-  position: absolute;
-  inset: 0;
-  border-radius: 10px;
-  /* A base é BRANCA e quase opaca. Sem ela a chapa da frente deixava passar
-     a de trás inteira e o fundo da página junto — cinco tintas somadas viram
-     lama. Com a base, cada chapa oculta o que está atrás como vidro de
-     verdade oculta, e a cor fica limpa. */
+/* ── A capa da /plataforma ───────────────────────────────────────────────
+   O topo precisa continuar claro: o cabeçalho do site é tinta escura e
+   não tem variante. O véu começa na cor da página e só depois escurece
+   sobre a fábrica, para o menu não sumir e o título branco ainda ler. */
+.apresentacao-velo {
   background:
     linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--cor) 30%, transparent),
-      color-mix(in srgb, var(--cor) 9%, transparent) 52%,
-      color-mix(in srgb, var(--cor) 22%, transparent)
+      180deg,
+      #eef1f6 0%,
+      rgba(238, 241, 246, 0.94) 72px,
+      rgba(15, 37, 48, 0.38) 150px,
+      rgba(15, 37, 48, 0.64) 100%
     ),
-    rgba(255, 255, 255, 0.82);
-  border: 1px solid color-mix(in srgb, var(--cor) 52%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--cor) 72%, transparent),
-    0 26px 48px -34px color-mix(in srgb, var(--cor) 70%, transparent);
-  transition:
-    background 260ms ease,
-    box-shadow 260ms ease;
-}
-.chapa-ambiente:hover .chapa-vidro {
-  background:
-    linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--cor) 44%, transparent),
-      color-mix(in srgb, var(--cor) 15%, transparent) 52%,
-      color-mix(in srgb, var(--cor) 34%, transparent)
-    ),
-    rgba(255, 255, 255, 0.9);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--cor) 78%, transparent),
-    0 30px 56px -30px color-mix(in srgb, var(--cor) 80%, transparent);
+    linear-gradient(90deg, rgba(15, 37, 48, 0.5) 0%, transparent 52%);
 }
 
-/* O nome fica DE PÉ na chapa, como a etiqueta numa folha guardada no
-   cavalete. Não é estilo: é o que resolve o celular. Deitado, "Financeiro"
-   não cabe em 60 px de largura; em pé, cabe em qualquer tela, e o conjunto
-   continua legível a 360 px sem virar rolagem lateral. */
-.chapa-nome {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  translate: -50% 0;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: color-mix(in srgb, var(--cor) 82%, #0f2530);
-}
-@media (min-width: 640px) {
-  .chapa-nome {
-    font-size: 13px;
-    bottom: 22px;
+@keyframes kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.4%, -1.2%, 0);
   }
 }
+.kenburns {
+  animation: kenburns 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
 
-/* o trilho: a linha em que todas se apoiam */
-.cavalete-trilho {
+/* ── Onde nasceu ─────────────────────────────────────────────────────────
+   Três fotos, um objeto só: a grande à esquerda, as duas empilhadas à
+   direita. No celular viram coluna. */
+.nasceu-grade {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+.nasceu-foto {
+  overflow: hidden;
+  border-radius: 16px;
+  margin: 0;
+  min-height: 220px;
+}
+.nasceu-foto img {
   display: block;
-  height: 3px;
-  margin-top: -1px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, transparent, #cfd8e2 12%, #cfd8e2 88%, transparent);
+}
+@media (min-width: 768px) {
+  .nasceu-grade {
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    min-height: 520px;
+    gap: 12px;
+  }
+  .nasceu-a {
+    grid-row: 1 / 3;
+    min-height: 0;
+  }
+  .nasceu-b,
+  .nasceu-c {
+    min-height: 0;
+  }
+}
+
+/* ── A visão ─────────────────────────────────────────────────────────────
+   Quatro nomes num eixo. Sem mapa. */
+.visao-eixo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-left: 22px;
+}
+.visao-eixo::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 4px;
+  width: 1px;
+  background: #d5dde4;
+}
+.visao-linha {
+  position: relative;
+  transition:
+    opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.visao-marca {
+  position: absolute;
+  top: 0.55em;
+  left: -22px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #0e8c6a;
+  box-shadow: 0 0 0 4px rgba(14, 140, 106, 0.12);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chapa-ambiente {
+  .kenburns {
+    animation: none;
+  }
+  .visao-linha {
     transition: none;
-    transform: rotate(var(--giro));
-    opacity: 1;
   }
 }

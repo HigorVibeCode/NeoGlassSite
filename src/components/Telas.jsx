@@ -20,6 +20,7 @@ export default function Telas({
   variantes,
   intervalo = 4000,
   pistas = true,
+  pistasClaras = false,
   largura = 'max-w-[540px]',
 }) {
   const t = useTextos().tela
@@ -70,9 +71,6 @@ export default function Telas({
 
       {/* Os nomes dos módulos, que também são o controle: quem quiser ver o
           plano de corte agora não precisa esperar a vez dele chegar. */}
-      {/* Na apresentação da plataforma o leque não é um controle, é uma
-          imagem: os nomes dos módulos são o assunto da SEÇÃO SEGUINTE, e
-          antecipá-los aqui rouba dela o único trabalho que ela tem. */}
       {pistas && n > 1 && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-1.5">
           {variantes.map((v, i) => (
@@ -82,9 +80,13 @@ export default function Telas({
               onClick={() => setFrente(i)}
               aria-current={i === frente ? 'true' : undefined}
               className={`rounded-full px-3 py-1.5 text-[12.5px] font-bold transition-colors ${
-                i === frente
-                  ? 'bg-soft text-ink'
-                  : 'text-dim hover:text-ink'
+                pistasClaras
+                  ? i === frente
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/55 hover:text-white/85'
+                  : i === frente
+                    ? 'bg-soft text-ink'
+                    : 'text-dim hover:text-ink'
               }`}
             >
               {t[v].modulo}

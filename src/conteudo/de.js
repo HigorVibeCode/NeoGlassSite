@@ -40,12 +40,11 @@ export default {
     },
     plataforma: {
       nome: 'Plattform',
-      titulo: 'Die NeoGlass-Plattform · Was sie im Betrieb leistet',
+      titulo: 'Die NeoGlass-Plattform · Das System der Glasfabrik',
       descricao:
-        'Welche Module heute im Einsatz sind, welche KI darunter arbeitet, was die App auf der Baustelle kann und was als Nächstes auf die Plattform kommt.',
-      ogTitulo: 'Die NeoGlass-Plattform von innen',
-      ogDescricao:
-        'Vom Angebot bis zur Rechnung ohne Systemwechsel: die Module, die heute laufen, und das, was als Nächstes kommt.',
+        'Das System der Glasfabrik: ein Auftrag, die ganze Firma. Geschrieben in der Halle, heute im Einsatz.',
+      ogTitulo: 'Die NeoGlass-Plattform',
+      ogDescricao: 'Ein Auftrag. Die ganze Firma. Geschrieben in der Halle, heute im Einsatz.',
     },
     comecar: {
       nome: 'Starten',

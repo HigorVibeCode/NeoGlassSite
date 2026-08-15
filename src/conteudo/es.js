@@ -48,12 +48,11 @@ export default {
     },
     plataforma: {
       nome: 'Plataforma',
-      titulo: 'La plataforma NeoGlass · lo que resuelve cada mes',
+      titulo: 'La plataforma NeoGlass · El sistema de la fábrica de vidrio',
       descricao:
-        'Los módulos que ya están en marcha, la IA por dentro, la app en el bolsillo del cristalero y lo que viene después. Sin cambiar de sistema a mitad de camino.',
-      ogTitulo: 'La plataforma NeoGlass, por dentro',
-      ogDescricao:
-        'Del presupuesto a la factura sin cambiar de sistema: los módulos que ya están en marcha y lo que viene después.',
+        'El sistema de la fábrica de vidrio: un pedido, la empresa entera. Escrito dentro de la fábrica, en marcha hoy.',
+      ogTitulo: 'La plataforma NeoGlass',
+      ogDescricao: 'Un pedido. La empresa entera. Escrito dentro de la fábrica, en marcha hoy.',
     },
     comecar: {
       nome: 'Empezar',

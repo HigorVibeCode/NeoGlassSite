@@ -45,12 +45,11 @@ export default {
     },
     plataforma: {
       nome: 'Platform',
-      titulo: 'The NeoGlass platform · What it does for your month',
+      titulo: 'The NeoGlass platform · The system that runs the glass plant',
       descricao:
-        'The modules already running on real shop floors, the AI under the hood, the app in the glazier’s pocket and what lands next. Built in Switzerland.',
-      ogTitulo: 'Inside the NeoGlass platform',
-      ogDescricao:
-        'From quote to invoice without switching systems: the modules already running and what lands next.',
+        'The system that runs the glass plant: one order, the whole company. Written on the floor, running today.',
+      ogTitulo: 'The NeoGlass platform',
+      ogDescricao: 'One order. The whole company. Written on the floor, running today.',
     },
     comecar: {
       nome: 'Start',

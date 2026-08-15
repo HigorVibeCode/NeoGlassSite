@@ -1,26 +1,19 @@
 /**
- * A aba Plataforma em espanhol — espanhol neutro, que serve Espanha e América
- * Latina. Mesma árvore do pt.js da área, chave por chave.
+ * La pestaña Plataforma en español — español neutro. El pt.js del área
+ * sigue siendo la fuente: el mismo árbol, las mismas claves, el mismo orden.
  *
- * Vocabulário do setor: plancha, recorte (nunca "retal" nem "retazo"),
- * caballete, cristalería, hueco, escuadra, templado, plan de corte.
- * O leitor é el dueño del taller: tratamiento de usted, frase corta.
+ * Esta página presenta NeoGlass — y sostiene la frase de apertura. Casi no
+ * hay párrafo: lo que hay que entender está en el objeto, en la animación
+ * y en el vídeo.
  */
 export default {
   hero: {
-    rotulo: 'La plataforma · por dentro',
-    etiqueta: 'El sistema por dentro',
+    rotulo: 'La plataforma',
     titulo: {
-      antes: 'Un pedido. Del presupuesto a la factura.',
-      destaque: 'Sin cambiar de sistema.',
+      antes: 'Estamos',
+      destaque: 'orgullosos de lo que construimos.',
     },
-    texto:
-      'Cada etapa trabaja con la misma información, del primer contacto a la entrega.',
-    marcas: [
-      ['7', 'módulos, un solo pedido'],
-      ['4', 'formatos de salida para la mesa'],
-      ['0', 'hojas de cálculo entre una etapa y otra'],
-    ],
+    linha: 'El sistema de la fábrica de vidrio.',
   },
 
   abertura: {
@@ -28,109 +21,42 @@ export default {
     whatsapp: '¡Hola! Vengo desde la web de NeoGlass.',
   },
 
-
-  /* ── 02 · Lo que construimos ───────────────────────────────────────────
-     Los nombres son las etiquetas reales de cada módulo dentro del sistema,
-     copiadas del propio `src/i18n/es.js` de la plataforma. */
-  construimos: {
-    rotulo: 'Lo que construimos',
-    titulo: 'Lo que ya está construido.',
-    ambientes: {
-      admin: 'Administración',
+  caso: {
+    titulo: 'Un vidrio. Un código.',
+    codigo: 'VG-260918-03',
+    pedido: '26-0918',
+    peca: 'P3',
+    vidro: 'Incoloro 6 mm · 1800 × 1100',
+    estacoes: {
       pedidos: 'Pedidos',
       producao: 'Producción',
-      design: 'Diseño',
+      corte: 'Corte',
       financeiro: 'Finanzas',
+    },
+    fases: ['Corte', 'Canteado', 'Templado'],
+    margem: '41,7%',
+    margemRotulo: 'Margen',
+    conferida: 'Pieza comprobada',
+  },
+
+  visao: {
+    titulo: 'La plataforma sigue.',
+    capacidades: {
+      ia: 'Inteligencia artificial',
+      automacao: 'Automatización',
+      visao: 'Visión computacional',
+      dados: 'Datos',
     },
   },
 
-  devolve: {
-    rotulo: 'Lo que devuelve cada mes',
-    titulo: 'La ganancia no está en una pantalla. Está en lo que deja de pasar.',
-    itens: [
-      [
-        'La plancha que no hizo falta abrir',
-        'Cada recorte guardado es vidrio que ya se pagó una vez. Mientras no tenga medida, color y dirección de caballete, nadie puede volver a venderlo — y acaba siendo basura cara.',
-      ],
-      [
-        'El teléfono que no sonó',
-        'Cuando el cliente ve en qué fase está su pedido, deja de llamar. Y cuando deja de llamar, nadie dentro de la fábrica tiene que bajar a producción a buscar la respuesta.',
-      ],
-      [
-        'El vidrio que no volvió',
-        'Hueco fuera de escuadra, espesor que no aguanta el peso, herrajes que no existen para esa medida: todo eso es barato de corregir antes de la mesa y caro después del templado.',
-      ],
-      [
-        'El margen que apareció',
-        'No el del mes — el de cada pedido. Materia prima, producción e ingresos cierran en la misma pantalla, así se sabe qué tipo de trabajo vale la pena repetir.',
-      ],
-    ],
-  },
-
-  /* O módulo 'Checagem do pedido' saiu da lista nos quatro idiomas: a
-     ferramenta não existe no sistema. Os números foram corridos de 01 a 07 e
-     o título deixou de dizer oito. */
-  modulos: {
-    rotulo: 'Índice de módulos',
-    titulo: 'Siete módulos. Todos abiertos en la misma fábrica, todos los días.',
-    selo: 'en producción',
-    lista: [
-      ['01', 'Presupuesto y propuesta', 'Feed con foto de la obra, medida y firma en la pantalla del cliente'],
-      ['02', 'Simulación con IA', 'El vidrio en el ambiente del cliente antes de que la pieza exista'],
-      ['03', 'Optimización de corte', 'El plan usa primero los recortes; salida en DXF, G-code, ASC y CNI+FBT'],
-      ['04', 'Stock y recortes', 'Cada recorte con medida, color, espesor y dirección de caballete'],
-      ['05', 'Producción y trazabilidad', 'Etiqueta y código por pieza, con fase, hora y responsable'],
-      ['06', 'Expedición y entrega', 'Lectura a la salida, carga comprobada pieza a pieza'],
-      ['07', 'Finanzas por pedido', 'Factura, cobro y margen real del pedido, no del mes'],
-    ],
-  },
-
-  // Os tipos ('celular', 'tablet', 'navegador') são chave de desenho, não
-  // texto: ficam iguais nos quatro idiomas.
-  aparelhos: {
-    rotulo: 'Dónde se abre',
-    titulo: 'El mismo pedido, del bolsillo del cristalero a la mesa de corte.',
-    lista: [
-      ['celular', 'En la obra', 'Mide, fotografía, presupuesta y recoge la firma — de pie, en casa del cliente.'],
-      ['tablet', 'En el banco', 'La orden de producción y la etiqueta de la pieza, donde se está cortando el vidrio.'],
-      ['navegador', 'En la oficina', 'El plan de corte, la cola de la mesa y el cierre del pedido.'],
-    ],
-  },
-
-  /* O item brasileiro da reforma tributária (CBS, IBS, split payment) não faz
-     sentido para este leitor. No lugar dele vai a factura electrónica no
-     formato de cada país — sem prazo e sem citar norma, porque nem o prazo
-     nem a norma são nossos de prometer. */
-  adiante: {
-    rotulo: 'Lo que viene después',
-    titulo: 'Lo que todavía no está listo — y preferimos decirlo.',
-    selo: 'en camino',
-    itens: [
-      [
-        'Simulación con IA más fiel',
-        'La imagen generada en el ambiente del cliente todavía no coincide al 100% con la pieza que sale de fábrica. Acortar esa distancia es el trabajo de ahora.',
-      ],
-      [
-        'Factura electrónica',
-        'Cada país está fijando su propio formato de factura electrónica. Estamos preparando la emisión para que salga en el formato que exija el suyo. En preparación, sin fecha que podamos prometer.',
-      ],
-      [
-        'Más salidas de máquina',
-        'Cada mesa de corte habla su propio dialecto; la lista crece según lo que va pidiendo la fábrica.',
-      ],
-    ],
+  nasceu: {
+    titulo: 'Dentro de una fábrica de vidrio.',
   },
 
   chamada: {
-    rotulo: 'Agendar la presentación',
-    titulo: 'La mejor demostración es un pedido suyo.',
-    texto:
-      'Cuarenta minutos, el sistema abierto, sin diapositivas. Usted elige el módulo que más le interesa y empezamos por ahí.',
-    passos: [
-      'Usted nos dice dónde duele más hoy',
-      'Abrimos el módulo que resuelve justo eso',
-      'Ve el pedido entero atravesar el sistema',
-    ],
+    titulo: 'Ver NeoGlass abierto.',
+    texto: 'Cuarenta minutos, el sistema abierto, sin diapositivas.',
+    botao: 'Elegir el horario',
   },
 
   formulario: {

@@ -264,14 +264,36 @@ export function Origem({ folha = 'FL. 04/05' }) {
  * indústria quer: ali a venda é consultiva e o passo seguinte é uma reunião,
  * não deixar um telefone para alguém retornar depois. O formulário continua
  * existindo para onde ele fizer mais sentido.
+ *
+ * `agendaBotao` segura o widget: o visitante vê um botão, e o clique abre a
+ * agenda no mesmo cartão. A /plataforma usa isso. A indústria não — lá o
+ * calendário já é o objeto da seção.
  */
-export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, agenda = false, zap = true, convite, centro = false }) {
+export function Chamada({
+  rotulo,
+  folha = 'FL. 05/05',
+  titulo,
+  texto,
+  passos,
+  agenda = false,
+  agendaBotao = false,
+  botao,
+  zap = true,
+  convite,
+  centro = false,
+}) {
   const c = useTextos()
+  const [agendaAberta, setAgendaAberta] = useState(false)
+  const mostrarAgenda = agenda && CONFIG.agendar && (!agendaBotao || agendaAberta)
+  const cartaoLargo = centro && (mostrarAgenda || (agenda && !agendaBotao))
+
   return (
     <Revelar
       as="section"
       id="agendar"
-      className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
+      className={`secao mx-auto max-w-[1240px] px-5 ${
+        centro ? 'pb-20 sm:px-8 sm:pb-24' : 'pb-24 sm:px-8 sm:pb-32'
+      }`}
     >
       {/* Centralizado, o cartão tem a MESMA largura do cartão do preço
           (460 px). Eles são as duas últimas caixas da página, uma embaixo da
@@ -279,7 +301,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
           é a que lê como bloco solto. */}
       <div
         className={`relative overflow-hidden rounded-[26px] border border-line bg-card ${
-          centro ? 'mx-auto max-w-[460px]' : ''
+          centro ? (cartaoLargo ? 'mx-auto max-w-[680px]' : 'mx-auto max-w-[460px]') : ''
         }`}
       >
         <span
@@ -372,8 +394,21 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
                 <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
               </div>
             )
-          ) : agenda && CONFIG.agendar ? (
+          ) : mostrarAgenda ? (
             <Agenda />
+          ) : agenda && agendaBotao && CONFIG.agendar ? (
+            <div className="flex w-full flex-col items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setAgendaAberta(true)
+                  evento('agendar', { origem: 'chamada-botao' })
+                }}
+                className="botao-marca px-8 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+              >
+                {botao}
+              </button>
+            </div>
           ) : (
             <Formulario zap={zap} />
           )}

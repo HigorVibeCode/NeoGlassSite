@@ -242,7 +242,15 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
       id="agendar"
       className="secao mx-auto max-w-[1240px] px-5 pb-24 sm:px-8 sm:pb-32"
     >
-      <div className="relative overflow-hidden rounded-[26px] border border-line bg-card">
+      {/* Centralizado, o cartão tem a MESMA largura do cartão do preço
+          (460 px). Eles são as duas últimas caixas da página, uma embaixo da
+          outra: com larguras diferentes a coluna parece torta, e a mais larga
+          é a que lê como bloco solto. */}
+      <div
+        className={`relative overflow-hidden rounded-[26px] border border-line bg-card ${
+          centro ? 'mx-auto max-w-[460px]' : ''
+        }`}
+      >
         <span
           aria-hidden="true"
           className="absolute inset-x-0 top-0 h-px"
@@ -256,7 +264,7 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
         <div
           className={
             centro
-              ? 'relative mx-auto flex max-w-[520px] flex-col items-center gap-7 px-6 py-12 text-center sm:px-8 sm:py-14'
+              ? 'relative flex flex-col items-center gap-7 px-6 py-12 text-center sm:px-8 sm:py-14'
               : 'relative grid gap-10 px-7 py-14 sm:px-14 sm:py-20 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16'
           }
         >
@@ -266,7 +274,17 @@ export function Chamada({ rotulo, folha = 'FL. 05/05', titulo, texto, passos, ag
               faziam este bloco ter três vezes a altura das outras seções. */}
           <div className={centro ? 'w-full' : ''}>
             {!centro && <Bloco rotulo={rotulo} folha={folha} />}
-            <h2 className={`display max-w-[16ch] text-[clamp(29px,4vw,50px)] ${centro ? 'mx-auto' : 'mt-7'}`}>{titulo}</h2>
+            {/* Dentro de um cartão de 460 px, 50 px de título viram cinco
+                linhas de duas palavras. No modo centralizado ele para em 32. */}
+            <h2
+              className={
+                centro
+                  ? 'display mx-auto max-w-[18ch] text-[clamp(25px,3vw,32px)] leading-[1.12]'
+                  : 'display mt-7 max-w-[16ch] text-[clamp(29px,4vw,50px)]'
+              }
+            >
+              {titulo}
+            </h2>
             <p className={`mt-4 max-w-[46ch] text-[16px] leading-[1.55] text-dim ${centro ? 'mx-auto' : 'mt-5'}`}>{texto}</p>
 
             {!centro && (

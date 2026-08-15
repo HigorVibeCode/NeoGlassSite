@@ -1,3 +1,4 @@
+import Ambientes from '../components/Ambientes.jsx'
 import Apresentacao from '../components/Apresentacao.jsx'
 import Fluxo from '../components/Fluxo.jsx'
 import { Bloco, Chamada, Origem, Revelar } from '../components/Comum.jsx'
@@ -16,6 +17,9 @@ export default function Plataforma() {
     <>
       {/* 01 — APRESENTAÇÃO */}
       <Apresentacao />
+
+      {/* 02 — O QUE CONSTRUÍMOS */}
+      <Ambientes />
 
       {/* O filme de seis telas veio da Indústria. Ele conta um pedido andando
           de ponta a ponta — que é justamente o que esta página vende, e o que

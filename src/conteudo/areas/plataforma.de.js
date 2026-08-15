@@ -31,6 +31,22 @@ export default {
     whatsapp: 'Hallo! Ich komme über die NeoGlass-Website.',
   },
 
+
+  /* ── 02 · Was wir gebaut haben ─────────────────────────────────────────
+     Die Namen sind die echten Modulbezeichnungen aus dem System, kopiert aus
+     `src/i18n/de.js` der Plattform selbst. */
+  construimos: {
+    rotulo: 'Was wir gebaut haben',
+    titulo: 'Was bereits gebaut ist.',
+    ambientes: {
+      admin: 'Verwaltung',
+      pedidos: 'Bestellungen',
+      producao: 'Produktion',
+      design: 'Design',
+      financeiro: 'Finanzen',
+    },
+  },
+
   devolve: {
     rotulo: 'Was es im Monat einbringt',
     titulo: 'Der Gewinn steckt nicht in einer Maske. Er steckt in dem, was nicht mehr passiert.',

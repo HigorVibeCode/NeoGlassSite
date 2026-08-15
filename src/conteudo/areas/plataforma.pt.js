@@ -39,6 +39,25 @@ export default {
     whatsapp: 'Olá! Vim pelo site do NeoGlass.',
   },
 
+
+  /* ── 02 · O que construímos ────────────────────────────────────────────
+     Os nomes NÃO são invenção de vitrine: são exatamente os rótulos que o
+     módulo tem dentro do sistema, copiados de `src/i18n/<idioma>.js` da
+     plataforma. Quem ler esta página e depois abrir o NeoGlass encontra as
+     mesmas palavras no mesmo lugar — que é o mínimo que uma seção chamada
+     "o que construímos" tem de garantir. */
+  construimos: {
+    rotulo: 'O que construímos',
+    titulo: 'O que já está construído.',
+    ambientes: {
+      admin: 'Admin',
+      pedidos: 'Pedidos',
+      producao: 'Produção',
+      design: 'Design',
+      financeiro: 'Financeiro',
+    },
+  },
+
   // ── O que ela devolve no mês ──────────────────────────────────────────
   devolve: {
     rotulo: 'O que ela devolve no mês',

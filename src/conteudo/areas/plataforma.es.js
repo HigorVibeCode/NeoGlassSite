@@ -28,6 +28,22 @@ export default {
     whatsapp: '¡Hola! Vengo desde la web de NeoGlass.',
   },
 
+
+  /* ── 02 · Lo que construimos ───────────────────────────────────────────
+     Los nombres son las etiquetas reales de cada módulo dentro del sistema,
+     copiadas del propio `src/i18n/es.js` de la plataforma. */
+  construimos: {
+    rotulo: 'Lo que construimos',
+    titulo: 'Lo que ya está construido.',
+    ambientes: {
+      admin: 'Administración',
+      pedidos: 'Pedidos',
+      producao: 'Producción',
+      design: 'Diseño',
+      financeiro: 'Finanzas',
+    },
+  },
+
   devolve: {
     rotulo: 'Lo que devuelve cada mes',
     titulo: 'La ganancia no está en una pantalla. Está en lo que deja de pasar.',

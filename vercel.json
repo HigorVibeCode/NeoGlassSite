@@ -2,6 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
     {
@@ -28,52 +29,6 @@
       "source": "/app/:caminho*",
       "destination": "https://app.neoglass.online/:caminho*",
       "permanent": false
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/vidracaria",
-      "destination": "/vidracaria.html"
-    },
-    {
-      "source": "/plataforma",
-      "destination": "/plataforma.html"
-    },
-    {
-      "source": "/en",
-      "destination": "/en.html"
-    },
-    {
-      "source": "/en/glaziers",
-      "destination": "/en/glaziers.html"
-    },
-    {
-      "source": "/en/platform",
-      "destination": "/en/platform.html"
-    },
-    {
-      "source": "/es",
-      "destination": "/es.html"
-    },
-    {
-      "source": "/es/cristalerias",
-      "destination": "/es/cristalerias.html"
-    },
-    {
-      "source": "/es/plataforma",
-      "destination": "/es/plataforma.html"
-    },
-    {
-      "source": "/de",
-      "destination": "/de.html"
-    },
-    {
-      "source": "/de/glasereien",
-      "destination": "/de/glasereien.html"
-    },
-    {
-      "source": "/de/plattform",
-      "destination": "/de/plattform.html"
     }
   ],
   "headers": [

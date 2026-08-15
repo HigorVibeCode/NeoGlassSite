@@ -122,7 +122,12 @@ for (const p of paginas) {
 }
 
 // O 404 não é indexado e não reivindica canônica nenhuma.
-const naoAchou = montar(paginas.find((p) => p.id === 'industria' && p.idioma === 'en'))
+// A base é uma página da RAIZ, e isso não é detalhe: `montar` reescreve os
+// caminhos dos assets conforme a profundidade do arquivo, e o 404 vive sempre
+// em /404.html. Montado a partir de en/industry.html, ele saía pedindo
+// ../assets/index.js — um nível ACIMA do site. O navegador não achava script
+// nem folha de estilo, e a página era um retângulo branco.
+const naoAchou = montar(paginas.find((p) => p.id === 'home' && p.idioma === 'en'))
   .replace(/<title>[^<]*<\/title>/, '<title>Page not found · NeoGlass</title>')
   .replace(/<link rel="canonical"[^>]*>/, '<meta name="robots" content="noindex" />')
   .replace(/<link rel="alternate"[^>]*>\n?/g, '')

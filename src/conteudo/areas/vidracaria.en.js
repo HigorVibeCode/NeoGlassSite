@@ -50,7 +50,7 @@ export default {
 
   hero: {
     rotulo: 'NeoGlass · for the glass shop',
-    etiqueta: 'See how it works',
+    etiqueta: 'The system screen',
     verOrcamento: 'See how it works',
     titulo: { antes: 'Your glass shop gets professional', destaque: 'without complicating anything.' },
     texto: 'You measure. NeoGlass handles the rest.',

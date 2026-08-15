@@ -66,6 +66,10 @@ export function Topo({ rota }) {
   // só entra em cena depois que o visitante passa da primeira tela — quando
   // já leu a promessa e começou a descer por vontade própria.
   const [passouCapa, setPassouCapa] = useState(false)
+  // ...e ele some de novo quando o botão de verdade entra na tela. O botão do
+  // topo existe para levar até o cadastro; com o cadastro à vista ele vira o
+  // mesmo "Começar grátis · 14 dias" duas vezes na mesma tela.
+  const [ctaAVista, setCtaAVista] = useState(false)
   const { id, idioma, ir, trocarIdioma } = rota
   const c = useTextos()
 
@@ -88,6 +92,20 @@ export function Topo({ rota }) {
     window.addEventListener('scroll', on, { passive: true })
     return () => window.removeEventListener('scroll', on)
   }, [])
+
+  // O alvo é o cartão final — preço na vidraçaria, chamada nas outras abas.
+  // Refeito a cada troca de página, senão o observador ficaria olhando um
+  // elemento que já saiu do documento.
+  useEffect(() => {
+    setCtaAVista(false)
+    const alvo = document.querySelector('#preco') || document.querySelector('#agendar')
+    if (!alvo) return
+    const io = new IntersectionObserver(([e]) => setCtaAVista(e.isIntersecting), {
+      rootMargin: '-90px 0px -20% 0px',
+    })
+    io.observe(alvo)
+    return () => io.disconnect()
+  }, [id, idioma])
 
   const abrir = (e, destino) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
@@ -149,7 +167,7 @@ export function Topo({ rota }) {
               cena. Nas duas ele competiria com a única coisa que aquela tela
               precisa que aconteça: escolher um lado, ou preencher o formulário.
               Duas saídas no mesmo momento é como se perde a que interessa. */}
-          {id !== 'comecar' && id !== 'home' && passouCapa && (
+          {id !== 'comecar' && id !== 'home' && passouCapa && !ctaAVista && (
             <a
               href={alvo}
               target={ehExterno(alvo) ? '_blank' : undefined}

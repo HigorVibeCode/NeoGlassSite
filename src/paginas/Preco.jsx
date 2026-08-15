@@ -33,7 +33,7 @@ import { useIdioma } from '../i18n/idioma.jsx'
    definida, esta seção não fala de usuário nenhum — melhor não dizer nada do
    que prometer o que a cobrança não cumpre. Vale para os quatro idiomas. */
 
-export default function Preco({ centro = false, folha = 'FL. 05/07' }) {
+export default function Preco({ centro = false, fecho, folha = 'FL. 05/07' }) {
   const { idioma, c } = useIdioma()
   const t = c.vidracaria.preco
   const preco = precoVidracaria(idioma)
@@ -47,8 +47,12 @@ export default function Preco({ centro = false, folha = 'FL. 05/07' }) {
     <Revelar
       as="section"
       id="preco"
-      className="secao mx-auto max-w-[1240px] scroll-mt-[124px] px-5 pb-20 sm:px-8 sm:pb-24"
+      className="secao mx-auto max-w-[1240px] scroll-mt-[124px] px-5 pb-24 sm:px-8 sm:pb-32"
     >
+      {/* A âncora #agendar vivia na seção de cadastro, que deixou de existir.
+          Ela continua sendo apontada pelo rodapé e por links antigos, então
+          passa a morar aqui — o cadastro é isto agora. */}
+      {fecho && <span id="agendar" className="block scroll-mt-[124px]" aria-hidden="true" />}
       {!centro && <Bloco rotulo={t.rotulo} folha={folha} />}
       <h2
         className={`display max-w-[17ch] text-[clamp(28px,4vw,48px)] leading-[1.08] ${
@@ -107,12 +111,29 @@ export default function Preco({ centro = false, folha = 'FL. 05/07' }) {
               ))}
             </div>
 
+            {/* O fecho, dentro do mesmo cartão.
+                Antes ele era uma seção inteira logo abaixo desta, com o MESMO
+                botão verde. Numa tela de computador os dois apareciam juntos —
+                e com o botão do topo eram três "Começar grátis · 14 dias" ao
+                mesmo tempo. Um preço e o convite para testá-lo são o mesmo
+                gesto; agora são o mesmo cartão, e o botão é um só. */}
+            {fecho && (
+              <div className="mt-7 w-full border-t border-line pt-7">
+                <p className="mx-auto max-w-[24ch] text-[17px] font-extrabold leading-[1.2] text-ink">
+                  {fecho.titulo}
+                </p>
+                <p className="mx-auto mt-3 max-w-[38ch] text-[14.5px] leading-[1.5] text-dim">
+                  {fecho.texto}
+                </p>
+              </div>
+            )}
+
             <a
               href={comecar.href}
               target={comecar.externo ? '_blank' : undefined}
               rel={comecar.externo ? 'noreferrer' : undefined}
               onClick={() => evento('comecar', { origem: 'preco' })}
-              className="botao-marca mt-7 inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+              className="botao-marca mt-6 inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
             >
               {comecar.rotulo}
             </a>

@@ -47,7 +47,7 @@ export default {
 
   hero: {
     rotulo: 'NeoGlass · para a vidraçaria',
-    etiqueta: 'Ver como funciona',
+    etiqueta: 'A tela do sistema',
     verOrcamento: 'Ver como funciona',
     titulo: { antes: 'Sua vidraçaria se profissionaliza', destaque: 'sem complicar nada.' },
     texto: 'Você mede. A NeoGlass organiza o resto.',

@@ -1,9 +1,8 @@
 import Abertura from '../components/Abertura.jsx'
 import Tela from '../components/Tela.jsx'
 import Preco from './Preco.jsx'
-import { Bloco, Chamada, Revelar } from '../components/Comum.jsx'
-import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
-import { destinoComecar } from '../lib/paginasSeo.js'
+import { Revelar } from '../components/Comum.jsx'
+import { CONFIG, precoVidracaria } from '../config.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 
 /**
@@ -34,7 +33,6 @@ export default function Vidracaria() {
   const t = c.vidracaria
   const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
-  const acao = preco ? destinoComecar(acaoComecar(idioma, c), idioma) : undefined
   const folhas = preco ? '05' : '04'
 
   return (
@@ -132,17 +130,18 @@ export default function Vidracaria() {
         </dl>
       </Revelar>
 
-      {preco && <Preco centro />}
-
-      <Chamada
-        rotulo={t.chamada.rotulo}
-        titulo={t.chamada.titulo}
-        texto={t.chamada.texto(diasTeste)}
-        passos={t.chamada.passos}
-        zap={false}
-        centro
-        convite={acao && { href: acao.href, rotulo: acao.rotulo, nota: c.comecar.formulario.aviso }}
-      />
+      {/* PREÇO + CTA num bloco só. O cadastro tinha seção própria, com o mesmo
+          botão verde do cartão de preço logo acima — no computador os dois
+          apareciam na mesma tela, e com o botão fixo do topo davam três
+          "Começar grátis" simultâneos. O texto do cadastro não se perdeu: ele
+          entra no rodapé do próprio cartão, onde responde a última objeção
+          antes do clique. */}
+      {preco && (
+        <Preco
+          centro
+          fecho={{ titulo: t.chamada.titulo, texto: t.chamada.texto(diasTeste) }}
+        />
+      )}
     </>
   )
 }

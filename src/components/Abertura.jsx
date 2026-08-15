@@ -77,11 +77,32 @@ export default function Abertura({
               onClick={() => evento(acao ? 'comecar' : 'agendar', { origem })}
               className={
                 principal.fantasma
-                  ? 'rounded-[13px] border border-line bg-card px-7 py-3.5 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde'
+                  ? 'group inline-flex items-center gap-3 rounded-full border-[1.5px] border-ink/15 bg-card py-2 pl-6 pr-2 text-[15px] font-bold text-ink shadow-[0_10px_28px_-18px_rgba(20,55,80,.55)] transition-all duration-200 hover:-translate-y-0.5 hover:border-verde hover:text-verde'
                   : 'botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5'
               }
             >
               {principal.rotulo}
+              {/* A seta para BAIXO, e não para a direita: este botão não leva a
+                  outra página, ele desce até a prova. Numa pílula branca sem
+                  nada dentro ninguém sabia o que ia acontecer ao clicar — e
+                  ela lia como caixa de texto, não como botão. */}
+              {principal.fantasma && (
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-soft text-verde transition-transform duration-200 group-hover:translate-y-0.5"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4">
+                    <path
+                      d="M12 5v13m-6-6l6 6 6-6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              )}
             </a>
             {/* A vidraçaria não recebe este botão (`zap={false}`). O WhatsApp
                 é o atendimento da indústria; oferecê-lo aqui prometeria um

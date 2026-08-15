@@ -96,8 +96,10 @@ export function Topo({ rota }) {
   // O alvo é o cartão final — preço na vidraçaria, chamada nas outras abas.
   // Refeito a cada troca de página, senão o observador ficaria olhando um
   // elemento que já saiu do documento.
+  const [demoComCta, setDemoComCta] = useState(false)
   useEffect(() => {
     setCtaAVista(false)
+    setDemoComCta(false)
     const alvo = document.querySelector('#preco') || document.querySelector('#agendar')
     if (!alvo) return
     const io = new IntersectionObserver(([e]) => setCtaAVista(e.isIntersecting), {
@@ -106,6 +108,17 @@ export function Topo({ rota }) {
     io.observe(alvo)
     return () => io.disconnect()
   }, [id, idioma])
+
+  /* A demonstração da vidraçaria termina mostrando o próprio botão verde. Ela
+     avisa por evento, e o botão do topo sai de cena enquanto aquele estiver
+     lá — dois "Começar grátis" na mesma tela é o defeito que já foi corrigido
+     uma vez e que renasceria aqui. O topo não teria como descobrir isso
+     sozinho: o botão da demonstração só existe no último quadro. */
+  useEffect(() => {
+    const ouvir = (e) => setDemoComCta(Boolean(e.detail?.visivel))
+    window.addEventListener('neoglass:cta-demo', ouvir)
+    return () => window.removeEventListener('neoglass:cta-demo', ouvir)
+  }, [])
 
   const abrir = (e, destino) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
@@ -167,7 +180,7 @@ export function Topo({ rota }) {
               cena. Nas duas ele competiria com a única coisa que aquela tela
               precisa que aconteça: escolher um lado, ou preencher o formulário.
               Duas saídas no mesmo momento é como se perde a que interessa. */}
-          {id !== 'comecar' && id !== 'home' && passouCapa && !ctaAVista && (
+          {id !== 'comecar' && id !== 'home' && passouCapa && !ctaAVista && !demoComCta && (
             <a
               href={alvo}
               target={ehExterno(alvo) ? '_blank' : undefined}

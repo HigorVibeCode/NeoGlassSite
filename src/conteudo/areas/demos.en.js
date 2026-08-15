@@ -183,7 +183,6 @@ export default {
       medindo: 'The measurement is typed once. It is the opening, not the glass.',
       tipo: 'The system asks what goes there. One tap, no typing.',
       folhas: 'And how many leaves. The price changes here, and it already knows.',
-      montando: 'The glass builds itself into the opening, clearances already applied.',
       orcamento: 'Part by part, with hardware and labour. Nothing was retyped.',
       gerando: 'The PDF comes out with your logo, ready for the customer to sign.',
       pdf: 'This reaches the customer before you leave the site.',
@@ -412,7 +411,11 @@ export default {
           ['Sliding window · 4 panels', '2 fixed + 2 sliding · open from centre'],
         ],
       },
-      montagem: { rotulo: 'Test the opening', sub: 'Sliding window · 4 panels', dica: 'Drag to rotate the camera' },
+      montagem: {
+        rotulo: 'Test the opening',
+        sub: 'Sliding window · 4 panels',
+        etapas: ['Fitting the profiles', 'Setting the glass', 'Adding the hardware'],
+      },
     },
   },
 

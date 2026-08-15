@@ -2,7 +2,8 @@ import Abertura from '../components/Abertura.jsx'
 import Projeto, { EVENTO_TOCAR } from '../ferramentas/Projeto.jsx'
 import Preco from './Preco.jsx'
 import { Revelar } from '../components/Comum.jsx'
-import { CONFIG, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, precoVidracaria } from '../config.js'
+import { destinoComecar } from '../lib/paginasSeo.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 
 /**
@@ -34,6 +35,8 @@ export default function Vidracaria() {
   const preco = precoVidracaria(idioma)
   const { diasTeste } = CONFIG.vidracaria
   const folhas = preco ? '05' : '04'
+  // o mesmo destino do botão verde do preço: a demonstração termina pedindo
+  const acao = preco ? destinoComecar(acaoComecar(idioma, c), idioma) : undefined
 
   return (
     <>
@@ -96,7 +99,7 @@ export default function Vidracaria() {
             escreve. O hero mantém a tela parada — ela prova em um segundo que
             isto é software; esta prova como se usa. */}
         <div className="mt-10">
-          <Projeto />
+          <Projeto acao={acao} />
         </div>
 
         <ul className="mx-auto mt-8 grid max-w-[860px] gap-4 sm:grid-cols-3 sm:gap-6">

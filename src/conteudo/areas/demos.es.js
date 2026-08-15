@@ -181,7 +181,6 @@ export default {
       medindo: 'La medida se escribe una sola vez. Es la del hueco, no la del vidrio.',
       tipo: 'El sistema pregunta qué va ahí. Un toque, sin teclear.',
       folhas: 'Y de cuántas hojas. El precio cambia aquí, y él ya lo sabe.',
-      montando: 'El vidrio se monta en el hueco, con holguras ya calculadas.',
       orcamento: 'Pieza a pieza, con herrajes y mano de obra. Nada se reescribió.',
       gerando: 'Sale el PDF con tu logo, listo para que el cliente firme.',
       pdf: 'Esto llega al cliente antes de que salgas de la obra.',
@@ -411,7 +410,11 @@ export default {
           ['Ventana corredera · 4 hojas', '2 fijas + 2 móviles · abren del centro'],
         ],
       },
-      montagem: { rotulo: 'Probar la apertura', sub: 'Ventana corredera · 4 hojas', dica: 'Arrastra para girar la cámara' },
+      montagem: {
+        rotulo: 'Probar la apertura',
+        sub: 'Ventana corredera · 4 hojas',
+        etapas: ['Instalando los perfiles', 'Fijando los vidrios', 'Colocando los herrajes'],
+      },
     },
   },
 

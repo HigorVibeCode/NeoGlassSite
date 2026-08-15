@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { evento } from '../lib/rastreio.js'
 import { semMovimento } from '../lib/dispositivo.js'
 import { useTextos } from '../i18n/idioma.jsx'
+import { Simbolo } from '../components/Marca.jsx'
 
 /**
  * O assistente do NeoGlass sendo usado, do vão à janela montada.
@@ -39,12 +40,26 @@ import { useTextos } from '../i18n/idioma.jsx'
 /* O compasso. Cada ato tem a mesma batida — conteúdo entra, dedo viaja, toca,
    confirma — e é a repetição dessa batida que faz o visitante aprender o ritmo
    e conseguir acompanhar. */
-const ABRINDO = 1500 // a tela do app, antes de a folha subir
-const ATO = 3200
-const BEATS = { dedo: 560, toque: 1400, confirma: 2400 }
-const MONTANDO = 1700 // a barra, enquanto o projeto é montado
-const MONTAGEM = 6600
-const TOTAL = ABRINDO + ATO * 4 + MONTANDO + MONTAGEM
+const ABRINDO = 1800 // o respiro antes de a folha subir
+const ATO = 3500 // cada passo do assistente
+const BEATS = { dedo: 620, toque: 1560, confirma: 2650 }
+const MONTAGEM = 7000 // a janela sendo construída, e então aberta
+const TOTAL = ABRINDO + ATO * 4 + MONTAGEM
+
+/* A janela NASCE, em vez de aparecer pronta. Cada família de peça chega no seu
+   tempo, vindo de longe: primeiro os perfis, depois os vidros, por último as
+   ferragens. Era isto que faltava — uma barra de carregamento não constrói
+   nada, e a janela brotava na tela sem nada explicando de onde tinha vindo.
+
+   E some a vista explodida separada: montar é a mesma informação, na ordem
+   certa. Explodir uma coisa pronta é dissecar; vê-la nascer é ver fabricar. */
+const CHEGADA = [
+  { chave: 'alu', em: 400, dur: 950 },
+  { chave: 'vid', em: 1500, dur: 950 },
+  { chave: 'fer', em: 2600, dur: 950 },
+]
+const ABRE_EM = 4500
+const ABRE_DUR = 1900
 
 /* A mesma curva que a plataforma usa em `AnimacaoAbertura.jsx`. Sem ela, a
    janela SALTAVA de fechada para aberta e de montada para explodida: os dois
@@ -54,26 +69,24 @@ const suave = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
 
 const PASSOS = ['vao', 'medida', 'tipo', 'folhas']
 
-/* Onde o dedo encosta em cada ato, em porcentagem do quadro: primeiro o cartão
-   escolhido, depois o Continuar. */
-const ALVO = {
-  vao: { x: 72, y: 44 },
-  medida: { x: 50, y: 40 },
-  tipo: { x: 50, y: 62 },
-  folhas: { x: 50, y: 70 },
-}
-const ALVO_CONFIRMA = { x: 76, y: 90 }
+/* O cursor NÃO tem mais posições escritas à mão. Ele mede o elemento no DOM e
+   vai até o centro dele.
 
+   As porcentagens fixas erravam o alvo toda vez que o layout mudava — e ele
+   mudou umas seis vezes nesta peça. Pior: erravam de um jeito silencioso, sem
+   quebrar nada, então só se via olhando. Agora quem manda é `data-alvo`: se o
+   cartão sair do lugar, o cursor vai junto. */
 /* Qual opção acende em cada passo, e qual traço da barra de sete.
    Os traços NÃO são cinco: o assistente do produto tem sete passos e nós
    pulamos dois. Mostrar sete e acender 1, 2, 3 e 5 é dizer a verdade sobre o
    app em vez de inventar um fluxo mais curto do que ele é. */
-const ESCOLHA = { vao: 1, tipo: 2, folhas: 2 }
+const ESCOLHA = { vao: 0, tipo: 2, folhas: 2 }
 const TRACO = { vao: 1, medida: 2, tipo: 3, folhas: 5 }
 
 const AZUL = '#3d51d6'
 const LARANJA = '#e8873a'
 const MEDIDA = { largura: '1800', altura: '1100' }
+const TECLA = 110 // o intervalo entre um algarismo e o seguinte
 
 /* ── os desenhinhos dos cartões ──────────────────────────────────────────── */
 
@@ -249,9 +262,10 @@ const FOLHAS = [
 ]
 
 /* Constrói a lista de faces do quadro atual. `fase` é 0 fechado / 1 aberto e
-   `separa` é 0 montado / 1 explodido — a explosão empurra cada camada ao longo
-   do MESMO eixo z do desenho, que é o que faz ela se ler. */
-function facesDoVao(fase, separa) {
+   `sep` diz, para cada família de peça, o quanto ela ainda está longe do lugar:
+   1 = ainda vindo, 0 = encaixada. Elas viajam pelo MESMO eixo z do desenho, e é
+   por isso que a chegada se lê como montagem em vez de peças voando. */
+function facesDoVao(fase, sep) {
   const { L, A } = VAO3D
   const cxw = L / 2
   const cyw = A / 2
@@ -315,14 +329,13 @@ function facesDoVao(fase, separa) {
   }
 
   // ── as paredes do nicho: piso, teto e as duas laterais ─────────────────
-  // +25% em toda a expansão: as camadas ficavam próximas demais para o
-  // olho separar o que era perfil, o que era vidro e o que era ferragem
-  const recuo = separa * 375
-  const pd = (v) => v - recuo
-  addBox(-E, L + E, -E, 0, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
-  addBox(-E, L + E, A, A + E, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
-  addBox(-E, 0, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
-  addBox(L, L + E, 0, A, pd(-DEPTH), pd(DEPTH), COR.paredeF, COR.paredeL)
+  /* As paredes NÃO se mexem. Elas são o vão — a obra já está lá quando o
+     vidraceiro chega. Antes elas recuavam junto com o resto e a cena inteira
+     parecia explodir; agora só a janela se monta, dentro de um vão parado. */
+  addBox(-E, L + E, -E, 0, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
+  addBox(-E, L + E, A, A + E, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
+  addBox(-E, 0, 0, A, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
+  addBox(L, L + E, 0, A, -DEPTH, DEPTH, COR.paredeF, COR.paredeL)
 
   /* ── o alumínio: trilho superior, soleira e os dois montantes ──────────
      Faltava, e faz falta: sem o marco, o vidro parecia flutuar dentro de um
@@ -333,7 +346,7 @@ function facesDoVao(fase, separa) {
      (z = 0) e o outro as móveis (z = 34). São as duas cordinhas na soleira, e
      é por elas que se entende de cara por que uma folha passa na frente da
      outra. */
-  const alu = -separa * 200
+  const alu = -sep.alu * 320
   const z1a = -12 + alu
   const z2a = 54 + alu
   addBox(0, L, A - TRILHO, A, z1a, z2a, COR.aluF, COR.aluL) // trilho superior · 55
@@ -351,7 +364,7 @@ function facesDoVao(fase, separa) {
   for (const f of FOLHAS) {
     // explodida, a fixa recua e a móvel avança: elas se separam no eixo em que
     // já correm de verdade
-    const zb = f.z + separa * (f.papel === 'fixa' ? -25 : 188)
+    const zb = f.z + sep.vid * (f.papel === 'fixa' ? -190 : 300)
     const x1 = VIDRO_X0 + f.i * FOLHA
     const x2 = x1 + FOLHA
     const desloca = f.dir * fase * CURSO
@@ -371,7 +384,7 @@ function facesDoVao(fase, separa) {
     )
 
     if (f.papel === 'movel') {
-      const zf = zb + separa * 213
+      const zf = zb + sep.fer * 300
       /* As roldanas correm DENTRO do trilho — é lá que elas rodam. Por isso
          ficam a 18 mm do topo da folha, o que as põe dentro da faixa dos 55 mm
          do perfil, e não abaixo dela.
@@ -399,7 +412,7 @@ function facesDoVao(fase, separa) {
   // enquadramento estável: os cantos do cenário, não do quadro corrente — sem
   // isto a caixa "pula" de tamanho quando as folhas correm
   const ext = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity }
-  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 380, DEPTH + 420]) {
+  for (const x of [-E, L + E]) for (const y of [-E, A + E]) for (const z of [-DEPTH - 360, DEPTH + 620]) {
     const p = proj(x, y, z)
     ext.minX = Math.min(ext.minX, p[0]); ext.maxX = Math.max(ext.maxX, p[0])
     ext.minY = Math.min(ext.minY, p[1]); ext.maxY = Math.max(ext.maxY, p[1])
@@ -411,8 +424,10 @@ function facesDoVao(fase, separa) {
   }
 }
 
-function Perspectiva({ fase, separa }) {
-  const { faces, vb } = facesDoVao(fase, separa)
+const ZERO = { alu: 0, vid: 0, fer: 0 }
+
+function Perspectiva({ fase, sep }) {
+  const { faces, vb } = facesDoVao(fase, sep)
   return (
     <svg viewBox={vb} className="mx-auto h-full w-full" aria-hidden="true">
       {faces.map((f, i) => (
@@ -471,9 +486,10 @@ function Dedo({ em, tocando }) {
 
 /* ── as peças da folha do assistente ─────────────────────────────────────── */
 
-function Cartao({ aceso, className = '', children }) {
+function Cartao({ aceso, alvo, className = '', children }) {
   return (
     <div
+      data-alvo={alvo}
       className={`flex items-center rounded-[14px] border-2 px-3 py-2.5 transition-all duration-300 ${className}`}
       style={{
         borderColor: aceso ? AZUL : '#e4e9ee',
@@ -487,16 +503,27 @@ function Cartao({ aceso, className = '', children }) {
 }
 
 export const EVENTO_TOCAR = 'neoglass:tocar-projeto'
+/* Quando a demonstração termina ela mostra o próprio botão verde. Nesse
+   instante o botão fixo do topo precisa sair de cena: dois "Começar grátis"
+   na mesma tela é o defeito que o dono já mandou corrigir uma vez, e agora
+   ele nasceria aqui. O aviso vai por evento porque quem decide é esta peça —
+   o topo não tem como saber em que ponto da sequência ela está. */
+export const EVENTO_CTA = 'neoglass:cta-demo'
 
 /* ── a peça inteira ──────────────────────────────────────────────────────── */
 
-export default function Projeto() {
+export default function Projeto({ acao }) {
   const t = useTextos().demos.projeto
   const [ato, setAto] = useState('parado')
   const [beat, setBeat] = useState('entra')
-  const [digitou, setDigitou] = useState(0)
+  // quantos algarismos já foram digitados em cada campo, e qual está em foco
+  const [digitos, setDigitos] = useState({ l: 0, a: 0 })
+  const [foco, setFoco] = useState(null)
+  const [etapa, setEtapa] = useState(-1) // qual peça está sendo instalada
+  const palco = useRef(null)
+  const [dedoEm, setDedoEm] = useState({ x: 50, y: 46 })
   // 0 montada .. 1 explodida  ·  0 fechada .. 1 aberta — números, não bandeiras
-  const [separa, setSepara] = useState(0)
+  const [sep, setSep] = useState({ alu: 1, vid: 1, fer: 1 })
   const [fase, setFase] = useState(0)
   const relogios = useRef([])
   const quadros = useRef([])
@@ -526,15 +553,20 @@ export default function Projeto() {
   function tocar() {
     parar()
     evento('demo', { qual: 'projeto' })
-    setSepara(0)
+    window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: false } }))
+    setSep({ alu: 1, vid: 1, fer: 1 })
     setFase(0)
-    setDigitou(0)
+    setDigitos({ l: 0, a: 0 })
+    setFoco(null)
+    setEtapa(-1)
 
     // Quem pediu menos movimento recebe o desfecho, parado. Não é versão
     // pobre: é o quadro que a sequência inteira existe para entregar.
     if (semMovimento()) {
       setAto('fim')
+      setSep({ alu: 0, vid: 0, fer: 0 })
       setFase(1)
+      window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
       return
     }
 
@@ -552,25 +584,40 @@ export default function Projeto() {
       marcar(base + BEATS.dedo, () => setBeat('dedo'))
       marcar(base + BEATS.toque, () => setBeat('toque'))
       marcar(base + BEATS.confirma, () => setBeat('confirma'))
+      /* A medida é DIGITADA, e não colada. O cursor vai até o campo, ele
+         acende, e os algarismos entram um a um — é assim que o vidraceiro põe
+         a medida que tirou na obra, e é isso que a demonstração precisa
+         mostrar. Aparecer "1800" inteiro de uma vez era o mesmo que dizer que
+         o sistema adivinha o vão. */
       if (passo === 'medida') {
-        marcar(base + 520, () => setDigitou(1))
-        marcar(base + 1180, () => setDigitou(2))
+        marcar(base + 420, () => setFoco('l'))
+        for (let d = 1; d <= MEDIDA.largura.length; d++) {
+          marcar(base + 620 + d * TECLA, () => setDigitos((v) => ({ ...v, l: d })))
+        }
+        marcar(base + 1320, () => setFoco('a'))
+        for (let d = 1; d <= MEDIDA.altura.length; d++) {
+          marcar(base + 1520 + d * TECLA, () => setDigitos((v) => ({ ...v, a: d })))
+        }
+        marcar(base + 2100, () => setFoco(null))
       }
     })
 
-    // A janela não aparece pronta do nada: primeiro o sistema monta o projeto,
-    // e a barra mostra isso acontecendo. É o mesmo instante de espera que
-    // existe no app de verdade.
-    marcar(ABRINDO + ATO * 4, () => setAto('montando'))
-
-    const fim = ABRINDO + ATO * 4 + MONTANDO
+    const fim = ABRINDO + ATO * 4
     marcar(fim, () => setAto('montagem'))
-    // as peças se afastam, seguram um instante, e voltam a se encaixar
-    marcar(fim + 700, () => percorrer(setSepara, 0, 1, 1500))
-    marcar(fim + 3000, () => percorrer(setSepara, 1, 0, 1400))
+    // cada família de peça vem de longe e se encaixa, uma depois da outra
+    CHEGADA.forEach(({ chave, em, dur }, i) => {
+      marcar(fim + em, () => {
+        setEtapa(i)
+        percorrer((v) => setSep((atual) => ({ ...atual, [chave]: v })), 1, 0, dur)
+      })
+    })
+    marcar(fim + 3700, () => setEtapa(3)) // montada: a legenda sai
     // e então a janela abre, no mesmo compasso do sistema
-    marcar(fim + 4900, () => percorrer(setFase, 0, 1, 1700))
-    marcar(TOTAL, () => setAto('fim'))
+    marcar(fim + ABRE_EM, () => percorrer(setFase, 0, 1, ABRE_DUR))
+    marcar(TOTAL, () => {
+      setAto('fim')
+      window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
+    })
   }
 
   useEffect(() => {
@@ -579,66 +626,75 @@ export default function Projeto() {
     return () => window.removeEventListener(EVENTO_TOCAR, ouvir)
   })
 
+  /* `mira` e `confirmando` moram AQUI, antes dos efeitos, e não junto do
+     resto do render. A lista de dependências de um `useEffect` é avaliada no
+     momento do render — se a constante estiver declarada mais abaixo, o
+     navegador para com "Cannot access before initialization" e a página inteira
+     fica em branco. Aconteceu. */
   const noAssistente = PASSOS.includes(ato)
+  const confirmando = beat === 'confirma'
+  const mira = confirmando
+    ? 'confirmar'
+    : ato === 'medida'
+      ? foco === 'a'
+        ? 'campo-a'
+        : 'campo-l'
+      : 'escolha'
+
+  /* Mede o alvo e leva o cursor até o centro dele. Roda depois da pintura
+     (`requestAnimationFrame`) porque o elemento do passo novo ainda não existe
+     no instante em que o ato troca. */
+  useEffect(() => {
+    if (!noAssistente) return
+    let vivo = true
+    const medir = () => {
+      if (!vivo || !palco.current) return
+      const el = palco.current.querySelector(`[data-alvo="${mira}"]`)
+      if (!el) return
+      const c = palco.current.getBoundingClientRect()
+      const r = el.getBoundingClientRect()
+      setDedoEm({
+        x: ((r.left + r.width / 2 - c.left) / c.width) * 100,
+        y: ((r.top + r.height / 2 - c.top) / c.height) * 100,
+      })
+    }
+    const id = requestAnimationFrame(medir)
+    /* A segunda medição não é redundância. No primeiro passo a folha do
+       assistente ainda está SUBINDO quando o alvo é medido, e a régua pega o
+       cartão 18% abaixo de onde ele vai parar — o cursor ia para o lugar
+       errado e ficava lá. Medir de novo depois que a entrada assenta corrige
+       isso, e nos outros passos custa nada. */
+    const t = setTimeout(medir, 540)
+    return () => {
+      vivo = false
+      cancelAnimationFrame(id)
+      clearTimeout(t)
+    }
+  }, [mira, ato, noAssistente])
+
   const escuro = ato === 'montagem' || ato === 'fim'
   const p = noAssistente ? t.passos[ato] : null
   const aceso = beat === 'toque' || beat === 'confirma'
-  const confirmando = beat === 'confirma'
-  const dedoEm = confirmando ? ALVO_CONFIRMA : noAssistente ? ALVO[ato] : ALVO.vao
 
   return (
     <div className="mx-auto w-full max-w-[520px]">
       <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_40px_80px_-50px_rgba(20,55,80,.5)]">
-        <div className="demo-palco palco-app relative">
-          {/* ── a tela do app: o fundo de onde a folha sai ───────────────
-              É exatamente o que aparece atrás do assistente no sistema. Ela
-              fica visível sozinha por um instante depois do clique, e depois
-              continua ali embaixo enquanto a folha sobe por cima. */}
+        <div ref={palco} className="demo-palco palco-app relative">
+          {/* ── a abertura ────────────────────────────────────────────────
+              A primeira versão desta parte mostrava a tela do app inteira —
+              cabeçalho, quatro botões, prancheta vazia — antes de qualquer
+              coisa acontecer. Ficou ruim, e por um motivo simples: era uma
+              SEGUNDA interface para o visitante decifrar antes da que
+              interessa, e ele ainda nem sabia o que estava vendo.
+
+              O que ficou é o mínimo: o fundo escuro do sistema, a marca
+              acendendo no meio, e a folha do assistente subindo por cima. Não
+              há nada para ler — só a sensação de que algo abriu. */}
           {(ato === 'abrindo' || noAssistente) && (
-            <div className="absolute inset-0 flex flex-col bg-white">
-              <div className="shrink-0 border-b border-line px-5 pt-4 sm:px-6">
-                <p className="flex items-center gap-3">
-                  <span className="rounded-[10px] border border-line px-2.5 py-1 text-[12px] font-bold text-dim">
-                    ← {t.passos.canvas.voltar}
-                  </span>
-                  <b className="display text-[16px] leading-none sm:text-[18px]">
-                    {t.passos.canvas.titulo}
-                  </b>
-                </p>
-                <div className="mt-3 grid grid-cols-2 gap-2 pb-3">
-                  {t.passos.canvas.botoes.map((rot, i) => (
-                    <span
-                      key={rot}
-                      className="truncate rounded-[10px] px-3 py-2 text-center text-[12px] font-bold"
-                      style={
-                        i === 3
-                          ? { background: AZUL, color: '#fff' }
-                          : { border: '1.5px solid #e4e9ee', color: '#5b6b7d' }
-                      }
-                    >
-                      {rot}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {/* a prancheta escura, com a grade */}
-              <div
-                className="relative flex flex-1 items-center justify-center bg-[#131c3e]"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)',
-                  backgroundSize: '22px 22px',
-                }}
-              >
-                <p className="px-6 text-center">
-                  <b className="block text-[15px] font-bold text-white/45">
-                    {t.passos.canvas.vazio}
-                  </b>
-                  <span className="mt-1 block text-[12.5px] text-white/25">
-                    {t.passos.canvas.vazioDica}
-                  </span>
-                </p>
-              </div>
+            <div className="absolute inset-0 flex items-center justify-center bg-[#111a33]">
+              <span className="marca-acende block h-14 w-14 opacity-90">
+                <Simbolo />
+              </span>
             </div>
           )}
 
@@ -669,7 +725,12 @@ export default function Projeto() {
                 {ato === 'vao' && (
                   <div className="grid grid-cols-2 gap-2">
                     {p.opcoes.map((o, i) => (
-                      <Cartao key={o} aceso={aceso && i === ESCOLHA.vao} className="flex-col gap-1 px-2 py-2.5 text-center">
+                      <Cartao
+                        key={o}
+                        aceso={aceso && i === ESCOLHA.vao}
+                        alvo={i === ESCOLHA.vao ? 'escolha' : undefined}
+                        className="flex-col gap-1 px-2 py-2.5 text-center"
+                      >
                         <IconeVao qual={i} />
                         <span className="text-[11.5px] font-bold leading-tight text-ink sm:text-[13px]">
                           {o}
@@ -682,17 +743,22 @@ export default function Projeto() {
                 {ato === 'medida' && (
                   <div className="grid gap-3">
                     {[
-                      [p.largura, MEDIDA.largura, 1],
-                      [p.altura, MEDIDA.altura, 2],
-                    ].map(([rotulo, valor, ordem]) => (
+                      [p.largura, MEDIDA.largura, digitos.l, 'l'],
+                      [p.altura, MEDIDA.altura, digitos.a, 'a'],
+                    ].map(([rotulo, valor, n, chave]) => (
                       <span key={rotulo} className="grid gap-1.5">
                         <span className="text-[12.5px] font-bold text-ink">{rotulo}</span>
                         <span
-                          className="flex items-center justify-between rounded-[12px] border-2 bg-white px-4 py-3 transition-colors duration-300"
-                          style={{ borderColor: digitou >= ordem ? AZUL : '#e4e9ee' }}
+                          data-alvo={`campo-${chave}`}
+                          className="flex items-center justify-between rounded-[12px] border-2 bg-white px-4 py-3 transition-colors duration-200"
+                          style={{
+                            borderColor: foco === chave ? AZUL : n ? '#c7cfda' : '#e4e9ee',
+                            boxShadow: foco === chave ? '0 0 0 3px rgba(61,81,214,.12)' : 'none',
+                          }}
                         >
                           <b className="font-mono text-[19px] font-bold text-ink">
-                            {digitou >= ordem ? valor : <i className="cursor-pisca" />}
+                            {valor.slice(0, n)}
+                            {foco === chave && <i className="cursor-pisca" />}
                           </b>
                           <span className="text-[12px] font-semibold text-dim">mm</span>
                         </span>
@@ -704,7 +770,12 @@ export default function Projeto() {
                 {(ato === 'tipo' || ato === 'folhas') && (
                   <div className="grid gap-2">
                     {p.opcoes.map(([nome, sub], i) => (
-                      <Cartao key={nome} aceso={aceso && i === ESCOLHA[ato]} className="gap-2.5 px-3 py-2">
+                      <Cartao
+                        key={nome}
+                        aceso={aceso && i === ESCOLHA[ato]}
+                        alvo={i === ESCOLHA[ato] ? 'escolha' : undefined}
+                        className="gap-2.5 px-3 py-2"
+                      >
                         <span className="min-w-0 flex-1">
                           <b className="block text-[13px] font-extrabold leading-tight text-ink sm:text-[14.5px]">
                             {nome}
@@ -725,6 +796,7 @@ export default function Projeto() {
                   {t.cancelar}
                 </span>
                 <span
+                  data-alvo="confirmar"
                   className="ml-auto rounded-[12px] px-6 py-2.5 text-[13.5px] font-bold text-white transition-all duration-200"
                   style={{
                     background: AZUL,
@@ -740,21 +812,6 @@ export default function Projeto() {
             </div>
           )}
 
-          {/* ── a montagem: a espera que existe no app de verdade ────────
-              Sem ela a janela pronta aparecia do nada, logo depois de um
-              cartão ser tocado — e nada explicava de onde ela tinha vindo. */}
-          {ato === 'montando' && (
-            <div className="sobe flex h-full w-full flex-col items-center justify-center gap-4 bg-[#111a33] px-8">
-              <span className="block h-[4px] w-full max-w-[220px] overflow-hidden rounded-full bg-white/12">
-                <span
-                  className="block h-full rounded-full"
-                  style={{ background: '#8fb6ff', animation: `correr ${MONTANDO}ms ease-in-out forwards` }}
-                />
-              </span>
-              <p className="font-mono text-[12.5px] font-semibold text-white/55">{t.passos.montando}</p>
-            </div>
-          )}
-
           {/* ── o painel de testar abertura ───────────────────────────── */}
           {escuro && (
             <div className="surge-3d flex h-full w-full flex-col bg-[#111a33] px-5 py-5 sm:px-6">
@@ -764,11 +821,17 @@ export default function Projeto() {
                 </b>
                 <b className="text-[12px] font-semibold text-white/55">{t.passos.montagem.sub}</b>
               </p>
-              <p className="mt-1 text-[11.5px] font-semibold text-white/40">
-                {t.passos.montagem.dica}
+              {/* A etapa que está acontecendo, e nada mais. Some quando a
+                  janela fica pronta, para o quadro final ficar limpo. */}
+              <p className="mt-1 h-[16px] font-mono text-[11.5px] font-semibold text-[#8fb6ff]">
+                {etapa >= 0 && etapa < 3 && (
+                  <span key={etapa} className="sobe inline-block">
+                    {t.passos.montagem.etapas[etapa]}
+                  </span>
+                )}
               </p>
               <div className="flex flex-1 items-center">
-                <Perspectiva fase={fase} separa={separa} />
+                <Perspectiva fase={fase} sep={sep} />
               </div>
             </div>
           )}
@@ -777,7 +840,7 @@ export default function Projeto() {
           {ato === 'parado' && (
             <div className="flex h-full w-full items-center bg-[#111a33] px-5 sm:px-6">
               <div className="w-full opacity-60">
-                <Perspectiva fase={0} separa={0} />
+                <Perspectiva fase={0} sep={ZERO} />
               </div>
             </div>
           )}
@@ -798,10 +861,22 @@ export default function Projeto() {
           ) : ato === 'fim' ? (
             <>
               <p className="sobe text-[15.5px] font-bold leading-snug text-ink">{t.pronto}</p>
+              {/* Quem acabou de ver o projeto nascer em vinte segundos está no
+                  ponto mais quente da página. O pedido vem aqui, e não três
+                  seções abaixo. */}
+              {acao && (
+                <a
+                  href={acao.href}
+                  onClick={() => evento('comecar', { origem: 'demo-projeto' })}
+                  className="botao-marca sobe px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  {acao.rotulo}
+                </a>
+              )}
               <button
                 type="button"
                 onClick={tocar}
-                className="text-[13.5px] font-bold text-verde underline underline-offset-4"
+                className="text-[13.5px] font-bold text-dim underline underline-offset-4 transition-colors hover:text-ink"
               >
                 {t.denovo}
               </button>

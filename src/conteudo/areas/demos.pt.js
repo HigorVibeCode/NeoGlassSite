@@ -201,7 +201,6 @@ export default {
       medindo: 'A medida entra uma vez só. A cota é do vão, não do vidro.',
       tipo: 'O sistema pergunta o que vai ali. Um toque, sem digitar nada.',
       folhas: 'E de quantas folhas. O preço muda aqui, e ele já sabe disso.',
-      montando: 'O vidro se monta dentro do vão, com folga e sobreposição calculadas.',
       orcamento: 'Peça a peça, com ferragem e mão de obra. Nada foi redigitado.',
       gerando: 'Saindo o PDF com a sua logo, pronto para o cliente assinar.',
       pdf: 'Isto chega no celular do cliente antes de você sair da obra.',
@@ -434,7 +433,11 @@ export default {
           ['Janela de correr · 4 folhas', '2 fixas + 2 móveis · abrem do centro'],
         ],
       },
-      montagem: { rotulo: 'Testar abertura', sub: 'Janela de correr · 4 folhas', dica: 'Arraste para girar a câmera' },
+      montagem: {
+        rotulo: 'Testar abertura',
+        sub: 'Janela de correr · 4 folhas',
+        etapas: ['Instalando os perfis', 'Fixando os vidros', 'Colocando as ferragens'],
+      },
     },
   },
 

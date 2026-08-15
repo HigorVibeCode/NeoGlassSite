@@ -190,7 +190,6 @@ export default {
       medindo: 'Das Maß wird einmal eingegeben — das der Öffnung, nicht des Glases.',
       tipo: 'Das System fragt, was dort hinkommt. Ein Tippen, kein Schreiben.',
       folhas: 'Und wie viele Flügel. Hier ändert sich der Preis, und das weiß es bereits.',
-      montando: 'Das Glas setzt sich in die Öffnung, Luft und Überlappung schon berechnet.',
       orcamento: 'Teil für Teil, mit Beschlägen und Montage. Nichts wurde neu getippt.',
       gerando: 'Das PDF kommt mit Ihrem Logo heraus, unterschriftsreif.',
       pdf: 'Das erreicht den Kunden, bevor Sie die Baustelle verlassen.',
@@ -417,7 +416,11 @@ export default {
           ['Schiebefenster · 4 Flügel', '2 fest + 2 beweglich · öffnen aus der Mitte'],
         ],
       },
-      montagem: { rotulo: 'Öffnung testen', sub: 'Schiebefenster · 4 Flügel', dica: 'Ziehen, um die Kamera zu drehen' },
+      montagem: {
+        rotulo: 'Öffnung testen',
+        sub: 'Schiebefenster · 4 Flügel',
+        etapas: ['Profile einbauen', 'Gläser einsetzen', 'Beschläge montieren'],
+      },
     },
   },
 

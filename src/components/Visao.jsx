@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Revelar } from './Comum.jsx'
+import Telas from './Telas.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
 import { semMovimento } from '../lib/dispositivo.js'
+
+const LEQUE = ['pedidos', 'producao', 'corte', 'design']
 
 /**
  * A plataforma continua.
@@ -59,6 +62,10 @@ export default function Visao() {
           </li>
         ))}
       </ol>
+
+      <div className="mx-auto mt-16 w-full min-w-0 max-w-[540px]">
+        <Telas variantes={LEQUE} />
+      </div>
     </Revelar>
   )
 }

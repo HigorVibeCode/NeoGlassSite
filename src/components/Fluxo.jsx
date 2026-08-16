@@ -6,102 +6,156 @@ import { semMovimento } from '../lib/dispositivo.js'
 /**
  * Um vidro. Um código.
  *
- * Um quadro só — como o assistente da vidraçaria. O código mora no topo e
- * não sai. O que muda embaixo é o lugar do sistema que está olhando para
- * ele. Sem carimbo, sem celular, sem trocar de janela.
+ * Quatro objetos. O código é o mesmo nos quatro: nasce no vão, corta na
+ * chapa, sai no caminhão, cai no boleto.
  */
 
-const ESTACOES = ['pedidos', 'producao', 'corte', 'financeiro']
+const ESTACOES = ['vao', 'otimizacao', 'expedicao', 'financeiro']
 
-function Pedido({ t }) {
+const BARRAS = Array.from({ length: 42 }, (_, i) => ((i * 7) % 3 === 0 ? 3.2 : 1.5))
+
+function Vao({ t }) {
   return (
-    <div className="rounded-[16px] border border-line bg-white px-5 py-6">
-      <p className="cota uppercase text-dim">{t.estacoes.pedidos}</p>
-      <p className="display mt-3 text-[32px] leading-none">{t.pedido}</p>
-      <p className="mt-3 text-[15px] font-semibold text-dim">{t.vidro}</p>
-      <p className="mt-5 font-mono text-[13px] font-extrabold tracking-wider text-verde">{t.codigo}</p>
-    </div>
+    <svg viewBox="0 0 320 200" className="block h-full w-full" aria-hidden="true">
+      <defs>
+        <pattern id="fluxo-tijolo" width="24" height="14" patternUnits="userSpaceOnUse">
+          <rect width="24" height="14" fill="#dce2e8" />
+          <path d="M0 7h24M0 14h24M12 0v7M0 7v7M24 7v7" stroke="#c4ccd5" strokeWidth="0.85" />
+        </pattern>
+        <linearGradient id="fluxo-vao-fundo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#d7e4ea" />
+          <stop offset="1" stopColor="#eef4f6" />
+        </linearGradient>
+      </defs>
+      <rect width="320" height="200" fill="url(#fluxo-tijolo)" />
+      <rect x="88" y="36" width="144" height="128" fill="url(#fluxo-vao-fundo)" />
+      <rect x="88" y="36" width="144" height="128" fill="none" stroke="#6d7b88" strokeWidth="5" />
+      <rect x="93" y="41" width="134" height="118" fill="none" stroke="#9aa8b6" strokeWidth="1.4" />
+      <path d="M88 22h144M88 18v8M232 18v8" fill="none" stroke="#737e8e" strokeWidth="1" />
+      <text
+        x="160"
+        y="18"
+        textAnchor="middle"
+        fill="#737e8e"
+        fontSize="10"
+        fontWeight="600"
+        fontFamily="IBM Plex Mono, monospace"
+      >
+        {t.largura}
+      </text>
+      <path d="M74 36v128M70 36h8M70 164h8" fill="none" stroke="#737e8e" strokeWidth="1" />
+      <text
+        x="66"
+        y="100"
+        textAnchor="middle"
+        fill="#737e8e"
+        fontSize="10"
+        fontWeight="600"
+        fontFamily="IBM Plex Mono, monospace"
+        transform="rotate(-90 66 100)"
+      >
+        {t.altura}
+      </text>
+    </svg>
   )
 }
 
-function Producao({ t }) {
+function Chapa({ t }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
-      {t.fases.map((fase, i) => (
-        <div
-          key={fase}
-          className="rounded-[14px] border px-3 py-4"
-          style={
-            i === 2
-              ? { borderColor: '#0e8c6a', background: 'rgba(14,140,106,.08)' }
-              : { borderColor: '#e7ebf1', background: '#fff' }
-          }
-        >
-          <p className="text-[12px] font-bold text-dim">{fase}</p>
-          {i === 2 ? (
-            <p className="mt-3 font-mono text-[11px] font-extrabold tracking-wider text-verde">{t.codigo}</p>
-          ) : (
-            <p className="mt-3 text-[18px] font-extrabold leading-none text-ink">✓</p>
-          )}
-        </div>
-      ))}
-    </div>
+    <svg viewBox="0 0 320 200" className="block h-full w-full" aria-hidden="true">
+      <rect x="18" y="18" width="284" height="164" fill="#fbfdfd" stroke="#b3bfcd" strokeWidth="2" />
+      <rect x="100" y="36" width="120" height="128" fill="rgba(14,123,156,.16)" stroke="#0e7b9c" strokeWidth="1.6" />
+      <text
+        x="110"
+        y="52"
+        fill="#0e7b9c"
+        fontSize="10"
+        fontWeight="800"
+        fontFamily="IBM Plex Mono, monospace"
+      >
+        {t.peca}
+      </text>
+      <rect x="26" y="26" width="66" height="72" fill="rgba(14,140,106,.12)" stroke="#0e8c6a" strokeWidth="1.2" />
+      <rect x="26" y="106" width="66" height="66" fill="rgba(14,140,106,.12)" stroke="#0e8c6a" strokeWidth="1.2" />
+      <rect x="228" y="26" width="64" height="52" fill="rgba(14,140,106,.12)" stroke="#0e8c6a" strokeWidth="1.2" />
+      <rect x="228" y="86" width="64" height="40" fill="rgba(14,140,106,.12)" stroke="#0e8c6a" strokeWidth="1.2" />
+      <rect
+        x="228"
+        y="134"
+        width="64"
+        height="38"
+        fill="rgba(238,106,69,.12)"
+        stroke="#ee6a45"
+        strokeWidth="1.2"
+        strokeDasharray="3 2"
+      />
+    </svg>
   )
 }
 
-function Corte({ t }) {
+function Caminhao({ t }) {
   return (
-    <div className="rounded-[16px] border border-line bg-white p-4">
-      <svg viewBox="0 0 320 168" className="block w-full" aria-hidden="true">
-        <rect x="2" y="2" width="316" height="164" fill="#f8fafb" stroke="#b3bfcd" strokeWidth="2" />
-        <rect x="14" y="14" width="132" height="140" fill="rgba(14,123,156,.16)" stroke="#0e7b9c" strokeWidth="1.6" />
-        <rect x="156" y="14" width="88" height="88" fill="rgba(14,140,106,.12)" stroke="#0e8c6a" strokeWidth="1.4" />
-        <rect x="254" y="14" width="52" height="52" fill="rgba(184,134,44,.12)" stroke="#b8862c" strokeWidth="1.2" />
-        <text
-          x="80"
-          y="88"
-          textAnchor="middle"
-          fill="#0e7b9c"
-          fontSize="11"
-          fontWeight="800"
-          fontFamily="IBM Plex Mono, monospace"
-        >
-          {t.codigo}
-        </text>
-      </svg>
-    </div>
+    <svg viewBox="0 0 320 200" className="block h-full w-full" aria-hidden="true">
+      <line x1="36" y1="168" x2="284" y2="168" stroke="#d0d6de" strokeWidth="1.4" />
+      <rect x="100" y="62" width="148" height="76" rx="4" fill="#0e7b9c" />
+      <rect x="108" y="70" width="18" height="60" rx="1.5" fill="#7fe0c8" fillOpacity="0.55" />
+      <rect x="132" y="70" width="18" height="60" rx="1.5" fill="#e8f7f2" fillOpacity="0.7" />
+      <rect x="156" y="70" width="18" height="60" rx="1.5" fill="#7fe0c8" fillOpacity="0.45" />
+      <text
+        x="230"
+        y="104"
+        textAnchor="middle"
+        fill="#f4fbfc"
+        fontSize="8"
+        fontWeight="700"
+        fontFamily="IBM Plex Mono, monospace"
+      >
+        {t.carga}
+      </text>
+      <path d="M100 86H62l-16 28v24h54Z" fill="#1a2433" />
+      <rect x="68" y="90" width="28" height="20" rx="2" fill="#7fe0c8" fillOpacity="0.75" />
+      <rect x="48" y="132" width="14" height="6" rx="1" fill="#ee6a45" />
+      <circle cx="92" cy="154" r="15" fill="#1a2433" />
+      <circle cx="92" cy="154" r="6" fill="#eef1f6" />
+      <circle cx="214" cy="154" r="15" fill="#1a2433" />
+      <circle cx="214" cy="154" r="6" fill="#eef1f6" />
+    </svg>
   )
 }
 
-function Financeiro({ t }) {
+function Boleto({ t }) {
   return (
-    <div className="rounded-[16px] border border-line bg-white px-5 py-6">
-      <p className="cota uppercase text-dim">{t.margemRotulo}</p>
-      <p className="display mt-3 text-[44px] leading-none" style={{ color: '#8a6317' }}>
-        {t.margem}
-      </p>
-      <p className="mt-4 font-mono text-[13px] font-extrabold tracking-wider text-verde">{t.codigo}</p>
-      <p className="mt-5 inline-block rounded-full bg-[rgba(14,140,106,.12)] px-3 py-1.5 text-[12px] font-extrabold text-verde">
-        {t.conferida}
-      </p>
-    </div>
+    <svg viewBox="0 0 320 200" className="block h-full w-full" aria-hidden="true">
+      <rect x="48" y="18" width="224" height="164" rx="8" fill="#fff" stroke="#e7ebf1" strokeWidth="1.4" />
+      <path d="M48 18h224a8 8 0 0 1 8 8v18H40V26a8 8 0 0 1 8-8Z" fill="#0f2530" />
+      <text x="62" y="38" fill="#f6f9fa" fontSize="11" fontWeight="800" fontFamily="Archivo, Inter, sans-serif">
+        {t.boleto}
+      </text>
+      <line x1="62" y1="18" x2="62" y2="182" stroke="#c5cdd6" strokeWidth="1" strokeDasharray="3 3" />
+      <g>
+        {BARRAS.map((w, i) => (
+          <rect key={i} x={70 + i * 4.4} y="142" width={w} height="26" fill="#0f2530" fillOpacity="0.82" />
+        ))}
+      </g>
+    </svg>
   )
 }
 
-function Corpo({ estacao, t }) {
-  if (estacao === 'pedidos') return <Pedido t={t} />
-  if (estacao === 'producao') return <Producao t={t} />
-  if (estacao === 'corte') return <Corte t={t} />
-  return <Financeiro t={t} />
+const CENAS = {
+  vao: Vao,
+  otimizacao: Chapa,
+  expedicao: Caminhao,
+  financeiro: Boleto,
 }
 
 export default function Fluxo() {
   const t = useTextos().plataforma.caso
   const [etapa, setEtapa] = useState(0)
+  const [volta, setVolta] = useState(false)
   const n = ESTACOES.length
   const ref = useRef(null)
   const [dentro, setDentro] = useState(false)
-  const estacao = ESTACOES[etapa]
+  const parado = semMovimento()
 
   useEffect(() => {
     const el = ref.current
@@ -112,10 +166,32 @@ export default function Fluxo() {
   }, [])
 
   useEffect(() => {
-    if (!dentro || semMovimento()) return
-    const id = setInterval(() => setEtapa((e) => (e + 1) % n), 3200)
+    if (!dentro || parado) return
+    const id = setInterval(() => {
+      setEtapa((e) => {
+        if (e === n - 1) {
+          setVolta(true)
+          return 0
+        }
+        setVolta(false)
+        return e + 1
+      })
+    }, 4400)
     return () => clearInterval(id)
-  }, [dentro, n])
+  }, [dentro, n, parado])
+
+  useEffect(() => {
+    if (!volta) return
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setVolta(false))
+    })
+    return () => cancelAnimationFrame(id)
+  }, [volta])
+
+  const ir = (i) => {
+    setVolta(false)
+    setEtapa(i)
+  }
 
   return (
     <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24">
@@ -123,33 +199,41 @@ export default function Fluxo() {
         <h2 className="display text-[clamp(26px,3.8vw,44px)] leading-[1.08]">{t.titulo}</h2>
       </div>
 
-      <div ref={ref} className="mx-auto mt-10 w-full max-w-[540px]">
-        <div className="overflow-hidden rounded-[22px] border border-line bg-[#fbfcfc] shadow-[0_34px_90px_-34px_rgba(15,37,48,0.42)]">
-          <div className="flex items-center justify-between gap-4 border-b border-line bg-white px-5 py-4">
-            <p className="cota uppercase text-dim">{t.estacoes[estacao]}</p>
-            <p className="font-mono text-[13px] font-extrabold tracking-wider text-verde">{t.codigo}</p>
-          </div>
-          <div className="min-h-[248px] px-5 py-5">
-            <div key={estacao} className="sobe">
-              <Corpo estacao={estacao} t={t} />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 flex flex-wrap justify-center gap-1.5">
+      <div ref={ref} className="fluxo-palco mx-auto mt-12 w-full max-w-[560px]" data-volta={volta ? '' : undefined}>
+        <ol className="fluxo-estacoes grid grid-cols-4">
           {ESTACOES.map((chave, i) => (
-            <button
-              key={chave}
-              type="button"
-              onClick={() => setEtapa(i)}
-              aria-current={i === etapa ? 'true' : undefined}
-              className={`rounded-full px-3.5 py-1.5 text-[12.5px] font-bold transition-colors ${
-                i === etapa ? 'bg-soft text-ink' : 'text-dim hover:text-ink'
-              }`}
-            >
-              {t.estacoes[chave]}
-            </button>
+            <li key={chave} className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => ir(i)}
+                aria-current={i === etapa ? 'true' : undefined}
+                className="flex flex-col items-center gap-2"
+              >
+                <span
+                  className={`fluxo-pip ${i === etapa ? 'fluxo-pip-agora' : ''} ${i < etapa ? 'fluxo-pip-feito' : ''}`}
+                />
+                <span className={`cota text-center uppercase ${i === etapa ? 'text-ink' : 'text-dim'}`}>
+                  {t.estacoes[chave]}
+                </span>
+              </button>
+            </li>
           ))}
+        </ol>
+
+        <div className="fluxo-trilho">
+          {ESTACOES.map((chave) => {
+            const Cena = CENAS[chave]
+            return (
+              <div key={chave} className="fluxo-cena" data-agora={ESTACOES[etapa] === chave ? '' : undefined}>
+                <Cena t={t} />
+              </div>
+            )
+          })}
+          <p
+            className={`fluxo-codigo chapa rounded-md px-2 py-1 font-mono text-[11px] font-extrabold tracking-wider text-verde ${etapa === 0 && !volta ? 'bate' : ''}`}
+          >
+            {t.codigo}
+          </p>
         </div>
       </div>
     </Revelar>

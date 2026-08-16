@@ -13,7 +13,6 @@ export default {
       antes: 'Wir sind',
       destaque: 'stolz auf das, was wir gebaut haben.',
     },
-    linha: 'Das System der Glasfabrik.',
   },
 
   abertura: {
@@ -24,19 +23,20 @@ export default {
   caso: {
     titulo: 'Eine Scheibe. Ein Code.',
     codigo: 'VG-260918-03',
-    pedido: '26-0918',
     peca: 'P3',
     vidro: 'Klar 6 mm · 1800 × 1100',
+    largura: '1800',
+    altura: '1100',
     estacoes: {
-      pedidos: 'Aufträge',
-      producao: 'Fertigung',
-      corte: 'Zuschnitt',
+      vao: 'Öffnung',
+      otimizacao: 'Optimierung',
+      expedicao: 'Versand',
       financeiro: 'Finanzen',
     },
-    fases: ['Zuschnitt', 'Kanten', 'Vorspannen'],
+    carga: 'Ladung 118',
+    boleto: 'Zahlschein',
     margem: '41,7%',
-    margemRotulo: 'Marge',
-    conferida: 'Scheibe geprüft',
+    conferida: 'Geprüft',
   },
 
   visao: {
@@ -50,7 +50,7 @@ export default {
   },
 
   nasceu: {
-    titulo: 'Aus einer Glasfabrik, in die Welt.',
+    titulo: 'Entstanden in der Fabrik. Nicht im Büro.',
   },
 
   chamada: {

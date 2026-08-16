@@ -8,13 +8,11 @@ import { useTextos } from '../i18n/idioma.jsx'
 /**
  * A página /plataforma. Quatro atos depois da abertura — e nada mais.
  *
- *   01  orgulho — o que é, o tamanho (leque)
+ *   01  orgulho — a frase sobre a fábrica
  *   02  origem — mapa de rede, da fábrica para o mundo
  *   03  um vidro, um código — as partes juntas
- *   04  a plataforma continua — as quatro frentes
+ *   04  a plataforma continua — as frentes, depois o leque
  *   05  ver o NeoGlass aberto
- *
- * A hero já mostrou o produto. O resto não o repete.
  */
 export default function Plataforma() {
   const t = useTextos().plataforma

@@ -5,10 +5,9 @@ import { ALTURA, ARCOS, LARGURA, ORIGEM, TERRA } from '../lib/continentes.js'
 import { semMovimento } from '../lib/dispositivo.js'
 
 /**
- * De uma fábrica de vidro, para o mundo.
+ * Nasceu dentro da fábrica. Não de um escritório.
  *
- * Mapa de rede. Origem: Suíça. Silhueta simplificada e arredondada.
- * As linhas são círculos máximos.
+ * Mapa de rede. Origem: Suíça. Arcos suaves em leque — sem malha, sem faceta.
  */
 
 function Mapa({ desenhar }) {

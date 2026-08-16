@@ -13,7 +13,6 @@ export default {
       antes: 'We are',
       destaque: 'proud of what we built.',
     },
-    linha: 'The system that runs the glass plant.',
   },
 
   abertura: {
@@ -24,19 +23,20 @@ export default {
   caso: {
     titulo: 'One lite. One code.',
     codigo: 'VG-260918-03',
-    pedido: '26-0918',
     peca: 'P3',
     vidro: 'Clear 6 mm · 1800 × 1100',
+    largura: '1800',
+    altura: '1100',
     estacoes: {
-      pedidos: 'Orders',
-      producao: 'Production',
-      corte: 'Cutting',
+      vao: 'Opening',
+      otimizacao: 'Nesting',
+      expedicao: 'Dispatch',
       financeiro: 'Finance',
     },
-    fases: ['Cutting', 'Edging', 'Tempering'],
+    carga: 'Load 118',
+    boleto: 'Slip',
     margem: '41.7%',
-    margemRotulo: 'Margin',
-    conferida: 'Piece checked',
+    conferida: 'Checked',
   },
 
   visao: {
@@ -50,7 +50,7 @@ export default {
   },
 
   nasceu: {
-    titulo: 'From a glass plant, to the world.',
+    titulo: 'Born inside the plant. Not in an office.',
   },
 
   chamada: {

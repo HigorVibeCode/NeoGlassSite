@@ -1,64 +1,75 @@
-import { useState } from 'react'
-import Telas from './Telas.jsx'
+import { useEffect, useRef } from 'react'
+import { aparelhoFraco, semMovimento } from '../lib/dispositivo.js'
 import { useTextos } from '../i18n/idioma.jsx'
 
 /**
  * A abertura da /plataforma — a seção 01.
  *
- * A vidraçaria ensinou o eixo: uma coluna, tudo no centro, sem carimbo de
- * prancha brigando com a margem. O leque mostra o tamanho do que foi
- * construído — pedidos, produção, corte, design — com os nomes à vista.
- *
- * O vídeo de takes da fábrica entra em `/midia/plataforma-fabrica.mp4`
- * quando o dono entregar. Até lá a foto segura o quadro.
- *
- * Sem CTA. A página apresenta; não vende.
+ * A frase é a evidência. O vídeo fica atrás: filtrado, em paralaxe, sem
+ * competir. As telas moram depois de “A plataforma continua.”
  */
 
-const LEQUE = ['pedidos', 'producao', 'corte', 'design']
+const VIDEO = '/midia/plataforma-fabrica.mp4'
+const POSTER = '/midia/plataforma-fabrica.jpg'
 
 export default function Apresentacao() {
   const t = useTextos().plataforma
-  const [videoOk, setVideoOk] = useState(false)
+  const video = useRef(null)
+  const fundo = useRef(null)
+  const parado = semMovimento()
+
+  useEffect(() => {
+    if (parado) return
+    video.current?.play().catch(() => {})
+  }, [parado])
+
+  useEffect(() => {
+    const el = fundo.current
+    if (!el || parado || aparelhoFraco()) return
+    let raf = 0
+    let alvo = 0
+    const escrever = () => {
+      raf = 0
+      el.style.transform = `translate3d(0, ${alvo.toFixed(1)}px, 0)`
+    }
+    const on = () => {
+      alvo = window.scrollY * 0.38
+      if (!raf) raf = requestAnimationFrame(escrever)
+    }
+    on()
+    window.addEventListener('scroll', on, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', on)
+      cancelAnimationFrame(raf)
+    }
+  }, [parado])
 
   return (
-    <section id="topo" className="apresentacao-plataforma relative min-h-[100svh] overflow-hidden">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <img
-          src="/midia/plataforma-fabrica.jpg"
-          alt=""
-          className={`absolute inset-0 h-full w-full object-cover ${videoOk ? 'opacity-0' : 'kenburns'}`}
-        />
-        <video
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-            videoOk ? 'opacity-100' : 'opacity-0'
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/midia/plataforma-fabrica.jpg"
-          onCanPlay={() => setVideoOk(true)}
-        >
-          <source src="/midia/plataforma-fabrica.mp4" type="video/mp4" />
-        </video>
-        <div className="apresentacao-velo absolute inset-0" />
+    <section id="topo" className="apresentacao-plataforma relative min-h-[70svh] overflow-hidden">
+      <div ref={fundo} className="apresentacao-fundo pointer-events-none" aria-hidden="true">
+        {parado ? (
+          <img src={POSTER} alt="" className="apresentacao-midia" />
+        ) : (
+          <video
+            ref={video}
+            className="apresentacao-midia"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={POSTER}
+          >
+            <source src={VIDEO} type="video/mp4" />
+          </video>
+        )}
       </div>
+      <div className="apresentacao-velo pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-[1240px] flex-col justify-center px-5 pb-16 pt-[136px] sm:px-8 lg:pt-[116px]">
-        <div className="mx-auto mt-2 flex w-full min-w-0 max-w-[680px] flex-col items-center gap-8 overflow-x-clip text-center sm:gap-10">
-          <div>
-            <h1 className="display mx-auto max-w-[16ch] text-[clamp(28px,4.3vw,54px)] leading-[1.04] text-white">
-              {t.hero.titulo.antes} <span className="marca">{t.hero.titulo.destaque}</span>
-            </h1>
-            <p className="mx-auto mt-5 max-w-[28ch] text-[16px] leading-[1.5] text-white/60">{t.hero.linha}</p>
-          </div>
-
-          <div className="flex w-full min-w-0 flex-col items-center overflow-x-clip">
-            <Telas variantes={LEQUE} pistasClaras largura="mx-auto max-w-[540px]" />
-          </div>
-        </div>
+      <div className="relative mx-auto flex min-h-[70svh] w-full max-w-[1240px] flex-col items-center justify-center px-5 pb-16 pt-[120px] sm:px-8">
+        <h1 className="apresentacao-frase display mx-auto max-w-[10ch] text-center text-[clamp(30px,5vw,56px)] leading-[1.02] text-white">
+          {t.hero.titulo.antes} <span className="marca">{t.hero.titulo.destaque}</span>
+        </h1>
       </div>
     </section>
   )

@@ -13,7 +13,6 @@ export default {
       antes: 'Estamos',
       destaque: 'orgullosos de lo que construimos.',
     },
-    linha: 'El sistema de la fábrica de vidrio.',
   },
 
   abertura: {
@@ -24,19 +23,20 @@ export default {
   caso: {
     titulo: 'Un vidrio. Un código.',
     codigo: 'VG-260918-03',
-    pedido: '26-0918',
     peca: 'P3',
     vidro: 'Incoloro 6 mm · 1800 × 1100',
+    largura: '1800',
+    altura: '1100',
     estacoes: {
-      pedidos: 'Pedidos',
-      producao: 'Producción',
-      corte: 'Corte',
+      vao: 'Hueco',
+      otimizacao: 'Optimización',
+      expedicao: 'Expedición',
       financeiro: 'Finanzas',
     },
-    fases: ['Corte', 'Canteado', 'Templado'],
+    carga: 'Carga 118',
+    boleto: 'Boleto',
     margem: '41,7%',
-    margemRotulo: 'Margen',
-    conferida: 'Pieza comprobada',
+    conferida: 'Comprobada',
   },
 
   visao: {
@@ -50,7 +50,7 @@ export default {
   },
 
   nasceu: {
-    titulo: 'De una fábrica de vidrio, al mundo.',
+    titulo: 'Nació dentro de la fábrica. No en una oficina.',
   },
 
   chamada: {

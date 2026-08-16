@@ -18,7 +18,6 @@ export default {
       antes: 'Temos',
       destaque: 'orgulho do que construímos.',
     },
-    linha: 'O sistema da fábrica de vidro.',
   },
 
   abertura: {
@@ -30,19 +29,20 @@ export default {
   caso: {
     titulo: 'Um vidro. Um código.',
     codigo: 'VG-260918-03',
-    pedido: '26-0918',
     peca: 'P3',
     vidro: 'Incolor 6 mm · 1800 × 1100',
+    largura: '1800',
+    altura: '1100',
     estacoes: {
-      pedidos: 'Pedidos',
-      producao: 'Produção',
-      corte: 'Corte',
+      vao: 'Vão',
+      otimizacao: 'Otimização',
+      expedicao: 'Expedição',
       financeiro: 'Financeiro',
     },
-    fases: ['Corte', 'Lapidação', 'Têmpera'],
+    carga: 'Carga 118',
+    boleto: 'Boleto',
     margem: '41,7%',
-    margemRotulo: 'Margem',
-    conferida: 'Peça conferida',
+    conferida: 'Conferida',
   },
 
   // ── 04 · A plataforma continua ────────────────────────────────────────
@@ -58,7 +58,7 @@ export default {
 
   // ── 04 · Dentro de uma fábrica ────────────────────────────────────────
   nasceu: {
-    titulo: 'De uma fábrica de vidro, para o mundo.',
+    titulo: 'Nasceu dentro da fábrica. Não de um escritório.',
   },
 
   chamada: {

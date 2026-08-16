@@ -198,9 +198,7 @@ export function Topo({ rota }) {
       {/* no celular as abas ganham a própria linha, largura cheia */}
       <nav
         aria-label={c.chrome.publicos}
-        className={`grid grid-cols-3 border-t lg:hidden ${
-          preso ? 'border-line' : 'border-line/60'
-        }`}
+        className={`grid grid-cols-3 lg:hidden ${preso ? 'border-t border-line' : ''}`}
       >
         {ROTAS_MENU.map((r) => (
           <a
@@ -208,10 +206,9 @@ export function Topo({ rota }) {
             href={caminhoDe(r.id, idioma)}
             onClick={(e) => abrir(e, r.id)}
             aria-current={r.id === id ? 'page' : undefined}
-            className={`cota flex min-h-[38px] items-center justify-center whitespace-nowrap border-b-2 px-1.5 text-center uppercase transition-colors ${
-              r.id === id ? 'border-verde text-verde' : 'border-transparent'
+            className={`flex min-h-[38px] items-center justify-center whitespace-nowrap border-b-2 px-1.5 text-center font-mono text-[11.5px] font-semibold uppercase tracking-[0.06em] transition-colors ${
+              r.id === id ? 'border-verde text-verde' : 'border-transparent text-ink/75 hover:text-ink'
             }`}
-            style={r.id === id ? { opacity: 1 } : undefined}
           >
             {c.paginas[r.id].nome}
           </a>

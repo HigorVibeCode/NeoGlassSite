@@ -1,4 +1,4 @@
-/** Silhueta arredondada, sem anel que cubra o quadro. */
+/** Silhueta arredondada. Arcos suaves em leque. */
 export const LARGURA = 960
 export const ALTURA = 420
 export const ESCALA = 149.60564650638162

@@ -9,7 +9,7 @@ import { useTextos } from '../i18n/idioma.jsx'
  * A página /plataforma. Quatro atos depois da abertura — e nada mais.
  *
  *   01  orgulho — o que é, o tamanho (leque)
- *   02  origem — as fotos da fábrica
+ *   02  origem — mapa de rede, da fábrica para o mundo
  *   03  um vidro, um código — as partes juntas
  *   04  a plataforma continua — as quatro frentes
  *   05  ver o NeoGlass aberto

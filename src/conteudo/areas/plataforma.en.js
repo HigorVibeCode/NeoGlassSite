@@ -50,7 +50,7 @@ export default {
   },
 
   nasceu: {
-    titulo: 'Inside a glass plant.',
+    titulo: 'From a glass plant, to the world.',
   },
 
   chamada: {

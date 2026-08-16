@@ -58,7 +58,7 @@ export default {
 
   // ── 04 · Dentro de uma fábrica ────────────────────────────────────────
   nasceu: {
-    titulo: 'Dentro de uma fábrica de vidro.',
+    titulo: 'De uma fábrica de vidro, para o mundo.',
   },
 
   chamada: {

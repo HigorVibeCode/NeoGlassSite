@@ -50,7 +50,7 @@ export default {
   },
 
   nasceu: {
-    titulo: 'In einer Glasfabrik.',
+    titulo: 'Aus einer Glasfabrik, in die Welt.',
   },
 
   chamada: {

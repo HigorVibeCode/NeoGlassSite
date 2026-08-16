@@ -22,6 +22,8 @@ export default function Telas({
   pistas = true,
   pistasClaras = false,
   largura = 'max-w-[540px]',
+  nomes,
+  larga = false,
 }) {
   const t = useTextos().tela
   const [frente, setFrente] = useState(0)
@@ -57,13 +59,13 @@ export default function Telas({
               }`}
               style={{
                 gridArea: '1 / 1',
-                transform: `translate3d(${pos * 26}px, ${pos * -18}px, 0) scale(${1 - pos * 0.05})`,
-                opacity: naFrente ? 1 : 0.5 - (pos - 1) * 0.18,
+                transform: `translate3d(${pos * (larga ? 34 : 26)}px, ${pos * (larga ? -24 : -18)}px, 0) scale(${1 - Math.min(pos, 4) * (larga ? 0.04 : 0.05)})`,
+                opacity: naFrente ? 1 : Math.max(0, 0.48 - (pos - 1) * 0.14),
                 zIndex: n - pos,
                 filter: naFrente ? undefined : 'saturate(.7)',
               }}
             >
-              <Tela variante={v} />
+              <Tela variante={v} larga={larga} />
             </div>
           )
         })}
@@ -89,7 +91,7 @@ export default function Telas({
                     : 'text-dim hover:text-ink'
               }`}
             >
-              {t[v].modulo}
+              {nomes?.[v] ?? t[v].modulo}
             </button>
           ))}
         </div>

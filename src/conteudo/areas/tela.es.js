@@ -58,4 +58,50 @@ export default {
     aproveitamento: 'de aprovechamiento',
     legenda: ['Puerta de mampara', 'Fijo lateral', 'Estante', 'Espejo'],
   },
+
+  ia: {
+    modulo: 'Inteligencia artificial',
+    itens: ['Asistente', 'Revisiones', 'Historial', 'Ajustes'],
+    migalha: 'NeoGlass › Asistente',
+    titulo: 'Asistente',
+    subtitulo: 'Pregunte por el vidrio',
+    voce: 'Tú',
+    pergunta: '¿Dónde está VG-260918-03?',
+    resposta: 'Mesa de corte. Sale mañana.',
+  },
+
+  automacao: {
+    modulo: 'Automatización',
+    itens: ['Colas', 'Reglas', 'Historial', 'Ajustes'],
+    migalha: 'NeoGlass › Colas',
+    titulo: 'Corrió solo',
+    subtitulo: 'Nadie hizo clic',
+    feitos: [
+      { nome: 'Boleto enviado', quando: '00:14' },
+      { nome: 'Cliente avisado', quando: '00:14' },
+      { nome: 'Stock descontado', quando: '00:15' },
+    ],
+  },
+
+  visao: {
+    modulo: 'Visión computacional',
+    itens: ['Cámara', 'Huecos', 'Revisión', 'Ajustes'],
+    migalha: 'NeoGlass › Cámara',
+    titulo: 'La cámara midió',
+    subtitulo: 'Hueco · 1800 × 1100',
+    medida: '1800 × 1100',
+  },
+
+  dados: {
+    modulo: 'Datos',
+    itens: ['Hoy', 'Pedidos', 'Margen', 'Ajustes'],
+    migalha: 'NeoGlass › Hoy',
+    titulo: 'Hoy en la fábrica',
+    subtitulo: 'Lo que ya pasó',
+    numeros: [
+      { n: '38', rotulo: 'a tiempo' },
+      { n: '2', rotulo: 'atrasadas' },
+      { n: '41,7%', rotulo: 'margen' },
+    ],
+  },
 }

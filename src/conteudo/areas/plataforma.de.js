@@ -21,7 +21,8 @@ export default {
   },
 
   caso: {
-    titulo: 'Eine Scheibe. Ein Code.',
+    titulo: 'Jede Scheibe wird mit einem eigenen Code geboren.',
+    linha: 'Und er begleitet sie für immer.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Klar 6 mm · 1800 × 1100',
@@ -40,7 +41,10 @@ export default {
   },
 
   visao: {
-    titulo: 'Die Plattform geht weiter.',
+    titulo: {
+      antes: 'Die Plattform',
+      destaque: 'geht weiter.',
+    },
     capacidades: {
       ia: 'Künstliche Intelligenz',
       automacao: 'Automatisierung',
@@ -50,7 +54,8 @@ export default {
   },
 
   nasceu: {
-    titulo: 'Entstanden in der Fabrik. Nicht im Büro.',
+    titulo: 'Wir entstanden in der Fabrik.',
+    linha: 'Wir bauten für die Welt.',
   },
 
   chamada: {

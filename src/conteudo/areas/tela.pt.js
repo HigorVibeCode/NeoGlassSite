@@ -66,4 +66,50 @@ export default {
     aproveitamento: 'de aproveitamento',
     legenda: ['Porta de box', 'Fixo lateral', 'Prateleira', 'Espelho'],
   },
+
+  ia: {
+    modulo: 'Inteligência artificial',
+    itens: ['Assistente', 'Checagens', 'Histórico', 'Ajustes'],
+    migalha: 'NeoGlass › Assistente',
+    titulo: 'Assistente',
+    subtitulo: 'Pergunte pelo vidro',
+    voce: 'Você',
+    pergunta: 'Cadê o VG-260918-03?',
+    resposta: 'Mesa de corte. Sai amanhã.',
+  },
+
+  automacao: {
+    modulo: 'Automação',
+    itens: ['Filas', 'Regras', 'Histórico', 'Ajustes'],
+    migalha: 'NeoGlass › Filas',
+    titulo: 'Rodou sozinho',
+    subtitulo: 'Ninguém clicou',
+    feitos: [
+      { nome: 'Boleto enviado', quando: '00:14' },
+      { nome: 'Cliente avisado', quando: '00:14' },
+      { nome: 'Estoque baixado', quando: '00:15' },
+    ],
+  },
+
+  visao: {
+    modulo: 'Visão computacional',
+    itens: ['Câmera', 'Vãos', 'Conferência', 'Ajustes'],
+    migalha: 'NeoGlass › Câmera',
+    titulo: 'A câmera mediu',
+    subtitulo: 'Vão · 1800 × 1100',
+    medida: '1800 × 1100',
+  },
+
+  dados: {
+    modulo: 'Dados',
+    itens: ['Hoje', 'Pedidos', 'Margem', 'Ajustes'],
+    migalha: 'NeoGlass › Hoje',
+    titulo: 'Hoje na fábrica',
+    subtitulo: 'O que já aconteceu',
+    numeros: [
+      { n: '38', rotulo: 'no prazo' },
+      { n: '2', rotulo: 'atrasadas' },
+      { n: '41,7%', rotulo: 'margem' },
+    ],
+  },
 }

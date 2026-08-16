@@ -21,7 +21,8 @@ export default {
   },
 
   caso: {
-    titulo: 'Un vidrio. Un código.',
+    titulo: 'Cada vidrio nace con un código único.',
+    linha: 'Y lo acompaña para siempre.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Incoloro 6 mm · 1800 × 1100',
@@ -40,7 +41,10 @@ export default {
   },
 
   visao: {
-    titulo: 'La plataforma sigue.',
+    titulo: {
+      antes: 'La plataforma',
+      destaque: 'sigue.',
+    },
     capacidades: {
       ia: 'Inteligencia artificial',
       automacao: 'Automatización',
@@ -50,7 +54,8 @@ export default {
   },
 
   nasceu: {
-    titulo: 'Nació dentro de la fábrica. No en una oficina.',
+    titulo: 'Nacimos dentro de la fábrica.',
+    linha: 'Construimos para el mundo.',
   },
 
   chamada: {

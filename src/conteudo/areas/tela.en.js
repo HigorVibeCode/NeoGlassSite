@@ -58,4 +58,50 @@ export default {
     aproveitamento: 'yield',
     legenda: ['Shower door', 'Side panel', 'Shelf', 'Mirror'],
   },
+
+  ia: {
+    modulo: 'Artificial intelligence',
+    itens: ['Assistant', 'Checks', 'History', 'Settings'],
+    migalha: 'NeoGlass › Assistant',
+    titulo: 'Assistant',
+    subtitulo: 'Ask about the lite',
+    voce: 'You',
+    pergunta: 'Where is VG-260918-03?',
+    resposta: 'Cutting table. Ships tomorrow.',
+  },
+
+  automacao: {
+    modulo: 'Automation',
+    itens: ['Queues', 'Rules', 'History', 'Settings'],
+    migalha: 'NeoGlass › Queues',
+    titulo: 'It ran by itself',
+    subtitulo: 'Nobody clicked',
+    feitos: [
+      { nome: 'Slip sent', quando: '00:14' },
+      { nome: 'Customer notified', quando: '00:14' },
+      { nome: 'Stock deducted', quando: '00:15' },
+    ],
+  },
+
+  visao: {
+    modulo: 'Computer vision',
+    itens: ['Camera', 'Openings', 'Check', 'Settings'],
+    migalha: 'NeoGlass › Camera',
+    titulo: 'The camera measured',
+    subtitulo: 'Opening · 1800 × 1100',
+    medida: '1800 × 1100',
+  },
+
+  dados: {
+    modulo: 'Data',
+    itens: ['Today', 'Orders', 'Margin', 'Settings'],
+    migalha: 'NeoGlass › Today',
+    titulo: 'Today on the floor',
+    subtitulo: 'What already happened',
+    numeros: [
+      { n: '38', rotulo: 'on time' },
+      { n: '2', rotulo: 'late' },
+      { n: '41.7%', rotulo: 'margin' },
+    ],
+  },
 }

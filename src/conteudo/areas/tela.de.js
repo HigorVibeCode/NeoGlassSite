@@ -58,4 +58,50 @@ export default {
     aproveitamento: 'Ausnutzung',
     legenda: ['Duschtür', 'Seitenteil', 'Regalboden', 'Spiegel'],
   },
+
+  ia: {
+    modulo: 'Künstliche Intelligenz',
+    itens: ['Assistent', 'Prüfungen', 'Verlauf', 'Einstellungen'],
+    migalha: 'NeoGlass › Assistent',
+    titulo: 'Assistent',
+    subtitulo: 'Fragen Sie nach der Scheibe',
+    voce: 'Sie',
+    pergunta: 'Wo ist VG-260918-03?',
+    resposta: 'Schneidtisch. Geht morgen raus.',
+  },
+
+  automacao: {
+    modulo: 'Automatisierung',
+    itens: ['Warteschlangen', 'Regeln', 'Verlauf', 'Einstellungen'],
+    migalha: 'NeoGlass › Warteschlangen',
+    titulo: 'Lief von allein',
+    subtitulo: 'Niemand hat geklickt',
+    feitos: [
+      { nome: 'Zahlschein gesendet', quando: '00:14' },
+      { nome: 'Kunde benachrichtigt', quando: '00:14' },
+      { nome: 'Bestand gebucht', quando: '00:15' },
+    ],
+  },
+
+  visao: {
+    modulo: 'Computer Vision',
+    itens: ['Kamera', 'Öffnungen', 'Prüfung', 'Einstellungen'],
+    migalha: 'NeoGlass › Kamera',
+    titulo: 'Die Kamera hat gemessen',
+    subtitulo: 'Öffnung · 1800 × 1100',
+    medida: '1800 × 1100',
+  },
+
+  dados: {
+    modulo: 'Daten',
+    itens: ['Heute', 'Aufträge', 'Marge', 'Einstellungen'],
+    migalha: 'NeoGlass › Heute',
+    titulo: 'Heute in der Fabrik',
+    subtitulo: 'Was schon passiert ist',
+    numeros: [
+      { n: '38', rotulo: 'im Plan' },
+      { n: '2', rotulo: 'überfällig' },
+      { n: '41,7%', rotulo: 'Marge' },
+    ],
+  },
 }

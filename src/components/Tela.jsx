@@ -25,6 +25,10 @@ const TONS = {
   producao: { cor: '#0e8c6a', claro: '#e7f6f1' },
   design: { cor: '#e11d48', claro: '#ffe9ee' },
   corte: { cor: '#0e7b9c', claro: '#e8f4f9' },
+  ia: { cor: '#7c6ad6', claro: '#f1eefc' },
+  automacao: { cor: '#0e8c6a', claro: '#e7f6f1' },
+  visao: { cor: '#0e7b9c', claro: '#e8f4f9' },
+  dados: { cor: '#0f2530', claro: '#eef1f4' },
 }
 
 /* O plano de corte do palco da indústria.
@@ -46,12 +50,12 @@ const PLANO = empacotar({
 const CORES_CORTE = ['#0e8c6a', '#0e7b9c', '#7c6ad6', '#b8862c']
 
 /** A moldura: barra do navegador, barra lateral e o palco do conteúdo. */
-function Janela({ variante, t, children }) {
+function Janela({ variante, t, children, larga = false }) {
   const tom = TONS[variante]
   const v = t[variante]
 
   return (
-    <div className="w-full max-w-[540px] select-none" aria-hidden="true">
+    <div className={`w-full select-none ${larga ? 'max-w-[720px]' : 'max-w-[540px]'}`} aria-hidden="true">
       <div className="overflow-hidden rounded-[18px] border border-line bg-white shadow-[0_34px_90px_-34px_rgba(15,37,48,0.42)]">
         {/* barra do navegador — dois segundos de leitura, e o visitante já sabe
             que está olhando para um sistema que roda no navegador dele */}
@@ -66,7 +70,7 @@ function Janela({ variante, t, children }) {
           </span>
         </div>
 
-        <div className="flex min-h-[318px]">
+        <div className={`flex ${larga ? 'min-h-[400px]' : 'min-h-[318px]'}`}>
           {/* barra lateral */}
           <aside className="hidden w-[126px] shrink-0 flex-col border-r border-line px-2 py-3 min-[420px]:flex">
             <div className="flex items-center gap-1.5 px-1">
@@ -503,13 +507,122 @@ function Corte({ t }) {
   )
 }
 
-const CORPO = { pedidos: Pedidos, producao: Producao, design: Design, corte: Corte }
+function Ia({ t }) {
+  const tom = TONS.ia
+  const v = t.ia
+  return (
+    <>
+      <Cabeca tom={tom} migalha={v.migalha} titulo={v.titulo} sub={v.subtitulo} />
+      <div className="mt-5 space-y-3">
+        <div className="ml-10 rounded-[14px] border border-line bg-white px-3.5 py-3 text-right">
+          <b className="block text-[15px] font-extrabold leading-snug text-ink">{v.pergunta}</b>
+          <b className="mt-1.5 block font-mono text-[8.5px] font-bold uppercase tracking-[0.12em] text-dim">
+            {v.voce}
+          </b>
+        </div>
+        <div className="mr-10 rounded-[14px] px-3.5 py-3" style={{ background: tom.claro }}>
+          <b className="block text-[16px] font-extrabold leading-snug text-ink">{v.resposta}</b>
+          <b className="mt-1.5 block font-mono text-[8.5px] font-bold uppercase tracking-[0.12em]" style={{ color: tom.cor }}>
+            NeoGlass
+          </b>
+        </div>
+      </div>
+    </>
+  )
+}
 
-export default function Tela({ variante = 'pedidos' }) {
+function Automacao({ t }) {
+  const tom = TONS.automacao
+  const v = t.automacao
+  return (
+    <>
+      <Cabeca tom={tom} migalha={v.migalha} titulo={v.titulo} sub={v.subtitulo} />
+      <ul className="mt-5 space-y-2">
+        {v.feitos.map((f) => (
+          <li
+            key={f.nome}
+            className="flex items-center gap-3 rounded-[12px] border border-line bg-white px-3.5 py-3"
+          >
+            <span
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+              style={{ background: tom.claro }}
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5">
+                <path
+                  d="M3 8.5l3.2 3.2L13 5"
+                  fill="none"
+                  stroke={tom.cor}
+                  strokeWidth="2.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <b className="min-w-0 flex-1 text-[14px] font-extrabold text-ink">{f.nome}</b>
+            <b className="shrink-0 font-mono text-[10px] font-bold text-dim">{f.quando}</b>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
+function VisaoCam({ t }) {
+  const tom = TONS.visao
+  const v = t.visao
+  return (
+    <>
+      <Cabeca tom={tom} migalha={v.migalha} titulo={v.titulo} sub={v.subtitulo} />
+      <div className="relative mt-4 overflow-hidden rounded-[12px] border border-line bg-[#eef1f6]">
+        <img src="/midia/fabrica-vao.jpg?v=2" alt="" className="aspect-[8/5] w-full object-cover" />
+        <div className="pointer-events-none absolute inset-[14%]">
+          <i className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-menta" />
+          <i className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-menta" />
+          <i className="absolute bottom-0 left-0 h-6 w-6 border-b-2 border-l-2 border-menta" />
+          <i className="absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-menta" />
+          <span className="absolute bottom-1 left-1/2 -translate-x-1/2 rounded-md bg-white px-2.5 py-1 font-mono text-[13px] font-extrabold tracking-wide text-petroleo">
+            {v.medida}
+          </span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function DadosPainel({ t }) {
+  const tom = TONS.dados
+  const v = t.dados
+  return (
+    <>
+      <Cabeca tom={tom} migalha={v.migalha} titulo={v.titulo} sub={v.subtitulo} />
+      <div className="mt-5 grid grid-cols-3 gap-2">
+        {v.numeros.map((n) => (
+          <div key={n.rotulo} className="rounded-[12px] border border-line bg-white px-2 py-5 text-center">
+            <b className="display block text-[clamp(22px,4vw,32px)] leading-none text-ink">{n.n}</b>
+            <b className="cota mt-2 block uppercase">{n.rotulo}</b>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
+const CORPO = {
+  pedidos: Pedidos,
+  producao: Producao,
+  design: Design,
+  corte: Corte,
+  ia: Ia,
+  automacao: Automacao,
+  visao: VisaoCam,
+  dados: DadosPainel,
+}
+
+export default function Tela({ variante = 'pedidos', larga = false }) {
   const t = useTextos().tela
   const Corpo = CORPO[variante] ?? Pedidos
   return (
-    <Janela variante={variante} t={t}>
+    <Janela variante={variante} t={t} larga={larga}>
       <Corpo t={t} />
     </Janela>
   )

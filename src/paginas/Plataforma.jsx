@@ -10,7 +10,7 @@ import { useTextos } from '../i18n/idioma.jsx'
  *
  *   01  orgulho — a frase sobre a fábrica
  *   02  origem — mapa de rede, da fábrica para o mundo
- *   03  um vidro, um código — as partes juntas
+ *   03  o código que acompanha o vidro — as partes juntas
  *   04  a plataforma continua — as frentes, depois o leque
  *   05  ver o NeoGlass aberto
  */

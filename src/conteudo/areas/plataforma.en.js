@@ -21,7 +21,8 @@ export default {
   },
 
   caso: {
-    titulo: 'One lite. One code.',
+    titulo: 'Every lite is born with a unique code.',
+    linha: 'And it stays with that lite forever.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Clear 6 mm · 1800 × 1100',
@@ -40,7 +41,10 @@ export default {
   },
 
   visao: {
-    titulo: 'The platform keeps going.',
+    titulo: {
+      antes: 'The platform',
+      destaque: 'keeps going.',
+    },
     capacidades: {
       ia: 'Artificial intelligence',
       automacao: 'Automation',
@@ -50,7 +54,8 @@ export default {
   },
 
   nasceu: {
-    titulo: 'Born inside the plant. Not in an office.',
+    titulo: 'We were born inside the plant.',
+    linha: 'We built it for the world.',
   },
 
   chamada: {

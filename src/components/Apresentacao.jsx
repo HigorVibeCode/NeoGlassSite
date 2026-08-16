@@ -33,7 +33,7 @@ export default function Apresentacao() {
       el.style.transform = `translate3d(0, ${alvo.toFixed(1)}px, 0)`
     }
     const on = () => {
-      alvo = window.scrollY * 0.38
+      alvo = Math.min(window.scrollY * 0.22, 80)
       if (!raf) raf = requestAnimationFrame(escrever)
     }
     on()

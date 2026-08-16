@@ -25,9 +25,10 @@ export default {
     whatsapp: 'Olá! Vim pelo site do NeoGlass.',
   },
 
-  // ── 02 · Um vidro. Um código. ─────────────────────────────────────────
+  // ── 02 · Cada vidro nasce com um código ───────────────────────────────
   caso: {
-    titulo: 'Um vidro. Um código.',
+    titulo: 'Cada vidro nasce com um código único.',
+    linha: 'E ele o acompanha para sempre.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Incolor 6 mm · 1800 × 1100',
@@ -47,7 +48,10 @@ export default {
 
   // ── 04 · A plataforma continua ────────────────────────────────────────
   visao: {
-    titulo: 'A plataforma continua.',
+    titulo: {
+      antes: 'A plataforma',
+      destaque: 'continua.',
+    },
     capacidades: {
       ia: 'Inteligência artificial',
       automacao: 'Automação',
@@ -58,7 +62,8 @@ export default {
 
   // ── 04 · Dentro de uma fábrica ────────────────────────────────────────
   nasceu: {
-    titulo: 'Nasceu dentro da fábrica. Não de um escritório.',
+    titulo: 'Nascemos dentro da fábrica.',
+    linha: 'Construímos para o mundo.',
   },
 
   chamada: {

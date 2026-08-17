@@ -2,13 +2,13 @@ import FraseAto, { Ato, AtoLinha } from './FraseAto.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
 
 /**
- * Cada vidro nasce com um código. Abre o movimento do que o sistema faz.
+ * O propósito. Fecha o primeiro movimento: não parecer moderno, gerar resultado.
  */
-export default function Fluxo() {
-  const t = useTextos().plataforma.caso
+export default function Proposito() {
+  const t = useTextos().plataforma.proposito
 
   return (
-    <Ato abre>
+    <Ato fecha>
       <div className="ato-palco">
         <FraseAto>
           <AtoLinha>{t.titulo}</AtoLinha>

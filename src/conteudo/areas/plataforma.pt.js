@@ -18,6 +18,7 @@ export default {
       antes: 'Temos',
       destaque: 'orgulho do que construímos.',
     },
+    linha: 'Viemos da fábrica. Não de um escritório.',
   },
 
   abertura: {
@@ -25,10 +26,22 @@ export default {
     whatsapp: 'Olá! Vim pelo site do NeoGlass.',
   },
 
-  // ── 02 · Cada vidro nasce com um código ───────────────────────────────
+  // ── 02 · O lugar ──────────────────────────────────────────────────────
+  lugar: {
+    titulo: 'Não criamos tecnologia para imaginar como uma fábrica funciona.',
+    linha: 'Criamos tecnologia porque sabemos onde ela precisa melhorar.',
+  },
+
+  // ── 03 · O propósito ──────────────────────────────────────────────────
+  proposito: {
+    titulo: 'O NeoGlass não foi criado apenas para parecer moderno.',
+    linha: 'Foi criado para gerar resultado.',
+  },
+
+  // ── 04 · Cada vidro nasce com um código ───────────────────────────────
   caso: {
     titulo: 'Cada vidro nasce com um código único.',
-    linha: 'E ele o acompanha para sempre.',
+    linha: 'A informação nasce uma vez.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Incolor 6 mm · 1800 × 1100',
@@ -46,7 +59,35 @@ export default {
     conferida: 'Conferida',
   },
 
-  // ── 04 · A plataforma continua ────────────────────────────────────────
+  // ── 05 · Inteligência ─────────────────────────────────────────────────
+  inteligencia: {
+    titulo: 'Menos espetáculo.',
+    linha: 'Mais utilidade.',
+    texto:
+      'IA existe para reduzir etapas, automatizar tarefas, facilitar análises, auxiliar projetos, gerar pré-visualizações, apoiar relatórios e acelerar decisões.',
+    nao: 'Não para substituir pessoas.',
+    sim: 'Para potencializar pessoas.',
+  },
+
+  // ── 06 · Dados ────────────────────────────────────────────────────────
+  dados: {
+    titulo: 'Quando a operação gera dados,',
+    linha: 'os dados começam a gerar decisões.',
+    texto: 'Existe uma diferença enorme entre administrar pela intuição e administrar pela informação.',
+    fecho: 'Quem mede, melhora.',
+  },
+
+  // ── 07 · Continuidade ─────────────────────────────────────────────────
+  continuidade: {
+    titulo: 'Tecnologia moderna',
+    linha: 'sem abrir mão da continuidade.',
+    camadas:
+      'O NeoGlass foi desenvolvido com camadas de segurança, controle de acesso, isolamento das informações e mecanismos de continuidade operacional.',
+    nuvem:
+      'Ao mesmo tempo, sua arquitetura baseada em nuvem permite acesso remoto, sincronização e atualizações constantes.',
+  },
+
+  // ── 08 · A plataforma continua ────────────────────────────────────────
   visao: {
     titulo: {
       antes: 'A plataforma',
@@ -60,10 +101,15 @@ export default {
     },
   },
 
-  // ── 04 · Dentro de uma fábrica ────────────────────────────────────────
-  nasceu: {
-    titulo: 'Nascemos dentro da fábrica.',
-    linha: 'Construímos para o mundo.',
+  // ── 09 · O futuro ─────────────────────────────────────────────────────
+  futuro: {
+    titulo: 'Estamos participando da construção',
+    linha: 'do futuro da indústria do vidro.',
+  },
+
+  // ── 10 · O mundo ──────────────────────────────────────────────────────
+  mundo: {
+    titulo: 'Construímos para o mundo.',
   },
 
   chamada: {

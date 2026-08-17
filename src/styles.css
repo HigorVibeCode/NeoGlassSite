@@ -359,8 +359,12 @@ html[data-parado] .respira {
   animation: none;
 }
 html[data-fraco] .pulso,
-html[data-parado] .pulso {
+html[data-parado] .pulso,
+.fundo-parado .pulso {
   display: none;
+}
+.fundo-parado .respira {
+  animation: none;
 }
 
 /* ── Cota: a anotação de desenho técnico ─────────────────────────────────── */
@@ -982,20 +986,20 @@ html[data-parado] {
 }
 
 /* ── A capa da /plataforma ───────────────────────────────────────────────
-   A fábrica passa atrás. O véu e o filtro recuam o vídeo; a frase fica
-   na frente. O fundo é mais alto que o recorte para a paralaxe ter curso. */
+   A fábrica enche a janela. O fundo sobra só em cima e embaixo, para a
+   paralaxe ter curso — nas laterais não pode aparecer faixa. */
 .apresentacao-fundo {
   position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
+  top: -200px;
+  right: 0;
+  bottom: -200px;
+  left: 0;
   will-change: transform;
 }
 .apresentacao-midia {
   display: block;
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: none;
   object-fit: cover;
   object-position: center;
   filter: brightness(0.42) saturate(0.35) contrast(0.92);
@@ -1011,6 +1015,14 @@ html[data-parado] {
 }
 .apresentacao-frase {
   text-shadow: 0 1px 2px rgba(15, 37, 48, 0.28), 0 18px 48px rgba(15, 37, 48, 0.35);
+}
+.apresentacao-linha {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 2px rgba(15, 37, 48, 0.35);
 }
 
 html[data-parado] .apresentacao-fundo,
@@ -1037,109 +1049,6 @@ html[data-fraco] .apresentacao-fundo {
 .kenburns {
   animation: kenburns 28s ease-in-out infinite alternate;
   will-change: transform;
-}
-
-/* ── Um vidro, um código ─────────────────────────────────────────────────
-   O código é a peça. As fotos são o percurso. */
-.fluxo-etiqueta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 22px;
-  border: 1px solid color-mix(in oklab, var(--color-verde) 26%, var(--color-line));
-  border-radius: 10px;
-  background: #fff;
-  padding: 8px 16px 8px 8px;
-  text-align: left;
-}
-.fluxo-qr {
-  display: block;
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-}
-.fluxo-etiqueta b {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: clamp(14px, 2.1vw, 17px);
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  color: var(--color-verde);
-}
-.fluxo-etiqueta .cota {
-  display: block;
-  margin-top: 3px;
-}
-.fluxo-quadro {
-  overflow: hidden;
-  width: 100%;
-  aspect-ratio: 8 / 5;
-  border: 1px solid var(--color-line);
-  border-radius: 14px;
-  background: #eef1f6;
-}
-.fluxo-trilho {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 12px;
-  row-gap: 18px;
-  list-style: none;
-  padding: 0;
-}
-.fluxo-estacao {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-}
-.fluxo-no-linha {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 28px;
-  margin-top: 11px;
-  margin-bottom: 7px;
-}
-.fluxo-no {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  height: 26px;
-  width: 26px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--color-line);
-  border-radius: 999px;
-  background: #fff;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--color-verde);
-}
-@media (min-width: 640px) {
-  .fluxo-trilho {
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 20px;
-    row-gap: 0;
-  }
-  .fluxo-no-linha::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: -10px;
-    left: -10px;
-    height: 1px;
-    background: #d5dde4;
-  }
-  .fluxo-estacao:first-child .fluxo-no-linha::before {
-    left: 50%;
-  }
-  .fluxo-estacao:last-child .fluxo-no-linha::before {
-    right: 50%;
-  }
 }
 
 @keyframes mapa-pulso {
@@ -1176,6 +1085,80 @@ html[data-fraco] .apresentacao-fundo {
   animation: mapa-fluxo var(--fluxo-dur, 8s) linear var(--fluxo-atraso, 0s) infinite;
 }
 
+.ato {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
+}
+.ato--abre {
+  padding-top: 7.5rem;
+}
+.ato--fecha {
+  padding-bottom: 7.5rem;
+}
+.ato--mapa {
+  contain-intrinsic-size: auto 720px;
+}
+@media (min-width: 640px) {
+  .ato {
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
+  }
+  .ato--abre {
+    padding-top: 9rem;
+  }
+  .ato--fecha {
+    padding-bottom: 9rem;
+  }
+}
+
+.ato-frase--claim {
+  max-width: 46ch;
+  font-size: clamp(28px, 4.2vw, 48px);
+}
+.ato-frase--fecho {
+  max-width: 28ch;
+  margin-top: 2.25rem;
+  font-size: clamp(22px, 3.1vw, 34px);
+}
+.ato-nota {
+  margin: 1.15rem auto 0;
+  max-width: 42ch;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--color-dim);
+}
+.ato-nota + .ato-nota {
+  margin-top: 0.7rem;
+}
+.ato-palco {
+  --foco: 1;
+  --desvio: 0;
+  opacity: calc(0.34 + var(--foco) * 0.66);
+  transform: translate3d(0, calc(var(--desvio) * 26px), 0);
+  will-change: transform, opacity;
+}
+.ato-frase-linha {
+  display: block;
+}
+.ato-frase-linha-2 {
+  margin-top: 0.5rem;
+  transform: translate3d(0, calc(var(--desvio) * -12px), 0);
+}
+
+html[data-parado] .ato-palco,
+html[data-fraco] .ato-palco {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+html[data-parado] .ato-frase-linha-2,
+html[data-fraco] .ato-frase-linha-2 {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kenburns {
     animation: none;
@@ -1183,6 +1166,14 @@ html[data-fraco] .apresentacao-fundo {
   .mapa-pulso,
   .mapa-fluxo {
     animation: none;
+  }
+  .ato-palco {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  .ato-frase-linha-2 {
+    transform: none;
   }
 }
 

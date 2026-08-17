@@ -13,6 +13,7 @@ export default {
       antes: 'We are',
       destaque: 'proud of what we built.',
     },
+    linha: 'We come from the plant. Not from an office.',
   },
 
   abertura: {
@@ -20,9 +21,19 @@ export default {
     whatsapp: 'Hi! I came from the NeoGlass site.',
   },
 
+  lugar: {
+    titulo: 'We do not build technology to imagine how a plant works.',
+    linha: 'We build it because we know where it needs to get better.',
+  },
+
+  proposito: {
+    titulo: 'NeoGlass was not built just to look modern.',
+    linha: 'It was built to deliver results.',
+  },
+
   caso: {
     titulo: 'Every lite is born with a unique code.',
-    linha: 'And it stays with that lite forever.',
+    linha: 'The information is born once.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Clear 6 mm · 1800 × 1100',
@@ -40,6 +51,31 @@ export default {
     conferida: 'Checked',
   },
 
+  inteligencia: {
+    titulo: 'Less spectacle.',
+    linha: 'More usefulness.',
+    texto:
+      'AI exists to cut steps, automate tasks, make analysis easier, help with projects, generate previews, support reports and speed up decisions.',
+    nao: 'Not to replace people.',
+    sim: 'To empower people.',
+  },
+
+  dados: {
+    titulo: 'When the operation generates data,',
+    linha: 'the data starts generating decisions.',
+    texto: 'There is a huge difference between managing by intuition and managing by information.',
+    fecho: 'What gets measured gets improved.',
+  },
+
+  continuidade: {
+    titulo: 'Modern technology',
+    linha: 'without giving up continuity.',
+    camadas:
+      'NeoGlass was built with layers of security, access control, information isolation and mechanisms for operational continuity.',
+    nuvem:
+      'At the same time, its cloud-based architecture allows remote access, synchronization and constant updates.',
+  },
+
   visao: {
     titulo: {
       antes: 'The platform',
@@ -53,9 +89,13 @@ export default {
     },
   },
 
-  nasceu: {
-    titulo: 'We were born inside the plant.',
-    linha: 'We built it for the world.',
+  futuro: {
+    titulo: 'We are taking part in building',
+    linha: 'the future of the glass industry.',
+  },
+
+  mundo: {
+    titulo: 'We built it for the world.',
   },
 
   chamada: {

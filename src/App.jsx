@@ -73,10 +73,10 @@ export default function App() {
 
   return (
     <ProvedorIdioma idioma={rota.idioma} conteudo={textos}>
-      <Fundo />
+      <Fundo parado={rota.id === 'plataforma'} />
       <Topo rota={rota} />
       <Lembrete rota={rota} />
-      <main key={`${rota.id}-${rota.idioma}`} className="pagina">
+      <main key={`${rota.id}-${rota.idioma}`} className={rota.id === 'plataforma' ? undefined : 'pagina'}>
         <Pagina rota={rota} />
       </main>
       <Rodape rota={rota} />

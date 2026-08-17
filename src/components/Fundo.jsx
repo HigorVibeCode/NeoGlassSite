@@ -231,11 +231,11 @@ function Prisma({ g, marca }) {
 }
 
 /** Uma transformação por quadro, numa camada só. Nada mais. */
-function useParallax(fator) {
+function useParallax(fator, parado = false) {
   const ref = useRef(null)
   useEffect(() => {
     const el = ref.current
-    if (!el || semMovimento()) return
+    if (!el || parado || semMovimento()) return
     let raf = 0
     let alvo = 0
     const escrever = () => {
@@ -252,18 +252,21 @@ function useParallax(fator) {
       window.removeEventListener('scroll', on)
       cancelAnimationFrame(raf)
     }
-  }, [fator])
+  }, [fator, parado])
   return ref
 }
 
-export default function Fundo() {
+export default function Fundo({ parado = false }) {
   const estreito = useMedia('(max-width: 1023px)')
-  const prisma = useParallax(0.14)
-  const brilho = useParallax(0.05)
+  const prisma = useParallax(0.14, parado)
+  const brilho = useParallax(0.05, parado)
 
   return (
-    <div aria-hidden="true" className="fundo-prisma pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div ref={brilho} className="absolute inset-0 will-change-transform">
+    <div
+      aria-hidden="true"
+      className={`fundo-prisma pointer-events-none fixed inset-0 -z-10 overflow-hidden${parado ? ' fundo-parado' : ''}`}
+    >
+      <div ref={brilho} className={`absolute inset-0${parado ? '' : ' will-change-transform'}`}>
         <div
           className="absolute -left-[18%] -top-[24%] h-[900px] w-[900px] rounded-full opacity-[0.13]"
           style={{ background: 'radial-gradient(circle, #0e8c6a, transparent 66%)' }}
@@ -276,7 +279,7 @@ export default function Fundo() {
 
       <div
         ref={prisma}
-        className="absolute inset-0 will-change-transform"
+        className={`absolute inset-0${parado ? '' : ' will-change-transform'}`}
         style={{ opacity: estreito ? 0.34 : 0.5 }}
       >
         <Prisma g={estreito ? EM_PE : DEITADO} marca={estreito ? 'fp' : 'fd'} />

@@ -13,6 +13,7 @@ export default {
       antes: 'Wir sind',
       destaque: 'stolz auf das, was wir gebaut haben.',
     },
+    linha: 'Wir kommen aus der Fabrik. Nicht aus einem Büro.',
   },
 
   abertura: {
@@ -20,9 +21,19 @@ export default {
     whatsapp: 'Hallo! Ich komme über die NeoGlass-Website.',
   },
 
+  lugar: {
+    titulo: 'Wir entwickeln keine Technologie, um uns vorzustellen, wie eine Fabrik funktioniert.',
+    linha: 'Wir entwickeln sie, weil wir wissen, wo sie besser werden muss.',
+  },
+
+  proposito: {
+    titulo: 'NeoGlass wurde nicht nur geschaffen, um modern zu wirken.',
+    linha: 'Es wurde geschaffen, um Ergebnis zu liefern.',
+  },
+
   caso: {
     titulo: 'Jede Scheibe wird mit einem eigenen Code geboren.',
-    linha: 'Und er begleitet sie für immer.',
+    linha: 'Die Information entsteht einmal.',
     codigo: 'VG-260918-03',
     peca: 'P3',
     vidro: 'Klar 6 mm · 1800 × 1100',
@@ -40,6 +51,31 @@ export default {
     conferida: 'Geprüft',
   },
 
+  inteligencia: {
+    titulo: 'Weniger Spektakel.',
+    linha: 'Mehr Nutzen.',
+    texto:
+      'KI gibt es, um Schritte zu reduzieren, Aufgaben zu automatisieren, Analysen zu erleichtern, bei Projekten zu helfen, Vorschauen zu erzeugen, Berichte zu unterstützen und Entscheidungen zu beschleunigen.',
+    nao: 'Nicht um Menschen zu ersetzen.',
+    sim: 'Um Menschen zu stärken.',
+  },
+
+  dados: {
+    titulo: 'Wenn der Betrieb Daten erzeugt,',
+    linha: 'beginnen die Daten, Entscheidungen zu erzeugen.',
+    texto: 'Es gibt einen enormen Unterschied zwischen Führen nach Intuition und Führen nach Information.',
+    fecho: 'Wer misst, verbessert.',
+  },
+
+  continuidade: {
+    titulo: 'Moderne Technologie',
+    linha: 'ohne auf Kontinuität zu verzichten.',
+    camadas:
+      'NeoGlass wurde mit Sicherheitsschichten, Zugangskontrolle, Isolierung der Informationen und Mechanismen für die betriebliche Kontinuität entwickelt.',
+    nuvem:
+      'Zugleich ermöglicht die cloudbasierte Architektur Fernzugriff, Synchronisierung und ständige Aktualisierungen.',
+  },
+
   visao: {
     titulo: {
       antes: 'Die Plattform',
@@ -53,9 +89,13 @@ export default {
     },
   },
 
-  nasceu: {
-    titulo: 'Wir entstanden in der Fabrik.',
-    linha: 'Wir bauten für die Welt.',
+  futuro: {
+    titulo: 'Wir beteiligen uns am Aufbau',
+    linha: 'der Zukunft der Glasindustrie.',
+  },
+
+  mundo: {
+    titulo: 'Wir bauten für die Welt.',
   },
 
   chamada: {

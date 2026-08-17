@@ -283,15 +283,16 @@ export function Chamada({
   const [agendaAberta, setAgendaAberta] = useState(false)
   const mostrarAgenda = agenda && CONFIG.agendar && (!agendaBotao || agendaAberta)
   const cartaoLargo = centro && (mostrarAgenda || (agenda && !agendaBotao))
+  const classeSecao = `secao mx-auto max-w-[1240px] px-5 ${
+    centro ? 'pb-20 sm:px-8 sm:pb-24' : 'pb-24 sm:px-8 sm:pb-32'
+  }`
+  const Envoltorio = centro ? 'section' : Revelar
+  const envoltorioProps = centro
+    ? { id: 'agendar', className: classeSecao }
+    : { as: 'section', id: 'agendar', className: classeSecao }
 
   return (
-    <Revelar
-      as="section"
-      id="agendar"
-      className={`secao mx-auto max-w-[1240px] px-5 ${
-        centro ? 'pb-20 sm:px-8 sm:pb-24' : 'pb-24 sm:px-8 sm:pb-32'
-      }`}
-    >
+    <Envoltorio {...envoltorioProps}>
       {/* Centralizado, o cartão tem a MESMA largura do cartão do preço
           (460 px). Eles são as duas últimas caixas da página, uma embaixo da
           outra: com larguras diferentes a coluna parece torta, e a mais larga
@@ -411,7 +412,7 @@ export function Chamada({
           )}
         </div>
       </div>
-    </Revelar>
+    </Envoltorio>
   )
 }
 

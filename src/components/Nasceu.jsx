@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { Revelar } from './Comum.jsx'
+import FraseAto, { Ato, AtoLinha } from './FraseAto.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
 import { ALTURA, ARCOS, LARGURA, ORIGEM, TERRA } from '../lib/continentes.js'
 import { semMovimento } from '../lib/dispositivo.js'
 
 /**
- * Nasceu dentro da fábrica. Não de um escritório.
+ * Construímos para o mundo.
  *
  * Arcos contínuos, traço fino. O fluxo vai e volta sem cadência:
  * cada linha no seu tempo, na sua direção.
@@ -125,12 +125,12 @@ function Mapa({ desenhar }) {
 }
 
 export default function Nasceu() {
-  const t = useTextos().plataforma.nasceu
-  const ref = useRef(null)
+  const t = useTextos().plataforma.mundo
+  const mapa = useRef(null)
   const [desenhar, setDesenhar] = useState(semMovimento())
 
   useEffect(() => {
-    const el = ref.current
+    const el = mapa.current
     if (!el) return
     if (semMovimento()) {
       setDesenhar(true)
@@ -149,17 +149,16 @@ export default function Nasceu() {
   }, [])
 
   return (
-    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-20 sm:px-8 sm:pb-24">
-      <div className="mx-auto mt-8 max-w-[50ch] text-center">
-        <h2 className="display text-[clamp(26px,3.8vw,44px)] leading-[1.08]">
-          {t.titulo}
-          <span className="marca mt-2 block">{t.linha}</span>
-        </h2>
+    <Ato fecha mapa>
+      <div className="ato-palco">
+        <FraseAto>
+          <AtoLinha marca>{t.titulo}</AtoLinha>
+        </FraseAto>
       </div>
 
-      <div ref={ref} className="mx-auto mt-10 max-w-[860px] sm:mt-12">
+      <div ref={mapa} className="mx-auto mt-10 max-w-[860px] sm:mt-12">
         <Mapa desenhar={desenhar} />
       </div>
-    </Revelar>
+    </Ato>
   )
 }

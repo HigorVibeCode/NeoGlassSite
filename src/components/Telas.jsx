@@ -24,16 +24,17 @@ export default function Telas({
   largura = 'max-w-[540px]',
   nomes,
   larga = false,
+  estatico = false,
 }) {
   const t = useTextos().tela
   const [frente, setFrente] = useState(0)
   const n = variantes.length
 
   useEffect(() => {
-    if (n < 2 || semMovimento()) return
+    if (estatico || n < 2 || semMovimento()) return
     const id = setInterval(() => setFrente((f) => (f + 1) % n), intervalo)
     return () => clearInterval(id)
-  }, [n, intervalo])
+  }, [estatico, n, intervalo])
 
   return (
     <div className={`w-full ${largura}`}>
@@ -54,7 +55,7 @@ export default function Telas({
             <div
               key={v}
               aria-hidden={!naFrente}
-              className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              className={`${estatico ? '' : 'transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] '}${
                 naFrente ? '' : 'pointer-events-none'
               }`}
               style={{

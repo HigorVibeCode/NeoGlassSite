@@ -2,10 +2,10 @@ import FraseAto, { Ato, AtoLinha } from './FraseAto.jsx'
 import { useTextos } from '../i18n/idioma.jsx'
 
 /**
- * Cada vidro nasce com um código. Abre o movimento do que o sistema faz.
+ * O lugar. Primeiro movimento: de onde isso veio.
  */
-export default function Fluxo() {
-  const t = useTextos().plataforma.caso
+export default function Lugar() {
+  const t = useTextos().plataforma.lugar
 
   return (
     <Ato abre>

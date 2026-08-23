@@ -373,6 +373,32 @@ export default {
   // ── O cartão que troca de face na abertura ─────────────────────────────
   /* ── El asistente del proyecto, en uso ──────────────────────────────── */
   projeto: {
+    abas: { voz: 'Por voz', passos: 'Paso a paso' },
+    voz: {
+      modulo: 'NeoGlass Intelligence',
+      rotulo: 'Presupuesto por voz',
+      ouvindo: 'Escuchando…',
+      frase: [
+        { p: 'Ventana' },
+        { p: 'corredera,', preenche: 'peca' },
+        { p: '4' },
+        { p: 'hojas,', preenche: 'modelo' },
+        { p: '1800' },
+        { p: 'por' },
+        { p: '1100,', preenche: 'medida' },
+        { p: 'cliente' },
+        { p: 'Felipe.', preenche: 'cliente' },
+      ],
+      ficha: { cliente: 'Cliente', peca: 'Pieza', medida: 'Medidas', modelo: 'Modelo' },
+      esperando: '—',
+      valores: {
+        cliente: 'Felipe',
+        peca: 'Ventana corredera',
+        medida: '1800 × 1100 mm',
+        modelo: '4 hojas · 2 fijas + 2 móviles',
+      },
+      gerando: 'Generando el proyecto…',
+    },
     tocar: 'Ver cómo funciona',
     denovo: 'Ver de nuevo',
     pronto: 'Proyecto listo. Menos de un minuto.',

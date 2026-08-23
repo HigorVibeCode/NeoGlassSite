@@ -359,12 +359,8 @@ html[data-parado] .respira {
   animation: none;
 }
 html[data-fraco] .pulso,
-html[data-parado] .pulso,
-.fundo-parado .pulso {
+html[data-parado] .pulso {
   display: none;
-}
-.fundo-parado .respira {
-  animation: none;
 }
 
 /* ── Cota: a anotação de desenho técnico ─────────────────────────────────── */
@@ -985,199 +981,229 @@ html[data-parado] {
   }
 }
 
-/* ── A capa da /plataforma ───────────────────────────────────────────────
-   A fábrica enche a janela. O fundo sobra só em cima e embaixo, para a
-   paralaxe ter curso — nas laterais não pode aparecer faixa. */
-.apresentacao-fundo {
-  position: absolute;
-  top: -200px;
-  right: 0;
-  bottom: -200px;
-  left: 0;
-  will-change: transform;
+/* ── O cavalete dos ambientes (plataforma, seção 02) ─────────────────────
+   As chapas são um objeto só, não cinco cartões: elas se apoiam no mesmo
+   trilho, se sobrepõem, e entram uma depois da outra. */
+.cavalete {
+  position: relative;
+  perspective: 1500px;
+  perspective-origin: 50% 40%;
 }
-.apresentacao-midia {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  filter: brightness(0.42) saturate(0.35) contrast(0.92);
-}
-.apresentacao-velo {
-  background: linear-gradient(
-    180deg,
-    rgba(238, 241, 246, 0.92) 0%,
-    rgba(238, 241, 246, 0.55) 72px,
-    rgba(15, 37, 48, 0.4) 40%,
-    rgba(15, 37, 48, 0.56) 100%
-  );
-}
-.apresentacao-frase {
-  text-shadow: 0 1px 2px rgba(15, 37, 48, 0.28), 0 18px 48px rgba(15, 37, 48, 0.35);
-}
-.apresentacao-linha {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.78);
-  text-shadow: 0 1px 2px rgba(15, 37, 48, 0.35);
+.cavalete-vao {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  transform-style: preserve-3d;
 }
 
-html[data-parado] .apresentacao-fundo,
-html[data-fraco] .apresentacao-fundo {
-  will-change: auto;
-  transform: none;
+.chapa-ambiente {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 300px;
+  /* Sobreposição pequena, e não grande. Cinco chapas translúcidas empilhadas
+     com folga larga viram uma poça: as cores se multiplicam uma na outra e
+     nenhuma aresta aparece. O que faz ler como pilha é a ARESTA visível de
+     cada uma, não a quantidade de sobreposição. */
+  margin-inline: -0.8%;
+  transform-origin: bottom center;
+  transform: rotate(var(--giro)) translateY(34px);
+  opacity: 0;
+  transition:
+    transform 780ms cubic-bezier(0.2, 0.8, 0.25, 1),
+    opacity 620ms ease-out;
+  transition-delay: var(--atraso);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .apresentacao-fundo {
-    will-change: auto;
-    transform: none;
-  }
-}
-
-@keyframes kenburns {
-  from {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.12) translate3d(-1.4%, -1.2%, 0);
-  }
-}
-.kenburns {
-  animation: kenburns 28s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-@keyframes mapa-pulso {
-  0% {
-    transform: scale(1);
-    opacity: 0.35;
-  }
-  70% {
-    transform: scale(2.1);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2.1);
-    opacity: 0;
-  }
-}
-.mapa-pulso {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: mapa-pulso 2.4s ease-out infinite;
-}
-
-@keyframes mapa-fluxo {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -48;
-  }
-}
-.mapa-fluxo {
-  opacity: 0.7;
-  stroke-dasharray: 8 40;
-  animation: mapa-fluxo var(--fluxo-dur, 8s) linear var(--fluxo-atraso, 0s) infinite;
-}
-
-.ato {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 280px;
-  padding-top: 3.25rem;
-  padding-bottom: 3.25rem;
-}
-.ato--abre {
-  padding-top: 7.5rem;
-}
-.ato--fecha {
-  padding-bottom: 7.5rem;
-}
-.ato--mapa {
-  contain-intrinsic-size: auto 720px;
+.chapa-ambiente.posta {
+  transform: rotate(var(--giro)) translateY(0);
+  opacity: 1;
 }
 @media (min-width: 640px) {
-  .ato {
-    padding-top: 3.75rem;
-    padding-bottom: 3.75rem;
-  }
-  .ato--abre {
-    padding-top: 9rem;
-  }
-  .ato--fecha {
-    padding-bottom: 9rem;
+  .chapa-ambiente {
+    height: 372px;
   }
 }
 
-.ato-frase--claim {
-  max-width: 46ch;
-  font-size: clamp(28px, 4.2vw, 48px);
+/* a chapa em si: translúcida, tingida no tema do módulo, com o fio de luz na
+   aresta de cima — a mesma aresta do utilitário `.chapa` do resto do site */
+.chapa-vidro {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  /* A base é BRANCA e quase opaca. Sem ela a chapa da frente deixava passar
+     a de trás inteira e o fundo da página junto — cinco tintas somadas viram
+     lama. Com a base, cada chapa oculta o que está atrás como vidro de
+     verdade oculta, e a cor fica limpa. */
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--cor) 30%, transparent),
+      color-mix(in srgb, var(--cor) 9%, transparent) 52%,
+      color-mix(in srgb, var(--cor) 22%, transparent)
+    ),
+    rgba(255, 255, 255, 0.82);
+  border: 1px solid color-mix(in srgb, var(--cor) 52%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--cor) 72%, transparent),
+    0 26px 48px -34px color-mix(in srgb, var(--cor) 70%, transparent);
+  transition:
+    background 260ms ease,
+    box-shadow 260ms ease;
 }
-.ato-frase--fecho {
-  max-width: 28ch;
-  margin-top: 2.25rem;
-  font-size: clamp(22px, 3.1vw, 34px);
+.chapa-ambiente:hover .chapa-vidro {
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--cor) 44%, transparent),
+      color-mix(in srgb, var(--cor) 15%, transparent) 52%,
+      color-mix(in srgb, var(--cor) 34%, transparent)
+    ),
+    rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--cor) 78%, transparent),
+    0 30px 56px -30px color-mix(in srgb, var(--cor) 80%, transparent);
 }
-.ato-nota {
-  margin: 1.15rem auto 0;
-  max-width: 42ch;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--color-dim);
+
+/* O nome fica DE PÉ na chapa, como a etiqueta numa folha guardada no
+   cavalete. Não é estilo: é o que resolve o celular. Deitado, "Financeiro"
+   não cabe em 60 px de largura; em pé, cabe em qualquer tela, e o conjunto
+   continua legível a 360 px sem virar rolagem lateral. */
+.chapa-nome {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--cor) 82%, #0f2530);
 }
-.ato-nota + .ato-nota {
-  margin-top: 0.7rem;
+@media (min-width: 640px) {
+  .chapa-nome {
+    font-size: 13px;
+    bottom: 22px;
+  }
 }
-.ato-palco {
-  --foco: 1;
-  --desvio: 0;
-  opacity: calc(0.34 + var(--foco) * 0.66);
-  transform: translate3d(0, calc(var(--desvio) * 26px), 0);
-  will-change: transform, opacity;
-}
-.ato-frase-linha {
+
+/* o trilho: a linha em que todas se apoiam */
+.cavalete-trilho {
   display: block;
-}
-.ato-frase-linha-2 {
-  margin-top: 0.5rem;
-  transform: translate3d(0, calc(var(--desvio) * -12px), 0);
-}
-
-html[data-parado] .ato-palco,
-html[data-fraco] .ato-palco {
-  opacity: 1;
-  transform: none;
-  will-change: auto;
-}
-html[data-parado] .ato-frase-linha-2,
-html[data-fraco] .ato-frase-linha-2 {
-  transform: none;
+  height: 3px;
+  margin-top: -1px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #cfd8e2 12%, #cfd8e2 88%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kenburns {
-    animation: none;
-  }
-  .mapa-pulso,
-  .mapa-fluxo {
-    animation: none;
-  }
-  .ato-palco {
+  .chapa-ambiente {
+    transition: none;
+    transform: rotate(var(--giro));
     opacity: 1;
-    transform: none;
-    will-change: auto;
-  }
-  .ato-frase-linha-2 {
-    transform: none;
   }
 }
 
-html[data-parado] .mapa-pulso,
-html[data-parado] .mapa-fluxo {
-  animation: none;
+/* ── A fala do NeoGlass Intelligence ─────────────────────────────────────
+   As ondas de voz saem do bonequinho em sequência, do arco mais perto ao mais
+   longe. Sem o escalonamento os três piscam juntos e o desenho lê como ícone
+   de wi-fi; com ele, lê como som saindo da boca. */
+@keyframes onda-voz {
+  0%,
+  70%,
+  100% {
+    opacity: 0.18;
+  }
+  25% {
+    opacity: 1;
+  }
+}
+.onda-voz {
+  animation: onda-voz 1500ms ease-in-out infinite;
+}
+
+/* Cada palavra entra por conta própria. `transition` e não `animation`: o
+   estado de quem já foi dito vive no React, e a palavra precisa PERMANECER
+   visível depois de aparecer — animação com preenchimento é justamente o que
+   já apagou texto de SVG neste projeto uma vez. */
+.palavra {
+  transition:
+    opacity 220ms ease-out,
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* O valor da ficha não aparece: ele sobe para o lugar, como se tivesse sido
+   escrito ali na hora. */
+@keyframes campo-cheio {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.campo-cheio {
+  animation: campo-cheio 340ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onda-voz,
+  .campo-cheio {
+    animation: none;
+  }
+  .palavra {
+    transition: none;
+  }
+}
+
+/* No alto da página a fala roda em laço, e ali ela é MENOR: o palco cheio tem
+   560 px porque precisa caber a janela em 3D e o orçamento. O laço não mostra
+   nem uma coisa nem outra — só o bonequinho e a ficha —, então aquela altura
+   viraria um vão branco no meio da abertura, empurrando o botão para fora da
+   primeira tela no celular. */
+.palco-laco {
+  height: auto;
+  min-height: 0;
+}
+.palco-laco > * {
+  flex: 0 0 auto;
+}
+
+/* E no laço ela é compacta. Em altura cheia a última linha da ficha — CLIENTE,
+   justamente a que fecha a frase — caía abaixo da dobra na abertura. Aqui o
+   bonequinho encolhe, a frase reserva menos altura e as linhas apertam: o
+   conjunto inteiro cabe na primeira tela, que é a única coisa que a abertura
+   precisa garantir. */
+.palco-laco .cena-fala > :first-child {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+.palco-laco .cena-fala svg[viewBox='0 0 96 64'] {
+  height: 46px;
+  width: 68px;
+}
+.palco-laco .cena-fala p:has(.palavra) {
+  min-height: 44px;
+  margin-top: 0.5rem;
+  font-size: 14.5px;
+}
+.palco-laco .cena-fala > div:nth-child(2) {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+.palco-laco .cena-fala dd,
+.palco-laco .cena-fala dt {
+  font-size: 12px;
+}
+.palco-laco .cena-fala dl > div {
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
 }

@@ -41,7 +41,11 @@ export default function Vidracaria() {
   return (
     <>
       <Abertura
-        tela="design"
+        /* No alto roda só a FALA, em laço: o bonequinho, a frase saindo e a
+           ficha se preenchendo. Sem a janela e sem o orçamento — eles são a
+           recompensa do botão logo abaixo, e mostrá-los aqui esvaziaria o
+           clique. */
+        palco={<Projeto laco />}
         centro
         /* O botão da abertura desce até a prova, em contorno e sem o verde da
            marca: ele guia sem competir com o título. O verde — o teste grátis —

@@ -38,6 +38,7 @@ export default function Abertura({
   zap = true,
   tela,
   telas,
+  palco,
   centro = false,
 }) {
   const { c } = useIdioma()
@@ -160,7 +161,9 @@ export default function Abertura({
             />
             {etiqueta}
           </p>
-          {telas ? <Telas variantes={telas} /> : tela ? <Tela variante={tela} /> : <CartaoIA />}
+          {/* `palco` ganha de tudo: é por onde a vidraçaria põe a fala do
+              Intelligence rodando em laço no lugar da tela parada. */}
+          {palco ?? (telas ? <Telas variantes={telas} /> : tela ? <Tela variante={tela} /> : <CartaoIA />)}
         </div>
       </div>
     </section>

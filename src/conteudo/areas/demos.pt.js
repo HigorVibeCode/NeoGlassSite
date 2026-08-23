@@ -396,6 +396,43 @@ export default {
      As palavras são as do app de verdade, e é essa fidelidade que faz o
      vidraceiro reconhecer a tela. Nada aqui é frase de site. */
   projeto: {
+    abas: { voz: 'Por voz', passos: 'Passo a passo' },
+    /* ── A VOZ · NeoGlass Intelligence ───────────────────────────────────
+       A frase é uma lista de palavras, e não um texto corrido, porque a
+       animação precisa saber QUANDO cada pedaço foi dito para preencher o
+       campo correspondente no mesmo instante. `preenche` marca a palavra que
+       fecha cada informação — é ela que acende a linha da ficha.
+
+       Os tempos NÃO ficam aqui: são calculados a partir da quantidade de
+       palavras. Alemão diz a mesma coisa com um número diferente de palavras,
+       e cravar milissegundos por idioma seria um jeito garantido de a fala
+       terminar antes ou depois da ficha em três dos quatro. */
+    voz: {
+      modulo: 'NeoGlass Intelligence',
+      rotulo: 'Orçamento por voz',
+      ouvindo: 'Ouvindo…',
+      frase: [
+        { p: 'Janela' },
+        { p: 'de' },
+        { p: 'correr,', preenche: 'peca' },
+        { p: '4' },
+        { p: 'folhas,', preenche: 'modelo' },
+        { p: '1800' },
+        { p: 'por' },
+        { p: '1100,', preenche: 'medida' },
+        { p: 'cliente' },
+        { p: 'Felipe.', preenche: 'cliente' },
+      ],
+      ficha: { cliente: 'Cliente', peca: 'Peça', medida: 'Medidas', modelo: 'Modelo' },
+      esperando: '—',
+      valores: {
+        cliente: 'Felipe',
+        peca: 'Janela de correr',
+        medida: '1800 × 1100 mm',
+        modelo: '4 folhas · 2 fixas + 2 móveis',
+      },
+      gerando: 'Gerando o projeto…',
+    },
     tocar: 'Ver como funciona',
     denovo: 'Ver de novo',
     pronto: 'Projeto pronto. Menos de um minuto.',

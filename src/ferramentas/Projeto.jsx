@@ -41,11 +41,47 @@ import { Simbolo } from '../components/Marca.jsx'
 /* O compasso. Cada ato tem a mesma batida — conteúdo entra, dedo viaja, toca,
    confirma — e é a repetição dessa batida que faz o visitante aprender o ritmo
    e conseguir acompanhar. */
+/* ── Dois caminhos, um projeto ─────────────────────────────────────────────
+   Esta peça mostra o mesmo projeto nascendo de duas maneiras: falando, pelo
+   NeoGlass Intelligence, ou percorrendo o assistente à mão.
+
+   Elas não são duas demonstrações. São duas ABERTURAS da mesma demonstração:
+   a partir do instante em que o projeto existe, o filme é idêntico — a janela
+   se monta, explode, volta, abre, e o orçamento entra no canto.
+
+   Isso é de propósito, e é o argumento inteiro da seção. Numa seção separada,
+   o caminho clicado leria como "o jeito antigo"; como escolha ao lado da voz,
+   lê como o que é — você fala ou faz à mão, e o projeto sai igual. A prova
+   disso é o desfecho compartilhado: os dois terminam na mesma janela e no
+   mesmo orçamento. */
+
+/* O caminho FALADO. */
+const FALA_ENTRA = 900 // o respiro antes de a primeira palavra sair
+const FALA_DIZER = 3400 // a frase sendo dita, do começo ao ponto final
+const FALA_RESPIRO = 900 // o instante entre o fim da frase e a montagem
+const FALA = FALA_ENTRA + FALA_DIZER + FALA_RESPIRO
+
+/* Quanto tempo cada palavra leva depende de QUANTAS palavras a frase tem
+   naquele idioma — o alemão diz a mesma coisa em oito palavras, o português em
+   dez. Cravar milissegundos por palavra faria a fala terminar antes ou depois
+   da ficha em três dos quatro idiomas. */
+const quando = (i, total) => FALA_ENTRA + (i / total) * FALA_DIZER
+/* O campo acende um instante DEPOIS da palavra que o fecha. Instantâneo lê
+   como coincidência; com o atraso, lê como consequência — o sistema ouviu, e
+   então escreveu. */
+const ATRASO_CAMPO = 260
+
+/* O caminho CLICADO. Cada ato tem a mesma batida — conteúdo entra, cursor
+   viaja, toca, confirma — e é a repetição dessa batida que faz o visitante
+   aprender o ritmo e conseguir acompanhar. */
 const ABRINDO = 1800 // o respiro antes de a folha subir
 const ATO = 3500 // cada passo do assistente
 const BEATS = { dedo: 620, toque: 1560, confirma: 2650 }
+const PASSOS_FIM = ABRINDO + ATO * 4
+
+/* O desfecho, igual para os dois. */
 const MONTAGEM = 7000 // a janela sendo construída, e então aberta
-const TOTAL = ABRINDO + ATO * 4 + MONTAGEM
+const ABERTURA_DE = { voz: FALA, passos: PASSOS_FIM }
 
 /* A montagem: a janela aparece pronta, as peças se afastam, seguram um
    instante e voltam a se encaixar. Depois ela abre.
@@ -522,6 +558,37 @@ function Cartao({ aceso, alvo, className = '', children }) {
   )
 }
 
+/* ── o falante ─────────────────────────────────────────────────────────────
+   Um bonequinho, e de propósito: nesta cena quem fala é uma PESSOA, e a
+   distância entre um ícone de microfone e a silhueta de alguém é a distância
+   entre "o sistema aceita comando de voz" e "você fala com ele".
+
+   Duas formas e três arcos, no traço do resto do site. Rosto não tem: rosto em
+   26 px vira borrão, e qualquer expressão que eu desenhasse escolheria um
+   gênero, uma idade e um humor que não são meus para escolher. */
+function Falante() {
+  return (
+    <svg viewBox="0 0 96 64" className="h-[58px] w-[86px] sm:h-[66px] sm:w-[98px]" aria-hidden="true">
+      <g fill="none" stroke={AZUL} strokeWidth="2.6" strokeLinecap="round">
+        <circle cx="30" cy="21" r="10.5" />
+        <path d="M12 53c0-9.6 8-16 18-16s18 6.4 18 16" />
+        {/* as ondas: três arcos que acendem em sequência, do mais perto ao
+            mais longe — é o que dá a leitura de som saindo, e não de sinal
+            de wi-fi parado */}
+        {[0, 1, 2].map((i) => (
+          <path
+            key={i}
+            className="onda-voz"
+            d={`M${60 + i * 11} ${26 - i * 5.5}a${9 + i * 5} ${9 + i * 5} 0 0 1 0 ${18 + i * 11}`}
+            strokeWidth={2.4 - i * 0.3}
+            style={{ animationDelay: `${i * 180}ms` }}
+          />
+        ))}
+      </g>
+    </svg>
+  )
+}
+
 export const EVENTO_TOCAR = 'neoglass:tocar-projeto'
 /* Quando a demonstração termina ela mostra o próprio botão verde. Nesse
    instante o botão fixo do topo precisa sair de cena: dois "Começar grátis"
@@ -532,7 +599,13 @@ export const EVENTO_CTA = 'neoglass:cta-demo'
 
 /* ── a peça inteira ──────────────────────────────────────────────────────── */
 
-export default function Projeto({ acao }) {
+/**
+ * @param {object} p
+ * @param {object} [p.acao]  o botão verde do desfecho
+ * @param {boolean} [p.laco] no topo da página: só a fala, em laço, sem abas
+ *                           nem rodapé. Ver o comentário do laço mais abaixo.
+ */
+export default function Projeto({ acao, laco = false }) {
   const t = useTextos().demos.projeto
   const { idioma } = useIdioma()
   // Cada idioma vê o orçamento na moeda e nos preços do mercado dele — os
@@ -544,8 +617,14 @@ export default function Projeto({ acao }) {
   const local = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }[idioma] ?? 'pt-BR'
   const emReais = (v) =>
     v.toLocaleString(local, { style: 'currency', currency: moedaDe(idioma), maximumFractionDigits: 0 })
+  const v = t.voz
+  // qual caminho está no palco: falado ou clicado
+  const [modo, setModo] = useState('voz')
   const [ato, setAto] = useState('parado')
   const [beat, setBeat] = useState('entra')
+  // quantas palavras já saíram da boca, e quais campos da ficha já acenderam
+  const [ditas, setDitas] = useState(0)
+  const [campos, setCampos] = useState({})
   // quantos algarismos já foram digitados em cada campo, e qual está em foco
   const [digitos, setDigitos] = useState({ l: 0, a: 0 })
   const [foco, setFoco] = useState(null)
@@ -579,25 +658,26 @@ export default function Projeto({ acao }) {
   useEffect(() => parar, [])
   const marcar = (ms, fn) => relogios.current.push(setTimeout(fn, ms))
 
-  function tocar() {
-    parar()
-    evento('demo', { qual: 'projeto' })
-    window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: false } }))
-    setSepara(0)
-    setFase(0)
-    setDigitos({ l: 0, a: 0 })
-    setFoco(null)
+  /* Agenda a FALA e devolve quando ela acaba. A frase sai palavra por palavra,
+     e cada palavra marcada com `preenche` acende a linha correspondente da
+     ficha um instante depois de ser dita. É essa defasagem curta que faz a
+     coisa ler como causa e efeito — o sistema ouviu "1100" e só então escreveu
+     a medida — em vez de parecer que as duas coisas foram programadas para
+     acontecer juntas. */
+  function agendarFala() {
+    const n = v.frase.length
+    v.frase.forEach((palavra, i) => {
+      const em = quando(i + 1, n)
+      marcar(em, () => setDitas(i + 1))
+      if (palavra.preenche) {
+        marcar(em + ATRASO_CAMPO, () => setCampos((c) => ({ ...c, [palavra.preenche]: 1 })))
+      }
+    })
+    return FALA
+  }
 
-    // Quem pediu menos movimento recebe o desfecho, parado. Não é versão
-    // pobre: é o quadro que a sequência inteira existe para entregar.
-    if (semMovimento()) {
-      setAto('fim')
-      setSepara(0)
-      setFase(1)
-      window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
-      return
-    }
-
+  /* Agenda o ASSISTENTE CLICADO e devolve quando ele acaba. */
+  function agendarPassos() {
     // Um instante de tela do app antes de qualquer coisa. Sem ele a folha do
     // assistente aparecia do nada, e o visitante não tinha como saber de onde
     // ela saiu — era um corte seco logo depois do clique.
@@ -614,8 +694,7 @@ export default function Projeto({ acao }) {
         /* O foco zera na TROCA de ato, e não ao terminar de digitar. Zerar no
            fim da digitação fazia a mira cair de volta no campo da largura, e o
            cursor dava uma viagem a mais — largura → altura → largura →
-           Continuar — antes de confirmar. Agora são três trechos: ele vai ao
-           primeiro campo, ao segundo, e ao botão. */
+           Continuar — antes de confirmar. */
         setFoco(null)
       })
       marcar(base + BEATS.dedo, () => setBeat('dedo'))
@@ -623,36 +702,117 @@ export default function Projeto({ acao }) {
       marcar(base + BEATS.confirma, () => setBeat('confirma'))
       /* A medida é DIGITADA, e não colada. O cursor vai até o campo, ele
          acende, e os algarismos entram um a um — é assim que o vidraceiro põe
-         a medida que tirou na obra, e é isso que a demonstração precisa
-         mostrar. Aparecer "1800" inteiro de uma vez era o mesmo que dizer que
-         o sistema adivinha o vão. */
+         a medida que tirou na obra. Aparecer "1800" inteiro de uma vez era o
+         mesmo que dizer que o sistema adivinha o vão. */
       if (passo === 'medida') {
         marcar(base + 420, () => setFoco('l'))
         for (let d = 1; d <= MEDIDA.largura.length; d++) {
-          marcar(base + 620 + d * TECLA, () => setDigitos((v) => ({ ...v, l: d })))
+          marcar(base + 620 + d * TECLA, () => setDigitos((x) => ({ ...x, l: d })))
         }
         marcar(base + 1320, () => setFoco('a'))
         for (let d = 1; d <= MEDIDA.altura.length; d++) {
-          marcar(base + 1520 + d * TECLA, () => setDigitos((v) => ({ ...v, a: d })))
+          marcar(base + 1520 + d * TECLA, () => setDigitos((x) => ({ ...x, a: d })))
         }
       }
     })
+    return PASSOS_FIM
+  }
 
-    const fim = ABRINDO + ATO * 4
+  function tocar(qual = modo) {
+    parar()
+    evento('demo', { qual: 'projeto', modo: qual })
+    window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: false } }))
+    setModo(qual)
+    setSepara(0)
+    setFase(0)
+    setDigitos({ l: 0, a: 0 })
+    setFoco(null)
+    setDitas(0)
+    setCampos({})
+
+    // Quem pediu menos movimento recebe o desfecho, parado. Não é versão
+    // pobre: é o quadro que a sequência inteira existe para entregar.
+    if (semMovimento()) {
+      setAto('fim')
+      setSepara(0)
+      setFase(1)
+      setDitas(v.frase.length)
+      setCampos({ peca: 1, modelo: 1, medida: 1, cliente: 1 })
+      window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
+      return
+    }
+
+    if (qual === 'voz') setAto('fala')
+    const fim = qual === 'voz' ? agendarFala() : agendarPassos()
+
+    /* Daqui para baixo os dois caminhos são o MESMO filme. É essa parte
+       compartilhada que prova, sem uma palavra escrita, que falar e clicar
+       levam ao mesmo projeto. */
     marcar(fim, () => setAto('montagem'))
     // as peças se afastam, seguram um instante, e voltam a se encaixar
     marcar(fim + EXPLODE_EM, () => percorrer(setSepara, 0, 1, EXPLODE_DUR))
     marcar(fim + VOLTA_EM, () => percorrer(setSepara, 1, 0, VOLTA_DUR))
     // e então a janela abre, no mesmo compasso do sistema
     marcar(fim + ABRE_EM, () => percorrer(setFase, 0, 1, ABRE_DUR))
-    marcar(TOTAL, () => {
+    marcar(fim + MONTAGEM, () => {
       setAto('fim')
       window.dispatchEvent(new CustomEvent(EVENTO_CTA, { detail: { visivel: true } }))
     })
   }
 
+  /* ── O LAÇO DO TOPO ──────────────────────────────────────────────────────
+     No alto da página roda só a FALA, repetindo. Não é a demonstração
+     inteira, e isso é deliberado: se o topo já mostrasse a janela e o
+     orçamento, o botão "Ver como funciona" viraria "veja de novo o que você
+     acabou de ver". Guardando o desfecho, o botão passa a ter recompensa.
+
+     O laço para quando sai da tela. Um filme rodando fora de vista é bateria
+     de celular queimando pelo resto da página — e ninguém está vendo. */
   useEffect(() => {
-    const ouvir = () => tocar()
+    if (!laco) return
+    const el = palco.current
+    if (!el || semMovimento()) {
+      if (semMovimento()) {
+        setAto('fala')
+        setDitas(v.frase.length)
+        setCampos({ peca: 1, modelo: 1, medida: 1, cliente: 1 })
+      }
+      return
+    }
+    let vivo = false
+    const rodar = () => {
+      parar()
+      setAto('fala')
+      setDitas(0)
+      setCampos({})
+      agendarFala()
+      marcar(FALA + 700, () => vivo && rodar())
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !vivo) {
+          vivo = true
+          rodar()
+        } else if (!e.isIntersecting && vivo) {
+          vivo = false
+          parar()
+        }
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+    return () => {
+      vivo = false
+      io.disconnect()
+      parar()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [laco, v])
+
+  useEffect(() => {
+    // o laço do topo não obedece ao botão da abertura: quem é tocado por ele
+    // é a demonstração da prova, lá embaixo
+    const ouvir = () => !laco && tocar()
     window.addEventListener(EVENTO_TOCAR, ouvir)
     return () => window.removeEventListener(EVENTO_TOCAR, ouvir)
   })
@@ -712,7 +872,94 @@ export default function Projeto({ acao }) {
   return (
     <div className="mx-auto w-full max-w-[520px]">
       <div className="overflow-hidden rounded-[24px] border border-line bg-card shadow-[0_40px_80px_-50px_rgba(20,55,80,.5)]">
-        <div ref={palco} className="demo-palco palco-app relative">
+        <div ref={palco} className={`demo-palco palco-app relative ${laco ? 'palco-laco' : ''}`}>
+          {/* ── a fala ────────────────────────────────────────────────────
+              O NeoGlass Intelligence: a pessoa diz uma frase e o projeto
+              nasce. Aqui não há cursor, não há cartão para escolher, não há
+              campo para digitar — e é justamente essa ausência que é o
+              argumento. Quem assiste tem de perceber, sem ler nada, que
+              ninguém clicou em coisa alguma.
+
+              A frase sai palavra por palavra, e a ficha se preenche atrás
+              dela. As duas coisas juntas respondem a pergunta que a voz
+              sempre levanta — "mas o que ele entendeu do que eu falei?" —,
+              porque dá para acompanhar cada pedaço da frase indo parar no
+              campo certo. Voz que preenche campo visível não é caixa-preta. */}
+          {ato === 'fala' && (
+            <div className="cena-fala flex h-full w-full flex-col bg-white">
+              <div className="flex shrink-0 items-center gap-2.5 border-b border-line px-5 py-3.5 sm:px-6">
+                {/* o símbolo sem caixa atrás: ele já tem cor própria, e
+                    dentro de um quadrado azul as duas brigavam */}
+                <Simbolo className="h-[26px] w-[26px] shrink-0" />
+                <span className="min-w-0 leading-tight">
+                  <b className="block truncate text-[14px] font-extrabold text-ink sm:text-[15px]">
+                    {v.modulo}
+                  </b>
+                  <b className="block text-[11px] font-semibold" style={{ color: AZUL }}>
+                    {v.rotulo}
+                  </b>
+                </span>
+              </div>
+
+              {/* o falante e a frase */}
+              <div className="flex flex-1 flex-col items-center justify-center px-5 py-4 sm:px-6">
+                <Falante />
+                <p className="cota mt-2.5 uppercase" style={{ color: AZUL, opacity: 1 }}>
+                  {v.ouvindo}
+                </p>
+
+                {/* A frase é um bloco de altura fixa. Se ela crescesse palavra
+                    a palavra, a ficha inteira dançaria para baixo a cada
+                    palavra dita — e o olho perderia a linha que está
+                    acendendo, que é o que interessa nesta cena. */}
+                <p className="mt-3 flex min-h-[62px] flex-wrap justify-center gap-x-[5px] gap-y-1 text-center text-[15px] font-bold leading-snug text-ink sm:min-h-[56px] sm:text-[17px]">
+                  {v.frase.map((palavra, i) => (
+                    <span
+                      key={i}
+                      className="palavra"
+                      style={{ opacity: i < ditas ? 1 : 0, transform: i < ditas ? 'none' : 'translateY(4px)' }}
+                    >
+                      {palavra.p}
+                    </span>
+                  ))}
+                </p>
+              </div>
+
+              {/* a ficha, preenchendo sozinha */}
+              {/* A ficha fica ANCORADA no pé, e não centralizada no espaço que
+                  sobra: centralizada, o fundo cinza das divisórias vazava como
+                  duas barras acima e abaixo dela, e o bloco parecia um erro de
+                  layout em vez de uma ficha. */}
+              <dl className="shrink-0 border-t border-line bg-line">
+                {[
+                  ['peca', v.ficha.peca],
+                  ['modelo', v.ficha.modelo],
+                  ['medida', v.ficha.medida],
+                  ['cliente', v.ficha.cliente],
+                ].map(([chave, rotulo]) => {
+                  const cheio = campos[chave]
+                  return (
+                    <div
+                      key={chave}
+                      className="mb-px flex items-baseline justify-between gap-3 bg-white px-5 py-2.5 transition-colors duration-500 last:mb-0 sm:px-6 sm:py-3"
+                      style={cheio ? { background: 'rgba(61,81,214,.05)' } : undefined}
+                    >
+                      <dt className="cota shrink-0 uppercase">{rotulo}</dt>
+                      <dd
+                        className={`min-w-0 truncate text-right text-[13px] font-bold sm:text-[14.5px] ${
+                          cheio ? 'campo-cheio' : ''
+                        }`}
+                        style={{ color: cheio ? AZUL : '#c3cad4' }}
+                      >
+                        {cheio ? v.valores[chave] : v.esperando}
+                      </dd>
+                    </div>
+                  )
+                })}
+              </dl>
+            </div>
+          )}
+
           {/* ── a abertura ────────────────────────────────────────────────
               Duas tentativas anteriores morreram aqui. A primeira mostrava a
               tela do app inteira — cabeçalho, quatro botões, prancheta vazia —
@@ -951,11 +1198,41 @@ export default function Projeto({ acao }) {
           )}
         </div>
 
+        {/* ── as abas ─────────────────────────────────────────────────────
+            Duas maneiras de chegar ao MESMO projeto. Elas ficam lado a lado, e
+            não em seções distantes, porque é a vizinhança que muda o
+            significado: separada, a versão clicada leria como o jeito antigo;
+            ao lado da voz, lê como escolha.
+
+            Trocar de aba toca a sequência daquele caminho na hora. Ninguém
+            escolhe uma aba para depois ter de apertar um play. */}
+        {!laco && (
+          <div className="flex items-center justify-center gap-1.5 border-t border-line px-5 pt-4">
+            {['voz', 'passos'].map((qual) => {
+              const atual = modo === qual
+              return (
+                <button
+                  key={qual}
+                  type="button"
+                  onClick={() => tocar(qual)}
+                  aria-pressed={atual}
+                  className={`rounded-full px-4 py-2 text-[13px] font-bold transition-colors ${
+                    atual ? 'bg-soft text-ink' : 'text-dim hover:text-ink'
+                  }`}
+                >
+                  {t.abas[qual]}
+                </button>
+              )
+            })}
+          </div>
+        )}
+
+        {!laco && (
         <div className="flex min-h-[84px] flex-col items-center justify-center gap-3 border-t border-line px-5 py-5 text-center">
           {ato === 'parado' ? (
             <button
               type="button"
-              onClick={tocar}
+              onClick={() => tocar(modo)}
               className="botao-marca inline-flex items-center gap-2.5 px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -980,7 +1257,7 @@ export default function Projeto({ acao }) {
               )}
               <button
                 type="button"
-                onClick={tocar}
+                onClick={() => tocar(modo)}
                 className="text-[13.5px] font-bold text-dim underline underline-offset-4 transition-colors hover:text-ink"
               >
                 {t.denovo}
@@ -990,11 +1267,12 @@ export default function Projeto({ acao }) {
             <span className="block h-[3px] w-full max-w-[220px] overflow-hidden rounded-full bg-line">
               <span
                 className="block h-full rounded-full bg-verde"
-                style={{ animation: `correr ${TOTAL}ms linear forwards` }}
+                style={{ animation: `correr ${ABERTURA_DE[modo] + MONTAGEM}ms linear forwards` }}
               />
             </span>
           )}
         </div>
+        )}
       </div>
     </div>
   )

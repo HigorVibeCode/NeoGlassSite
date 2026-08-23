@@ -58,7 +58,7 @@ export default {
 
   hero: {
     rotulo: 'NeoGlass · für die Glaserei',
-    etiqueta: 'Der Bildschirm des Systems',
+    etiqueta: 'Angebot per Sprache',
     verOrcamento: 'So funktioniert es',
     titulo: { antes: 'Ihre Glaserei wird professioneller', destaque: 'ohne dass etwas komplizierter wird.' },
     texto: 'Sie messen. NeoGlass macht den Rest.',

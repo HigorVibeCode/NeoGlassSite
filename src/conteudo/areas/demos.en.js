@@ -374,6 +374,32 @@ export default {
   // ── O cartão que troca de face na abertura ─────────────────────────────
   /* ── The project wizard, being used ─────────────────────────────────── */
   projeto: {
+    abas: { voz: 'By voice', passos: 'Step by step' },
+    voz: {
+      modulo: 'NeoGlass Intelligence',
+      rotulo: 'Quote by voice',
+      ouvindo: 'Listening…',
+      frase: [
+        { p: 'Sliding' },
+        { p: 'window,', preenche: 'peca' },
+        { p: '4' },
+        { p: 'leaves,', preenche: 'modelo' },
+        { p: '1800' },
+        { p: 'by' },
+        { p: '1100,', preenche: 'medida' },
+        { p: 'customer' },
+        { p: 'Felipe.', preenche: 'cliente' },
+      ],
+      ficha: { cliente: 'Customer', peca: 'Item', medida: 'Size', modelo: 'Model' },
+      esperando: '—',
+      valores: {
+        cliente: 'Felipe',
+        peca: 'Sliding window',
+        medida: '1800 × 1100 mm',
+        modelo: '4 leaves · 2 fixed + 2 sliding',
+      },
+      gerando: 'Building the project…',
+    },
     tocar: 'See how it works',
     denovo: 'Play again',
     pronto: 'Project done. Under a minute.',

@@ -51,7 +51,7 @@ export default {
 
   hero: {
     rotulo: 'NeoGlass · para la cristalería',
-    etiqueta: 'La pantalla del sistema',
+    etiqueta: 'Presupuesto por voz',
     verOrcamento: 'Ver cómo funciona',
     titulo: { antes: 'Tu cristalería se profesionaliza', destaque: 'sin complicar nada.' },
     texto: 'Tú mides. NeoGlass organiza el resto.',

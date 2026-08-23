@@ -379,6 +379,31 @@ export default {
   // ── O cartão que troca de face na abertura ─────────────────────────────
   /* ── Der Projekt-Assistent, in Benutzung ────────────────────────────── */
   projeto: {
+    abas: { voz: 'Per Sprache', passos: 'Schritt für Schritt' },
+    voz: {
+      modulo: 'NeoGlass Intelligence',
+      rotulo: 'Angebot per Sprache',
+      ouvindo: 'Hört zu…',
+      frase: [
+        { p: 'Schiebefenster,', preenche: 'peca' },
+        { p: '4' },
+        { p: 'Flügel,', preenche: 'modelo' },
+        { p: '1800' },
+        { p: 'mal' },
+        { p: '1100,', preenche: 'medida' },
+        { p: 'Kunde' },
+        { p: 'Felipe.', preenche: 'cliente' },
+      ],
+      ficha: { cliente: 'Kunde', peca: 'Teil', medida: 'Maße', modelo: 'Modell' },
+      esperando: '—',
+      valores: {
+        cliente: 'Felipe',
+        peca: 'Schiebefenster',
+        medida: '1800 × 1100 mm',
+        modelo: '4 Flügel · 2 fest + 2 beweglich',
+      },
+      gerando: 'Projekt wird erstellt…',
+    },
     tocar: 'So funktioniert es',
     denovo: 'Noch einmal ansehen',
     pronto: 'Projekt fertig. In unter einer Minute.',

@@ -20,7 +20,7 @@
  *
  * Nenhum texto visível deste arquivo escreve o símbolo do euro (só este
  * comentário escreve, para explicar). O preço chega pronto de
- * `precoVidracaria('de')`, que devolve '79 €' com o símbolo DEPOIS do número,
+ * `precoVidracaria('de')`, que devolve '39 €' com o símbolo DEPOIS do número,
  * como se escreve em alemão — `linhaPreco` só encaixa o que recebe.
  */
 export default {

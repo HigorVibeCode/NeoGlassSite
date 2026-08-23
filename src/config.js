@@ -66,16 +66,17 @@ export const CONFIG = {
     //     GlassManager, cobra US$ 65/usuário com mínimo de 2 e US$ 495 de
     //     implantação, ou seja US$ 625 no primeiro mês.
     //
-    // € 79 fica acima da mediana de propósito: € 49 é a faixa de ferramenta de
-    // orçamento leve, e aqui tem otimização de corte, retalho e produção junto.
-    // US$ 89 fechado bate o GlassManager de frente.
+    // € 39 / US$ 39 / CHF 39 é preço de entrada, de propósito abaixo da
+    // mediana de mercado: o objetivo agora é ocupar espaço, não extrair
+    // margem por licença. O real fica em 197 — outro mercado, outra conta.
     //
     // 60% dos europeus escondem o preço, e na Alemanha não achei um único
     // software de Glaserei com preço publicado. Publicar é a vantagem.
     precos: {
       BRL: 197,
-      EUR: 79,
-      USD: 89,
+      EUR: 39,
+      USD: 39,
+      CHF: 39,
     },
     // Qual moeda cada idioma vê.
     moedaPorIdioma: { pt: 'BRL', en: 'USD', es: 'EUR', de: 'EUR' },
@@ -155,8 +156,8 @@ export const valorMensal = (idioma = 'pt') =>
 
 /**
  * O preço já formatado no idioma da página, ou vazio enquanto ninguém decidiu.
- * O formato acompanha o idioma, não só a moeda: alemão escreve "79 €" com o
- * símbolo depois, inglês escreve "$89" com ele antes. Escrever "€79" para um
+ * O formato acompanha o idioma, não só a moeda: alemão escreve "39 €" com o
+ * símbolo depois, inglês escreve "$39" com ele antes. Escrever "€39" para um
  * alemão é o tipo de detalhe que faz o site parecer traduzido por máquina.
  */
 export const precoVidracaria = (idioma = 'pt') => {

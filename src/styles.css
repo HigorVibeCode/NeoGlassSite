@@ -1205,3 +1205,201 @@ html[data-parado] {
   padding-top: 0.45rem;
   padding-bottom: 0.45rem;
 }
+
+
+/* ── A capa da /plataforma ───────────────────────────────────────────────
+   A fábrica enche a janela. O fundo sobra só em cima e embaixo, para a
+   paralaxe ter curso — nas laterais não pode aparecer faixa. */
+.apresentacao-fundo {
+  position: absolute;
+  top: -200px;
+  right: 0;
+  bottom: -200px;
+  left: 0;
+  will-change: transform;
+}
+.apresentacao-midia {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.42) saturate(0.35) contrast(0.92);
+}
+.apresentacao-velo {
+  background: linear-gradient(
+    180deg,
+    rgba(238, 241, 246, 0.92) 0%,
+    rgba(238, 241, 246, 0.55) 72px,
+    rgba(15, 37, 48, 0.4) 40%,
+    rgba(15, 37, 48, 0.56) 100%
+  );
+}
+.apresentacao-frase {
+  text-shadow: 0 1px 2px rgba(15, 37, 48, 0.28), 0 18px 48px rgba(15, 37, 48, 0.35);
+}
+.apresentacao-linha {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 2px rgba(15, 37, 48, 0.35);
+}
+
+html[data-parado] .apresentacao-fundo,
+html[data-fraco] .apresentacao-fundo {
+  will-change: auto;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apresentacao-fundo {
+    will-change: auto;
+    transform: none;
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.4%, -1.2%, 0);
+  }
+}
+.kenburns {
+  animation: kenburns 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes mapa-pulso {
+  0% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  70% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+.mapa-pulso {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mapa-pulso 2.4s ease-out infinite;
+}
+
+@keyframes mapa-fluxo {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+.mapa-fluxo {
+  opacity: 0.7;
+  stroke-dasharray: 8 40;
+  animation: mapa-fluxo var(--fluxo-dur, 8s) linear var(--fluxo-atraso, 0s) infinite;
+}
+
+.ato {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
+}
+.ato--abre {
+  padding-top: 7.5rem;
+}
+.ato--fecha {
+  padding-bottom: 7.5rem;
+}
+.ato--mapa {
+  contain-intrinsic-size: auto 720px;
+}
+@media (min-width: 640px) {
+  .ato {
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
+  }
+  .ato--abre {
+    padding-top: 9rem;
+  }
+  .ato--fecha {
+    padding-bottom: 9rem;
+  }
+}
+
+.ato-frase--claim {
+  max-width: 46ch;
+  font-size: clamp(28px, 4.2vw, 48px);
+}
+.ato-frase--fecho {
+  max-width: 28ch;
+  margin-top: 2.25rem;
+  font-size: clamp(22px, 3.1vw, 34px);
+}
+.ato-nota {
+  margin: 1.15rem auto 0;
+  max-width: 42ch;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--color-dim);
+}
+.ato-nota + .ato-nota {
+  margin-top: 0.7rem;
+}
+.ato-palco {
+  --foco: 1;
+  --desvio: 0;
+  opacity: calc(0.34 + var(--foco) * 0.66);
+  transform: translate3d(0, calc(var(--desvio) * 26px), 0);
+  will-change: transform, opacity;
+}
+.ato-frase-linha {
+  display: block;
+}
+.ato-frase-linha-2 {
+  margin-top: 0.5rem;
+  transform: translate3d(0, calc(var(--desvio) * -12px), 0);
+}
+
+html[data-parado] .ato-palco,
+html[data-fraco] .ato-palco {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+html[data-parado] .ato-frase-linha-2,
+html[data-fraco] .ato-frase-linha-2 {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns {
+    animation: none;
+  }
+  .mapa-pulso,
+  .mapa-fluxo {
+    animation: none;
+  }
+  .ato-palco {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  .ato-frase-linha-2 {
+    transform: none;
+  }
+}
+
+html[data-parado] .mapa-pulso,
+html[data-parado] .mapa-fluxo {
+  animation: none;
+}

@@ -11,6 +11,34 @@
  * — e o pedaço que merece o destaque não cai na mesma palavra em alemão.
  */
 export default {
+
+  // ── O laço do topo (a etiqueta preenchendo) ───────────────────────────
+  laco: {
+    modulo: 'NeoGlass Otimização',
+    rotulo: 'A sobra vira estoque',
+    etiqueta: 'Retalho',
+    codigo: 'Código',
+    medida: 'Medida',
+    prateleira: 'Prateleira',
+    feito: 'Cadastrado',
+  },
+
+  // ── Reconhecimento — "isso é o meu prejuízo" ──────────────────────────
+  reconhecimento: {
+    titulo: 'A sobra boa é o seu prejuízo mais silencioso.',
+    texto: 'Todo pedido deixa um pedaço de vidro que ainda serve. Ele encosta no cavalete, ninguém cadastra, e na semana seguinte você compra uma chapa nova para um corte que já estava ali.',
+    destaque: 'Vidro que sobra e some do controle é chapa paga duas vezes.',
+  },
+
+  // ── O resultado (três cartões) ────────────────────────────────────────
+  resultado: {
+    titulo: 'Menos chapa. Menos caco. Menos planilha.',
+    itens: [
+      { nome: 'Menos chapa comprada', texto: 'Antes de abrir vidro novo, o sistema procura na sobra. Cada retalho aproveitado é uma chapa que não entrou na conta.' },
+      { nome: 'Nada vira caco esquecido', texto: 'A sobra sai do corte já com código, medida e endereço de cavalete. Ela existe no estoque sem ninguém cadastrar.' },
+      { nome: 'Um sistema só', texto: 'O otimizador, o estoque e a etiqueta são a mesma coisa. Nada é exportado, nada é digitado de novo — é por isso que a sobra não se perde.' },
+    ],
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · indústria do vidro plano',

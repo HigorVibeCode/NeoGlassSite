@@ -4,7 +4,6 @@ export default {
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'Más', destaque: 'dinero y tranquilidad', depois: 'para quien trabaja con vidrio.' },
   /* A frase da marca desceu do topo: virou legenda discreta do título. */
-  legenda: 'El vidrio que no compras es ganancia.',
   pergunta: '¿Cuál es tu negocio?',
   portas: [
     { id: 'vidracaria', rotulo: 'Tengo una cristalería', texto: 'Presupuestos, proyectos e instalación' },

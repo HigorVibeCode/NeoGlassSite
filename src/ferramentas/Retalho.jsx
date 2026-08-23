@@ -587,6 +587,8 @@ const FASES = ['pronto', 'otimizando', 'plano', 'realocando', 'economia']
    competência para quem fez; para quem chega, parece pressa. */
 const TEMPO = { otimizando: 5200, plano: 4600, realocando: 3600 }
 
+export const EVENTO_OTIMIZAR = 'neoglass:otimizar-retalho'
+
 export default function Retalho() {
   const { c, idioma } = useIdioma()
   local = LOCAIS[idioma] ?? LOCAIS.pt
@@ -625,6 +627,15 @@ export default function Retalho() {
     parar()
     setFase('pronto')
   }
+
+  /* O botão do herói desce até aqui E dispara a otimização, no mesmo clique —
+     a mesma gramática da vidraçaria. Sem isto, o visitante rolava até a
+     demonstração e ainda tinha de achar e apertar o "Otimizar". */
+  useEffect(() => {
+    const ouvir = () => otimizar()
+    window.addEventListener(EVENTO_OTIMIZAR, ouvir)
+    return () => window.removeEventListener(EVENTO_OTIMIZAR, ouvir)
+  })
 
 
   // No celular o painel fica embaixo do desenho, e o desenho é alto: sem isto,

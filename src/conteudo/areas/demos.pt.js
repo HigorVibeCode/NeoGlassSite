@@ -397,6 +397,7 @@ export default {
      vidraceiro reconhecer a tela. Nada aqui é frase de site. */
   projeto: {
     abas: { voz: 'Por voz', passos: 'Passo a passo' },
+    abasRotulo: 'Faça do seu jeito',
     /* ── A VOZ · NeoGlass Intelligence ───────────────────────────────────
        A frase é uma lista de palavras, e não um texto corrido, porque a
        animação precisa saber QUANDO cada pedaço foi dito para preencher o

@@ -589,6 +589,26 @@ function Falante() {
   )
 }
 
+/* ── os ícones do seletor ──────────────────────────────────────────────────
+   Um microfone e um teclado. O teclado é o que faz a segunda opção dizer
+   "aqui você digita" antes de qualquer texto — é ele que mata a dúvida. */
+function IconeMicrofone() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M6 11a6 6 0 0 0 12 0M12 17v3" />
+    </svg>
+  )
+}
+function IconeTeclado() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2.5" y="6" width="19" height="12" rx="2" />
+      <path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M8 14h8" />
+    </svg>
+  )
+}
+
 export const EVENTO_TOCAR = 'neoglass:tocar-projeto'
 /* Quando a demonstração termina ela mostra o próprio botão verde. Nesse
    instante o botão fixo do topo precisa sair de cena: dois "Começar grátis"
@@ -1206,24 +1226,42 @@ export default function Projeto({ acao, laco = false }) {
 
             Trocar de aba toca a sequência daquele caminho na hora. Ninguém
             escolhe uma aba para depois ter de apertar um play. */}
+        {/* ── o seletor de caminho ────────────────────────────────────────
+            Antes eram duas pílulas: a ativa escura, a outra cinza-apagada. O
+            cinza dizia "desativado", e quem via a voz podia sair pensando "e
+            se eu quiser digitar?". A resposta já está aqui — só não parecia.
+
+            Agora é um seletor de dois gomos do mesmo tamanho, com ícone. O gomo
+            de fora não é apagado: é texto escuro e legível, com fundo próprio.
+            Os dois se leem como escolha de igual peso — falar OU fazer à mão —,
+            e o ícone de teclado responde a pergunta antes de ela nascer. */}
         {!laco && (
-          <div className="flex items-center justify-center gap-1.5 border-t border-line px-5 pt-4">
-            {['voz', 'passos'].map((qual) => {
-              const atual = modo === qual
-              return (
-                <button
-                  key={qual}
-                  type="button"
-                  onClick={() => tocar(qual)}
-                  aria-pressed={atual}
-                  className={`rounded-full px-4 py-2 text-[13px] font-bold transition-colors ${
-                    atual ? 'bg-soft text-ink' : 'text-dim hover:text-ink'
-                  }`}
-                >
-                  {t.abas[qual]}
-                </button>
-              )
-            })}
+          <div className="flex flex-col items-center gap-2 border-t border-line px-5 pt-4">
+            <p className="cota uppercase opacity-70">{t.abasRotulo}</p>
+            <div className="inline-flex rounded-full border border-line bg-soft p-1">
+              {[
+                ['voz', <IconeMicrofone key="m" />],
+                ['passos', <IconeTeclado key="t" />],
+              ].map(([qual, icone]) => {
+                const atual = modo === qual
+                return (
+                  <button
+                    key={qual}
+                    type="button"
+                    onClick={() => tocar(qual)}
+                    aria-pressed={atual}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-bold transition-all ${
+                      atual
+                        ? 'bg-white text-ink shadow-[0_2px_8px_-2px_rgba(20,55,80,.28)]'
+                        : 'text-ink/70 hover:text-ink'
+                    }`}
+                  >
+                    {icone}
+                    {t.abas[qual]}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         )}
 

@@ -375,6 +375,7 @@ export default {
   /* ── The project wizard, being used ─────────────────────────────────── */
   projeto: {
     abas: { voz: 'By voice', passos: 'Step by step' },
+    abasRotulo: 'Do it your way',
     voz: {
       modulo: 'NeoGlass Intelligence',
       rotulo: 'Quote by voice',

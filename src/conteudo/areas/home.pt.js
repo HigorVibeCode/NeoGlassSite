@@ -16,7 +16,6 @@ export default {
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'Mais', destaque: 'dinheiro e segurança', depois: 'para quem trabalha com vidro.' },
   /* A frase da marca desceu do topo: virou legenda discreta do título. */
-  legenda: 'Vidro que você não compra é lucro.',
   pergunta: 'Qual é o seu negócio?',
   portas: [
     { id: 'vidracaria', rotulo: 'Tenho uma vidraçaria', texto: 'Orçamentos, projetos e instalação' },

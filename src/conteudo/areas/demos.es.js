@@ -374,6 +374,7 @@ export default {
   /* ── El asistente del proyecto, en uso ──────────────────────────────── */
   projeto: {
     abas: { voz: 'Por voz', passos: 'Paso a paso' },
+    abasRotulo: 'Hazlo a tu manera',
     voz: {
       modulo: 'NeoGlass Intelligence',
       rotulo: 'Presupuesto por voz',

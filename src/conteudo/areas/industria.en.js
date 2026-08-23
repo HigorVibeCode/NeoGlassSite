@@ -11,6 +11,31 @@
  * "is profit" — mesma função, palavra diferente.
  */
 export default {
+
+  laco: {
+    modulo: 'NeoGlass Optimization',
+    rotulo: 'The offcut becomes stock',
+    etiqueta: 'Offcut',
+    codigo: 'Code',
+    medida: 'Size',
+    prateleira: 'Shelf',
+    feito: 'Registered',
+  },
+
+  reconhecimento: {
+    titulo: 'The good offcut is your quietest loss.',
+    texto: 'Every order leaves a piece of glass that still works. It leans against the rack, nobody logs it, and next week you buy a new sheet for a cut that was already there.',
+    destaque: 'Glass that is left over and slips out of control is a sheet paid for twice.',
+  },
+
+  resultado: {
+    titulo: 'Less glass. Less waste. Less spreadsheet.',
+    itens: [
+      { nome: 'Less glass bought', texto: 'Before opening a new sheet, the system looks in the offcuts. Every offcut used is a sheet that never made it onto the bill.' },
+      { nome: 'Nothing becomes forgotten waste', texto: 'The offcut leaves the cut already with a code, its size and a rack address. It exists in stock without anyone logging it.' },
+      { nome: 'One system', texto: 'The optimizer, the stock and the label are the same thing. Nothing is exported, nothing is retyped — that is why the offcut is never lost.' },
+    ],
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · flat glass processing',

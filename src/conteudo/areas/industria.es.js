@@ -12,6 +12,31 @@
  * lucro"; em espanhol a frase fecha em "es ganancia", que é onde ele cai.
  */
 export default {
+
+  laco: {
+    modulo: 'NeoGlass Optimización',
+    rotulo: 'El retal se vuelve stock',
+    etiqueta: 'Retal',
+    codigo: 'Código',
+    medida: 'Medida',
+    prateleira: 'Estante',
+    feito: 'Registrado',
+  },
+
+  reconhecimento: {
+    titulo: 'El buen retal es tu pérdida más silenciosa.',
+    texto: 'Cada pedido deja un trozo de vidrio que todavía sirve. Se apoya en el caballete, nadie lo registra, y a la semana siguiente compras una plancha nueva para un corte que ya estaba ahí.',
+    destaque: 'El vidrio que sobra y se escapa del control es una plancha pagada dos veces.',
+  },
+
+  resultado: {
+    titulo: 'Menos plancha. Menos rotura. Menos planilla.',
+    itens: [
+      { nome: 'Menos plancha comprada', texto: 'Antes de abrir vidrio nuevo, el sistema busca en los retales. Cada retal aprovechado es una plancha que no entró en la cuenta.' },
+      { nome: 'Nada se vuelve rotura olvidada', texto: 'El retal sale del corte ya con código, medida y dirección de caballete. Existe en el stock sin que nadie lo registre.' },
+      { nome: 'Un solo sistema', texto: 'El optimizador, el stock y la etiqueta son lo mismo. Nada se exporta, nada se reescribe — por eso el retal no se pierde.' },
+    ],
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · industria del vidrio plano',

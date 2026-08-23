@@ -4,7 +4,6 @@ export default {
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'More', destaque: 'money and peace of mind', depois: 'for people who work with glass.' },
   /* A frase da marca desceu do topo: virou legenda discreta do título. */
-  legenda: 'Glass you never buy is profit.',
   pergunta: 'What is your business?',
   portas: [
     { id: 'vidracaria', rotulo: 'I run a glass shop', texto: 'Quotes, projects and installation' },

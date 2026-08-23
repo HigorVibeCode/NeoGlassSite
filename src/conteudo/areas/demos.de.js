@@ -380,6 +380,7 @@ export default {
   /* ── Der Projekt-Assistent, in Benutzung ────────────────────────────── */
   projeto: {
     abas: { voz: 'Per Sprache', passos: 'Schritt für Schritt' },
+    abasRotulo: 'So, wie es passt',
     voz: {
       modulo: 'NeoGlass Intelligence',
       rotulo: 'Angebot per Sprache',

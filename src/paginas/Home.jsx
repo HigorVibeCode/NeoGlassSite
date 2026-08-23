@@ -128,9 +128,6 @@ export default function Home({ rota }) {
           {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span> {t.titulo.depois}
         </h1>
 
-        {/* A frase da marca desceu para cá: pequena, discreta, como assinatura
-            do título. No topo ela competia com a promessa; aqui ela confirma. */}
-        <p className="mt-4 text-[14px] font-semibold text-dim sm:text-[15px]">{t.legenda}</p>
       </div>
 
       {/* ── 2º: a escolha ──────────────────────────────────────────────── */}

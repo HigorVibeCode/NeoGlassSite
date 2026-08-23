@@ -13,6 +13,31 @@
  * para isso que o título veio partido em duas chaves.
  */
 export default {
+
+  laco: {
+    modulo: 'NeoGlass Optimierung',
+    rotulo: 'Der Rest wird zum Bestand',
+    etiqueta: 'Reststück',
+    codigo: 'Code',
+    medida: 'Maß',
+    prateleira: 'Regal',
+    feito: 'Erfasst',
+  },
+
+  reconhecimento: {
+    titulo: 'Das gute Reststück ist Ihr leisester Verlust.',
+    texto: 'Jeder Auftrag lässt ein Stück Glas übrig, das noch taugt. Es lehnt am Gestell, niemand erfasst es, und in der nächsten Woche kaufen Sie eine neue Tafel für einen Zuschnitt, der schon da war.',
+    destaque: 'Glas, das übrig bleibt und aus der Kontrolle rutscht, ist eine zweimal bezahlte Tafel.',
+  },
+
+  resultado: {
+    titulo: 'Weniger Tafel. Weniger Bruch. Weniger Tabelle.',
+    itens: [
+      { nome: 'Weniger Tafel gekauft', texto: 'Bevor eine neue Tafel geöffnet wird, sucht das System im Rest. Jedes genutzte Reststück ist eine Tafel, die nicht auf die Rechnung kam.' },
+      { nome: 'Nichts wird vergessener Bruch', texto: 'Das Reststück verlässt den Zuschnitt schon mit Code, Maß und Regaladresse. Es ist im Bestand, ohne dass jemand es erfasst.' },
+      { nome: 'Ein einziges System', texto: 'Der Optimierer, der Bestand und das Etikett sind dasselbe. Nichts wird exportiert, nichts neu getippt — deshalb geht das Reststück nicht verloren.' },
+    ],
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
     rotulo: 'NeoGlass · Flachglasindustrie',

@@ -6,9 +6,9 @@ export default {
   formulario: {
     titulo: 'Konto erstellen',
     campos: {
-      nome: { rotulo: 'Ihr Name', exemplo: 'Higor' },
+      nome: { rotulo: 'Ihr Name', exemplo: 'Max Mustermann' },
       empresa: { rotulo: 'Name der Glaserei', exemplo: 'Flash Glas' },
-      email: { rotulo: 'E-Mail', exemplo: 'sie@ihreglaserei.de' },
+      email: { rotulo: 'E-Mail', exemplo: 'max.mustermann@gmail.com' },
       telefone: { rotulo: 'Telefon', exemplo: '+49 151 1234567', opcional: 'optional' },
       senha: { rotulo: 'Passwort', exemplo: 'mindestens 8 Zeichen', mostrar: 'zeigen', ocultar: 'verbergen' },
       senha2: { rotulo: 'Passwort bestätigen', exemplo: 'Passwort wiederholen' },

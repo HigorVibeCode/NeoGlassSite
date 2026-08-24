@@ -6,9 +6,9 @@ export default {
   formulario: {
     titulo: 'Create my account',
     campos: {
-      nome: { rotulo: 'Your name', exemplo: 'Higor' },
+      nome: { rotulo: 'Your name', exemplo: 'John Smith' },
       empresa: { rotulo: 'Company name', exemplo: 'Flash Glass' },
-      email: { rotulo: 'Email', exemplo: 'you@yourcompany.com' },
+      email: { rotulo: 'Email', exemplo: 'john.smith@gmail.com' },
       telefone: { rotulo: 'Phone', exemplo: '+1 555 123 4567', opcional: 'optional' },
       senha: { rotulo: 'Password', exemplo: 'at least 8 characters', mostrar: 'show', ocultar: 'hide' },
       senha2: { rotulo: 'Confirm password', exemplo: 'repeat the password' },

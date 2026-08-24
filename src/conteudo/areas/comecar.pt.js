@@ -28,9 +28,9 @@ export default {
   formulario: {
     titulo: 'Criar minha conta',
     campos: {
-      nome: { rotulo: 'Seu nome', exemplo: 'Higor' },
+      nome: { rotulo: 'Seu nome', exemplo: 'João Silva' },
       empresa: { rotulo: 'Nome da vidraçaria', exemplo: 'Flash Vidros' },
-      email: { rotulo: 'E-mail', exemplo: 'voce@suavidracaria.com.br' },
+      email: { rotulo: 'E-mail', exemplo: 'joao.silva@gmail.com' },
       telefone: { rotulo: 'Telefone', exemplo: '(27) 99999-9999', opcional: 'opcional' },
       senha: { rotulo: 'Senha', exemplo: 'mínimo 8 caracteres', mostrar: 'mostrar', ocultar: 'ocultar' },
       senha2: { rotulo: 'Confirmar senha', exemplo: 'repita a senha' },

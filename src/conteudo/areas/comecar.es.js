@@ -6,9 +6,9 @@ export default {
   formulario: {
     titulo: 'Crear mi cuenta',
     campos: {
-      nome: { rotulo: 'Tu nombre', exemplo: 'Higor' },
+      nome: { rotulo: 'Tu nombre', exemplo: 'Juan García' },
       empresa: { rotulo: 'Nombre de la vidriería', exemplo: 'Flash Vidrios' },
-      email: { rotulo: 'Correo', exemplo: 'tu@tuvidrieria.com' },
+      email: { rotulo: 'Correo', exemplo: 'juan.garcia@gmail.com' },
       telefone: { rotulo: 'Teléfono', exemplo: '+34 600 123 456', opcional: 'opcional' },
       senha: { rotulo: 'Contraseña', exemplo: 'mínimo 8 caracteres', mostrar: 'mostrar', ocultar: 'ocultar' },
       senha2: { rotulo: 'Confirmar contraseña', exemplo: 'repite la contraseña' },

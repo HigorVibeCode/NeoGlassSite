@@ -5,6 +5,7 @@ import Industria from './paginas/Industria.jsx'
 import Vidracaria from './paginas/Vidracaria.jsx'
 import Plataforma from './paginas/Plataforma.jsx'
 import Comecar from './paginas/Comecar.jsx'
+import Baixar from './paginas/Baixar.jsx'
 import Home from './paginas/Home.jsx'
 import { esquecerLado } from './lib/lado.js'
 import { useRota } from './lib/rota.js'
@@ -19,6 +20,7 @@ const PAGINAS = {
   vidracaria: Vidracaria,
   plataforma: Plataforma,
   comecar: Comecar,
+  baixar: Baixar,
 }
 
 /**

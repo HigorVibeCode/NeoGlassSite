@@ -57,6 +57,16 @@ export const ROTAS = [
     // rouba clique dos três que fazem a venda.
     menu: false,
   },
+  {
+    // A página de instalar o app (PWA). O endereço é o mesmo nos quatro
+    // idiomas — /app é curto, universal e o que a pessoa esperaria digitar.
+    // Fora do menu do topo, como o cadastro: instalar é destino de quem já
+    // decidiu, não um dos públicos que a página do topo apresenta. O acesso
+    // mora no rodapé e na pílula de instalar que já roda no site.
+    id: 'baixar',
+    slug: { pt: '/app', en: '/app', es: '/app', de: '/app' },
+    menu: false,
+  },
 ]
 
 /** As rotas que aparecem no menu do topo e no rodapé. */

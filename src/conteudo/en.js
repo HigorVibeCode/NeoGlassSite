@@ -59,6 +59,14 @@ export default {
       ogTitulo: 'Start with the next quote that comes in',
       ogDescricao: '14 days free, no card. The invitation reaches your inbox in moments.',
     },
+    baixar: {
+      nome: 'Install',
+      titulo: 'Install NeoGlass · on phone, tablet and computer',
+      descricao:
+        'Install NeoGlass as an app on iPhone, Android or PC. It’s a PWA: no store, no file to download. The same system, in an icon on your screen.',
+      ogTitulo: 'NeoGlass in an icon on your screen',
+      ogDescricao: 'Install on phone, tablet or computer. Same system, same account, no store.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

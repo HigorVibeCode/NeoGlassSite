@@ -54,6 +54,14 @@ export default {
       ogTitulo: 'Fangen Sie mit dem nächsten Angebot an',
       ogDescricao: '14 Tage kostenlos, ohne Karte. Die Einladung kommt in wenigen Augenblicken.',
     },
+    baixar: {
+      nome: 'Installieren',
+      titulo: 'NeoGlass installieren · auf Handy, Tablet und Computer',
+      descricao:
+        'Installieren Sie NeoGlass als App auf iPhone, Android oder PC. Es ist eine PWA: kein Store, keine Datei zum Herunterladen. Dasselbe System, als Symbol auf Ihrem Bildschirm.',
+      ogTitulo: 'NeoGlass als Symbol auf Ihrem Bildschirm',
+      ogDescricao: 'Auf Handy, Tablet oder Computer installieren. Dasselbe System, dasselbe Konto, ohne Store.',
+    },
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────

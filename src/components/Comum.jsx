@@ -463,6 +463,19 @@ export function Rodape({ rota }) {
             >
               {c.chrome.entrar}
             </a>
+            {/* Instalar o app: destino de quem já decidiu, mora aqui e na
+                pílula que roda no site — fora do menu de públicos do topo. */}
+            <a
+              href={caminhoDe('baixar', idioma)}
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey) return
+                e.preventDefault()
+                ir('baixar')
+              }}
+              className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"
+            >
+              {c.paginas.baixar.nome}
+            </a>
             <a
               href={`mailto:${CONFIG.email}`}
               className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"

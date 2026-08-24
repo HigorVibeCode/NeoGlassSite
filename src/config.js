@@ -17,6 +17,11 @@ export const CONFIG = {
   whatsappNumero: '41782439213',
   email: 'contato@neoglass.online',
   login: 'https://app.neoglass.online/login',
+  // O endereço do próprio sistema (a plataforma, que é o PWA de verdade). É
+  // ELE que se instala: o site institucional não é um app e não se instala —
+  // ver Baixar.jsx. A página de instalar manda a pessoa para cá e é aqui que o
+  // navegador oferece "Instalar".
+  app: 'https://app.neoglass.online/',
   horarios: 'seg a sex, 14h–20h · sáb, 8h–17h (horário de Brasília)',
   site: 'https://neoglass.online',
 

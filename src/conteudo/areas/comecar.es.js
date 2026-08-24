@@ -6,32 +6,34 @@ export default {
   formulario: {
     titulo: 'Crear mi cuenta',
     campos: {
-      nome: { rotulo: 'Tu nombre', exemplo: 'Álex' },
-      empresa: { rotulo: 'Nombre de la cristalería', exemplo: 'Cristalería Solano' },
-      email: { rotulo: 'Correo', exemplo: 'tu@tucristaleria.es', dica: 'Ahí es donde llega la invitación.' },
-      whatsapp: { rotulo: 'WhatsApp', exemplo: '+34 600 000 000', opcional: 'opcional' },
+      nome: { rotulo: 'Tu nombre', exemplo: 'Higor' },
+      empresa: { rotulo: 'Nombre de la vidriería', exemplo: 'Flash Vidrios' },
+      email: { rotulo: 'Correo', exemplo: 'tu@tuvidrieria.com' },
+      telefone: { rotulo: 'Teléfono', exemplo: '+34 600 123 456', opcional: 'opcional' },
+      senha: { rotulo: 'Contraseña', exemplo: 'mínimo 8 caracteres', mostrar: 'mostrar', ocultar: 'ocultar' },
+      senha2: { rotulo: 'Confirmar contraseña', exemplo: 'repite la contraseña' },
     },
     enviar: () => 'Crear mi cuenta gratis',
-    rapido: 'Tarda menos de 1 minuto.',
+    rapido: 'Lleva menos de 1 minuto.',
     enviando: 'Creando tu cuenta…',
+    entrando: 'Entrando…',
     saida: 'Enviar mis datos por correo',
-    aviso: 'Sin tarjeta de crédito. Sin cuota de implantación. Sin instalación.',
+    aviso: 'Sin tarjeta. Sin coste de implantación. Sin instalación.',
     erros: {
       nome: 'Falta tu nombre.',
-      empresa: 'Falta el nombre de la cristalería.',
+      empresa: 'Falta el nombre de la vidriería.',
       email: 'Revisa el correo — parece que falta algo.',
+      senha: 'La contraseña necesita al menos 8 caracteres.',
+      senha2: 'Las dos contraseñas no coinciden.',
       rede: 'La conexión falló a mitad de camino. Inténtalo de nuevo.',
-      geral: 'No hemos podido terminar ahora. Envíanos tus datos por correo y creamos la cuenta a mano.',
+      geral: 'No pudimos terminar ahora. Envía tus datos por correo y creamos la cuenta a mano.',
     },
   },
 
   pronto: {
     rotulo: 'LISTO',
-    titulo: 'Revisa tu correo.',
-    texto: (email) =>
-      `La invitación fue a ${email}. Haz clic para crear tu contraseña y entrar — la cuenta ya está en pie, con el sistema entero abierto.`,
-    dica: '¿No llegó en dos minutos? Mira en la carpeta de spam. Si no está, escríbenos y te damos acceso a mano.',
-    contato: 'Escribirnos',
+    titulo: 'Tu cuenta está lista.',
+    texto: 'Entra en app.neoglass.online con tu correo y la contraseña que acabas de crear — el sistema entero ya está desbloqueado.',
+    entrar: 'Entrar al sistema',
   },
-
 }

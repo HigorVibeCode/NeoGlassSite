@@ -4,34 +4,36 @@ export default {
   titulo: { antes: 'Erstellen Sie Ihr Konto', destaque: 'und legen Sie los.' },
 
   formulario: {
-    titulo: 'Mein Konto erstellen',
+    titulo: 'Konto erstellen',
     campos: {
-      nome: { rotulo: 'Ihr Name', exemplo: 'Alex' },
-      empresa: { rotulo: 'Name der Glaserei', exemplo: 'Glaserei Berger' },
-      email: { rotulo: 'E-Mail', exemplo: 'sie@ihreglaserei.de', dica: 'Dorthin geht die Einladung.' },
-      whatsapp: { rotulo: 'Telefon', exemplo: '+49 170 0000000', opcional: 'optional' },
+      nome: { rotulo: 'Ihr Name', exemplo: 'Higor' },
+      empresa: { rotulo: 'Name der Glaserei', exemplo: 'Flash Glas' },
+      email: { rotulo: 'E-Mail', exemplo: 'sie@ihreglaserei.de' },
+      telefone: { rotulo: 'Telefon', exemplo: '+49 151 1234567', opcional: 'optional' },
+      senha: { rotulo: 'Passwort', exemplo: 'mindestens 8 Zeichen', mostrar: 'zeigen', ocultar: 'verbergen' },
+      senha2: { rotulo: 'Passwort bestätigen', exemplo: 'Passwort wiederholen' },
     },
     enviar: () => 'Kostenloses Konto erstellen',
     rapido: 'Dauert weniger als eine Minute.',
-    enviando: 'Ihr Konto wird erstellt…',
+    enviando: 'Konto wird erstellt…',
+    entrando: 'Sie werden angemeldet…',
     saida: 'Meine Daten per E-Mail senden',
-    aviso: 'Keine Kreditkarte. Keine Einrichtungsgebühr. Nichts zu installieren.',
+    aviso: 'Keine Kreditkarte. Keine Einrichtungsgebühr. Keine Installation.',
     erros: {
       nome: 'Ihr Name fehlt.',
       empresa: 'Der Name der Glaserei fehlt.',
       email: 'Prüfen Sie die E-Mail — da fehlt etwas.',
-      rede: 'Die Verbindung ist mittendrin abgebrochen. Bitte noch einmal.',
-      geral: 'Wir konnten es gerade nicht abschließen. Senden Sie uns Ihre Daten per E-Mail — wir legen das Konto von Hand an.',
+      senha: 'Das Passwort braucht mindestens 8 Zeichen.',
+      senha2: 'Die beiden Passwörter stimmen nicht überein.',
+      rede: 'Die Verbindung ist abgebrochen. Versuchen Sie es erneut.',
+      geral: 'Wir konnten es gerade nicht abschließen. Senden Sie uns Ihre Daten per E-Mail, dann legen wir das Konto von Hand an.',
     },
   },
 
   pronto: {
     rotulo: 'FERTIG',
-    titulo: 'Sehen Sie in Ihr Postfach.',
-    texto: (email) =>
-      `Die Einladung ging an ${email}. Ein Klick darauf, Passwort setzen, anmelden — das Konto steht bereits, mit dem gesamten System freigeschaltet.`,
-    dica: 'Nach zwei Minuten nichts da? Schauen Sie in den Spam-Ordner. Wenn sie auch dort nicht liegt, schreiben Sie uns — wir schalten Sie von Hand frei.',
-    contato: 'Schreiben Sie uns',
+    titulo: 'Ihr Konto steht.',
+    texto: 'Melden Sie sich unter app.neoglass.online mit Ihrer E-Mail und dem soeben erstellten Passwort an — das gesamte System ist bereits freigeschaltet.',
+    entrar: 'Zum System',
   },
-
 }

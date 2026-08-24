@@ -7,32 +7,27 @@ import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 const campo =
   'w-full rounded-[11px] border border-line bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-dim/70 focus:border-verde'
 
+const SENHA_MIN = 8
+
 /**
  * A página de cadastro — a única do site onde o visitante digita para valer.
  *
- * O desenho é uma coluna só, do celular ao computador: título, uma linha, quatro
- * campos, um botão. A versão anterior era duas colunas — texto à esquerda,
- * formulário à direita — e no celular virava uma pilha: a pessoa lia três
- * parágrafos e uma lista de etapas ANTES de ver o primeiro campo. Quem chega
- * aqui já decidiu; o que resta é não atrapalhar.
+ * O que mudou (a pedido do dono): a conta é criada AQUI, com a senha que a
+ * pessoa escolhe, e ela entra na hora. Antes o site só capturava o lead e a
+ * função mandava um convite por e-mail; a senha nascia num segundo passo, num
+ * link. Agora são seis campos — nome, vidraçaria, e-mail, telefone, senha e
+ * confirmação — e o desfecho é login automático: a função devolve um endereço
+ * de entrada (`entrar_url`) e o navegador vai direto para dentro do sistema.
+ *
+ * A LÓGICA DE REDE não mudou de forma: continua um POST para `cadastroApi`. O
+ * que mudou é o corpo (agora leva a senha) e o sucesso (agora redireciona em
+ * vez de mostrar "confira seu e-mail").
+ *
+ * A senha NUNCA entra na saída por e-mail de emergência: se a função cair, o
+ * e-mail de socorro leva só nome, empresa e e-mail — o resto a gente combina.
  *
  * No celular não é o desktop empilhado: o cartão perde a moldura e vira a
- * própria página (borda e sombra só entram a partir de `sm`), o respiro do topo
- * encolhe, e tudo cabe numa tela — os quatro campos e o botão ficam visíveis
- * juntos, sem rolar.
- *
- * A LÓGICA NÃO MUDOU. Ela chama a função `site-cadastro` do Supabase, que cria
- * a empresa com o prazo de teste e convida o dono por e-mail. Nenhuma chave
- * acompanha a chamada: a função roda sem autenticação de propósito, porque quem
- * se cadastra ainda não tem usuário nenhum.
- *
- * Se o endereço não estiver configurado, ou se a rede cair, o formulário NÃO
- * vira um beco sem saída — ele abre o e-mail com os dados já preenchidos.
- * Perder o lead porque a função caiu seria o pior desfecho possível de uma
- * página que o visitante levou dez minutos para alcançar.
- *
- * A saída é e-mail, e não WhatsApp, de propósito: esta página é o funil da
- * vidraçaria, e o número de WhatsApp é atendimento da indústria.
+ * própria página (borda e sombra só entram a partir de `sm`).
  */
 export default function Comecar() {
   const { idioma } = useIdioma()
@@ -41,19 +36,25 @@ export default function Comecar() {
   const f = t.formulario
   const dias = CONFIG.vidracaria.diasTeste
 
-  const [dados, setDados] = useState({ nome: '', empresa: '', email: '', whatsapp: '', site: '' })
-  const [estado, setEstado] = useState('parado') // parado · enviando · pronto
+  const [dados, setDados] = useState({
+    nome: '',
+    empresa: '',
+    email: '',
+    telefone: '',
+    senha: '',
+    senha2: '',
+    site: '',
+  })
+  const [estado, setEstado] = useState('parado') // parado · enviando · entrando · pronto
   const [erro, setErro] = useState('')
-  // Quando o erro não é culpa do visitante (rede caiu, função fora do ar), a
-  // mensagem sozinha não basta: some com o lead. Aparece junto um botão de
-  // e-mail com tudo já digitado, para ele não ter que escrever de novo.
+  const [verSenha, setVerSenha] = useState(false)
   const [saida, setSaida] = useState(false)
 
   const muda = (k) => (e) => setDados((d) => ({ ...d, [k]: e.target.value }))
 
+  // A senha jamais viaja no e-mail de socorro.
   const recado = () =>
     `${f.titulo} — ${dados.nome || '—'} · ${dados.empresa || '—'} · ${dados.email || '—'}`
-
   const saidaEmail = () => linkEmail(f.titulo, recado())
 
   function pelaMao(motivo) {
@@ -64,21 +65,23 @@ export default function Comecar() {
 
   async function enviar(e) {
     e.preventDefault()
-    if (estado === 'enviando') return
+    if (estado === 'enviando' || estado === 'entrando') return
 
     const nome = dados.nome.trim()
     const empresa = dados.empresa.trim()
     const email = dados.email.trim()
+    const senha = dados.senha
 
     if (!nome) return setErro(f.erros.nome)
     if (!empresa) return setErro(f.erros.empresa)
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return setErro(f.erros.email)
+    if (senha.length < SENHA_MIN) return setErro(f.erros.senha)
+    if (senha !== dados.senha2) return setErro(f.erros.senha2)
 
     setErro('')
     setSaida(false)
     setEstado('enviando')
 
-    // Sem endereço configurado: o cadastro vira conversa, e ninguém se perde.
     if (!CONFIG.cadastroApi) return pelaMao('sem-api')
 
     try {
@@ -89,11 +92,11 @@ export default function Comecar() {
           nome,
           empresa,
           email,
-          whatsapp: dados.whatsapp.trim(),
+          telefone: dados.telefone.trim(),
+          senha,
           idioma,
           site: dados.site, // isca: preenchida só por robô
-          origem:
-            typeof document !== 'undefined' ? document.referrer || 'direto' : 'direto',
+          origem: typeof document !== 'undefined' ? document.referrer || 'direto' : 'direto',
         }),
       })
 
@@ -101,20 +104,28 @@ export default function Comecar() {
         const corpo = await r.json().catch(() => ({}))
         setEstado('parado')
         setErro(corpo.error || f.erros.geral)
-        // 429 é o visitante insistindo — ele resolve esperando. Qualquer outro
-        // erro é do nosso lado, e aí ele merece um caminho que funcione agora.
-        setSaida(r.status !== 429)
+        // 429 é o visitante insistindo; qualquer outro erro merece a saída por
+        // e-mail. Erro de e-mail já em uso não abre a saída — é ele que resolve.
+        setSaida(r.status !== 429 && r.status !== 409)
         return
       }
 
+      const corpo = await r.json().catch(() => ({}))
       evento('cadastro', { idioma })
+
+      // Login automático: a função devolve o endereço de entrada e o navegador
+      // vai direto para dentro do sistema, já logado.
+      if (corpo.entrar_url) {
+        setEstado('entrando')
+        window.location.href = corpo.entrar_url
+        return
+      }
+
+      // Sem endereço de entrada (função antiga, ou auto-login desligado): a
+      // conta existe, então mostramos o desfecho com o botão para o app.
       setEstado('pronto')
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {
-      // "Failed to fetch" cobre tudo o que o navegador não sabe distinguir:
-      // internet caída, CORS, função fora do ar. Do lado de cá o efeito é o
-      // mesmo — o cadastro não foi — e a única coisa inaceitável é o visitante
-      // ir embora sem deixar contato.
       setEstado('parado')
       setErro(f.erros.rede)
       setSaida(true)
@@ -127,30 +138,18 @@ export default function Comecar() {
         <div className="mx-auto max-w-[560px] rounded-[24px] border border-line bg-card px-7 py-12 text-center sm:px-12">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-verde/12">
             <svg viewBox="0 0 24 24" className="h-7 w-7" aria-hidden="true">
-              <path
-                d="M5 12.5l4.5 4.5L19 7.5"
-                fill="none"
-                stroke="#0e8c6a"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#0e8c6a" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
           <p className="cota mt-6 uppercase opacity-70">{t.pronto.rotulo}</p>
           <h1 className="display mt-3 text-[clamp(28px,4vw,42px)]">{t.pronto.titulo}</h1>
-          <p className="mx-auto mt-4 max-w-[42ch] text-[16px] leading-[1.6] text-dim">
-            {t.pronto.texto(dados.email.trim())}
-          </p>
-          <p className="mx-auto mt-5 max-w-[42ch] text-[13.5px] leading-[1.6] text-dim">
-            {t.pronto.dica}
-          </p>
+          <p className="mx-auto mt-4 max-w-[42ch] text-[16px] leading-[1.6] text-dim">{t.pronto.texto}</p>
           <a
-            href={saidaEmail()}
-            onClick={() => evento('email', { origem: 'pos-cadastro' })}
-            className="mt-7 inline-block rounded-[13px] border border-line px-6 py-3 text-[15px] font-bold text-ink transition-colors hover:border-verde hover:text-verde"
+            href={CONFIG.login}
+            onClick={() => evento('entrar', { origem: 'pos-cadastro' })}
+            className="botao-marca mt-7 inline-block px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
           >
-            {t.pronto.contato}
+            {t.pronto.entrar}
           </a>
         </div>
       </Revelar>
@@ -163,20 +162,11 @@ export default function Comecar() {
       className="secao mx-auto max-w-[1240px] px-5 pb-20 pt-[104px] sm:px-8 sm:pb-28 sm:pt-[128px]"
     >
       <div className="mx-auto w-full max-w-[440px]">
-        {/* `text-balance` reparte as linhas sozinho. Sem ele o título quebrava
-            depois da conjunção, e ela ficava órfã no fim da primeira linha —
-            já em verde, porque o destaque começa ali. */}
         <h1 className="display text-balance text-center text-[clamp(30px,6.2vw,42px)] leading-[1.08]">
           {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span>
         </h1>
-        <p className="mt-3 text-center text-[15.5px] font-semibold text-dim">
-          {t.subtitulo(dias)}
-        </p>
+        <p className="mt-3 text-center text-[15.5px] font-semibold text-dim">{t.subtitulo(dias)}</p>
 
-        {/* No celular o cartão não tem moldura: a página INTEIRA é o
-            formulário, e uma borda em volta de algo que já ocupa a tela toda
-            só rouba 48 px de largura útil. A partir de `sm` a moldura volta,
-            porque aí ela é o que segura a coluna no meio da tela. */}
         <form
           onSubmit={enviar}
           noValidate
@@ -185,59 +175,62 @@ export default function Comecar() {
           <div className="grid gap-4">
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">{f.campos.nome.rotulo}</span>
-              <input
-                className={campo}
-                placeholder={f.campos.nome.exemplo}
-                value={dados.nome}
-                onChange={muda('nome')}
-                autoComplete="name"
-              />
+              <input className={campo} placeholder={f.campos.nome.exemplo} value={dados.nome} onChange={muda('nome')} autoComplete="name" />
             </label>
 
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">{f.campos.empresa.rotulo}</span>
-              <input
-                className={campo}
-                placeholder={f.campos.empresa.exemplo}
-                value={dados.empresa}
-                onChange={muda('empresa')}
-                autoComplete="organization"
-              />
+              <input className={campo} placeholder={f.campos.empresa.exemplo} value={dados.empresa} onChange={muda('empresa')} autoComplete="organization" />
             </label>
 
-            {/* A dica "é para lá que vai o convite" saiu de baixo do campo: o
-                rótulo já diz e-mail, e cada linha a mais aqui é uma linha entre
-                o visitante e o botão. */}
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">{f.campos.email.rotulo}</span>
-              <input
-                className={campo}
-                type="email"
-                inputMode="email"
-                placeholder={f.campos.email.exemplo}
-                value={dados.email}
-                onChange={muda('email')}
-                autoComplete="email"
-              />
+              <input className={campo} type="email" inputMode="email" placeholder={f.campos.email.exemplo} value={dados.email} onChange={muda('email')} autoComplete="email" />
             </label>
 
             <label className="grid gap-1.5">
               <span className="text-[13px] font-bold text-ink">
-                {f.campos.whatsapp.rotulo}{' '}
-                <span className="font-semibold text-dim">· {f.campos.whatsapp.opcional}</span>
+                {f.campos.telefone.rotulo}{' '}
+                <span className="font-semibold text-dim">· {f.campos.telefone.opcional}</span>
               </span>
+              <input className={campo} inputMode="tel" placeholder={f.campos.telefone.exemplo} value={dados.telefone} onChange={muda('telefone')} autoComplete="tel" />
+            </label>
+
+            {/* senha + mostrar; a confirmação vem logo abaixo */}
+            <label className="grid gap-1.5">
+              <span className="text-[13px] font-bold text-ink">{f.campos.senha.rotulo}</span>
+              <span className="relative block">
+                <input
+                  className={`${campo} pr-16`}
+                  type={verSenha ? 'text' : 'password'}
+                  placeholder={f.campos.senha.exemplo}
+                  value={dados.senha}
+                  onChange={muda('senha')}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setVerSenha((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[12.5px] font-bold text-dim transition-colors hover:text-ink"
+                >
+                  {verSenha ? f.campos.senha.ocultar : f.campos.senha.mostrar}
+                </button>
+              </span>
+            </label>
+
+            <label className="grid gap-1.5">
+              <span className="text-[13px] font-bold text-ink">{f.campos.senha2.rotulo}</span>
               <input
                 className={campo}
-                inputMode="tel"
-                placeholder={f.campos.whatsapp.exemplo}
-                value={dados.whatsapp}
-                onChange={muda('whatsapp')}
-                autoComplete="tel"
+                type={verSenha ? 'text' : 'password'}
+                placeholder={f.campos.senha2.exemplo}
+                value={dados.senha2}
+                onChange={muda('senha2')}
+                autoComplete="new-password"
               />
             </label>
 
-            {/* A isca. Fica fora da tela e fora da ordem de tabulação: humano
-                nunca chega nela, robô que preenche tudo, sim. */}
+            {/* A isca. Fora da tela e fora da ordem de tabulação. */}
             <input
               type="text"
               name="site"
@@ -252,10 +245,10 @@ export default function Comecar() {
 
           <button
             type="submit"
-            disabled={estado === 'enviando'}
+            disabled={estado === 'enviando' || estado === 'entrando'}
             className="botao-marca mt-6 w-full px-6 py-4 text-[15.5px] transition-transform duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70"
           >
-            {estado === 'enviando' ? f.enviando : f.enviar()}
+            {estado === 'entrando' ? f.entrando : estado === 'enviando' ? f.enviando : f.enviar()}
           </button>
 
           <p className="mt-3 text-center text-[13px] font-semibold text-dim">{f.rapido}</p>

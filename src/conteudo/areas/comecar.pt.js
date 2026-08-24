@@ -30,18 +30,23 @@ export default {
     campos: {
       nome: { rotulo: 'Seu nome', exemplo: 'Higor' },
       empresa: { rotulo: 'Nome da vidraçaria', exemplo: 'Flash Vidros' },
-      email: { rotulo: 'E-mail', exemplo: 'voce@suavidracaria.com.br', dica: 'É para lá que vai o convite.' },
-      whatsapp: { rotulo: 'WhatsApp', exemplo: '(27) 99999-9999', opcional: 'opcional' },
+      email: { rotulo: 'E-mail', exemplo: 'voce@suavidracaria.com.br' },
+      telefone: { rotulo: 'Telefone', exemplo: '(27) 99999-9999', opcional: 'opcional' },
+      senha: { rotulo: 'Senha', exemplo: 'mínimo 8 caracteres', mostrar: 'mostrar', ocultar: 'ocultar' },
+      senha2: { rotulo: 'Confirmar senha', exemplo: 'repita a senha' },
     },
     enviar: () => 'Criar minha conta grátis',
     rapido: 'Leva menos de 1 minuto.',
     enviando: 'Criando sua conta…',
+    entrando: 'Entrando…',
     saida: 'Mandar meus dados por e-mail',
     aviso: 'Sem cartão de crédito. Sem taxa de implantação. Sem instalação.',
     erros: {
       nome: 'Falta o seu nome.',
       empresa: 'Falta o nome da vidraçaria.',
       email: 'Confira o e-mail — parece que falta alguma coisa.',
+      senha: 'A senha precisa de pelo menos 8 caracteres.',
+      senha2: 'As duas senhas não são iguais.',
       rede: 'A conexão falhou no meio do caminho. Tente de novo.',
       geral: 'Não foi possível concluir agora. Mande seus dados por e-mail que a gente cria a conta na mão.',
     },
@@ -49,10 +54,8 @@ export default {
 
   pronto: {
     rotulo: 'PRONTO',
-    titulo: 'Confira seu e-mail.',
-    texto: (email) =>
-      `O convite foi para ${email}. É só clicar nele para criar sua senha e entrar — a conta já está de pé, com o sistema inteiro liberado.`,
-    dica: 'Não chegou em dois minutos? Olhe na caixa de spam. Se não estiver lá, escreva para a gente que liberamos na mão.',
-    contato: 'Escrever para a gente',
+    titulo: 'Sua conta está de pé.',
+    texto: 'Entre em app.neoglass.online com o seu e-mail e a senha que você acabou de criar — o sistema inteiro já está liberado.',
+    entrar: 'Entrar no sistema',
   },
 }

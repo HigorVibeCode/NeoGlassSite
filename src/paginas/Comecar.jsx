@@ -64,8 +64,15 @@ export default function Comecar() {
     setOrigem(guardada)
     const codigo = guardada?.codigo
     if (!codigo) return
-    // O nome pode já ter vindo na captura; se não, resolve agora. Código que o
-    // servidor não reconhece simplesmente não vira selo.
+
+    // O código veio do link, então ele JÁ VALE — mesmo antes de sabermos o nome
+    // de quem indicou. Deixamos o campo preenchido desde já: se a confirmação
+    // não vier (rede fora, endpoint indisponível), a indicação continua à vista
+    // e continua sendo enviada. Quem decide se ela é válida é o servidor, no
+    // cadastro; perder a atribuição por não ter conseguido exibir um nome seria
+    // punir o parceiro por um problema nosso.
+    setCodigoManual(codigo)
+
     if (guardada.nome) {
       setIndicado({ codigo, nome: guardada.nome })
       return
@@ -79,10 +86,14 @@ export default function Comecar() {
     }
   }, [])
 
+  // "Não fui indicado": apaga tudo — o selo, o guardado e o campo. Quem clica
+  // aqui está dizendo que a atribuição não é dele; deixar o código no campo
+  // faria a negativa não valer nada.
   const removerIndicacao = () => {
     esquecerOrigem()
     setIndicado(null)
     setOrigem(null)
+    setCodigoManual('')
   }
 
   const muda = (k) => (e) => setDados((d) => ({ ...d, [k]: e.target.value }))
@@ -132,9 +143,15 @@ export default function Comecar() {
           idioma,
           site: dados.site, // isca: preenchida só por robô
           origem: typeof document !== 'undefined' ? document.referrer || 'direto' : 'direto',
-          // Quem indicou: o código do link (já confirmado) ou o que a pessoa
-          // digitou. O SERVIDOR revalida — isto aqui é só o que dizemos ter.
-          indicacao: indicado?.codigo || codigoManual.trim().toLowerCase() || null,
+          // Quem indicou, na ordem: o parceiro confirmado, o que a pessoa
+          // digitou, e — por último — o código guardado do link mesmo sem
+          // confirmação (a confirmação é enfeite; o código é o dado). O
+          // SERVIDOR revalida: isto aqui é só o que dizemos ter.
+          indicacao:
+            indicado?.codigo ||
+            codigoManual.trim().toLowerCase() ||
+            origem?.codigo ||
+            null,
           // A campanha que trouxe a visita, para medir tráfego pago. Dimensão
           // paralela à indicação: um cadastro pode ter as duas.
           marketing: origem

@@ -147,6 +147,12 @@ export const CONFIG = {
   // Vazio: o formulário não some, ele passa a abrir o WhatsApp.
   cadastroApi: 'https://tukoposrodehenltgjip.supabase.co/functions/v1/site-cadastro',
 
+  // Indicação de parceiro e contagem de visitas por origem (ver
+  // lib/indicacao.js). Também público e sem chave: só resolve um código em um
+  // nome e conta um clique. Vazio: o link do parceiro deixa de ser reconhecido
+  // e o site segue funcionando igual.
+  indicacaoApi: 'https://tukoposrodehenltgjip.supabase.co/functions/v1/site-indicacao',
+
   // ── Medição ────────────────────────────────────────────────────────────
   // ID do pixel do Meta. Vazio = nenhum script de rastreio é carregado.
   pixelMeta: import.meta.env?.VITE_PIXEL_META ?? '',

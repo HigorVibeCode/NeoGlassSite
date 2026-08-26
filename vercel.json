@@ -26,8 +26,13 @@
       "permanent": false
     },
     {
-      "source": "/app/:caminho*",
+      "source": "/app/:caminho+",
       "destination": "https://app.neoglass.online/:caminho*",
+      "permanent": false
+    },
+    {
+      "source": "/p/:codigo",
+      "destination": "/?ref=:codigo",
       "permanent": false
     }
   ],

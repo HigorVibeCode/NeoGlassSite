@@ -10,6 +10,7 @@ import Home from './paginas/Home.jsx'
 import { esquecerLado } from './lib/lado.js'
 import { useRota } from './lib/rota.js'
 import { marcarAparelho } from './lib/dispositivo.js'
+import { capturarOrigem } from './lib/indicacao.js'
 import { ligarPixel, evento } from './lib/rastreio.js'
 import { ProvedorIdioma } from './i18n/idioma.jsx'
 import { textosDe } from './conteudo/index.js'
@@ -64,6 +65,9 @@ export default function App() {
 
   useEffect(() => {
     marcarAparelho()
+    // De onde veio esta visita (link de parceiro e/ou campanha). Roda ANTES do
+    // pixel porque é ela que limpa o `/p/<codigo>` da barra de endereço.
+    capturarOrigem()
     ligarPixel()
   }, [])
 

@@ -35,6 +35,15 @@ export default {
       senha: { rotulo: 'Senha', exemplo: 'mínimo 8 caracteres', mostrar: 'mostrar', ocultar: 'ocultar' },
       senha2: { rotulo: 'Confirmar senha', exemplo: 'repita a senha' },
     },
+
+    // Quem indicou. Com link vira selo (o nome vem do servidor);
+    // sem link, um campo opcional para quem recebeu o código na conversa.
+    indicacao: {
+      rotulo: 'Código de indicação',
+      exemplo: 'ex.: joaosilva',
+      selo: (nome) => `Indicado por ${nome}`,
+      remover: 'não fui indicado',
+    },
     enviar: () => 'Criar minha conta grátis',
     rapido: 'Leva menos de 1 minuto.',
     enviando: 'Criando sua conta…',

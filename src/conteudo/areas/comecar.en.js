@@ -13,6 +13,15 @@ export default {
       senha: { rotulo: 'Password', exemplo: 'at least 8 characters', mostrar: 'show', ocultar: 'hide' },
       senha2: { rotulo: 'Confirm password', exemplo: 'repeat the password' },
     },
+
+    // Quem indicou. Com link vira selo (o nome vem do servidor);
+    // sem link, um campo opcional para quem recebeu o código na conversa.
+    indicacao: {
+      rotulo: 'Referral code',
+      exemplo: 'e.g. johnsmith',
+      selo: (nome) => `Referred by ${nome}`,
+      remover: 'not referred',
+    },
     enviar: () => 'Create my free account',
     rapido: 'Takes less than a minute.',
     enviando: 'Creating your account…',

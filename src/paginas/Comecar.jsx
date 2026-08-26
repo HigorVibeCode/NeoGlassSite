@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Revelar } from '../components/Comum.jsx'
 import { CONFIG, linkEmail } from '../config.js'
+import { esquecerOrigem, origemGuardada, resolverCodigo } from '../lib/indicacao.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
@@ -50,6 +51,40 @@ export default function Comecar() {
   const [verSenha, setVerSenha] = useState(false)
   const [saida, setSaida] = useState(false)
 
+  // De onde a pessoa veio. `indicado` é o parceiro CONFIRMADO pelo servidor —
+  // por isso vira um selo, e não um campo editável: o visitante não digita o
+  // nome de quem o indicou, ele apenas confirma (ou remove). `codigoManual` é
+  // a porta para quem recebeu o código na conversa e não pelo link.
+  const [origem, setOrigem] = useState(null)
+  const [indicado, setIndicado] = useState(null) // { codigo, nome }
+  const [codigoManual, setCodigoManual] = useState('')
+
+  useEffect(() => {
+    const guardada = origemGuardada()
+    setOrigem(guardada)
+    const codigo = guardada?.codigo
+    if (!codigo) return
+    // O nome pode já ter vindo na captura; se não, resolve agora. Código que o
+    // servidor não reconhece simplesmente não vira selo.
+    if (guardada.nome) {
+      setIndicado({ codigo, nome: guardada.nome })
+      return
+    }
+    let vivo = true
+    resolverCodigo(codigo).then((r) => {
+      if (vivo && r) setIndicado(r)
+    })
+    return () => {
+      vivo = false
+    }
+  }, [])
+
+  const removerIndicacao = () => {
+    esquecerOrigem()
+    setIndicado(null)
+    setOrigem(null)
+  }
+
   const muda = (k) => (e) => setDados((d) => ({ ...d, [k]: e.target.value }))
 
   // A senha jamais viaja no e-mail de socorro.
@@ -97,6 +132,22 @@ export default function Comecar() {
           idioma,
           site: dados.site, // isca: preenchida só por robô
           origem: typeof document !== 'undefined' ? document.referrer || 'direto' : 'direto',
+          // Quem indicou: o código do link (já confirmado) ou o que a pessoa
+          // digitou. O SERVIDOR revalida — isto aqui é só o que dizemos ter.
+          indicacao: indicado?.codigo || codigoManual.trim().toLowerCase() || null,
+          // A campanha que trouxe a visita, para medir tráfego pago. Dimensão
+          // paralela à indicação: um cadastro pode ter as duas.
+          marketing: origem
+            ? {
+                utm_source: origem.utm_source ?? null,
+                utm_medium: origem.utm_medium ?? null,
+                utm_campaign: origem.utm_campaign ?? null,
+                utm_content: origem.utm_content ?? null,
+                utm_term: origem.utm_term ?? null,
+                referrer: origem.referrer ?? null,
+                landing: origem.landing ?? null,
+              }
+            : null,
         }),
       })
 
@@ -229,6 +280,55 @@ export default function Comecar() {
                 autoComplete="new-password"
               />
             </label>
+
+            {/* ── Quem indicou ──────────────────────────────────────────
+                Com link: um selo de confirmação (não um campo), porque o dado
+                já veio conferido e um input só convidaria a adulterar.
+                Sem link: um campo opcional, para quem recebeu o código na
+                conversa. */}
+            {indicado ? (
+              <div
+                className="flex items-start gap-3 rounded-[12px] border px-4 py-3"
+                style={{ borderColor: 'rgba(14,140,106,.32)', background: 'rgba(14,140,106,.06)' }}
+              >
+                <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true">
+                  <path
+                    d="M5 12.5l4.5 4.5L19 7.5"
+                    fill="none"
+                    stroke="#0e8c6a"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="min-w-0 text-[13px] leading-snug text-ink">
+                  <b className="font-bold">{f.indicacao.selo(indicado.nome)}</b>
+                  <button
+                    type="button"
+                    onClick={removerIndicacao}
+                    className="ml-2 font-semibold text-dim underline underline-offset-2 transition-colors hover:text-ink"
+                  >
+                    {f.indicacao.remover}
+                  </button>
+                </span>
+              </div>
+            ) : (
+              <label className="grid gap-1.5">
+                <span className="text-[13px] font-bold text-ink">
+                  {f.indicacao.rotulo}{' '}
+                  <span className="font-semibold text-dim">· {f.campos.telefone.opcional}</span>
+                </span>
+                <input
+                  className={campo}
+                  placeholder={f.indicacao.exemplo}
+                  value={codigoManual}
+                  onChange={(e) => setCodigoManual(e.target.value)}
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck="false"
+                />
+              </label>
+            )}
 
             {/* A isca. Fora da tela e fora da ordem de tabulação. */}
             <input

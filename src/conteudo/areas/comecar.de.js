@@ -13,6 +13,15 @@ export default {
       senha: { rotulo: 'Passwort', exemplo: 'mindestens 8 Zeichen', mostrar: 'zeigen', ocultar: 'verbergen' },
       senha2: { rotulo: 'Passwort bestätigen', exemplo: 'Passwort wiederholen' },
     },
+
+    // Quem indicou. Com link vira selo (o nome vem do servidor);
+    // sem link, um campo opcional para quem recebeu o código na conversa.
+    indicacao: {
+      rotulo: 'Empfehlungscode',
+      exemplo: 'z. B. maxmustermann',
+      selo: (nome) => `Empfohlen von ${nome}`,
+      remover: 'nicht empfohlen',
+    },
     enviar: () => 'Kostenloses Konto erstellen',
     rapido: 'Dauert weniger als eine Minute.',
     enviando: 'Konto wird erstellt…',

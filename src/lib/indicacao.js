@@ -169,21 +169,47 @@ export function capturarOrigem() {
     landing: caminho.slice(0, 200),
   })
 
+  // PRIMEIRO TOQUE VENCE — mas POR DIMENSÃO.
+  //
+  // O comentário no topo deste arquivo sempre disse que parceiro e campanha são
+  // dimensões paralelas; o código não fazia isso. Guardava tudo num registro só
+  // e, se JÁ existisse qualquer registro na janela, o segundo link era
+  // inteiramente ignorado. Num teste de 04/set deu o pior caso: uma visita ao
+  // link do parceiro e, depois, uma entrada por `?utm_campaign=vidraceiros-es`
+  // — o cadastro saiu com o parceiro e SEM campanha nenhuma. Quem anuncia fica
+  // sem saber o que converteu, e o efeito dura os 30 dias da janela.
+  //
+  // Agora cada dimensão tem o seu primeiro toque: o parceiro guardado nunca é
+  // trocado por outro parceiro, a campanha guardada nunca é trocada por outra
+  // campanha, e uma dimensão vazia é preenchida pela visita que a trouxer.
   const anterior = ler()
-  if (!anterior) {
+  const jaTemCampanha = anterior ? UTMS.some((k) => anterior[k]) : false
+
+  const novoCodigo = anterior?.codigo ?? codigo
+  const novaCampanha = jaTemCampanha
+    ? Object.fromEntries(UTMS.filter((k) => anterior[k]).map((k) => [k, anterior[k]]))
+    : campanha
+
+  const ganhouCodigo = Boolean(codigo) && !anterior?.codigo
+  const ganhouCampanha = temCampanha && !jaTemCampanha
+
+  if (!anterior || ganhouCodigo || ganhouCampanha) {
     gravar({
-      codigo,
-      nome: null, // preenchido quando o servidor resolver (ver abaixo)
-      ...campanha,
-      referrer: (document.referrer || '').slice(0, 300),
-      landing: caminho.slice(0, 200),
-      ts: Date.now(),
+      ...(anterior ?? {}),
+      codigo: novoCodigo ?? null,
+      // O nome do parceiro acompanha o CÓDIGO: trocou de código, o nome antigo
+      // não vale mais (é resolvido logo abaixo).
+      nome: ganhouCodigo ? null : (anterior?.nome ?? null),
+      ...novaCampanha,
+      referrer: anterior?.referrer ?? (document.referrer || '').slice(0, 300),
+      landing: anterior?.landing ?? caminho.slice(0, 200),
+      ts: anterior?.ts ?? Date.now(),
     })
 
     // O nome do parceiro é resolvido em segundo plano, só para o selo do
     // formulário. Se falhar, o código continua valendo — quem decide de quem é
     // a indicação é o servidor, no cadastro, nunca esta tela.
-    if (codigo) {
+    if (codigo && ganhouCodigo) {
       resolverCodigo(codigo).then((r) => {
         if (!r) return
         const atual = ler()

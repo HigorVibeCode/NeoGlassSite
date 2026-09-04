@@ -11,7 +11,7 @@
  * justamente o padrão que faz gente ir embora.
  */
 export default {
-  etiqueta: 'Software para quem trabalha com vidro',
+  etiqueta: 'NeoGlass',
   /* O título é uma frase só com o miolo em gradiente. Por isso vem
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'Mais', destaque: 'dinheiro e segurança', depois: 'para quem trabalha com vidro.' },

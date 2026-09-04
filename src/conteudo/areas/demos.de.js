@@ -10,7 +10,7 @@
  *
  * ATENÇÃO ao comprimento dos rótulos de `botoes`: a barra de ação encosta no
  * rodapé do cartão e no celular ela é estreita. O teto é 22 caracteres e o
- * mais longo daqui tem 20 ('An den Kunden senden', 'Angebot per WhatsApp').
+ * mais longo daqui tem 20 ('An den Kunden senden', 'Offerte per WhatsApp').
  * Onde o português cabe em 12 ('Otimizando…', 'Realocando…', 'Montando…'),
  * o alemão também cabe: 'Optimiert…', 'Ordnet um…', 'Montiert…'.
  */
@@ -105,9 +105,9 @@ export default {
         frase:
           'Intelligenz, die Reste aufbewahrt: Die Software rechnet den heutigen Schnitt schon mit Blick darauf, wie das Restglas in den nächsten Aufträgen genutzt wird.',
         pontos: [
-          ['Jeder Rest wird ein Teil mit Nummer', 'RT-0412, nicht "die große Scheibe hinter der Dusche".'],
+          ['Jeder Rest wird ein Teil mit Nummer', 'RT-0412, nicht "die grosse Scheibe hinter der Dusche".'],
           ['Mit Platz am Gestell', 'Wer sie holt, findet sie beim ersten Gang.'],
-          ['Niemand tippt etwas ein', 'Der Eintrag entsteht am Ende der Optimierung, die den Rest übrig ließ.'],
+          ['Niemand tippt etwas ein', 'Der Eintrag entsteht am Ende der Optimierung, die den Rest übrig liess.'],
         ],
       },
     },
@@ -187,9 +187,9 @@ export default {
     },
     baloes: {
       vao: 'Eine leere Öffnung auf der Baustelle. Hier beginnt jeder Auftrag.',
-      medindo: 'Das Maß wird einmal eingegeben — das der Öffnung, nicht des Glases.',
+      medindo: 'Das Mass wird einmal eingegeben — das der Öffnung, nicht des Glases.',
       tipo: 'Das System fragt, was dort hinkommt. Ein Tippen, kein Schreiben.',
-      folhas: 'Und wie viele Flügel. Hier ändert sich der Preis, und das weiß es bereits.',
+      folhas: 'Und wie viele Flügel. Hier ändert sich der Preis, und das weiss es bereits.',
       orcamento: 'Teil für Teil, mit Beschlägen und Montage. Nichts wurde neu getippt.',
       gerando: 'Das PDF kommt mit Ihrem Logo heraus, unterschriftsreif.',
       pdf: 'Das erreicht den Kunden, bevor Sie die Baustelle verlassen.',
@@ -215,7 +215,7 @@ export default {
       janelaDoVao: 'Das Fenster für diese Öffnung',
       pdfGerado: 'PDF erstellt',
       prontoCliente: 'Fertig für den Kunden',
-      oOrcamento: 'Das Angebot, das Sie gerade gebaut haben',
+      oOrcamento: 'Die Offerte, die Sie gerade gebaut haben',
     },
 
     // As quatro linhas do orçamento. O valor de cada uma chega formatado.
@@ -243,7 +243,7 @@ export default {
     documento: {
       empresa: 'Ihre Glaserei',
       marca: 'Ihr Logo, Ihre Telefonnummer',
-      orcamento: 'Angebot',
+      orcamento: 'Offerte',
       cliente: 'Kunde',
       servico: 'Leistung',
       servicoValor: (vao, medida) => `${vao} · ${medida}`,
@@ -255,11 +255,11 @@ export default {
     vao: {
       selo: 'Was Sie auf der Baustelle gemacht haben',
       titulo: (vao, medida) => `${vao} · ${medida}`,
-      // Os "dreißig Sekunden" saíram: era número inventado, que não vem do
+      // Os "dreissig Sekunden" saíram: era número inventado, que não vem do
       // sistema. No lugar entrou o que a demonstração cumpre de fato — o
       // sistema pede três coisas e monta o resto sozinho.
       texto:
-        'Ein Foto, zwei Maße, die Art der Wand. Mehr verlangt das System nicht von Ihnen — den Rest baut es allein.',
+        'Ein Foto, zwei Masse, die Art der Wand. Mehr verlangt das System nicht von Ihnen — den Rest baut es allein.',
       ficha: {
         vao: 'Öffnung',
         parede: 'Wand',
@@ -273,7 +273,7 @@ export default {
 
     montando: {
       selo: 'Wird gebaut',
-      titulo: 'Das Fenster passt sich Ihrem Maß an…',
+      titulo: 'Das Fenster passt sich Ihrem Mass an…',
       linhas: {
         folhas: 'Wählt 2 Schiebeflügel für diese Öffnung',
         folga: (folga, sobreposicao) =>
@@ -284,7 +284,7 @@ export default {
     },
 
     lista: {
-      selo: (numero) => `Angebot ${numero}`,
+      selo: (numero) => `Offerte ${numero}`,
       titulo: 'Fertig, ohne dass Sie etwas getippt haben.',
       total: 'Gesamt für den Kunden',
       rodape: (m2, itens) =>
@@ -311,18 +311,18 @@ export default {
       segundos: (segundos) => ` und ${segundos} Sekunden`,
       semTempo: ', null Tipparbeit',
       textoTempo:
-        'So lange haben Sie gerade gebraucht, von der Öffnung bis zum fertigen Angebot. Auf der Baustelle ist es derselbe Weg — mit dem Kunden daneben.',
+        'So lange haben Sie gerade gebraucht, von der Öffnung bis zur fertigen Offerte. Auf der Baustelle ist es derselbe Weg — mit dem Kunden daneben.',
       textoSemTempo:
-        'Von der Öffnung bis zum fertigen Angebot haben Sie kein einziges Maß getippt. Auf der Baustelle ist es derselbe Weg — mit dem Kunden daneben.',
+        'Von der Öffnung bis zur fertigen Offerte haben Sie kein einziges Mass getippt. Auf der Baustelle ist es derselbe Weg — mit dem Kunden daneben.',
       escolha: 'Wählen Sie den Weg',
       canais: {
         whatsapp: 'WhatsApp',
         email: 'E-Mail',
         pdf: 'PDF laden',
       },
-      aprovar: 'Und sobald er zusagt, geht der Auftrag mit den Schnittmaßen in die Produktion.',
+      aprovar: 'Und sobald er zusagt, geht der Auftrag mit den Schnittmassen in die Produktion.',
       ninguem:
-        'Niemand tippt es neu, niemand ruft wegen der Dicke an, und das Restglas aus dieser Tafel geht mit Maß zurück in Ihr Lager.',
+        'Niemand tippt es neu, niemand ruft wegen der Dicke an, und das Restglas aus dieser Tafel geht mit Mass zurück in Ihr Lager.',
     },
 
     preco: {
@@ -336,21 +336,21 @@ export default {
          dia em que a regra existir. */
       porVidracaria: 'Fester Preis, heute wie in einem Jahr.',
       // O valor chega pronto de `config.js` — a moeda muda com o idioma.
-      conta: (valor) => `Das Angebot, das Sie gerade gebaut haben, lag bei ${valor}.`,
+      conta: (valor) => `Die Offerte, die Sie gerade gebaut haben, lag bei ${valor}.`,
       contaEnfase: 'Das war ein Fenster.',
       pagaMeses: (meses) => `Dieser eine Auftrag zahlt ${meses} Monate System.`,
       naoCobramos: {
         implantacao: 'Keine Einrichtung',
-        orcamento: 'Keine Gebühr pro Angebot',
+        orcamento: 'Keine Gebühr pro Offerte',
         fidelidade: 'Keine Laufzeit',
       },
       teste: (dias) =>
-        `${dias} Tage gratis, ohne Karte. Sie bauen die Angebote der Woche und entscheiden danach — entscheiden Sie nichts, wird nichts berechnet.`,
+        `${dias} Tage gratis, ohne Karte. Sie bauen die Offerten der Woche und entscheiden danach — entscheiden Sie nichts, wird nichts berechnet.`,
       semTeste: 'Keine Laufzeit: Passt es nicht in Ihren Tag, kündigen Sie direkt am Bildschirm.',
     },
 
     whatsapp: {
-      titulo: (numero, vao, medida) => `Angebot ${numero} — ${vao} ${medida}`,
+      titulo: (numero, vao, medida) => `Offerte ${numero} — ${vao} ${medida}`,
       item: (nome, valor) => `• ${nome}: ${valor}`,
       total: (valor) => `Gesamt: ${valor}`,
       rodape: 'Gebaut in der Demo auf der NeoGlass-Website.',
@@ -366,13 +366,13 @@ export default {
       naObra: 'Das will ich auch',
       incluido: 'Was alles drin ist',
       denovo: 'nochmal starten',
-      zap: 'Angebot per WhatsApp',
+      zap: 'Offerte per WhatsApp',
     },
 
     nota: {
       padrao: 'Beispielwerte. Im System kommen sie aus Ihrer eigenen Preisliste.',
       preco:
-        'Das ist der Preis, keine Spanne. Beispiel sind die Werte im Angebot darüber.',
+        'Das ist der Preis, keine Spanne. Beispiel sind die Werte in der Offerte darüber.',
     },
   },
 
@@ -383,7 +383,7 @@ export default {
     abasRotulo: 'So, wie es passt',
     voz: {
       modulo: 'NeoGlass Intelligence',
-      rotulo: 'Angebot per Sprache',
+      rotulo: 'Offerte per Sprache',
       ouvindo: 'Hört zu…',
       frase: [
         { p: 'Schiebefenster,', preenche: 'peca' },
@@ -393,12 +393,12 @@ export default {
         { p: 'mal' },
         { p: '1100,', preenche: 'medida' },
         { p: 'Kunde' },
-        { p: 'Felipe.', preenche: 'cliente' },
+        { p: 'Herr Brunner.', preenche: 'cliente' },
       ],
-      ficha: { cliente: 'Kunde', peca: 'Teil', medida: 'Maße', modelo: 'Modell' },
+      ficha: { cliente: 'Kunde', peca: 'Teil', medida: 'Masse', modelo: 'Modell' },
       esperando: '—',
       valores: {
-        cliente: 'Felipe',
+        cliente: 'Herr Brunner',
         peca: 'Schiebefenster',
         medida: '1800 × 1100 mm',
         modelo: '4 Flügel · 2 fest + 2 beweglich',
@@ -430,7 +430,7 @@ export default {
         rotulo: 'Schritt 1 — Welche Art von Öffnung?',
         opcoes: ['Nische · Boden bis Decke', 'Nische · zwischen zwei Wänden', 'Nur eine Wand', 'Freistehend'],
       },
-      medida: { rotulo: 'Schritt 2 — Welche Maße?', largura: 'Breite der Öffnung', altura: 'Höhe der Öffnung' },
+      medida: { rotulo: 'Schritt 2 — Welche Masse?', largura: 'Breite der Öffnung', altura: 'Höhe der Öffnung' },
       tipo: {
         rotulo: 'Schritt 3 — Was kommt hinein?',
         opcoes: [

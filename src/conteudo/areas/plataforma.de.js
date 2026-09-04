@@ -113,7 +113,7 @@ export default {
     perfis: [
       'Glasindustrie (Schneidtisch und Ofen)',
       'Glaserei',
-      'Großhandel / Glaserei mit Zuschnitt',
+      'Grosshandel / Glaserei mit Zuschnitt',
       'Sonstiges',
     ],
     enviando: 'Wird gesendet…',

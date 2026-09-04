@@ -36,10 +36,10 @@ export default {
   // como no português. Por isso 'Jedes Gerät' e não 'Auf jedem Bildschirm'.
   cenas: [
     {
-      etapa: 'Angebot',
-      titulo: 'Foto auf der Baustelle, Angebot fertig.',
-      sub: 'Jeder Besuch, jedes Maß, jede Änderung des Kunden landet im Verlauf. Aus den Fotos wird ein Karussell — die aktuelle Version vorn, die älteren direkt dahinter.',
-      medidor: (n) => `Einträge im Angebot · ${n}/4`,
+      etapa: 'Offerte',
+      titulo: 'Foto auf der Baustelle, Offerte fertig.',
+      sub: 'Jeder Besuch, jedes Mass, jede Änderung des Kunden landet im Verlauf. Aus den Fotos wird ein Karussell — die aktuelle Version vorn, die älteren direkt dahinter.',
+      medidor: (n) => `Einträge in der Offerte · ${n}/4`,
     },
     {
       etapa: 'Freigabe',
@@ -56,7 +56,7 @@ export default {
          alemã o retalho não fica no chão, fica encostado na parede ou no
          gestell — daí "an der Wand" e não "vom Boden". */
       titulo: 'Aus dem Restglas an der Wand wird Bestand.',
-      sub: 'Der Schnittplan kommt fertig für den Tisch. Und das Reststück geht mit Maß, Farbe und Platznummer zurück aufs Gestell — bereit für die nächste Verschnittoptimierung.',
+      sub: 'Der Schnittplan kommt fertig für den Tisch. Und das Reststück geht mit Mass, Farbe und Platznummer zurück aufs Gestell — bereit für die nächste Verschnittoptimierung.',
       medidor: (p) => `Ausnutzung · ${p}%`,
       medidorFim: 'Restglas belegt · Gestell A-03',
     },
@@ -83,8 +83,8 @@ export default {
   // ── Os rótulos dentro dos SVG ─────────────────────────────────────────
   telas: {
     feed: {
-      aria: 'Das Angebot als Verlauf, auf dem Handy des Verkäufers',
-      titulo: 'Angebot 26-0431',
+      aria: 'Die Offerte als Verlauf, auf dem Handy des Verkäufers',
+      titulo: 'Offerte 26-0431',
       situacao: 'In Arbeit',
       cliente: 'Marina Duarte',
       endereco: 'Whg. 142 · Haus Aurora',
@@ -92,7 +92,7 @@ export default {
       // caracteres e a segunda até 6: 'Verlauf' e 'Positionen' encostariam na
       // aba seguinte, então entraram 'Feed' (já usado assim em app alemão) e
       // 'Posten'.
-      abas: ['Feed', 'Posten', 'Angebot'],
+      abas: ['Feed', 'Posten', 'Offerte'],
       versoes: (n) => `${n} Versionen`,
       posts: [
         {
@@ -119,7 +119,7 @@ export default {
           nome: 'Marcos Ribeiro',
           papel: 'Verkauf',
           hora: 'Mi 11:38',
-          rotulo: 'Maßänderung',
+          rotulo: 'Massänderung',
           texto: '1180 → 1175 mm Breite',
         },
       ],
@@ -252,7 +252,7 @@ export default {
       aria: {
         plano: 'Optimierter Schnittplan',
         margem: 'Der Auftrag, finanziell abgeschlossen',
-        feed: 'Angebot als Verlauf',
+        feed: 'Offerte als Verlauf',
       },
       pecasCortadas: '7 Scheiben geschnitten',
       umRetalho: '1 Restglas',

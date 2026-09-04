@@ -16,27 +16,27 @@ export default {
       nome: 'Start',
       titulo: 'NeoGlass · Software für Glasereien und die Glasindustrie',
       descricao:
-        'Angebot, Schnittplan, Reststückverwaltung und Produktion in einem System. Wählen Sie zwischen der Version für Glasereien und der für Glasfabriken.',
+        'Offerte, Schnittplan, Reststückverwaltung und Produktion in einem System. Wählen Sie zwischen der Version für Glasereien und der für Glasfabriken.',
       ogTitulo: 'Glas, das Sie nicht kaufen, ist Gewinn',
-      ogDescricao: 'Vom Angebot vor Ort bis zum Schnittplan am Tisch. Wählen Sie Ihren Einstieg.',
+      ogDescricao: 'Vom Offerte vor Ort bis zum Schnittplan am Tisch. Wählen Sie Ihren Einstieg.',
     },
     industria: {
       nome: 'Industrie',
       titulo: 'NeoGlass · Software für die Flachglasindustrie',
       descricao:
-        'Vom Angebot auf der Baustelle bis zum Schnittplan am Schneidtisch. Verschnittoptimierung mit Restglas-Verwertung und Rückverfolgung jeder Scheibe.',
+        'Vom Offerte auf der Baustelle bis zum Schnittplan am Schneidtisch. Verschnittoptimierung mit Restglas-Verwertung und Rückverfolgung jeder Scheibe.',
       ogTitulo: 'NeoGlass · Software für die Flachglasindustrie',
       ogDescricao:
-        'Vom Angebot auf der Baustelle bis zum Schnittplan am Tisch. Jedes Reststück wird genutzt.',
+        'Vom Offerte auf der Baustelle bis zum Schnittplan am Tisch. Jedes Reststück wird genutzt.',
     },
     vidracaria: {
       nome: 'Glaserei',
-      titulo: 'NeoGlass für Glasereien · Profi ab dem ersten Angebot',
+      titulo: 'NeoGlass für Glasereien · Profi ab dem ersten Offerte',
       descricao:
-        'Angebot direkt beim Kunden, Auftrag verfolgt vom Schnitt bis zum Versand, Restglas dort, wo es hingehört. Ohne Excel, ohne Kladde, ohne Schulung.',
-      ogTitulo: 'NeoGlass für Glasereien · Das Angebot steht, bevor Sie zurück im Betrieb sind',
+        'Offerte direkt beim Kunden, per WhatsApp verschickt, vom Kunden online bestätigt. Ohne Excel, ohne Notizblock, ohne Schulung.',
+      ogTitulo: 'NeoGlass für Glasereien · Die Offerte steht, bevor Sie zurück im Betrieb sind',
       ogDescricao:
-        'Öffnung messen, Angebot am Handy rechnen, PDF mit Ihrem Logo verschicken. Fester Preis, keine Einrichtungsgebühr.',
+        'Öffnung messen, Offerte am Handy rechnen, PDF mit Ihrem Logo verschicken. Fester Preis, keine Einrichtungsgebühr.',
     },
     plataforma: {
       nome: 'Plattform',
@@ -50,8 +50,8 @@ export default {
       nome: 'Starten',
       titulo: 'NeoGlass-Konto erstellen · 14 Tage kostenlos, ohne Karte',
       descricao:
-        'Konto erstellen und NeoGlass 14 Tage ohne Kreditkarte nutzen. Angebot, Schnittplan, Reststücke und Produktion für Glasereien.',
-      ogTitulo: 'Fangen Sie mit dem nächsten Angebot an',
+        'Konto erstellen und NeoGlass 14 Tage ohne Kreditkarte nutzen. Aufmass, Offerte und Kundenfreigabe für Glasereien — direkt vom Handy.',
+      ogTitulo: 'Fangen Sie mit der nächsten Offerte an',
       ogDescricao: '14 Tage kostenlos, ohne Karte. Die Einladung kommt in wenigen Augenblicken.',
     },
     baixar: {
@@ -141,9 +141,9 @@ export default {
     titulo: 'Niemand tippt denselben Auftrag zweimal.',
     texto: 'Der Auftrag wird einmal erfasst und begleitet den ganzen Betrieb. Jeder Schritt arbeitet mit denselben Daten — denen von der Baustelle.',
     estadoRotulo: 'Wo er gerade steht',
-    pedido: { numero: '26-0918', cliente: 'Marcos Ribeiro', vidro: 'Klar 6 mm ESG · 4 Teile' },
+    pedido: { numero: '26-0918', cliente: 'Glaserei Brunner', vidro: 'Klar 6 mm ESG · 4 Teile' },
     etapas: [
-      { nome: 'Angebot', estado: 'Angebot an den Kunden verschickt', detalhe: 'Aus dem Aufmaß wurden Preis, PDF und Termin. Nichts wurde neu getippt.' },
+      { nome: 'Offerte', estado: 'Offerte an den Kunden verschickt', detalhe: 'Aus dem Aufmass wurden Preis, PDF und Termin. Nichts wurde neu getippt.' },
       { nome: 'Freigabe', estado: 'Vom Kunden freigegeben', detalhe: 'Die Freigabe fixiert Preis und Termin und gibt den Auftrag in die Fertigung.' },
       { nome: 'Produktion', estado: 'Am Schneidtisch', detalhe: 'Der Schnittplan kam aus demselben Auftrag, Reststücke bereits berücksichtigt.' },
       { nome: 'Versand', estado: 'Für die Lieferung kommissioniert', detalhe: 'Die Teile wurden gegen den Auftrag geprüft, nicht gegen einen losen Zettel.' },

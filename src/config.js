@@ -83,8 +83,12 @@ export const CONFIG = {
       USD: 39,
       CHF: 39,
     },
-    // Qual moeda cada idioma vê.
+    // Qual moeda cada idioma vê — quando o PAÍS não diz melhor. 'de' é a
+    // língua da Alemanha, da Áustria e da Suíça, e as três não pagam na mesma
+    // moeda: o suíço que caía aqui via '39 €' enquanto o CHF 39 da tabela
+    // ficava morto. Quem manda agora é `moedaPorPais`; isto é o fallback.
     moedaPorIdioma: { pt: 'BRL', en: 'USD', es: 'EUR', de: 'EUR' },
+    moedaPorPais: { ch: 'CHF', br: 'BRL', us: 'USD', de: 'EUR', at: 'EUR', es: 'EUR', pt: 'EUR' },
     diasTeste: 14, // 0 desliga a menção ao teste
     // Para onde vai o botão de começar, em ordem de prioridade:
     //   1. `cadastroRota` — uma página DO PRÓPRIO site (hoje `/comecar`, com o
@@ -158,9 +162,31 @@ export const CONFIG = {
   pixelMeta: import.meta.env?.VITE_PIXEL_META ?? '',
 }
 
-/** A moeda daquele idioma, e quanto custa nela. */
-export const moedaDe = (idioma = 'pt') =>
-  CONFIG.vidracaria.moedaPorIdioma[idioma] ?? 'BRL'
+/**
+ * O país provável de quem está lendo, sem perguntar nada: o fuso do aparelho.
+ * Europe/Zurich é suíço mesmo lendo em alemão; Europe/Berlin é alemão. Não é
+ * geolocalização (não pede permissão, não chama rede) e erra pouco — quem lê
+ * o site em alemão com o relógio em Zürich está na Suíça.
+ */
+const PAIS_POR_FUSO = {
+  'Europe/Zurich': 'ch', 'Europe/Vienna': 'at', 'Europe/Berlin': 'de',
+  'Europe/Lisbon': 'pt', 'Europe/Madrid': 'es',
+}
+const PAIS_POR_IDIOMA = { pt: 'br', en: 'us', es: 'es', de: 'de' }
+let _pais = null
+export const paisProvavel = (idioma = 'pt') => {
+  if (_pais) return _pais
+  let fuso = ''
+  try { fuso = Intl.DateTimeFormat().resolvedOptions().timeZone || '' } catch { /* sem Intl */ }
+  if (fuso.startsWith('America/') && idioma === 'pt') return (_pais = 'br')
+  return (_pais = PAIS_POR_FUSO[fuso] ?? PAIS_POR_IDIOMA[idioma] ?? 'br')
+}
+
+/** A moeda de quem lê: pelo país quando dá para saber, senão pelo idioma. */
+export const moedaDe = (idioma = 'pt', pais = paisProvavel(idioma)) =>
+  CONFIG.vidracaria.moedaPorPais[pais] ??
+  CONFIG.vidracaria.moedaPorIdioma[idioma] ??
+  'BRL'
 
 export const valorMensal = (idioma = 'pt') =>
   CONFIG.vidracaria.precos[moedaDe(idioma)] ?? 0
@@ -174,7 +200,12 @@ export const valorMensal = (idioma = 'pt') =>
 export const precoVidracaria = (idioma = 'pt') => {
   const valor = valorMensal(idioma)
   if (!valor) return ''
-  const local = { pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }[idioma] ?? 'pt-BR'
+  // Suíça escreve "CHF 39", com o código antes e sem símbolo — de-CH faz isso
+  // sozinho. de-DE escreveria "39 CHF", que nenhum suíço escreve.
+  const local =
+    moedaDe(idioma) === 'CHF'
+      ? 'de-CH'
+      : ({ pt: 'pt-BR', en: 'en-US', es: 'es-ES', de: 'de-DE' }[idioma] ?? 'pt-BR')
   return valor.toLocaleString(local, {
     style: 'currency',
     currency: moedaDe(idioma),

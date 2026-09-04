@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Revelar } from '../components/Comum.jsx'
-import { CONFIG, linkEmail, paisProvavel } from '../config.js'
+import { CONFIG, linkEmail } from '../config.js'
 import { esquecerOrigem, origemGuardada, resolverCodigo } from '../lib/indicacao.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
@@ -42,10 +42,6 @@ export default function Comecar() {
     empresa: '',
     email: '',
     telefone: '',
-    // O país decide a moeda da cobrança e a ficha fiscal. Deduzido do fuso do
-    // aparelho (Zürich = ch), e a pessoa corrige se estiver errado. Sem isto
-    // o servidor deduzia pelo idioma — e 'de' fazia todo suíço nascer alemão.
-    pais: paisProvavel(idioma),
     senha: '',
     senha2: '',
     site: '',
@@ -54,8 +50,6 @@ export default function Comecar() {
   const [erro, setErro] = useState('')
   const [verSenha, setVerSenha] = useState(false)
   const [saida, setSaida] = useState(false)
-  // 409: a conta já existe. A única coisa útil é o caminho de entrar.
-  const [jaExiste, setJaExiste] = useState(false)
 
   // De onde a pessoa veio. `indicado` é o parceiro CONFIRMADO pelo servidor —
   // por isso vira um selo, e não um campo editável: o visitante não digita o
@@ -132,7 +126,6 @@ export default function Comecar() {
 
     setErro('')
     setSaida(false)
-    setJaExiste(false)
     setEstado('enviando')
 
     if (!CONFIG.cadastroApi) return pelaMao('sem-api')
@@ -146,7 +139,6 @@ export default function Comecar() {
           empresa,
           email,
           telefone: dados.telefone.trim(),
-          pais: dados.pais || null,
           senha,
           idioma,
           site: dados.site, // isca: preenchida só por robô
@@ -179,19 +171,10 @@ export default function Comecar() {
       if (!r.ok) {
         const corpo = await r.json().catch(() => ({}))
         setEstado('parado')
-        // Nunca o texto cru do servidor: ele vem em português para um suíço.
-        // Cada status tem a sua frase e a sua saída.
-        if (r.status === 409) {
-          setErro(f.erros.jaExiste)
-          setJaExiste(true)
-          setSaida(false)
-        } else if (r.status === 429) {
-          setErro(f.erros.muitasTentativas)
-          setSaida(false)
-        } else {
-          setErro(f.erros.geral)
-          setSaida(true)
-        }
+        setErro(corpo.error || f.erros.geral)
+        // 429 é o visitante insistindo; qualquer outro erro merece a saída por
+        // e-mail. Erro de e-mail já em uso não abre a saída — é ele que resolve.
+        setSaida(r.status !== 429 && r.status !== 409)
         return
       }
 
@@ -279,15 +262,6 @@ export default function Comecar() {
                 <span className="font-semibold text-dim">· {f.campos.telefone.opcional}</span>
               </span>
               <input className={campo} inputMode="tel" placeholder={f.campos.telefone.exemplo} value={dados.telefone} onChange={muda('telefone')} autoComplete="tel" />
-            </label>
-
-            <label className="grid gap-1.5">
-              <span className="text-[13px] font-bold text-ink">{f.campos.pais.rotulo}</span>
-              <select className={campo} value={dados.pais} onChange={muda('pais')} autoComplete="country">
-                {f.campos.pais.opcoes.map(([codigo, nome]) => (
-                  <option key={codigo} value={codigo}>{nome}</option>
-                ))}
-              </select>
             </label>
 
             {/* senha + mostrar; a confirmação vem logo abaixo */}
@@ -399,12 +373,6 @@ export default function Comecar() {
           {erro && (
             <div role="alert" className="mt-4 text-center">
               <p className="text-[13px] font-semibold text-ember">{erro}</p>
-              {jaExiste && (
-                <p className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[14px] font-bold">
-                  <a href={CONFIG.login} className="text-verde hover:underline">{f.entrar}</a>
-                  <a href={CONFIG.login} className="text-ink hover:underline">{f.esqueci}</a>
-                </p>
-              )}
               {saida && (
                 <a
                   href={saidaEmail()}

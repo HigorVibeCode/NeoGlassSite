@@ -5,7 +5,7 @@ export default {
   papel: 'NeoGlass · Benutzer',
   pedidos: {
     modulo: 'Aufträge',
-    itens: ['Übersicht', 'Angebote', 'Aufträge', 'Ersatzteile'],
+    itens: ['Übersicht', 'Offerten', 'Aufträge', 'Ersatzteile'],
     migalha: 'NeoGlass Aufträge › Übersicht',
     titulo: 'Aufträge',
     subtitulo: 'Alle Aufträge · Termine und Phasen',

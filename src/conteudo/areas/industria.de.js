@@ -19,7 +19,7 @@ export default {
     rotulo: 'Der Rest wird zum Bestand',
     etiqueta: 'Reststück',
     codigo: 'Code',
-    medida: 'Maß',
+    medida: 'Mass',
     prateleira: 'Regal',
     feito: 'Erfasst',
   },
@@ -34,7 +34,7 @@ export default {
     titulo: 'Weniger Tafel. Weniger Bruch. Weniger Tabelle.',
     itens: [
       { nome: 'Weniger Tafel gekauft', texto: 'Bevor eine neue Tafel geöffnet wird, sucht das System im Rest. Jedes genutzte Reststück ist eine Tafel, die nicht auf die Rechnung kam.' },
-      { nome: 'Nichts wird vergessener Bruch', texto: 'Das Reststück verlässt den Zuschnitt schon mit Code, Maß und Regaladresse. Es ist im Bestand, ohne dass jemand es erfasst.' },
+      { nome: 'Nichts wird vergessener Bruch', texto: 'Das Reststück verlässt den Zuschnitt schon mit Code, Mass und Regaladresse. Es ist im Bestand, ohne dass jemand es erfasst.' },
       { nome: 'Ein einziges System', texto: 'Der Optimierer, der Bestand und das Etikett sind dasselbe. Nichts wird exportiert, nichts neu getippt — deshalb geht das Reststück nicht verloren.' },
     ],
   },
@@ -91,7 +91,7 @@ export default {
     pares: [
       [
         'Gutes Restglas lehnt am Gestell und fällt aus dem Bestand',
-        'Zurück in den Bestand — mit Maß, Farbe und Gestell',
+        'Zurück in den Bestand — mit Mass, Farbe und Gestell',
       ],
       [
         '„Wo ist mein Auftrag?“ — jemand läuft in die Halle',
@@ -106,7 +106,7 @@ export default {
          nenhuma forma. No lugar dela entram os formatos, que existem. Nomes de
          programa (Opty-Way, Perfect Cut) não se traduzem. */
       [
-        'Das falsche Maß fällt auf, wenn das Glas schon ESG ist',
+        'Das falsche Mass fällt auf, wenn das Glas schon ESG ist',
         'Ausgabe als DXF, CNI und FBT — oder direkt an Opty-Way und Perfect Cut',
       ],
       // G-Code saiu junto com os outros formatos: não existe no sistema.

@@ -32,36 +32,36 @@ export default {
     rotulo: 'Wiedererkennung',
     titulo: 'Alles am richtigen Platz. Weniger zu merken.',
     texto: 'Sie wissen, was vereinbart wurde, was zu tun ist und was gerade läuft.',
-    destaque: 'Jedes verschickte Angebot bleibt gespeichert — Sie öffnen es und sehen wann und zu welchem Preis.',
+    destaque: 'Jedes verschickte Offerte bleibt gespeichert — Sie öffnen es und sehen wann und zu welchem Preis.',
   },
 
   prova: {
     rotulo: 'Der Beweis',
     titulo: 'Standardisierte Projekte in unter einer Minute.',
-    legendas: ['Das Projekt in 3D, zum Drehen auf dem Bildschirm', 'Beschläge im selben Bild ein- und ausblenden', 'Aus demselben Projekt werden Angebot und Auftrag'],
+    legendas: ['Das Projekt in 3D, zum Drehen auf dem Bildschirm', 'Beschläge im selben Bild ein- und ausblenden', 'Aus demselben Projekt werden Offerte und Auftrag'],
   },
 
   resultado: {
     rotulo: 'Das Ergebnis',
     titulo: 'Mehr Ordnung. Mehr Sicherheit. Mehr Kontrolle.',
     itens: [
-      { nome: 'Mehr Ordnung', texto: 'Jeder Auftrag mit seinem Maß, seinem Preis und seinem Termin.' },
+      { nome: 'Mehr Ordnung', texto: 'Jeder Auftrag mit seinem Mass, seinem Preis und seinem Termin.' },
       { nome: 'Mehr Sicherheit', texto: 'Was vereinbart wurde, steht geschrieben und geht nicht verloren.' },
       { nome: 'Mehr Kontrolle', texto: 'Sie sehen, was offen ist, ohne jemanden zu fragen.' },
     ],
   },
 
   memoria: {
-    titulo: 'Jedes Angebot, das Sie verschickt haben, bleibt gespeichert.',
+    titulo: 'Jede Offerte, die Sie verschickt haben, bleibt gespeichert.',
     texto: 'Sie öffnen es und sehen, was vereinbart wurde, wann und zu welchem Preis.',
   },
 
   hero: {
     rotulo: 'NeoGlass · für die Glaserei',
-    etiqueta: 'Angebot per Sprache',
+    etiqueta: 'Offerte per Sprache',
     verOrcamento: 'So funktioniert es',
-    titulo: { antes: 'Ihre Glaserei wird professioneller', destaque: 'ohne dass etwas komplizierter wird.' },
-    texto: 'Sie messen. NeoGlass macht den Rest.',
+    titulo: { antes: 'Ihre Glaserei wird professioneller,', destaque: 'ohne dass etwas komplizierter wird.' },
+    texto: 'Messen Sie. Die PDF-Offerte ist da, bevor Sie das Bandmass einpacken.',
   },
 
   // ── A demonstração do orçamento ───────────────────────────────────────
@@ -69,14 +69,14 @@ export default {
     rotulo: 'Demo · von der Öffnung zum PDF, in 3 Schritten',
     /* O título carrega a seção sozinho — o parágrafo de apoio saiu. A promessa
        é o ANGEBOT EM PDF já pronto, ainda na obra: por isso a frase termina no
-       documento, e não na assinatura. O tempo é medido pelo Bandmaß e não por
+       documento, e não na assinatura. O tempo é medido pelo Bandmass e não por
        um cronômetro inventado — o Glaser faz a conta sozinho. É a mesma imagem
        da linha das 08:40, de propósito.
        Comprimento: este h2 é grande e tem `max-w-[20ch]` — acima de ~70
        caracteres vira quatro linhas. Esta tem 68, e é por isso que o objeto do
        primeiro verbo ficou de fora: 'Messen Sie die Öffnung' levaria a frase a
        80, e 'von der Öffnung zum PDF' já está no rótulo logo acima. */
-    titulo: 'Messen Sie. Das PDF-Angebot ist da, bevor Sie das Bandmaß einpacken.',
+    titulo: 'Messen Sie. Das PDF-Offerte ist da, bevor Sie das Bandmass einpacken.',
   },
 
   // ── Um dia do vidraceiro ──────────────────────────────────────────────
@@ -92,7 +92,7 @@ export default {
       [
         '08:40',
         'Auf der Baustelle',
-        'Sie messen, fotografieren, wählen aus. Der Kunde unterschreibt, bevor Sie das Bandmaß einpacken.',
+        'Sie messen, fotografieren, wählen aus. Der Kunde unterschreibt, bevor Sie das Bandmass einpacken.',
       ],
       [
         '11:20',
@@ -123,10 +123,10 @@ export default {
        ganho e deixa a prova para a lista — e de quebra cai de 57 para 42
        caracteres, dentro do teto deste h2. */
     titulo: 'Dieselbe Mannschaft, deutlich effizienter.',
-    hoje: 'Heute, in Kladde und WhatsApp',
+    hoje: 'Heute, im Notizblock und auf WhatsApp',
     pares: [
       [
-        'Das Angebot landet in der Kladde und ist bis Montag verschwunden',
+        'Die Offerte landet im Notizblock und ist bis Montag verschwunden',
         'Es geht vom Handy raus, mit Foto der Öffnung und Unterschrift',
       ],
       [
@@ -135,14 +135,14 @@ export default {
       ],
       [
         'Das Reststück landet hinter der Werkbank und wird zu Bruch',
-        'Es kommt mit Maß zurück ins Lager — und in den nächsten Schnittplan',
+        'Es kommt mit Mass zurück ins Lager — und in den nächsten Schnittplan',
       ],
       [
-        'Das Maß geht zwischen Baustellenzettel und Werksauftrag verloren',
-        'Das Maß, das Sie genommen haben, ist das Maß, das geschnitten wird — ohne Abtippen',
+        'Das Mass geht zwischen Baustellenzettel und Werksauftrag verloren',
+        'Das Mass, das Sie genommen haben, ist das Mass, das geschnitten wird — ohne Abtippen',
       ],
       [
-        'Am Monatsende weiß niemand, welcher Auftrag Geld gebracht hat',
+        'Am Monatsende weiss niemand, welcher Auftrag Geld gebracht hat',
         'Die Marge jedes Auftrags steht auf dem Bildschirm',
       ],
     ],
@@ -159,7 +159,7 @@ export default {
        terminava em "Behalten Sie diesen Auftrag im Kopf" — tarefa para o
        leitor. Agora a própria frase fecha a conta, que era o ponto. */
     texto: () =>
-      'Das Angebot, das sich oben von selbst gerechnet hat, war ein Wohnzimmerfenster: Glas, Beschlag und Montage — der Auftrag, der bei Ihnen an jedem Dienstag reinkommt. Einer davon im Monat, und das System ist bezahlt, mit Abstand.',
+      'Die Offerte, die sich oben von selbst gerechnet hat, war ein Wohnzimmerfenster: Glas, Beschlag und Montage — der Auftrag, der bei Ihnen an jedem Dienstag reinkommt. Einer davon im Monat, und das System ist bezahlt, mit Abstand.',
     /* O nome do pacote, dito por extenso, num selo de ~120 px em maiúscula:
        'NeoGlass für Glasereien' (23) não cabe. 'Glaserei-Paket' são 14
        caracteres, é composto alemão normal e diz o mesmo — o nome do produto
@@ -170,22 +170,22 @@ export default {
     // 'Industrie' é o nome da aba em alemão (ver `paginas.industria.nome`).
     soParaVidracaria:
       'Das hier ist das Glaserei-Paket. Die Industrie ist ein anderes Produkt, dort wird der Preis im Einzelfall gemacht — siehe Reiter Industrie.',
-    porMes: '/Monat',
+    porMes: '/Monat · exkl. MwSt.',
     fixo: 'Fester Preis — heute und in einem Jahr.',
     semTaxa:
-      'Keine Einrichtungsgebühr und keine Abrechnung pro Angebot — Sie wissen heute, was Sie im zwölften Monat zahlen.',
+      'Keine Einrichtungsgebühr und keine Abrechnung pro Offerte — Sie wissen heute, was Sie im zwölften Monat zahlen.',
     naoCobramos: [
       ['Einrichtung', 'nichts, um loszulegen'],
-      ['Pro Angebot', 'so viele, wie Sie wollen'],
+      ['Pro Offerte', 'so viele, wie Sie wollen'],
       ['Laufzeit', 'jederzeit kündbar'],
     ],
     semCartao: (dias) =>
       `Ohne Karte. Wenn Sie nicht weitermachen, wird nichts abgebucht.`,
     tudoIncluido: 'Alles inbegriffen',
     incluso: [
-      'Angebot auf der Baustelle am Handy, mit Foto und Unterschrift',
+      'Offerte auf der Baustelle am Handy, mit Foto und Unterschrift',
       'Schnittliste mit bereits abgezogener Luft, direkt in die Fertigung',
-      'Restglaslager mit Maß, Farbe und Gestellplatz',
+      'Restglaslager mit Mass, Farbe und Gestellplatz',
       'Auftragsverfolgung, vom Schnitt bis zum Versand',
       'PDF mit Ihrem Logo, Ihrer Lieferzeit und Ihrer Bindefrist',
       'Die Marge jedes Auftrags am Monatsende',
@@ -207,16 +207,16 @@ export default {
   // ── A chamada de quem já tem preço na tela ────────────────────────────
   chamada: {
     rotulo: 'Loslegen',
-    /* "Fangen Sie mit dem nächsten Angebot an" já propunha um passo pequeno,
+    /* "Fangen Sie mit der nächsten Offerte an" já propunha um passo pequeno,
        mas não respondia o motivo real de ninguém testar: o Glasermeister
        presume que trocar de sistema significa passar cliente, tabela e
        histórico a limpo ANTES de ver a primeira tela. A primeira frase agora
        tira esse peso, e só depois vem o convite. */
-    titulo: 'Migrieren Sie nichts. Rechnen Sie nur das nächste Angebot hier.',
+    titulo: 'Migrieren Sie nichts. Rechnen Sie nur die nächste Offerte hier.',
     // A frase do meio muda com `diasTeste` da config, e a emenda com o resto do
     // parágrafo é diferente em cada idioma — por isso o `if` mora aqui dentro.
     texto: (dias) =>
-      `Sie hinterlegen Ihren Preis pro m², und das nächste Angebot entsteht schon hier. ${
+      `Sie hinterlegen Ihren Preis pro m², und die nächste Offerte entsteht schon hier. ${
         dias > 0
           ? `${dias} Tage lang ohne Karte und ohne Verpflichtung.`
           : 'Keine Laufzeit: Wenn es nicht passt, gehen Sie.'
@@ -234,12 +234,12 @@ export default {
   // ── A chamada de enquanto não há preço publicado ──────────────────────
   chamadaDemo: {
     rotulo: 'Vorführung vereinbaren',
-    titulo: 'Bringen Sie ein eigenes Angebot mit. Wir rechnen es gemeinsam.',
+    titulo: 'Bringen Sie eine eigene Offerte mit. Wir rechnen es gemeinsam.',
     texto:
       'Vierzig Minuten mit offenem System. Sie messen einen echten Auftrag, wir rechnen ihn vor Ihren Augen, und Sie entscheiden, ob das in Ihren Tag passt.',
     passos: [
       'Sie bringen einen laufenden Auftrag mit',
-      'Wir rechnen das Angebot live in der App',
+      'Wir rechnen die Offerte live in der App',
       'Sie sehen, wie der Auftrag fertig in der Fertigung ankommt',
     ],
   },

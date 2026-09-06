@@ -219,7 +219,7 @@ export default {
     rotulo: 'Agendar la presentación',
     titulo: 'Trae un presupuesto tuyo. Lo montamos juntos.',
     texto:
-      'Son cuarenta minutos con el sistema abierto. Mides un trabajo de verdad, lo montamos delante de ti y decides si eso cabe en tu día.',
+      'Son veinte minutos con el sistema abierto. Mides un trabajo de verdad, lo montamos delante de ti y decides si eso cabe en tu día.',
     passos: [
       'Traes un trabajo que tengas en marcha',
       'Montamos el presupuesto en la app, en directo',

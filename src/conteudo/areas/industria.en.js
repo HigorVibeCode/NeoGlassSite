@@ -118,10 +118,10 @@ export default {
     rotulo: 'Book the walkthrough',
     /* "We build it in front of you" vendia a velocidade da montagem. A promessa
        que pesa é a de saída: ele vai embora com o plano de corte do pedido dele
-       na mão, depois de quarenta minutos. */
+       na mão, depois de vinte minutos. */
     titulo: 'Bring one of your own orders. You leave with its cutting plan.',
     texto:
-      'The walkthrough runs on the live system, not on slides. If it doesn’t add up for your operation, you have lost forty minutes and gained a diagnosis.',
+      'The walkthrough runs on the live system, not on slides. If it doesn’t add up for your operation, you have lost twenty minutes and gained a diagnosis.',
     passos: [
       'You show us a real order of yours',
       'We build it in the system, live',

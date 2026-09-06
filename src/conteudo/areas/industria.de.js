@@ -125,7 +125,7 @@ export default {
        frente ("Den Schnittplan dazu…") do que com o sujeito. */
     titulo: 'Bringen Sie einen eigenen Auftrag mit. Den Schnittplan dazu nehmen Sie mit.',
     texto:
-      'Die Vorführung läuft am offenen System, nicht auf Folien. Wenn es am Ende nicht zu Ihrem Betrieb passt, haben Sie vierzig Minuten verloren und eine Analyse gewonnen.',
+      'Die Vorführung läuft am offenen System, nicht auf Folien. Wenn es am Ende nicht zu Ihrem Betrieb passt, haben Sie zwanzig Minuten verloren und eine Analyse gewonnen.',
     passos: [
       'Sie zeigen uns einen echten Auftrag von sich',
       'Wir legen ihn live im System an',

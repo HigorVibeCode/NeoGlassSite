@@ -118,7 +118,7 @@ export default {
        é ele sair de lá com o plano de corte do pedido DELE na mão. */
     titulo: 'Trae un pedido tuyo. Te vas con su plan de corte.',
     texto:
-      'La presentación es con el sistema abierto, no con diapositivas. Si al final no te encaja en la operación, has perdido cuarenta minutos y te llevas un diagnóstico.',
+      'La presentación es con el sistema abierto, no con diapositivas. Si al final no te encaja en la operación, has perdido veinte minutos y te llevas un diagnóstico.',
     passos: [
       'Nos enseñas un pedido tuyo, real',
       'Lo montamos en el sistema, en vivo',

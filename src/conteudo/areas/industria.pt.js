@@ -122,10 +122,10 @@ export default {
     rotulo: 'Agendar a apresentação',
     /* "A gente monta na sua frente" soava a mágica de vendedor. A promessa
        forte não é montar rápido: é ele sair com o plano de corte do PEDIDO
-       DELE na mão, tendo gastado quarenta minutos. */
+       DELE na mão, tendo gastado vinte minutos. */
     titulo: 'Traga um pedido seu. Você sai com o plano de corte dele.',
     texto:
-      'A apresentação é com o sistema aberto, não com slide. Se no fim não fizer sentido para a sua operação, você perdeu quarenta minutos e ganhou um diagnóstico.',
+      'A apresentação é com o sistema aberto, não com slide. Se no fim não fizer sentido para a sua operação, você perdeu vinte minutos e ganhou um diagnóstico.',
     passos: [
       'Você mostra um pedido seu, real',
       'A gente monta ele no sistema, ao vivo',

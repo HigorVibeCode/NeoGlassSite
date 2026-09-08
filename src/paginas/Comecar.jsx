@@ -6,7 +6,7 @@ import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 
 const campo =
-  'w-full rounded-[11px] border border-line bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-dim/70 focus:border-verde'
+  'w-full rounded-[11px] border border-line bg-card px-4 py-3 text-[16px] text-ink outline-none transition-colors placeholder:text-dim/70 focus:border-verde'
 
 const SENHA_MIN = 8
 
@@ -137,8 +137,11 @@ export default function Comecar() {
 
     if (!CONFIG.cadastroApi) return pelaMao('sem-api')
 
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
     try {
       const r = await fetch(CONFIG.cadastroApi, {
+        signal: controller.signal,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -214,6 +217,8 @@ export default function Comecar() {
       setEstado('parado')
       setErro(f.erros.rede)
       setSaida(true)
+    } finally {
+      clearTimeout(timeout)
     }
   }
 
@@ -399,7 +404,7 @@ export default function Comecar() {
           {erro && (
             <div role="alert" className="mt-4 text-center">
               <p className="text-[13px] font-semibold text-ember">{erro}</p>
-              {jaExiste && (
+              {(jaExiste || saida) && (
                 <p className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[14px] font-bold">
                   <a href={CONFIG.login} className="text-verde hover:underline">{f.entrar}</a>
                   <a href={CONFIG.login} className="text-ink hover:underline">{f.esqueci}</a>

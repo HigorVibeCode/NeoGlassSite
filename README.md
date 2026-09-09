@@ -1,5 +1,38 @@
 # NeoGlass — site
 
+## Campanha do primeiro orçamento — setembro de 2026
+
+A rota `/primeiro-orcamento` oferece uma sessão gratuita de 20 minutos com Higor,
+atendimento em português, usando um serviço simples do visitante. Preço e teste
+continuam vindo de `src/config.js`. Versões de leitura: `/en/first-quote`,
+`/es/primer-presupuesto` e `/de/erste-offerte`. O idioma do atendimento fica
+explícito nas quatro; a página não promete suporte em outra língua.
+
+`src/paginas/PrimeiroOrcamento.jsx` monta a campanha com textos em
+`src/conteudo/areas/primeiro.js`. As páginas institucionais continuam disponíveis.
+O cabeçalho da campanha só oferece marca e login. A CTA do celular fica no rodapé
+e some quando a agenda entra na tela. A demonstração existente abre sob demanda.
+
+`Agenda.jsx` conserva as UTMs no link e diferencia intenção de confirmação:
+`agendar` é clique; `agendamento_confirmado` só nasce da mensagem
+`calendly.event_scheduled` do iframe e origem corretos. Apenas este último mapeia
+para `Schedule` no pixel. `cadastro` mapeia para `CompleteRegistration`, nunca
+`Purchase`. O pixel continua opcional; a alteração não instala Google Analytics
+nem configura conversões na conta de anúncios. Confirmações fora do iframe devem
+ser conferidas no Calendly. A função pública de visitas e o cadastro conservam a
+atribuição existente; visitas não equivalem a usuários únicos.
+
+Depois da reserva embutida aparece o próximo passo para criar a conta. O link de
+saída da agenda fica disponível mesmo se o iframe falhar. A confirmação nativa do
+Calendly e o e-mail de acesso existente não são uma sequência de nutrição nova.
+
+Validação: `npm run build` e `node scripts/test-funil.mjs`. O teste não cria reserva,
+conta ou mensagem real. Conferir também no navegador, em celular e computador.
+
+As seções antigas abaixo registram versões anteriores da implementação e contêm
+exemplos superados de configuração. Para valores, rotas e endpoints atuais, ler
+`src/config.js` e `src/lib/paginasSeo.js`.
+
 Site institucional do NeoGlass (`neoglass.online`). Projeto separado da plataforma.
 
 ## As três abas

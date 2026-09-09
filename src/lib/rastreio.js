@@ -1,4 +1,5 @@
 import { CONFIG } from '../config.js'
+import { EVENTOS_META } from './funil.js'
 
 /**
  * Medição. Nada é carregado se o pixel não estiver configurado — página sem
@@ -39,7 +40,7 @@ export function ligarPixel() {
 export function evento(nome, dados = {}) {
   if (typeof window === 'undefined') return
   if (window.fbq) {
-    const padrao = { agendar: 'Schedule', whatsapp: 'Contact', lead: 'Lead' }[nome]
+    const padrao = EVENTOS_META[nome]
     if (padrao) window.fbq('track', padrao, dados)
     else window.fbq('trackCustom', nome, dados)
   }

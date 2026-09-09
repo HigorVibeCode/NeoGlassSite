@@ -24,6 +24,12 @@ export const SITE = 'https://neoglass.online'
 /** As rotas, com o endereço de cada uma em cada idioma. */
 export const ROTAS = [
   {
+    id: 'primeiro',
+    slug: { pt: '/primeiro-orcamento', en: '/first-quote', es: '/primer-presupuesto', de: '/erste-offerte' },
+    menu: false,
+    temPreco: true,
+  },
+  {
     // A raiz do site não pertence a nenhum dos dois públicos: ela é a porta de
     // entrada que pergunta, com uma promessa antes da pergunta. Antes daqui a
     // indústria ocupava a raiz, e todo vidraceiro que digitava o endereço caía
@@ -106,7 +112,7 @@ export const arquivoDe = (id, idioma) => {
  */
 const COM_IMAGEM = ['vidracaria', 'plataforma']
 export const imagemDe = (id) =>
-  COM_IMAGEM.includes(id) ? `${SITE}/og-${id}.jpg` : `${SITE}/og.jpg`
+  COM_IMAGEM.includes(id === 'primeiro' ? 'vidracaria' : id) ? `${SITE}/og-${id === 'primeiro' ? 'vidracaria' : id}.jpg` : `${SITE}/og.jpg`
 
 /** O preço declarado no dado estruturado daquele idioma. */
 export const ofertaDe = (idioma) => {

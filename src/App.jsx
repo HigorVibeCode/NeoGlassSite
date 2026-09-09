@@ -8,6 +8,7 @@ import Plataforma from './paginas/Plataforma.jsx'
 import Comecar from './paginas/Comecar.jsx'
 import Baixar from './paginas/Baixar.jsx'
 import Home from './paginas/Home.jsx'
+import PrimeiroOrcamento from './paginas/PrimeiroOrcamento.jsx'
 import { esquecerLado } from './lib/lado.js'
 import { useRota } from './lib/rota.js'
 import { marcarAparelho } from './lib/dispositivo.js'
@@ -17,6 +18,7 @@ import { textosDe } from './conteudo/index.js'
 
 const PAGINAS = {
   home: Home,
+  primeiro: PrimeiroOrcamento,
   industria: Industria,
   vidracaria: Vidracaria,
   plataforma: Plataforma,
@@ -79,12 +81,12 @@ export default function App() {
   return (
     <ProvedorIdioma idioma={rota.idioma} conteudo={textos}>
       <Fundo parado={rota.id === 'plataforma'} />
-      <Topo rota={rota} />
+      {rota.id !== 'primeiro' && <Topo rota={rota} />}
       <Lembrete rota={rota} />
-      <main key={`${rota.id}-${rota.idioma}`} className={rota.id === 'plataforma' ? undefined : 'pagina'}>
+      <main key={`${rota.id}-${rota.idioma}`} className={['plataforma', 'primeiro'].includes(rota.id) ? undefined : 'pagina'}>
         <Pagina rota={rota} />
       </main>
-      <Rodape rota={rota} />
+      {rota.id !== 'primeiro' && <Rodape rota={rota} />}
       <ConsentimentoMedicao idioma={rota.idioma} />
     </ProvedorIdioma>
   )

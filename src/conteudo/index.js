@@ -1,3 +1,4 @@
+import primeiro from './areas/primeiro.js'
 import pt from './pt.js'
 import en from './en.js'
 import es from './es.js'
@@ -83,6 +84,11 @@ const TEXTOS = {
   en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn, comecarEn, homeEn, telaEn, baixarEn),
   es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs, comecarEs, homeEs, telaEs, baixarEs),
   de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe, comecarDe, homeDe, telaDe, baixarDe),
+}
+
+for (const [idioma, conteudo] of Object.entries(TEXTOS)) {
+  conteudo.primeiro = primeiro[idioma]
+  conteudo.paginas = { ...conteudo.paginas, primeiro: primeiro[idioma].seo }
 }
 
 export const textosDe = (idioma) => TEXTOS[idioma] ?? TEXTOS.pt

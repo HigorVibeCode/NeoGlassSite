@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { CONFIG } from '../config.js'
 import { evento } from '../lib/rastreio.js'
+import { origemGuardada } from '../lib/indicacao.js'
+import { reservaConfirmada, urlDaAgenda } from '../lib/funil.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 
 /**
@@ -19,14 +21,27 @@ import { useIdioma } from '../i18n/idioma.jsx'
  * rede da fábrica, extensão de privacidade), o visitante não fica olhando para
  * um retângulo vazio — aparece um link direto para o Calendly.
  */
-export default function Agenda() {
+export default function Agenda({ origem = 'agenda', campanha, onConfirmado }) {
   const { c } = useIdioma()
   const ref = useRef(null)
   const caixa = useRef(null)
+  const confirmou = useRef(false)
   const [estado, setEstado] = useState('esperando') // esperando · carregando · pronto · falhou
 
   // A cor da marca vai na URL: o widget é um iframe, e CSS daqui não o alcança.
-  const url = `${CONFIG.agendar}?primary_color=0e8c6a&hide_gdpr_banner=1`
+  const url = urlDaAgenda(CONFIG.agendar, campanha ?? origemGuardada())
+
+  useEffect(() => {
+    function receber(e) {
+      const janela = caixa.current?.querySelector('iframe')?.contentWindow
+      if (confirmou.current || !reservaConfirmada(e, janela, CONFIG.agendar)) return
+      confirmou.current = true
+      evento('agendamento_confirmado', { origem })
+      onConfirmado?.()
+    }
+    window.addEventListener('message', receber)
+    return () => window.removeEventListener('message', receber)
+  }, [origem, onConfirmado])
 
   useEffect(() => {
     if (!CONFIG.agendar) return
@@ -84,7 +99,7 @@ export default function Agenda() {
         <div className="flex min-h-[420px] flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-soft/40 px-7 py-10">
           <p className="text-[15.5px] font-bold text-ink">{c.agenda.semScript}</p>
           <a
-            href={CONFIG.agendar}
+            href={url}
             target="_blank"
             rel="noreferrer"
             onClick={() => evento('agendar', { origem: 'agenda-fallback' })}
@@ -100,8 +115,8 @@ export default function Agenda() {
             className="calendly-inline-widget overflow-hidden rounded-[20px] border border-line bg-card"
             data-url={url}
             style={{ minWidth: '320px', height: 'clamp(560px, 72vh, 720px)' }}
-            onClick={() => evento('agendar', { origem: 'calendly' })}
           />
+          <a href={url} target="_blank" rel="noreferrer" onClick={() => evento('agendar', { origem: `${origem}-externo` })} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.abrirFora}</a>
           {estado !== 'pronto' && (
             <p className="cota mt-3 normal-case">{c.agenda.carregando}</p>
           )}

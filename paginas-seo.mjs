@@ -56,6 +56,7 @@ const montar = (p) => {
   let h = base
 
   h = h.replace(/<html lang="[^"]*"/, `<html lang="${p.htmlLang}"`)
+  h = h.replace(/"inLanguage": "pt-BR"/, `"inLanguage": "${p.htmlLang}"`)
   h = trocar(h, /<title>[^<]*<\/title>/, `<title>${escapar(t.titulo)}</title>`)
   h = trocar(h, /(<meta name="description" content=")[^"]*(")/, `$1${escapar(t.descricao)}$2`)
   h = trocar(h, /(<link rel="canonical" href=")[^"]*(")/, `$1${p.url}$2`)

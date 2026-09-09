@@ -30,9 +30,9 @@ export default {
     },
     vidracaria: {
       nome: 'Vidraçaria',
-      titulo: 'NeoGlass para vidraçaria · Profissional desde o primeiro orçamento',
+      titulo: 'Sistema para vidraçaria: orçamento e projetos | NeoGlass',
       descricao:
-        'Orçamento fechado na obra, pedido acompanhado do corte à entrega e retalho no lugar certo. Sem planilha, sem caderno, sem curso.',
+        'Faça orçamentos e projetos de vidraçaria no celular, confira preços e envie a proposta em PDF. Teste o NeoGlass por 14 dias grátis, sem cartão.',
       ogTitulo: 'NeoGlass para vidraçaria · o orçamento sai antes de você voltar para a loja',
       ogDescricao:
         'Meça o vão, monte o orçamento no celular e mande o PDF com a sua marca. Preço fixo, sem taxa de implantação.',

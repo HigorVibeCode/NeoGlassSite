@@ -331,3 +331,21 @@ Duas regras que a página respeita de propósito:
 
 React 19 + Vite + Tailwind v4. Nenhuma biblioteca de animação: o movimento é SVG,
 CSS e um relógio. O bundle inteiro cabe em um arquivo (`npm run solo`).
+
+
+## SEO — verificação de lançamento (09/09/2026)
+
+O build gera 24 páginas em quatro idiomas, com canônica e alternativas
+`hreflang`, mais um 404 com `noindex`. O sitemap publicado é `dist/sitemap.xml`,
+gerado por `paginas-seo.mjs`; não é a cópia estática de `public/`.
+
+`index.html` contém a metatag de propriedade do Search Console para
+`https://neoglass.online/` e os dados `WebSite` com o nome NeoGlass e a alternativa
+Neo Glass. Preserve a metatag depois da verificação. O idioma de
+`SoftwareApplication` acompanha cada página gerada. A página `/vidracaria`
+explicita “sistema para vidraçaria” no título de busca.
+
+Após o deploy, confirmar a propriedade no Search Console, enviar
+`https://neoglass.online/sitemap.xml` e inspecionar a home e `/vidracaria`.
+Esses sinais ajudam o Google a compreender o site; não garantem indexação,
+posição para a marca ou prazo para aparecer nos resultados.

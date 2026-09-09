@@ -349,3 +349,24 @@ Após o deploy, confirmar a propriedade no Search Console, enviar
 `https://neoglass.online/sitemap.xml` e inspecionar a home e `/vidracaria`.
 Esses sinais ajudam o Google a compreender o site; não garantem indexação,
 posição para a marca ou prazo para aparecer nos resultados.
+
+
+## Medição Google Ads — 09/09/2026
+
+`src/lib/googleAds.js` usa o ID público AW-18439071018 e o evento de cadastro
+configurado na conta NeoGlass. `ConsentimentoMedicao` oferece recusa e aceite
+com alvos iguais, em quatro idiomas, e preferências reabertas pelo rodapé.
+Sem aceite, não carrega o script Google nem envia conversão. A recusa posterior
+atualiza o consentimento. Personalização e conversões otimizadas ficam desligadas;
+a aplicação não envia nome, e-mail ou senha nesse evento.
+
+`Comecar.jsx` chama o evento apenas após resposta de sucesso do cadastro. Valor
+zero: teste grátis não é receita. O redirecionamento espera o callback no máximo
+1,2 s para não perder o evento nem travar o login caso o Google seja bloqueado.
+Há deduplicação na página, sem transformar retornos de erro em conversões.
+
+Validação: `node --test tests/googleAds.test.mjs`; build; recusa, reabertura e
+aceite conferidos na prévia pelo navegador. Não foi criada uma conta de teste
+nem enviado um cadastro artificial para o Google. Confirmação de recebimento de
+uma conversão real e de atribuição da campanha continua dependendo do primeiro
+cadastro consentido; não aumentar verba com base apenas na instalação da tag.

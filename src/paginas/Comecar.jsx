@@ -1,3 +1,4 @@
+import { registrarCadastroGoogle } from '../lib/googleAds.js'
 import { useEffect, useState } from 'react'
 import { Revelar } from '../components/Comum.jsx'
 import { CONFIG, linkEmail, paisProvavel } from '../config.js'
@@ -200,6 +201,7 @@ export default function Comecar() {
 
       const corpo = await r.json().catch(() => ({}))
       evento('cadastro', { idioma })
+      await registrarCadastroGoogle()
 
       // Login automático: a função devolve o endereço de entrada e o navegador
       // vai direto para dentro do sistema, já logado.

@@ -1,3 +1,4 @@
+import ConsentimentoMedicao from './components/ConsentimentoMedicao.jsx'
 import { useEffect } from 'react'
 import Fundo from './components/Fundo.jsx'
 import { Rodape, Topo } from './components/Comum.jsx'
@@ -84,6 +85,7 @@ export default function App() {
         <Pagina rota={rota} />
       </main>
       <Rodape rota={rota} />
+      <ConsentimentoMedicao idioma={rota.idioma} />
     </ProvedorIdioma>
   )
 }

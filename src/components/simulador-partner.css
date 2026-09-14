@@ -11,3 +11,23 @@
 @media(max-width:600px){.ngp-sim{padding:35px 20px}.ngp-calculator{padding:21px 15px}.ngp-modes button{font-size:12px}.ngp-range-label{font-size:12px}.ngp-months{gap:5px}.ngp-months>div{padding:6px 0}.ngp-months strong{font-size:19px;letter-spacing:-.05em}.ngp-months small{font-size:10px}.ngp-total{flex-direction:column;text-align:center;gap:8px;padding:18px}.ngp-total strong{font-size:36px}.ngp-total span{font-size:12px}.ngp-chart{gap:5px}.ngp-summary{font-size:13px}}
 @media(max-width:600px){.ngp-months{grid-template-columns:1fr;gap:0}.ngp-months>div{display:grid;grid-template-columns:1fr auto;gap:4px 12px;text-align:left;padding:15px 0;border-bottom:1px solid #e0e9e5;align-items:center}.ngp-months strong{font-size:26px;margin:0;grid-column:2;grid-row:1 / span 2}.ngp-months small{grid-column:1;max-width:20ch}.ngp-months span{font-weight:650}.ngp-months>div:last-child{border-bottom:0}}
 @media(prefers-reduced-motion:reduce){.ngp-sim *{transition:none!important}}
+
+.ngp-currency{display:block}.ngp-currency select{min-height:44px;margin-left:6px;padding:0 12px;border:1px solid #d1e1de;border-radius:8px;background:#fff;font-size:16px;color:inherit}
+
+/* O resumo principal permanece inteiro no primeiro enquadramento móvel. */
+@media(max-width:600px){
+ .ngp-sim{margin-top:8px;padding:28px 14px}
+ .ngp-sim>header{margin-bottom:20px}.ngp-sim h2{margin:11px 0;font-size:29px}.ngp-sim header>p:last-child{font-size:14px;line-height:1.45}
+ .ngp-calculator{padding:12px 11px;border-radius:19px}
+ .ngp-modes{margin-bottom:14px;padding:4px}.ngp-modes button{min-height:44px;padding:6px 4px;font-size:11px;line-height:1.2}
+ .ngp-range-label{gap:10px;font-size:11px}.ngp-range-label output{font-size:25px}
+ .ngp-base{margin:9px 0 12px}.ngp-rules{font-size:10px;line-height:1.45}
+ .ngp-outcome{padding-top:13px}.ngp-scenario{margin-bottom:8px;font-size:12px}
+ .ngp-months{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+ .ngp-months>div{display:block;padding:6px 2px;text-align:center;border:0}
+ .ngp-months span{font-size:10px;font-weight:650}.ngp-months strong{display:block;margin:6px 0;font-size:clamp(14px,4.4vw,19px);letter-spacing:-.05em}.ngp-months small{display:block;max-width:none;font-size:8px;line-height:1.25}
+ .ngp-total{flex-direction:row;gap:8px;margin-top:10px;padding:12px;text-align:left}.ngp-total span{font-size:10px}.ngp-total strong{font-size:clamp(22px,7vw,29px)}
+ .ngp-summary{margin:10px auto;font-size:10px;line-height:1.4}
+ .ngp-chart{display:none}
+ .ngp-details summary{padding:8px 0}.ngp-conditions{margin-top:9px;font-size:9px;line-height:1.4}.ngp-cta{margin-top:9px;min-height:48px;padding:13px 20px}
+}

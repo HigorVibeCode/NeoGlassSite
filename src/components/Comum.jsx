@@ -189,12 +189,14 @@ export function Topo({ rota }) {
           {id !== 'comecar' && id !== 'partnerCadastro' && id !== 'home' && passouCapa && !ctaAVista && !demoComCta && (
             <a
               href={alvo}
+              aria-label={rotuloLongo}
               target={ehExterno(alvo) ? '_blank' : undefined}
               rel={ehExterno(alvo) ? 'noreferrer' : undefined}
               onClick={() => evento(id === 'partner' ? 'partner_cadastro_inicio' : comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
               className="botao-marca surge whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
             >
-              <span className="lg:hidden">{rotuloCurto}</span>
+              <span className="min-[360px]:hidden">{id === 'partner' ? c.paginas.partner.nome : comecar ? c.paginas.comecar.nome : '20 min'}</span>
+              <span className="hidden min-[360px]:inline lg:hidden">{rotuloCurto}</span>
               <span className="hidden lg:inline">{rotuloLongo}</span>
             </a>
           )}

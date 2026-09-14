@@ -24,8 +24,8 @@ export default function SimuladorPartner({ contato, aoContatar }) {
         <div className="ngp-range-label"><label htmlFor={id}>{t.quantidade[Number(todoMes)]}</label><output htmlFor={id}>{clientes}</output></div>
         <input id={id} type="range" min="1" max="20" step="1" value={clientes} onChange={e=>setClientes(Number(e.target.value))}/>
         <div className="ngp-range-ends" aria-hidden="true"><span>1</span><span>20</span></div>
-        <label className="ngp-base" style={{display:'block'}}>{t.moeda} <select value={moeda} onChange={e=>setEscolhaMoeda({idioma,moeda:e.target.value})} style={{minHeight:44,fontSize:16,padding:'0 12px',border:'1px solid #d1e1de',borderRadius:8}}>{Object.keys(CONFIG.vidracaria.precos).map(m=><option key={m} value={m}>{m}</option>)}</select></label>
-        <p className="ngp-base">{t.base(fmt(s.mensalidade))} {t.regras}</p>
+        <label className="ngp-base ngp-currency">{t.moeda} <select value={moeda} onChange={e=>setEscolhaMoeda({idioma,moeda:e.target.value})}>{Object.keys(CONFIG.vidracaria.precos).map(m=><option key={m} value={m}>{m}</option>)}</select></label>
+        <p className="ngp-base ngp-rules">{t.base(fmt(s.mensalidade))} {t.regras}</p>
       </div>
       <div className="ngp-outcome" aria-live="polite">
         <p className="ngp-scenario">{t.cenario(clientes,todoMes)}</p>

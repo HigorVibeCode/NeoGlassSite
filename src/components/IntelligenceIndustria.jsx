@@ -75,7 +75,7 @@ export default function IntelligenceIndustria() {
       const delta = Math.min(250, agora - anterior)
       anterior = agora
       setTempo(v => Math.min(fim + TRANSICAO, v + delta))
-    }, 40)
+    }, 64)
     return () => clearInterval(timer)
   }, [ativo, fim])
 

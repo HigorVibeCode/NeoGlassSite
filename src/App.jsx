@@ -1,22 +1,23 @@
 import ConsentimentoMedicao from './components/ConsentimentoMedicao.jsx'
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import Fundo from './components/Fundo.jsx'
 import { Rodape, Topo } from './components/Comum.jsx'
-import Industria from './paginas/Industria.jsx'
-import Vidracaria from './paginas/Vidracaria.jsx'
-import Plataforma from './paginas/Plataforma.jsx'
-import Partner from './paginas/Partner.jsx'
-import PartnerCadastro from './paginas/PartnerCadastro.jsx'
-import Comecar from './paginas/Comecar.jsx'
-import Baixar from './paginas/Baixar.jsx'
-import Home from './paginas/Home.jsx'
-import PrimeiroOrcamento from './paginas/PrimeiroOrcamento.jsx'
 import { esquecerLado } from './lib/lado.js'
 import { useRota } from './lib/rota.js'
 import { marcarAparelho } from './lib/dispositivo.js'
 import { ligarPixel, evento } from './lib/rastreio.js'
 import { ProvedorIdioma } from './i18n/idioma.jsx'
 import { textosDe } from './conteudo/index.js'
+
+const Industria = lazy(() => import('./paginas/Industria.jsx'))
+const Home = lazy(() => import('./paginas/Home.jsx'))
+const Vidracaria = lazy(() => import('./paginas/Vidracaria.jsx'))
+const Plataforma = lazy(() => import('./paginas/Plataforma.jsx'))
+const Partner = lazy(() => import('./paginas/Partner.jsx'))
+const PartnerCadastro = lazy(() => import('./paginas/PartnerCadastro.jsx'))
+const Comecar = lazy(() => import('./paginas/Comecar.jsx'))
+const Baixar = lazy(() => import('./paginas/Baixar.jsx'))
+const PrimeiroOrcamento = lazy(() => import('./paginas/PrimeiroOrcamento.jsx'))
 
 const PAGINAS = {
   home: Home,
@@ -63,6 +64,10 @@ function Lembrete({ rota }) {
   )
 }
 
+function CarregandoPagina() {
+  return <div className="pagina-carregando" aria-hidden="true"><i /><i /><i /></div>
+}
+
 export default function App() {
   // O idioma sai da URL, então ele já está resolvido antes do primeiro desenho
   // — não existe o piscar de conteúdo em português antes de virar alemão.
@@ -80,6 +85,20 @@ export default function App() {
     evento('aba', { aba: rota.id, idioma: rota.idioma })
   }, [rota.id, rota.idioma])
 
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    if (!id) return undefined
+    let quadro = 0
+    let tentativas = 0
+    const encontrarAncora = () => {
+      const alvo = document.getElementById(id)
+      if (alvo) alvo.scrollIntoView()
+      else if (tentativas++ < 60) quadro = requestAnimationFrame(encontrarAncora)
+    }
+    quadro = requestAnimationFrame(encontrarAncora)
+    return () => cancelAnimationFrame(quadro)
+  }, [rota.id])
+
   const Pagina = PAGINAS[rota.id] ?? Home
 
   return (
@@ -88,7 +107,9 @@ export default function App() {
       {rota.id !== 'primeiro' && <Topo rota={rota} />}
       <Lembrete rota={rota} />
       <main key={`${rota.id}-${rota.idioma}`} className={['plataforma', 'primeiro'].includes(rota.id) ? undefined : 'pagina'}>
-        <Pagina rota={rota} />
+        <Suspense fallback={<CarregandoPagina />}>
+          <Pagina rota={rota} />
+        </Suspense>
       </main>
       {rota.id !== 'primeiro' && <Rodape rota={rota} />}
       <ConsentimentoMedicao idioma={rota.idioma} />

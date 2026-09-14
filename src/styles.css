@@ -363,6 +363,17 @@ html[data-parado] .pulso {
   display: none;
 }
 
+/* A rede decorativa custa composição contínua e não acrescenta leitura no
+   espaço reduzido. No celular permanece o fundo, sem os ciclos infinitos. */
+@media (max-width: 640px) {
+  .grao,
+  .pulso,
+  .respira {
+    display: none;
+    animation: none !important;
+  }
+}
+
 /* ── Cota: a anotação de desenho técnico ─────────────────────────────────── */
 .cota {
   font-family: var(--font-mono);
@@ -685,6 +696,24 @@ html[data-parado] .escolhido {
 html[data-parado] .pagina {
   animation: none;
 }
+
+.pagina-carregando {
+  width: min(1180px, calc(100% - 32px));
+  min-height: 62vh;
+  margin: 36px auto;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+.pagina-carregando i {
+  display: block;
+  height: 18px;
+  max-width: 520px;
+  border-radius: 9px;
+  background: #dfe7e9;
+}
+.pagina-carregando i:first-child { height: 48px; max-width: 720px; }
+.pagina-carregando i:last-child { max-width: 390px; }
 
 
 /* O prisma de fundo no celular.

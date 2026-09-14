@@ -107,7 +107,7 @@ const EM_PE = montar({
   densidade: 9,
 })
 
-function Prisma({ g, marca }) {
+function Prisma({ g, marca, simples = false }) {
   return (
     <svg
       viewBox={`0 0 ${g.W} ${g.H}`}
@@ -176,7 +176,7 @@ function Prisma({ g, marca }) {
 
       <path d={g.tri} fill={`url(#${marca}-vidro)`} />
 
-      <g clipPath={`url(#${marca}-dentro)`}>
+      {!simples && <g clipPath={`url(#${marca}-dentro)`}>
         <g stroke="#3c7a86" strokeOpacity="0.15" strokeWidth="1">
           {g.ligacoes.map((l, i) => (
             <line key={i} x1={l.a.x} y1={l.a.y} x2={l.b.x} y2={l.b.y} />
@@ -216,7 +216,7 @@ function Prisma({ g, marca }) {
             <circle cx={n.x} cy={n.y} r={n.r * 0.85} fill="#14606b" fillOpacity="0.38" />
           </g>
         ))}
-      </g>
+      </g>}
 
       <path
         d={g.tri}
@@ -258,15 +258,16 @@ function useParallax(fator, parado = false) {
 
 export default function Fundo({ parado = false }) {
   const estreito = useMedia('(max-width: 1023px)')
-  const prisma = useParallax(0.14, parado)
-  const brilho = useParallax(0.05, parado)
+  const fundoParado = parado || estreito
+  const prisma = useParallax(0.14, fundoParado)
+  const brilho = useParallax(0.05, fundoParado)
 
   return (
     <div
       aria-hidden="true"
       className={`fundo-prisma pointer-events-none fixed inset-0 -z-10 overflow-hidden${parado ? ' fundo-parado' : ''}`}
     >
-      <div ref={brilho} className={`absolute inset-0${parado ? '' : ' will-change-transform'}`}>
+      <div ref={brilho} className={`absolute inset-0${fundoParado ? '' : ' will-change-transform'}`}>
         <div
           className="absolute -left-[18%] -top-[24%] h-[900px] w-[900px] rounded-full opacity-[0.13]"
           style={{ background: 'radial-gradient(circle, #0e8c6a, transparent 66%)' }}
@@ -279,10 +280,10 @@ export default function Fundo({ parado = false }) {
 
       <div
         ref={prisma}
-        className={`absolute inset-0${parado ? '' : ' will-change-transform'}`}
+        className={`absolute inset-0${fundoParado ? '' : ' will-change-transform'}`}
         style={{ opacity: estreito ? 0.34 : 0.5 }}
       >
-        <Prisma g={estreito ? EM_PE : DEITADO} marca={estreito ? 'fp' : 'fd'} />
+        <Prisma g={estreito ? EM_PE : DEITADO} marca={estreito ? 'fp' : 'fd'} simples={estreito} />
       </div>
 
       <div className="grao absolute inset-0" />

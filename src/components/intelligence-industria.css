@@ -140,3 +140,100 @@
 .ngi-simple-flow>li.ngi-simple-conclusion{align-items:flex-start;justify-content:flex-start;background:#eaf6ef;border:1px solid #c3dfd0;border-radius:14px;padding:16px;gap:12px}
 .ngi-simple-conclusion>svg{flex:none;width:24px;height:24px;margin-top:2px}.ngi-simple-conclusion strong{display:block;font-size:16px;line-height:1.35}.ngi-simple-conclusion p{font-size:11px;line-height:1.5;color:#48655b;margin:8px 0 11px}.ngi-simple-conclusion .ngi-wordmark{font-size:15px}
 @media(prefers-reduced-motion:reduce){.ng-intelligence *{animation:none!important;transition:none!important}}
+
+/* No celular a altura acompanha cada cena. A versão anterior reservava 565px
+   mesmo para a digitação curta e empurrava o restante para fora da tela. */
+@media(max-width:600px){
+ .ngi-tabs{margin-bottom:10px;border-radius:14px}
+ .ngi-tabs button{min-height:46px;padding:7px 5px;font-size:11px;line-height:1.25}
+ .ngi-window{border-radius:18px}
+ .ngi-bar{padding:11px 13px;font-size:12px}
+ .ngi-story-heading{min-height:0;padding:13px 10px 9px}
+ .ngi-story-heading>span{font-size:10px}
+ .ngi-story-heading h3{margin-top:4px;font-size:clamp(20px,6vw,23px)}
+ .ngi-choices{min-height:0;gap:5px;padding:0 9px 9px}
+ .ngi-choices button{min-height:44px;padding:6px 9px;font-size:10px;line-height:1.2}
+ .ngi-stage,.ngi-stage-security{min-height:0;padding:0 11px 11px}
+ .ngi-organism{height:52px}
+ .ngi-organism .ia2-triangulo{width:48px!important;height:48px!important}
+ .ngi-organism>span{margin-left:52px;font-size:10px}
+ .ngi-organism-large{height:126px}
+ .ngi-organism-large .ia2-triangulo{width:124px!important;height:124px!important}
+ .ngi-invitation{margin-bottom:12px}
+ .ngi-invitation strong{font-size:17px}
+ .ngi-invitation p{margin-top:4px;font-size:11px;line-height:1.4}
+ .ngi-sent{margin-bottom:10px;padding:8px 10px;font-size:11px}
+ .ngi-searching{min-height:130px;padding:14px 7px}
+ .ngi-scan{padding:10px;font-size:11px}
+ .ngi-loading-lines{gap:8px;margin:13px 6px}
+ .ngi-answer{margin-bottom:10px;padding:12px}
+ .ngi-answer-value{margin-top:11px;font-size:36px}
+ .ngi-answer h4{font-size:14px}
+ .ngi-answer-detail{margin-top:6px;font-size:10px;line-height:1.4}
+ .ngi-answer-takeaway{margin-top:9px;padding-top:9px;font-size:10px}
+ .ngi-composer{min-height:54px;padding:5px 5px 5px 11px;border-radius:14px}
+ .ngi-composer button{width:44px;height:44px}
+ .ngi-status{min-height:36px;padding:3px 10px 6px;font-size:10px}
+ .ngi-controls{padding:2px 9px}
+ .ngi-caption{margin-top:9px}
+ .ngi-note{margin-top:4px;font-size:10px;line-height:1.4}
+ .ngi-simple-flow{gap:6px;margin-bottom:9px}
+ .ngi-simple-flow>li:not(.ngi-simple-conclusion){min-height:0;gap:8px;padding:9px 8px;border-radius:11px}
+ .ngi-step-number{width:26px;height:26px;font-size:12px}
+ .ngi-step-copy>small{margin-bottom:2px;font-size:8px}
+ .ngi-step-copy h4{font-size:14px}
+ .ngi-step-copy>p{margin-top:3px;font-size:9px;line-height:1.35}
+ .ngi-step-transfer{margin-top:5px;font-size:8px}
+ .ngi-step-answer{min-height:23px;margin-top:5px}
+ .ngi-step-answer>strong{font-size:22px}
+ .ngi-step-answer>span{font-size:9px}
+ .ngi-simple-flow>li.ngi-simple-conclusion{min-height:0;padding:10px;gap:8px;border-radius:11px}
+ .ngi-simple-conclusion>svg{width:19px;height:19px}
+ .ngi-simple-conclusion strong{font-size:13px}
+ .ngi-simple-conclusion p{margin:4px 0 6px;font-size:9px;line-height:1.35}
+ .ngi-simple-conclusion .ngi-wordmark{font-size:12px}
+ .ngi-interlude{inset:44px 0 84px;padding:18px}
+ .ngi-interlude>svg{width:42px;height:42px;margin:18px 0 14px}
+ .ngi-interlude h3{font-size:23px}
+ .ngi-interlude p{margin-top:10px;font-size:11px;line-height:1.45}
+ .ngi-interlude-track{margin-top:18px}
+ .ngi-simple-flow>li:not(.ngi-simple-conclusion):not(.ngi-step-seen){display:none}
+ .ngi-simple-flow>li.ngi-step-seen:not(.ngi-step-active){min-height:36px;align-items:center;padding:5px 8px}
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-number{width:22px;height:22px;font-size:10px}
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-copy>small,
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-copy>p,
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-transfer,
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-answer{display:none}
+ .ngi-step-seen:not(.ngi-step-active) .ngi-step-copy h4{font-size:11px}
+ .ngi-simple-flow>li.ngi-simple-conclusion:not(.ngi-conclusion-seen){display:none}
+ .ngi-simple-flow>li.ngi-simple-conclusion.ngi-conclusion-seen{display:flex}
+ .ng-intelligence[data-mode='1'] .ngi-controls{flex-wrap:nowrap}
+ .ng-intelligence[data-mode='1'] .ngi-step-buttons{flex:1 1 auto;flex-basis:auto}
+ .ng-intelligence[data-mode='1'] .ngi-choices{display:none}
+ .ng-intelligence[data-mode='1'] .ngi-organism{height:34px}
+ .ng-intelligence[data-mode='1'] .ngi-organism .ia2-triangulo{width:30px!important;height:30px!important}
+ .ng-intelligence[data-mode='1'] .ngi-organism>span{margin-left:34px;font-size:9px}
+ .ng-intelligence[data-mode='1'] .ngi-sent{margin-bottom:6px;padding:6px 8px}
+ .ng-intelligence[data-mode='1'] .ngi-simple-flow>li.ngi-step-seen:not(.ngi-step-active){min-height:28px;padding:3px 7px}
+ .ng-intelligence[data-mode='1'] .ngi-simple-flow>li.ngi-step-seen:not(.ngi-step-active) .ngi-step-number{width:19px;height:19px;font-size:9px}
+ .ng-intelligence[data-mode='1'] .ngi-simple-flow>li.ngi-simple-conclusion{padding:8px}
+ .ng-intelligence[data-mode='1'] .ngi-simple-conclusion p{margin:3px 0 4px;line-height:1.25}
+ .ng-intelligence[data-mode='1'] .ngi-composer{min-height:50px}
+}
+
+@media(max-width:359px){
+ .ngi-tabs{margin-bottom:7px}
+ .ngi-tabs button{min-height:44px;font-size:10px}
+ .ngi-bar{padding:8px 10px}
+ .ngi-story-heading{padding:8px 7px 5px}
+ .ngi-story-heading h3{font-size:18px;line-height:1.12}
+ .ngi-choices{gap:3px;padding:0 5px 5px}
+ .ngi-choices button{padding:4px;font-size:9px}
+ .ngi-organism-large{height:100px}
+ .ngi-organism-large .ia2-triangulo{width:98px!important;height:98px!important}
+ .ngi-invitation{margin-bottom:8px}
+ .ngi-invitation strong{font-size:15px}
+ .ngi-invitation p{font-size:10px;line-height:1.3}
+ .ngi-caption{margin-top:5px;font-size:10px}
+ .ngi-note{font-size:9px;line-height:1.3}
+}

@@ -101,7 +101,6 @@ for (const [idioma, conteudo] of Object.entries(TEXTOS)) {
   conteudo.paginas = { ...conteudo.paginas, primeiro: primeiro[idioma].seo }
   const pc = partnerCadastro[idioma]
   conteudo.paginas.partnerCadastro = {nome:'Partner',titulo:pc.acao+' · NeoGlass',descricao:pc.texto,ogTitulo:pc.acao,ogDescricao:pc.texto}
-  conteudo.partner.hero.nota = pc.heroNota
   conteudo.partner.fecho = {...conteudo.partner.fecho,titulo:pc.fecho,texto:pc.fechoTexto,acao:pc.acao}
 }
 

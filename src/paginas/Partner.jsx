@@ -10,6 +10,7 @@ export default function Partner() {
   const contato = caminhoDe('partnerCadastro', idioma)
 
   const aoContatar = () => evento('partner_cadastro_inicio', { origem: 'partner' })
+  const aoSimular = () => evento('partner_simulador_aberto', { origem: 'hero' })
 
   return (
     <>
@@ -20,8 +21,8 @@ export default function Partner() {
             {t.hero.titulo} <span className="marca">{t.hero.destaque}</span>
           </h1>
           <p className="mt-7 max-w-[48ch] text-[17px] leading-relaxed text-dim">{t.hero.texto}</p>
-          <a href={contato} onClick={aoContatar} className="botao-marca mt-9 inline-flex px-7 py-3.5 text-[15px]">
-            {t.hero.acao}
+          <a href="#simular-comissao" onClick={aoSimular} className="botao-marca mt-9 inline-flex px-7 py-3.5 text-[15px]">
+            {t.hero.simular}
           </a>
           <p className="mt-4 max-w-[49ch] text-[13px] leading-relaxed text-dim">{t.hero.nota}</p>
         </div>

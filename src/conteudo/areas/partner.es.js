@@ -5,7 +5,8 @@ export default {
     destaque: 'Gana con cada contratación.',
     texto: 'Para quienes conocen cristalerías e industrias del vidrio: presenta una tecnología que se puede demostrar, sigue tus oportunidades y participa en las ventas que se concreten.',
     acao: 'Quiero ser Partner',
-    nota: 'Habla directamente con NeoGlass. La participación requiere aprobación y un contrato de colaboración.',
+    simular: 'Simular mis ingresos',
+    nota: 'Explora escenarios ilustrativos de comisión antes de crear tu acceso.',
   },
   mapa: {
     rotulo: 'Cómo funciona',

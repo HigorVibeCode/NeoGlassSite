@@ -5,7 +5,8 @@ export default {
     destaque: 'Ganhe com cada contratação.',
     texto: 'Para quem já tem relacionamento com vidraçarias e indústrias do vidro: apresente uma tecnologia que dá para demonstrar, acompanhe suas indicações e participe das vendas que acontecerem.',
     acao: 'Quero ser Partner',
-    nota: 'Conversa direta com o NeoGlass. A participação depende de aprovação e contrato de parceria.',
+    simular: 'Simular meus ganhos',
+    nota: 'Veja cenários ilustrativos de comissão antes de criar seu acesso.',
   },
   mapa: {
     rotulo: 'Como a parceria funciona',

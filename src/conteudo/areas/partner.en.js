@@ -5,7 +5,8 @@ export default {
     destaque: 'Earn from every subscription.',
     texto: 'For people connected to glass shops and glass manufacturers: introduce technology you can demonstrate, track your referrals and take part in the sales that follow.',
     acao: 'Become a Partner',
-    nota: 'Speak directly with NeoGlass. Participation requires approval and a partnership agreement.',
+    simular: 'Estimate my earnings',
+    nota: 'Explore illustrative commission scenarios before creating your account.',
   },
   mapa: {
     rotulo: 'How the partnership works',

@@ -5,7 +5,8 @@ export default {
     destaque: 'Verdienen Sie an jedem Abschluss.',
     texto: 'Für Menschen mit Kontakten zu Glasereien und Glasverarbeitern: Stellen Sie vorführbare Technologie vor, verfolgen Sie Ihre Empfehlungen und beteiligen Sie sich an erfolgreichen Verkäufen.',
     acao: 'Partner werden',
-    nota: 'Direkter Kontakt mit NeoGlass. Die Teilnahme erfordert eine Freigabe und einen Partnervertrag.',
+    simular: 'Einnahmen berechnen',
+    nota: 'Sehen Sie sich beispielhafte Provisionsszenarien an, bevor Sie Ihren Zugang erstellen.',
   },
   mapa: {
     rotulo: 'So funktioniert die Partnerschaft',

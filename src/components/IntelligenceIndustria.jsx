@@ -120,7 +120,7 @@ export default function IntelligenceIndustria() {
 
       <div className={`ngi-stage ${respondeu ? 'ngi-answered' : ''} ${modo === 1 ? 'ngi-stage-security' : ''} ${saidaConsulta ? 'ngi-stage-leaving' : ''}`}>
         <div className={`ngi-organism ${digitando ? 'ngi-organism-large' : ''}`}>
-          <MarcaIntelligence estado={digitando ? 'idle' : respondeu ? 'success' : 'interpreting'} pausado={!ativo}/>
+          <MarcaIntelligence className="ia2-triangulo" estado={digitando ? 'idle' : respondeu ? 'success' : 'thinking'} pausado={!ativo}/>
           {!digitando && <span>{modo === 0 ? respondeu ? a.consultado : a.consultando[consulta] : a.caminho}</span>}
         </div>
         {digitando ? <div className="ngi-invitation"><strong>{modo === 0 ? a.pergunte : a.mesmaPergunta}</strong><p>{modo === 0 ? a.semTelas : a.acompanhe}</p></div> : <p className="ngi-sent"><Icone tipo="pergunta"/>{pergunta}<span aria-hidden="true">✓</span></p>}

@@ -9,9 +9,13 @@ e acesso aos dados. Os textos nos quatro idiomas ficam em
 `src/conteudo/areas/intelligence-industria.js` e substituem a narrativa anterior
 de projeto/corte nesta página. As animações têm pausa, repetição, navegação por
 teclado, suspensão fora da tela e estado completo com movimento reduzido.
-A demonstração usa `MarcaIntelligence`, com o mesmo `Simbolo` do cabeçalho/login:
-glifo oficial, seis cores, respiração, luz de consulta e estado de resposta.
-As animações CSS respeitam pausa e movimento reduzido. A antiga malha
+A demonstração usa `MarcaIntelligence`, componente independente com a geometria
+e as seis cores oficiais. Na espera, o fundo gira lentamente; no pensamento,
+acelera e as três listras entram em sequência; na resposta, mantém o ângulo,
+alinha as listras e confirma com um pulso. Web Animations preserva a rotação ao
+trocar de estado. CSS e rotação respeitam pausa, aba oculta, saída da tela e
+movimento reduzido. O kit reutilizável, com prévia offline e instruções, fica em
+`NeoGlass-Plataform/entregas/neoglass-ia/`. A antiga malha
 `TrianguloVivo` permanece disponível no diretório, mas não é usada pela demo.
 Um relógio coordena digitação, envio, consulta e resposta. Ao entrar na tela,
 a apresentação inicia sozinha: vendas paradas → pedidos prontos → maior fila → proteção.

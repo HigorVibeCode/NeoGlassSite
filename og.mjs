@@ -35,7 +35,7 @@ const PAGINAS = [
   {
     arquivo: 'public/og-vidracaria.jpg',
     chapeu: 'Para a vidraçaria',
-    titulo: 'O orçamento sai<br><em>antes de você voltar</em>.',
+    titulo: 'Sua vidraçaria<br><em>se profissionaliza</em><br>sem complicar nada.',
     rodape: 'Meça o vão no celular · PDF com a sua marca · preço fixo por vidraçaria',
   },
   {

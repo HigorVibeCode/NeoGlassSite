@@ -123,7 +123,9 @@ export const arquivoDe = (id, idioma) => {
  */
 const COM_IMAGEM = ['industria', 'vidracaria', 'plataforma', 'partner']
 export const imagemDe = (id) =>
-  COM_IMAGEM.includes(id === 'primeiro' ? 'vidracaria' : id) ? `${SITE}/og-${id === 'primeiro' ? 'vidracaria' : id}.jpg` : `${SITE}/og.jpg`
+  COM_IMAGEM.includes(id === 'primeiro' ? 'vidracaria' : id)
+    ? `${SITE}/og-${id === 'primeiro' ? 'vidracaria' : id}.jpg${['vidracaria', 'primeiro'].includes(id) ? '?v=2' : ''}`
+    : `${SITE}/og.jpg`
 
 /** O preço declarado no dado estruturado daquele idioma. */
 export const ofertaDe = (idioma) => {

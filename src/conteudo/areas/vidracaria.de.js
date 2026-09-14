@@ -236,7 +236,7 @@ export default {
     rotulo: 'Vorführung vereinbaren',
     titulo: 'Bringen Sie eine eigene Offerte mit. Wir rechnen es gemeinsam.',
     texto:
-      'Vierzig Minuten mit offenem System. Sie messen einen echten Auftrag, wir rechnen ihn vor Ihren Augen, und Sie entscheiden, ob das in Ihren Tag passt.',
+      'Zwanzig Minuten mit offenem System. Sie messen einen echten Auftrag, wir rechnen ihn vor Ihren Augen, und Sie entscheiden, ob das in Ihren Tag passt.',
     passos: [
       'Sie bringen einen laufenden Auftrag mit',
       'Wir rechnen die Offerte live in der App',

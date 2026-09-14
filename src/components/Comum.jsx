@@ -3,7 +3,7 @@ import Marca from './Marca.jsx'
 import Formulario from './Formulario.jsx'
 import Agenda from './Agenda.jsx'
 import Idiomas from './Idiomas.jsx'
-import { CONFIG, acaoComecar, ehExterno, linkAgendar, precoVidracaria } from '../config.js'
+import { CONFIG, acaoComecar, ehExterno, linkAgendar, linkWhatsapp, precoVidracaria } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma, useTextos } from '../i18n/idioma.jsx'
 import { ROTAS_MENU, caminhoDe, destinoComecar } from '../lib/paginasSeo.js'
@@ -79,9 +79,15 @@ export function Topo({ rota }) {
   const preco = precoVidracaria(idioma)
   const comecar =
     id === 'vidracaria' && preco ? destinoComecar(acaoComecar(idioma, c), idioma) : null
-  const alvo = comecar ? comecar.href : linkAgendar(c.whatsapp.demonstracao)
-  const rotuloCurto = comecar ? comecar.curto : c.chrome.verDemoCurto
-  const rotuloLongo = comecar ? comecar.rotulo : c.chrome.verDemo
+  const alvo = id === 'partner'
+    ? caminhoDe('partnerCadastro', idioma)
+    : comecar
+    ? comecar.href
+    : ['industria', 'plataforma'].includes(id)
+      ? '#agendar'
+      : linkAgendar(c.whatsapp.demonstracao)
+  const rotuloCurto = id === 'partner' ? c.partner.hero.acao : comecar ? comecar.curto : c.chrome.agendarCurto
+  const rotuloLongo = id === 'partner' ? c.partner.hero.acao : comecar ? comecar.rotulo : c.chrome.agendarLongo
 
   useEffect(() => {
     const on = () => {
@@ -100,7 +106,7 @@ export function Topo({ rota }) {
   useEffect(() => {
     setCtaAVista(false)
     setDemoComCta(false)
-    const alvo = document.querySelector('#preco') || document.querySelector('#agendar')
+    const alvo = document.querySelector('#preco') || document.querySelector('#agendar') || document.querySelector('#partner-contato')
     if (!alvo) return
     const io = new IntersectionObserver(([e]) => setCtaAVista(e.isIntersecting), {
       rootMargin: '-90px 0px -20% 0px',
@@ -180,12 +186,12 @@ export function Topo({ rota }) {
               cena. Nas duas ele competiria com a única coisa que aquela tela
               precisa que aconteça: escolher um lado, ou preencher o formulário.
               Duas saídas no mesmo momento é como se perde a que interessa. */}
-          {id !== 'comecar' && id !== 'home' && passouCapa && !ctaAVista && !demoComCta && (
+          {id !== 'comecar' && id !== 'partnerCadastro' && id !== 'home' && passouCapa && !ctaAVista && !demoComCta && (
             <a
               href={alvo}
               target={ehExterno(alvo) ? '_blank' : undefined}
               rel={ehExterno(alvo) ? 'noreferrer' : undefined}
-              onClick={() => evento(comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
+              onClick={() => evento(id === 'partner' ? 'partner_cadastro_inicio' : comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
               className="botao-marca surge whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
             >
               <span className="lg:hidden">{rotuloCurto}</span>
@@ -457,6 +463,17 @@ export function Rodape({ rota }) {
           </nav>
           <div className="flex flex-col gap-2">
             <p className="cota uppercase">{c.chrome.contato}</p>
+            <a
+              href={caminhoDe('partner', idioma)}
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey) return
+                e.preventDefault()
+                ir('partner')
+              }}
+              className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"
+            >
+              {c.paginas.partner.nome}
+            </a>
             <a
               href={CONFIG.login}
               className="inline-flex min-h-[34px] items-center text-[14px] font-semibold text-dim transition-colors hover:text-ink"

@@ -77,7 +77,7 @@ export default function Abertura({
               target={principal.externo ? '_blank' : undefined}
               rel={principal.externo ? 'noreferrer' : undefined}
               onClick={() => {
-                evento(acao ? 'comecar' : 'agendar', { origem })
+                evento(principal.dispara ? 'ver_demo' : acao ? 'comecar' : 'agendar', { origem })
                 // Um clique, uma coisa. Este botão desce até a prova E toca a
                 // demonstração — se fossem dois cliques, o segundo quase
                 // ninguém dá, e a animação morreria parada na tela.

@@ -116,7 +116,7 @@ export default function Home({ rota }) {
   }
 
   return (
-    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-14 pt-[92px] sm:px-8 sm:pt-[104px]">
+    <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-14 pt-[92px] sm:px-8 sm:pt-[78px]">
       {/* ── 1º: a promessa ─────────────────────────────────────────────── */}
       <div className="mx-auto max-w-[860px] text-center">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
@@ -128,10 +128,14 @@ export default function Home({ rota }) {
           {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span> {t.titulo.depois}
         </h1>
 
+        <p className="mx-auto mt-5 max-w-[54ch] text-[15px] leading-relaxed text-dim sm:text-[17px]">
+          {t.descricao}
+        </p>
+
       </div>
 
       {/* ── 2º: a escolha ──────────────────────────────────────────────── */}
-      <p className="mt-9 text-center text-[16px] font-extrabold text-ink sm:mt-11 sm:text-[18px]">
+      <p className="mt-6 text-center text-[16px] font-extrabold text-ink sm:mt-7 sm:text-[18px]">
         {t.pergunta}
       </p>
 

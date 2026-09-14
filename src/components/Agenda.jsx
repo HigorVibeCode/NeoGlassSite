@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { CONFIG } from '../config.js'
+import { CONFIG, linkWhatsapp } from '../config.js'
 import { evento } from '../lib/rastreio.js'
 import { origemGuardada } from '../lib/indicacao.js'
 import { reservaConfirmada, urlDaAgenda } from '../lib/funil.js'
@@ -30,6 +30,7 @@ export default function Agenda({ origem = 'agenda', campanha, onConfirmado }) {
 
   // A cor da marca vai na URL: o widget é um iframe, e CSS daqui não o alcança.
   const url = urlDaAgenda(CONFIG.agendar, campanha ?? origemGuardada())
+  const whatsapp = linkWhatsapp(c.whatsapp.demonstracao)
 
   useEffect(() => {
     function receber(e) {
@@ -107,6 +108,7 @@ export default function Agenda({ origem = 'agenda', campanha, onConfirmado }) {
           >
             {c.agenda.abrirFora}
           </a>
+          <a href={whatsapp} target="_blank" rel="noreferrer" onClick={() => evento('whatsapp', { origem: `${origem}-agenda` })} className="inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.falarWhatsapp}</a>
         </div>
       ) : (
         <>
@@ -117,6 +119,7 @@ export default function Agenda({ origem = 'agenda', campanha, onConfirmado }) {
             style={{ minWidth: '320px', height: 'clamp(560px, 72vh, 720px)' }}
           />
           <a href={url} target="_blank" rel="noreferrer" onClick={() => evento('agendar', { origem: `${origem}-externo` })} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.abrirFora}</a>
+          <a href={whatsapp} target="_blank" rel="noreferrer" onClick={() => evento('whatsapp', { origem: `${origem}-agenda` })} className="mt-1 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.falarWhatsapp}</a>
           {estado !== 'pronto' && (
             <p className="cota mt-3 normal-case">{c.agenda.carregando}</p>
           )}

@@ -13,37 +13,44 @@ export default {
   paginas: {
     home: {
       nome: 'Início',
-      titulo: 'NeoGlass · Software para vidraçaria e para a indústria do vidro',
+      titulo: 'NeoGlass · Software para quem trabalha com vidro',
       descricao:
-        'Orçamento, plano de corte, controle de retalho e produção no mesmo sistema. Escolha entre a versão para vidraçaria e a versão para fábrica de vidro.',
-      ogTitulo: 'Vidro que você não compra é lucro',
-      ogDescricao: 'Do orçamento na obra ao plano de corte que entra na mesa. Escolha por onde você entra.',
+        'Orçamentos, projetos, otimização de corte e produção para vidraçarias e indústrias do vidro.',
+      ogTitulo: 'NeoGlass · Software para quem trabalha com vidro',
+      ogDescricao: 'Orçamentos, projetos, otimização de corte e produção para vidraçarias e indústrias do vidro.',
     },
     industria: {
       nome: 'Indústria',
-      titulo: 'NeoGlass · Software para a indústria do vidro plano',
+      titulo: 'NeoGlass Intelligence · IA integrada à indústria do vidro',
       descricao:
-        'Do orçamento tirado na obra ao plano de corte que entra na mesa. Otimização de chapa com reaproveitamento de retalho e rastreio de peça.',
-      ogTitulo: 'NeoGlass · Software para a indústria do vidro plano',
+        'Consulte produção, vendas e expedição com o NeoGlass Intelligence. IA integrada para encontrar respostas nos dados da sua indústria do vidro.',
+      ogTitulo: 'NeoGlass · tecnologia de última geração para a indústria do vidro',
       ogDescricao:
-        'Do orçamento na obra ao plano de corte que entra na mesa. Aproveite cada retalho.',
+        'Pergunte sobre produção, vendas e entregas. O Intelligence busca as respostas nos dados da sua empresa, respeitando suas permissões.',
     },
     vidracaria: {
       nome: 'Vidraçaria',
-      titulo: 'Sistema para vidraçaria: orçamento e projetos | NeoGlass',
+      titulo: 'Software para vidraçaria: orçamentos e projetos | NeoGlass',
       descricao:
-        'Faça orçamentos e projetos de vidraçaria no celular, confira preços e envie a proposta em PDF. Teste o NeoGlass por 14 dias grátis, sem cartão.',
-      ogTitulo: 'NeoGlass para vidraçaria · o orçamento sai antes de você voltar para a loja',
+        'Faça orçamentos e projetos pelo celular, gere PDF com sua marca e acompanhe cada serviço no NeoGlass.',
+      ogTitulo: 'Software para vidraçaria: orçamentos e projetos',
       ogDescricao:
-        'Meça o vão, monte o orçamento no celular e mande o PDF com a sua marca. Preço fixo, sem taxa de implantação.',
+        'Meça o vão, faça o orçamento no celular e envie o PDF com a sua marca.',
     },
     plataforma: {
       nome: 'Plataforma',
-      titulo: 'A plataforma NeoGlass · O sistema da fábrica de vidro',
+      titulo: 'Plataforma NeoGlass · Tecnologia criada dentro da fábrica de vidro',
       descricao:
-        'O sistema da fábrica de vidro: um pedido, a empresa inteira. Escrito dentro da fábrica, em operação hoje.',
-      ogTitulo: 'A plataforma NeoGlass',
-      ogDescricao: 'Um pedido. A empresa inteira. Escrito dentro da fábrica, em operação hoje.',
+        'Um sistema só, do orçamento à entrega. Criado dentro da fábrica para conectar corte, produção, expedição e gestão.',
+      ogTitulo: 'Temos orgulho do que construímos.',
+      ogDescricao: 'Uma plataforma criada dentro da fábrica de vidro. Um sistema só, do orçamento à entrega.',
+    },
+    partner: {
+      nome: 'Partner',
+      titulo: 'NeoGlass Partner · Parceria comercial para o setor do vidro',
+      descricao: 'Conheça o programa NeoGlass Partner: indique vidraçarias e indústrias do vidro, acompanhe oportunidades e veja o modelo de comissões de referência no Brasil.',
+      ogTitulo: 'NeoGlass Partner · Indique o NeoGlass. Ganhe com cada contratação.',
+      ogDescricao: 'Uma parceria comercial para quem tem relacionamento com empresas do setor do vidro.',
     },
     comecar: {
       nome: 'Começar',
@@ -69,8 +76,8 @@ export default {
     publicos: 'Públicos',
     entrar: 'Entrar',
     preco: 'Preço',
-    verDemoCurto: 'Ver demo',
-    verDemo: 'Ver o sistema funcionando',
+    agendarCurto: 'Agendar 20 min',
+    agendarLongo: 'Agendar demonstração de 20 min',
     comecarCurto: 'Começar',
     comecarGratis: (dias) => `Começar grátis · ${dias} dias`,
     comecarAgora: 'Começar agora',
@@ -93,6 +100,7 @@ export default {
     semScript: 'A agenda não carregou aqui — a rede ou uma extensão bloqueou.',
     abrirFora: 'Abrir a agenda',
     carregando: 'Carregando os horários…',
+    falarWhatsapp: 'Não encontrou horário? Fale comigo no WhatsApp.',
   },
 
   // ── As mensagens prontas do WhatsApp ──────────────────────────────────

@@ -77,6 +77,15 @@ const montar = (p) => {
   )
   h = trocar(h, /(<meta name="twitter:image" content=")[^"]*(")/, `$1${p.imagem}$2`)
 
+  // URL, idioma e descrição pertencem à página gerada. Sem estas trocas, o
+  // SoftwareApplication de todas as traduções declarava pt-BR e a raiz.
+  h = h.replace('"url": "https://neoglass.online/",', `"url": "${p.url}",`)
+  h = h.replace('"inLanguage": "pt-BR",', `"inLanguage": "${p.htmlLang}",`)
+  h = h.replace(
+    /("inLanguage": "[^"]+",\n\s*"description": ")[^"]*(")/,
+    `$1${escapar(t.descricao)}$2`,
+  )
+
   /* `og:locale` é TROCADO, não inserido. O index.html já traz um `pt_BR` fixo,
      e a primeira versão disto acrescentava um segundo logo abaixo — a página
      alemã saía com `de_DE` e `pt_BR` ao mesmo tempo, e o robô ficava com o

@@ -1,5 +1,82 @@
 # NeoGlass — site
 
+## Indústria e Partner — setembro de 2026
+
+A página `/industria` tem o Intelligence como protagonista. Duas animações
+em `IntelligenceIndustria.jsx` mostram uma sequência ilustrativa de consultas
+de produção, vendas e expedição, e a separação entre interpretação da pergunta
+e acesso aos dados. Os textos nos quatro idiomas ficam em
+`src/conteudo/areas/intelligence-industria.js` e substituem a narrativa anterior
+de projeto/corte nesta página. As animações têm pausa, repetição, navegação por
+teclado, suspensão fora da tela e estado completo com movimento reduzido.
+A demonstração usa `MarcaIntelligence`, com o mesmo `Simbolo` do cabeçalho/login:
+glifo oficial, seis cores, respiração, luz de consulta e estado de resposta.
+As animações CSS respeitam pausa e movimento reduzido. A antiga malha
+`TrianguloVivo` permanece disponível no diretório, mas não é usada pela demo.
+Um relógio coordena digitação, envio, consulta e resposta. Ao entrar na tela,
+a apresentação inicia sozinha: vendas paradas → pedidos prontos → maior fila → proteção.
+Uma transição apresenta a segunda parte e o ciclo reinicia automaticamente.
+Os controles são opcionais; selecionar consulta ou etapa mantém a reprodução.
+A pausa explícita e a preferência de movimento reduzido são respeitadas.
+O diagrama de proteção revela três passos numerados: a IA entende a pergunta;
+o NeoGlass consulta os registros permitidos; o resultado chega à tela.
+A pergunta e o contexto enviados ao Gemini ficam explícitos no primeiro passo;
+o fechamento mostra que o resultado dessa consulta não retorna ao modelo.
+A posição e o tamanho da marca interpolam entre o centro e o cabeçalho da consulta.
+O fechamento destaca que os dados consultados não vão à IA, diferenciando-os
+da pergunta e do contexto digitado; "Glass" usa a cor da marca.
+O roteiro localizado está em `src/conteudo/areas/intelligence-roteiro.js`.
+As consultas comerciais e os três passos são localizados em `intelligence-dores.js`.
+
+A arquitetura conferida em `ia-consulta` usa Gemini para interpretar perguntas
+e contexto; consulta o banco com o JWT do usuário e retorna resultados direto
+ao frontend. Não há garantia de sandbox ou ausência de todo envio externo.
+O catálogo contém as consultas usadas; não foi encontrado um resumo global
+automático nem análise de saldo financeiro. A demo usa vendas e dados fictícios.
+
+A nova `/partner` apresenta os dois públicos comerciais, o processo de
+indicação e o modelo brasileiro de referência: 100% da primeira mensalidade,
+15% dos meses 2 a 12 ou 25% do anual à vista. Higor retirou a remuneração por
+apresentação; o cartão agora convida a começar a indicar com a parceria aprovada.
+A sequência é indicar/compartilhar link → cliente contrata → parceiro recebe.
+Estas alterações são do site; não alteram o motor financeiro do aplicativo.
+O simulador em `SimuladorPartner.jsx` compara uma turma inicial com novas
+contratações mensais. Usa os preços BRL 197 e EUR/USD/CHF 39 de `CONFIG`,
+com seletor de moeda do cliente, e calcula em centavos
+em `src/lib/simulacaoPartner.js`. Cada cliente gera 100% no primeiro pagamento
+e 15% nos onze seguintes. A simulação pressupõe pagamentos em dia, sem
+cancelamentos, não soma a comissão anual e apresenta valores brutos.
+`node scripts/test-simulacao-partner.mjs` verifica as contas e o limite de 12 meses.
+Os valores são referências do programa;
+o contrato individual confirma elegibilidade e condições. O rodapé de todas
+as rotas, inclusive a campanha do primeiro orçamento, leva à página Partner.
+As quatro versões têm metadados e imagem de prévia próprios, canônicas e
+entradas no sitemap.
+
+O CTA Partner agora leva a `/partner-cadastro` (rotas equivalentes nos quatro
+idiomas). O formulário mínimo usa `site-cadastro` com `perfil: partner`;
+implementação local, ainda depende da migration e do deploy da função no
+repositório da plataforma. Ordem de ativação e limites:
+`../NeoGlass-Plataform/docs/PARTNER-CADASTRO-PUBLICO.md`.
+`scripts/test-indicacao.mjs` cobre todas as rotas/idiomas, primeiro toque,
+falha do resolvedor, fallback de sessão e preservação de hash/query.
+O país inferido precede idioma na moeda; a inferência não é mais congelada
+no primeiro idioma aberto. Limpeza/bloqueio de storage e troca de aparelho
+ainda limitam a atribuição baseada no navegador.
+
+## Revisão de conversão e compartilhamento — setembro de 2026
+
+O plano atual de Home, Vidraçaria, Indústria, Plataforma e Partner está em
+[`PLANO-CONVERSAO-SEO.md`](./PLANO-CONVERSAO-SEO.md). A Home usa prévia neutra;
+Indústria, Vidraçaria, Plataforma e Partner têm metadados e imagens próprios. O calendário
+público estava sem horários em setembro e outubro na revisão de 14/09; a agenda
+agora oferece contato alternativo pelo WhatsApp, mas a disponibilidade no
+Calendly ainda precisa ser corrigida.
+
+As seções históricas abaixo registram decisões de versões anteriores. Para o
+estado atual das rotas, consulte `src/lib/paginasSeo.js`; para copy e agendamento,
+consulte `src/conteudo/` e `src/config.js`.
+
 ## Campanha do primeiro orçamento — setembro de 2026
 
 A rota `/primeiro-orcamento` oferece uma sessão gratuita de 20 minutos com Higor,

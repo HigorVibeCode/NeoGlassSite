@@ -3,6 +3,7 @@ export default {
   /* O título é uma frase só com o miolo em gradiente. Por isso vem
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'More', destaque: 'money and peace of mind', depois: 'for people who work with glass.' },
+  descricao: 'Software for quotes, projects, cutting and production in the glass trade.',
   /* A frase da marca desceu do topo: virou legenda discreta do título. */
   pergunta: 'What is your business?',
   portas: [

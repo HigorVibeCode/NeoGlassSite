@@ -173,13 +173,11 @@ const PAIS_POR_FUSO = {
   'Europe/Lisbon': 'pt', 'Europe/Madrid': 'es',
 }
 const PAIS_POR_IDIOMA = { pt: 'br', en: 'us', es: 'es', de: 'de' }
-let _pais = null
 export const paisProvavel = (idioma = 'pt') => {
-  if (_pais) return _pais
   let fuso = ''
   try { fuso = Intl.DateTimeFormat().resolvedOptions().timeZone || '' } catch { /* sem Intl */ }
-  if (fuso.startsWith('America/') && idioma === 'pt') return (_pais = 'br')
-  return (_pais = PAIS_POR_FUSO[fuso] ?? PAIS_POR_IDIOMA[idioma] ?? 'br')
+  if (fuso.startsWith('America/') && idioma === 'pt') return 'br'
+  return PAIS_POR_FUSO[fuso] ?? PAIS_POR_IDIOMA[idioma] ?? 'br'
 }
 
 /** A moeda de quem lê: pelo país quando dá para saber, senão pelo idioma. */

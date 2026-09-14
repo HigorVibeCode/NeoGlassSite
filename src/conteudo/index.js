@@ -1,4 +1,6 @@
 import primeiro from './areas/primeiro.js'
+import partnerCadastro from './areas/partner-cadastro.js'
+import intelligenceIndustria from './areas/intelligence-industria.js'
 import pt from './pt.js'
 import en from './en.js'
 import es from './es.js'
@@ -18,6 +20,11 @@ import plataformaPt from './areas/plataforma.pt.js'
 import plataformaEn from './areas/plataforma.en.js'
 import plataformaEs from './areas/plataforma.es.js'
 import plataformaDe from './areas/plataforma.de.js'
+
+import partnerPt from './areas/partner.pt.js'
+import partnerEn from './areas/partner.en.js'
+import partnerEs from './areas/partner.es.js'
+import partnerDe from './areas/partner.de.js'
 
 import filmePt from './areas/filme.pt.js'
 import filmeEn from './areas/filme.en.js'
@@ -66,11 +73,12 @@ import baixarDe from './areas/baixar.de.js'
  * `textosDe` nunca devolve vazio — idioma desconhecido cai em português, para
  * uma chave errada na URL não derrubar a página inteira.
  */
-const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar, home, tela, baixar) => ({
+const montar = (base, industria, vidracaria, plataforma, partner, filme, demos, comecar, home, tela, baixar) => ({
   ...base,
   industria,
   vidracaria,
   plataforma,
+  partner,
   filme,
   demos,
   comecar,
@@ -80,15 +88,21 @@ const montar = (base, industria, vidracaria, plataforma, filme, demos, comecar, 
 })
 
 const TEXTOS = {
-  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, filmePt, demosPt, comecarPt, homePt, telaPt, baixarPt),
-  en: montar(en, industriaEn, vidracariaEn, plataformaEn, filmeEn, demosEn, comecarEn, homeEn, telaEn, baixarEn),
-  es: montar(es, industriaEs, vidracariaEs, plataformaEs, filmeEs, demosEs, comecarEs, homeEs, telaEs, baixarEs),
-  de: montar(de, industriaDe, vidracariaDe, plataformaDe, filmeDe, demosDe, comecarDe, homeDe, telaDe, baixarDe),
+  pt: montar(pt, industriaPt, vidracariaPt, plataformaPt, partnerPt, filmePt, demosPt, comecarPt, homePt, telaPt, baixarPt),
+  en: montar(en, industriaEn, vidracariaEn, plataformaEn, partnerEn, filmeEn, demosEn, comecarEn, homeEn, telaEn, baixarEn),
+  es: montar(es, industriaEs, vidracariaEs, plataformaEs, partnerEs, filmeEs, demosEs, comecarEs, homeEs, telaEs, baixarEs),
+  de: montar(de, industriaDe, vidracariaDe, plataformaDe, partnerDe, filmeDe, demosDe, comecarDe, homeDe, telaDe, baixarDe),
 }
 
 for (const [idioma, conteudo] of Object.entries(TEXTOS)) {
+  const { demo: intelligence, ...mensagensIndustria } = intelligenceIndustria[idioma]
+  conteudo.industria = { ...conteudo.industria, ...mensagensIndustria, intelligence }
   conteudo.primeiro = primeiro[idioma]
   conteudo.paginas = { ...conteudo.paginas, primeiro: primeiro[idioma].seo }
+  const pc = partnerCadastro[idioma]
+  conteudo.paginas.partnerCadastro = {nome:'Partner',titulo:pc.acao+' · NeoGlass',descricao:pc.texto,ogTitulo:pc.acao,ogDescricao:pc.texto}
+  conteudo.partner.hero.nota = pc.heroNota
+  conteudo.partner.fecho = {...conteudo.partner.fecho,titulo:pc.fecho,texto:pc.fechoTexto,acao:pc.acao}
 }
 
 export const textosDe = (idioma) => TEXTOS[idioma] ?? TEXTOS.pt

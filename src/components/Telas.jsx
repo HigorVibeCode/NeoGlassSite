@@ -82,7 +82,7 @@ export default function Telas({
               type="button"
               onClick={() => setFrente(i)}
               aria-current={i === frente ? 'true' : undefined}
-              className={`rounded-full px-3 py-1.5 text-[12.5px] font-bold transition-colors ${
+              className={`min-h-11 rounded-full px-3 py-2 text-[12.5px] font-bold transition-colors ${
                 pistasClaras
                   ? i === frente
                     ? 'bg-white/20 text-white'

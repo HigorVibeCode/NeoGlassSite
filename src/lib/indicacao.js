@@ -28,6 +28,7 @@ import { CONFIG } from '../config.js'
 const CHAVE = 'ng_origem'
 const JANELA_DIAS = 30
 const JANELA_MS = JANELA_DIAS * 24 * 60 * 60 * 1000
+let memoria = null
 
 /** O código do parceiro tem a mesma forma no site e no banco. */
 const CODIGO_OK = /^[a-z0-9][a-z0-9-]{2,30}$/
@@ -35,23 +36,19 @@ const CODIGO_OK = /^[a-z0-9][a-z0-9-]{2,30}$/
 const UTMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']
 
 function ler() {
-  try {
-    const cru = window.localStorage.getItem(CHAVE)
-    if (!cru) return null
-    const o = JSON.parse(cru)
-    if (!o || typeof o !== 'object' || !o.ts) return null
-    if (Date.now() - o.ts > JANELA_MS) return null // fora da janela: como se não existisse
-    return o
-  } catch {
-    return null
+  for (const tipo of ['localStorage','sessionStorage']) {
+    try {
+      const o = JSON.parse(window[tipo]?.getItem(CHAVE) || 'null')
+      if (o && typeof o === 'object' && o.ts && Date.now()-o.ts<=JANELA_MS) return o
+    } catch { /* Tenta o armazenamento da sessão antes de desistir. */ }
   }
+  return memoria?.ts && Date.now()-memoria.ts<=JANELA_MS ? memoria : null
 }
 
 function gravar(o) {
-  try {
-    window.localStorage.setItem(CHAVE, JSON.stringify(o))
-  } catch {
-    /* aba anônima ou armazenamento bloqueado: seguimos sem atribuição */
+  memoria = o
+  for(const tipo of ['localStorage','sessionStorage']) {
+    try { window[tipo]?.setItem(CHAVE,JSON.stringify(o)) } catch { /* Fallback de sessão/memória. */ }
   }
 }
 
@@ -71,10 +68,9 @@ export function codigoGuardado() {
  * tem que poder desfazer uma atribuição que não reconhece.
  */
 export function esquecerOrigem() {
-  try {
-    window.localStorage.removeItem(CHAVE)
-  } catch {
-    /* nada a fazer */
+  memoria = null
+  for(const tipo of ['localStorage','sessionStorage']) {
+    try { window[tipo]?.removeItem(CHAVE) } catch { /* Armazenamento bloqueado. */ }
   }
 }
 
@@ -138,8 +134,10 @@ export function capturarOrigem() {
   const caminho = window.location.pathname || '/'
   const casou = caminho.match(/^\/p\/([^/?#]+)\/?$/i)
   if (casou) {
-    const bruto = decodeURIComponent(casou[1]).toLowerCase()
-    if (CODIGO_OK.test(bruto)) codigo = bruto
+    try {
+      const bruto = decodeURIComponent(casou[1]).toLowerCase()
+      if (CODIGO_OK.test(bruto)) codigo = bruto
+    } catch { /* Um endereço malformado não pode impedir a abertura do site. */ }
   }
 
   const busca = new URLSearchParams(window.location.search || '')
@@ -221,7 +219,10 @@ export function capturarOrigem() {
   // Tira o /p/<codigo> (e os utm_*) da barra de endereço.
   if (casou || temCampanha || busca.get('ref')) {
     try {
-      window.history.replaceState({}, '', casou ? '/' : window.location.pathname)
+      busca.delete('ref')
+      for(const k of UTMS) busca.delete(k)
+      const resto=busca.toString()
+      window.history.replaceState({}, '', (casou ? '/' : window.location.pathname)+(resto?'?'+resto:'')+(window.location.hash||''))
     } catch {
       /* file:// não deixa mexer no endereço */
     }

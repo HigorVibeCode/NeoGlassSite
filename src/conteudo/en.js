@@ -15,41 +15,48 @@ export default {
   paginas: {
     home: {
       nome: 'Home',
-      titulo: 'NeoGlass · Software for glass shops and glass factories',
+      titulo: 'NeoGlass · Software for everyone who works with glass',
       descricao:
-        'Quoting, cut plans, offcut control and production in one system. Choose between the glass shop version and the glass factory version.',
-      ogTitulo: 'Glass you never buy is profit',
-      ogDescricao: 'From the quote on site to the cut plan on the table. Pick where you come in.',
+        'Quotes, projects, cutting optimization and production for glass shops and flat glass factories.',
+      ogTitulo: 'NeoGlass · Software for everyone who works with glass',
+      ogDescricao: 'Quotes, projects, cutting optimization and production for glass shops and flat glass factories.',
     },
     industria: {
       nome: 'Industry',
       // Título começa pelo que o dono de fábrica procura no Google, não pela
       // marca: ninguém busca "NeoGlass" antes de saber que ele existe.
-      titulo: 'Flat glass processing software · NeoGlass',
+      titulo: 'NeoGlass Intelligence · Integrated AI for the glass industry',
       descricao:
-        'From the quote you write on site to the cutting plan that reaches the table. Sheet optimization that puts every offcut back to work, piece tracked to the rack.',
-      ogTitulo: 'Software for flat glass processing · NeoGlass',
+        'Query production, sales and dispatch with NeoGlass Intelligence. Integrated AI to find answers in your glass factory’s data.',
+      ogTitulo: 'NeoGlass · next-generation technology for the glass industry',
       ogDescricao:
-        'From the quote on site to the cutting plan on the table. Every offcut back in play.',
+        'Ask about production, sales and deliveries. Intelligence finds answers in your company data while respecting your permissions.',
     },
     vidracaria: {
       nome: 'Glass shops',
-      titulo: 'Glass shop software · Professional from the first quote',
+      titulo: 'Glass shop software: quotes and projects | NeoGlass',
       descricao:
-        'Quote closed on site, every order followed from cut to delivery, offcuts back on the right rack. No spreadsheet, no notebook, no week of training.',
+        'Create quotes and projects on your phone, send a branded PDF and track every job in NeoGlass.',
       // O og é a frase que aparece quando alguém manda o link no WhatsApp —
       // vale ser mais falada e menos "de busca" que o título da aba.
-      ogTitulo: 'NeoGlass for glass shops · the quote is done before you drive back',
+      ogTitulo: 'Glass shop software: quotes and projects',
       ogDescricao:
-        'Measure the opening, build the quote on your phone, send the PDF with your own logo. Flat price, no setup fee.',
+        'Measure the opening, create the quote on your phone and send a branded PDF.',
     },
     plataforma: {
       nome: 'Platform',
-      titulo: 'The NeoGlass platform · The system that runs the glass plant',
+      titulo: 'NeoGlass platform · Technology built inside a glass factory',
       descricao:
-        'The system that runs the glass plant: one order, the whole company. Written on the floor, running today.',
-      ogTitulo: 'The NeoGlass platform',
-      ogDescricao: 'One order. The whole company. Written on the floor, running today.',
+        'One system, from quote to delivery. Built inside the factory to connect cutting, production, dispatch and management.',
+      ogTitulo: 'We are proud of what we built.',
+      ogDescricao: 'A platform built inside a glass factory. One system, from quote to delivery.',
+    },
+    partner: {
+      nome: 'Partner',
+      titulo: 'NeoGlass Partner · Commercial partnership for the glass industry',
+      descricao: 'Discover NeoGlass Partner: refer glass shops and manufacturers, track opportunities and learn about the reference commission model in Brazil.',
+      ogTitulo: 'NeoGlass Partner · Recommend NeoGlass. Earn from every subscription.',
+      ogDescricao: 'A commercial partnership for people connected to glass businesses.',
     },
     comecar: {
       nome: 'Start',
@@ -75,8 +82,8 @@ export default {
     publicos: "Who it's for",
     entrar: 'Log in',
     preco: 'Pricing',
-    verDemoCurto: 'See a demo',
-    verDemo: 'See the system running',
+    agendarCurto: 'Book 20 min',
+    agendarLongo: 'Book a 20-minute walkthrough',
     comecarCurto: 'Get started',
     // Continua função porque o número de dias do teste vem da config, não do
     // texto — muda o plano, muda o botão sozinho.
@@ -101,6 +108,7 @@ export default {
     semScript: 'The scheduler could not load here — the network or an extension blocked it.',
     abrirFora: 'Open the scheduler',
     carregando: 'Loading available times…',
+    falarWhatsapp: 'No suitable time? Message me on WhatsApp.',
   },
 
   // ── As mensagens prontas do WhatsApp ──────────────────────────────────

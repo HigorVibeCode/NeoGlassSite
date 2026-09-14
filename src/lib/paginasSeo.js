@@ -1,10 +1,10 @@
 /**
- * As três páginas do site × quatro idiomas, com tudo que o Google e o WhatsApp
+ * As páginas do site × quatro idiomas, com tudo que o Google e o WhatsApp
  * precisam saber. Este arquivo é lido em dois lugares:
  *
  *   · pelo roteador (`rota.js`), que troca título e canônica na navegação;
  *   · pelo script `paginas-seo.mjs`, que roda depois do build e escreve um
- *     .html de verdade para cada rota de cada idioma — treze arquivos.
+ *     .html de verdade para cada rota de cada idioma.
  *
  * O segundo é o que importa de fato: WhatsApp, LinkedIn, Facebook e os robôs de
  * IA não rodam JavaScript. Quem cola o link alemão num grupo precisa ver a
@@ -55,12 +55,22 @@ export const ROTAS = [
     slug: { pt: '/plataforma', en: '/platform', es: '/plataforma', de: '/plattform' },
   },
   {
+    id: 'partner',
+    slug: { pt: '/partner', en: '/partner', es: '/partner', de: '/partner' },
+    menu: false,
+  },
+  {
     id: 'comecar',
     slug: { pt: '/comecar', en: '/start', es: '/empezar', de: '/starten' },
     // Fora do menu de propósito. O topo lista os PÚBLICOS do site — indústria,
     // vidraçaria, plataforma. Cadastro não é público, é destino: chega-se nele
     // por um botão, depois de a página ter convencido. Um quarto item no menu
     // rouba clique dos três que fazem a venda.
+    menu: false,
+  },
+  {
+    id: 'partnerCadastro',
+    slug: {pt:'/partner-cadastro', en:'/partner-signup', es:'/registro-partner', de:'/partner-registrierung'},
     menu: false,
   },
   {
@@ -107,10 +117,11 @@ export const arquivoDe = (id, idioma) => {
 
 /**
  * A imagem de prévia — uma por página, a mesma nos quatro idiomas por enquanto.
- * Só existem três arquivos; quem não tem o seu usa o principal. Apontar para um
+ * Existem imagens próprias para as páginas de venda; quem não tem a sua usa a
+ * imagem principal. Apontar para um
  * .jpg que não existe é pior que repetir imagem: o WhatsApp mostra o link pelado.
  */
-const COM_IMAGEM = ['vidracaria', 'plataforma']
+const COM_IMAGEM = ['industria', 'vidracaria', 'plataforma', 'partner']
 export const imagemDe = (id) =>
   COM_IMAGEM.includes(id === 'primeiro' ? 'vidracaria' : id) ? `${SITE}/og-${id === 'primeiro' ? 'vidracaria' : id}.jpg` : `${SITE}/og.jpg`
 

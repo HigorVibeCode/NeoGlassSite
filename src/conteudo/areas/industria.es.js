@@ -12,6 +12,20 @@
  * lucro"; em espanhol a frase fecha em "es ganancia", que é onde ele cai.
  */
 export default {
+  projeto: {
+    rotulo: 'Mira la tecnología en acción',
+    titulo: 'De una frase al proyecto. Míralo suceder.',
+    texto: 'Esta demostración simula el diseño de un hueco. La IA prepara un borrador; una persona elige, revisa y confirma el proyecto antes de continuar.',
+  },
+  diferenciais: {
+    rotulo: 'Tecnología aplicada al vidrio',
+    titulo: 'No solo gestionar la fábrica. Cambiar cómo nace el pedido.',
+    itens: [
+      { nome: 'Voz o texto se convierten en borrador', texto: 'Describe una pieza o un hueco como hablarías con tu equipo. NeoGlass ordena medidas y datos para su revisión; la IA no sustituye la comprobación.' },
+      { nome: 'Un proyecto que se puede ver', texto: 'El dibujo 2D, la vista 3D y la geometría de corte muestran el pedido antes de llegar a la mesa. Los cambios parten del proyecto, no de una hoja de cálculo.' },
+      { nome: 'Archivos para la máquina', texto: 'El plan y el contorno pueden exportarse en formatos de producción. Los motores .g y .cni se validaron en mesas reales; tu equipo controla la liberación.' },
+    ],
+  },
 
   laco: {
     modulo: 'NeoGlass Optimización',
@@ -37,14 +51,25 @@ export default {
       { nome: 'Un solo sistema', texto: 'El optimizador, el stock y la etiqueta son lo mismo. Nada se exporta, nada se reescribe — por eso el retal no se pierde.' },
     ],
   },
+  percurso: {
+    titulo: 'El mismo pedido sigue hasta la entrega.',
+    texto: 'El ahorro en el corte es solo una parte. Pedidos, producción y expedición comparten la misma información.',
+    etapas: [
+      { nome: 'Pedido', texto: 'Medidas, precio y plazo permanecen juntos desde el inicio.' },
+      { nome: 'Corte', texto: 'El plan considera las planchas y los recortes disponibles.' },
+      { nome: 'Producción', texto: 'El equipo sigue la fase de cada pieza.' },
+      { nome: 'Expedición', texto: 'La comprobación y la entrega siguen vinculadas al pedido.' },
+    ],
+    nota: 'Vista ilustrativa de las áreas de NeoGlass. Elige una pantalla para ver el módulo.',
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
-    rotulo: 'NeoGlass · industria del vidrio plano',
-    verOtimizacao: 'Ver la optimización funcionando',
-    etiqueta: 'El sistema por dentro',
+    rotulo: 'NeoGlass · plataforma para la industria del vidrio',
+    verProjeto: 'Ver la tecnología en acción',
+    etiqueta: 'Tecnología aplicada al vidrio',
     titulo: {
-      antes: 'Antes de cortar plancha nueva, el sistema',
-      destaque: 'busca en los retales.',
+      antes: 'Tecnología de última generación para',
+      destaque: 'la industria del vidrio.',
     },
     // "ganancia" e não "beneficio": as duas se entendem dos dois lados do
     // Atlântico, mas ganancia é a que o dono de fábrica usa falando.
@@ -54,7 +79,7 @@ export default {
        ritmo da oposição; "desperdiciando" e não "tirando" porque é a palavra
        que o dono usa para o vidro que se perde. Mantém o "tú" do resto do
        arquivo. */
-    texto: 'Solo va a plancha nueva lo que no cupo en ningún retal.',
+    texto: 'IA, diseño paramétrico, optimización y producción conectados en una plataforma creada para la realidad de tu fábrica.',
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
        sistema não está definida, e prometer o que a fatura não cumpre é a
@@ -68,12 +93,13 @@ export default {
 
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
-    rotulo: 'Demostración · el caballete antes que la plancha',
+    rotulo: 'El valor también se ve en el corte',
+    acao: 'Ejecutar la demostración',
     /* O título repetia a abertura com outras palavras, e o texto gastava
        quatro frases explicando um botão. Agora o título é o resultado que ele
        vai VER acontecer, e o texto cabe em duas linhas — o resto ele descobre
        apertando, que é para isso que existe a demonstração. */
-    titulo: 'Tres planchas se quedan en dos. Delante de ti.',
+    titulo: 'Antes de abrir una plancha nueva, mira lo que ya tienes.',
     texto:
       'Un pedido real de 20 piezas, con el optimizador de verdad funcionando aquí, en tu navegador. Pulsa y mira dónde dejas de comprar materia prima.',
   },
@@ -116,13 +142,13 @@ export default {
     rotulo: 'Agendar la presentación',
     /* "Lo montamos delante de ti" soava a truque de vendedor. A promessa forte
        é ele sair de lá com o plano de corte do pedido DELE na mão. */
-    titulo: 'Trae un pedido tuyo. Te vas con su plan de corte.',
+    titulo: 'Trae un pedido real. Mira cómo trabaja NeoGlass.',
     texto:
       'La presentación es con el sistema abierto, no con diapositivas. Si al final no te encaja en la operación, has perdido veinte minutos y te llevas un diagnóstico.',
     passos: [
       'Nos enseñas un pedido tuyo, real',
       'Lo montamos en el sistema, en vivo',
-      'Ves salir el plan de corte al final',
+      'Ves el proyecto y el plan de corte en pantalla',
     ],
   },
 }

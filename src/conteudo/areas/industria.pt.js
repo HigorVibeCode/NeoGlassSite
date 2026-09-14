@@ -11,6 +11,20 @@
  * — e o pedaço que merece o destaque não cai na mesma palavra em alemão.
  */
 export default {
+  projeto: {
+    rotulo: 'Veja a tecnologia funcionando',
+    titulo: 'Da frase ao projeto. Veja acontecer.',
+    texto: 'Esta demonstração simula a criação de um vão. A IA prepara um rascunho; a pessoa escolhe, confere e confirma o projeto antes de seguir.',
+  },
+  diferenciais: {
+    rotulo: 'Tecnologia aplicada ao vidro',
+    titulo: 'Não é só controlar a fábrica. É mudar como o pedido nasce.',
+    itens: [
+      { nome: 'Voz ou texto viram rascunho', texto: 'Descreva a peça ou o vão como você falaria com a equipe. O NeoGlass organiza medidas e dados para revisão, sem fingir que a IA substitui a conferência.' },
+      { nome: 'Projeto que mostra a peça', texto: 'Desenho 2D, visão 3D e geometria de corte deixam o pedido visível antes de chegar à mesa. Alterações partem do projeto, não de uma planilha solta.' },
+      { nome: 'Arquivo para a máquina', texto: 'O plano e o contorno podem sair nos formatos de produção da operação. Os motores .g e .cni já foram validados em mesas reais; a liberação continua sob controle da equipe.' },
+    ],
+  },
 
   // ── O laço do topo (a etiqueta preenchendo) ───────────────────────────
   laco: {
@@ -39,11 +53,22 @@ export default {
       { nome: 'Um sistema só', texto: 'O otimizador, o estoque e a etiqueta são a mesma coisa. Nada é exportado, nada é digitado de novo — é por isso que a sobra não se perde.' },
     ],
   },
+  percurso: {
+    titulo: 'O mesmo pedido segue até a entrega.',
+    texto: 'A economia no corte é só uma parte. Pedido, produção e expedição trabalham com a mesma informação.',
+    etapas: [
+      { nome: 'Pedido', texto: 'Medidas, preço e prazo ficam juntos desde a entrada.' },
+      { nome: 'Corte', texto: 'O plano considera as chapas e os retalhos disponíveis.' },
+      { nome: 'Produção', texto: 'A equipe acompanha a fase de cada peça.' },
+      { nome: 'Expedição', texto: 'A conferência e a entrega continuam ligadas ao pedido.' },
+    ],
+    nota: 'Prévia ilustrativa das áreas do NeoGlass. Escolha uma tela para ver o módulo.',
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
-    rotulo: 'NeoGlass · indústria do vidro plano',
-    verOtimizacao: 'Ver a otimização funcionando',
-    etiqueta: 'O sistema por dentro',
+    rotulo: 'NeoGlass · plataforma para a indústria do vidro',
+    verProjeto: 'Ver a tecnologia em ação',
+    etiqueta: 'Tecnologia aplicada ao vidro',
     // Desperdício é o assunto, e é o único grande que o sistema sustenta de
     // ponta a ponta: estoque de retalho, otimização em três níveis e a
     // demonstração logo abaixo, que prova o número na tela. "Lucro
@@ -55,14 +80,14 @@ export default {
     // história fica aqui, junto da copy, para não voltar por engano numa
     // tradução.)
     titulo: {
-      antes: 'Antes de cortar chapa nova, o sistema',
-      destaque: 'procura nas sobras.',
+      antes: 'Tecnologia de última geração para',
+      destaque: 'a indústria do vidro.',
     },
     // Duas frases e ponto. O anterior tinha quatro linhas no desktop e oito
     // no celular — ninguém lê oito linhas antes de decidir se fica. O número
     // saiu daqui porque ele já está três vezes na mesma tela: na régua de
     // marcas, no cartão e na demonstração.
-    texto: 'Só vai para chapa nova o que não coube em sobra nenhuma.',
+    texto: 'IA, projetos paramétricos, otimização e produção conectados em uma plataforma construída para a realidade da sua fábrica.',
     // Números e unidades não se traduzem; só a vírgula decimal vira ponto em
     // inglês, que é como o leitor de lá lê 3,42 sem tropeçar.
     // ("6 etapas, da obra à margem" saiu daqui: seis etapas não é bom nem
@@ -84,13 +109,14 @@ export default {
 
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
-    rotulo: 'Demonstração · o cavalete antes da chapa',
+    rotulo: 'O valor aparece também no corte',
+    acao: 'Rodar a demonstração',
     /* O título dizia "Antes de abrir vidro novo, olhe o que já está encostado"
        — que é a mesma frase do hero, duas telas acima, com outras palavras. E o
        texto tinha quatro frases explicando um botão. Agora o título é o
        resultado (o que ele vai VER acontecer) e o texto cabe em duas linhas: o
        resto ele descobre apertando, que é o ponto de existir uma demonstração. */
-    titulo: 'Três chapas viram duas. Na sua frente.',
+    titulo: 'E antes de abrir vidro novo, olhe o que já existe.',
     texto:
       'Um pedido real de 20 peças, com o otimizador de verdade rodando aqui no seu navegador. Aperte e veja onde a matéria-prima deixa de ser comprada.',
   },
@@ -123,13 +149,13 @@ export default {
     /* "A gente monta na sua frente" soava a mágica de vendedor. A promessa
        forte não é montar rápido: é ele sair com o plano de corte do PEDIDO
        DELE na mão, tendo gastado vinte minutos. */
-    titulo: 'Traga um pedido seu. Você sai com o plano de corte dele.',
+    titulo: 'Traga um pedido seu. Veja o NeoGlass trabalhar nele.',
     texto:
       'A apresentação é com o sistema aberto, não com slide. Se no fim não fizer sentido para a sua operação, você perdeu vinte minutos e ganhou um diagnóstico.',
     passos: [
       'Você mostra um pedido seu, real',
       'A gente monta ele no sistema, ao vivo',
-      'Você vê o plano de corte sair no fim',
+      'Você vê o projeto e o plano de corte na tela',
     ],
   },
 }

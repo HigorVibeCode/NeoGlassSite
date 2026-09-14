@@ -222,7 +222,7 @@ export default {
     rotulo: 'Book the walkthrough',
     titulo: 'Bring one of your own quotes. We build it together.',
     texto:
-      'Forty minutes with the system open. You measure a real job, we build it in front of you, and you decide whether it fits into your day.',
+      'Twenty minutes with the system open. You measure a real job, we build it in front of you, and you decide whether it fits into your day.',
     passos: [
       'You bring a job you have open right now',
       'We build the quote in the app, live',

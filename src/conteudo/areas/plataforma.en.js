@@ -14,6 +14,15 @@ export default {
       destaque: 'proud of what we built.',
     },
     linha: 'We come from the plant. Not from an office.',
+    descricao: 'Quotes, design, cutting, production and delivery in one system for the glass trade.',
+    vidracaria: 'I run a glass shop',
+    industria: 'I run a glass factory',
+  },
+
+  prova: {
+    titulo: 'One order, three areas of the same system.',
+    texto: 'See where the order starts, how glass is used in cutting and where the team follows production.',
+    nota: 'Illustrative preview of NeoGlass areas. Select a screen to view the module.',
   },
 
   abertura: {
@@ -100,7 +109,7 @@ export default {
 
   chamada: {
     titulo: 'See NeoGlass open.',
-    texto: 'Forty minutes, the system open, no slides.',
+    texto: 'Twenty minutes, the system open, no slides.',
     botao: 'Pick a time',
   },
 

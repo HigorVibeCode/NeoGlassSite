@@ -14,37 +14,44 @@ export default {
   paginas: {
     home: {
       nome: 'Start',
-      titulo: 'NeoGlass · Software für Glasereien und die Glasindustrie',
+      titulo: 'NeoGlass · Software für alle, die mit Glas arbeiten',
       descricao:
-        'Offerte, Schnittplan, Reststückverwaltung und Produktion in einem System. Wählen Sie zwischen der Version für Glasereien und der für Glasfabriken.',
-      ogTitulo: 'Glas, das Sie nicht kaufen, ist Gewinn',
-      ogDescricao: 'Vom Offerte vor Ort bis zum Schnittplan am Tisch. Wählen Sie Ihren Einstieg.',
+        'Offerten, Projekte, Schnittoptimierung und Produktion für Glasereien und die Flachglasindustrie.',
+      ogTitulo: 'NeoGlass · Software für alle, die mit Glas arbeiten',
+      ogDescricao: 'Offerten, Projekte, Schnittoptimierung und Produktion für Glasereien und die Flachglasindustrie.',
     },
     industria: {
       nome: 'Industrie',
-      titulo: 'NeoGlass · Software für die Flachglasindustrie',
+      titulo: 'NeoGlass Intelligence · Integrierte KI für die Glasindustrie',
       descricao:
-        'Vom Offerte auf der Baustelle bis zum Schnittplan am Schneidtisch. Verschnittoptimierung mit Restglas-Verwertung und Rückverfolgung jeder Scheibe.',
-      ogTitulo: 'NeoGlass · Software für die Flachglasindustrie',
+        'Fragen Sie Produktion, Verkäufe und Versand mit NeoGlass Intelligence ab. Integrierte KI für Antworten aus den Daten Ihrer Glasfabrik.',
+      ogTitulo: 'NeoGlass · Technologie der neuesten Generation für die Glasindustrie',
       ogDescricao:
-        'Vom Offerte auf der Baustelle bis zum Schnittplan am Tisch. Jedes Reststück wird genutzt.',
+        'Fragen Sie nach Produktion, Verkäufen und Lieferungen. Intelligence findet Antworten in Ihren Firmendaten und beachtet Ihre Zugriffsrechte.',
     },
     vidracaria: {
       nome: 'Glaserei',
-      titulo: 'NeoGlass für Glasereien · Profi ab dem ersten Offerte',
+      titulo: 'Software für Glasereien: Offerten und Projekte | NeoGlass',
       descricao:
-        'Offerte direkt beim Kunden, per WhatsApp verschickt, vom Kunden online bestätigt. Ohne Excel, ohne Notizblock, ohne Schulung.',
-      ogTitulo: 'NeoGlass für Glasereien · Die Offerte steht, bevor Sie zurück im Betrieb sind',
+        'Erstellen Sie Offerten und Projekte am Handy, senden Sie ein PDF mit Ihrem Logo und verfolgen Sie jeden Auftrag in NeoGlass.',
+      ogTitulo: 'Software für Glasereien: Offerten und Projekte',
       ogDescricao:
-        'Öffnung messen, Offerte am Handy rechnen, PDF mit Ihrem Logo verschicken. Fester Preis, keine Einrichtungsgebühr.',
+        'Öffnung messen, Offerte am Handy erstellen und PDF mit Ihrem Logo verschicken.',
     },
     plataforma: {
       nome: 'Plattform',
-      titulo: 'Die NeoGlass-Plattform · Das System der Glasfabrik',
+      titulo: 'NeoGlass-Plattform · Technologie aus der Glasfabrik',
       descricao:
-        'Das System der Glasfabrik: ein Auftrag, die ganze Firma. Geschrieben in der Halle, heute im Einsatz.',
-      ogTitulo: 'Die NeoGlass-Plattform',
-      ogDescricao: 'Ein Auftrag. Die ganze Firma. Geschrieben in der Halle, heute im Einsatz.',
+        'Ein System von der Offerte bis zur Lieferung. In der Fabrik entwickelt, um Zuschnitt, Produktion, Versand und Steuerung zu verbinden.',
+      ogTitulo: 'Wir sind stolz auf das, was wir gebaut haben.',
+      ogDescricao: 'Eine Plattform aus der Glasfabrik. Ein System von der Offerte bis zur Lieferung.',
+    },
+    partner: {
+      nome: 'Partner',
+      titulo: 'NeoGlass Partner · Vertriebspartnerschaft für die Glasbranche',
+      descricao: 'Entdecken Sie NeoGlass Partner: Empfehlen Sie Glasereien und Glasverarbeiter, verfolgen Sie Chancen und erfahren Sie mehr über das Referenz-Provisionsmodell in Brasilien.',
+      ogTitulo: 'NeoGlass Partner · Empfehlen Sie NeoGlass. Verdienen Sie an jedem Abschluss.',
+      ogDescricao: 'Eine Vertriebspartnerschaft für Menschen mit Kontakten in der Glasbranche.',
     },
     comecar: {
       nome: 'Starten',
@@ -65,7 +72,7 @@ export default {
   },
 
   // ── O topo, o rodapé e os botões que aparecem em toda página ──────────
-  // Atenção ao comprimento: `entrar`, `preco`, `verDemoCurto` e `comecarCurto`
+  // Atenção ao comprimento: `entrar`, `preco`, `agendarCurto` e `comecarCurto`
   // moram em botões estreitos e no topo apertado do celular — máximo 12
   // caracteres. Por isso 'Login' e 'Demo' em vez de 'Anmelden' e
   // 'Demo ansehen': no DACH ambos já são palavras correntes no setor.
@@ -74,8 +81,8 @@ export default {
     publicos: 'Branchen',
     entrar: 'Login',
     preco: 'Preise',
-    verDemoCurto: 'Demo',
-    verDemo: 'Das System in Aktion sehen',
+    agendarCurto: '20 Min. buchen',
+    agendarLongo: '20-minütige Vorführung buchen',
     comecarCurto: 'Starten',
     comecarGratis: (dias) => `Gratis starten · ${dias} Tage`,
     comecarAgora: 'Jetzt starten',
@@ -99,6 +106,7 @@ export default {
     semScript: 'Der Kalender konnte hier nicht laden — Netz oder Erweiterung hat ihn blockiert.',
     abrirFora: 'Kalender öffnen',
     carregando: 'Termine werden geladen…',
+    falarWhatsapp: 'Kein passender Termin? Schreiben Sie mir per WhatsApp.',
   },
 
   // ── As mensagens prontas do WhatsApp ──────────────────────────────────

@@ -1308,8 +1308,10 @@ html[data-fraco] .apresentacao-fundo {
 }
 
 .ato {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 280px;
+  /* Poucos atos permanecem na página: pintá-los sempre evita trechos vazios
+     quando alguém avança rápido no celular. */
+  content-visibility: visible;
+  contain-intrinsic-size: none;
   padding-top: 3.25rem;
   padding-bottom: 3.25rem;
 }
@@ -1356,18 +1358,13 @@ html[data-fraco] .apresentacao-fundo {
   margin-top: 0.7rem;
 }
 .ato-palco {
-  --foco: 1;
-  --desvio: 0;
-  opacity: calc(0.34 + var(--foco) * 0.66);
-  transform: translate3d(0, calc(var(--desvio) * 26px), 0);
-  will-change: transform, opacity;
+  opacity: 1;
 }
 .ato-frase-linha {
   display: block;
 }
 .ato-frase-linha-2 {
   margin-top: 0.5rem;
-  transform: translate3d(0, calc(var(--desvio) * -12px), 0);
 }
 
 html[data-parado] .ato-palco,

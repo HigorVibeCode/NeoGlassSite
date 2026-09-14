@@ -22,9 +22,15 @@ const ICONE = `<svg viewBox="0 0 860 684" preserveAspectRatio="xMidYMid meet">
 const PAGINAS = [
   {
     arquivo: 'public/og.jpg',
-    chapeu: 'Indústria do vidro plano',
-    titulo: 'Do orçamento na obra<br><em>à nota fiscal</em>.',
-    rodape: 'Otimização de corte com retalho · rastreio de peça · checagem com IA',
+    chapeu: 'Vidraçaria + indústria',
+    titulo: 'Software para quem<br><em>trabalha com vidro</em>.',
+    rodape: 'Orçamentos · projetos · corte · produção',
+  },
+  {
+    arquivo: 'public/og-industria.jpg',
+    chapeu: 'Indústria do vidro',
+    titulo: 'Tecnologia de<br><em>última geração</em>.',
+    rodape: 'NeoGlass Intelligence · produção · vendas · expedição',
   },
   {
     arquivo: 'public/og-vidracaria.jpg',
@@ -35,15 +41,21 @@ const PAGINAS = [
   {
     arquivo: 'public/og-plataforma.jpg',
     chapeu: 'A plataforma, por dentro',
-    titulo: 'Um sistema só,<br><em>do vão à entrega</em>.',
+    titulo: 'Temos orgulho<br><em>do que construímos</em>.',
     rodape: 'Orçamento · produção · expedição · financeiro — sem trocar de sistema',
+  },
+  {
+    arquivo: 'public/og-partner.jpg',
+    chapeu: 'Programa de parceiros',
+    titulo: 'Indique NeoGlass.<br><em>Ganhe com as vendas</em>.',
+    rodape: 'Uma parceria comercial para o setor do vidro',
   },
 ]
 
 // As fontes vêm do node_modules embutidas em base64: este contêiner não alcança
 // o fonts.googleapis.com, e uma página criada por setContent() não tem origem —
 // então nem file:// ela consegue carregar. Sem isto a imagem sai em Helvetica.
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 const b64 = (c) => readFileSync(new URL(c, import.meta.url)).toString('base64')
 const FONTES = `
 @font-face{font-family:Archivo;font-weight:100 900;font-stretch:62% 125%;
@@ -106,7 +118,13 @@ const pagina = (p) => `<!doctype html><meta charset="utf-8">
   </div>
 </div>`
 
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })
+const executaveis = [
+  process.env.PLAYWRIGHT_CHROMIUM,
+  '/opt/pw-browsers/chromium',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+].filter(Boolean)
+const executablePath = executaveis.find(existsSync)
+const b = await chromium.launch(executablePath ? { executablePath } : {})
 for (const p of PAGINAS) {
   const page = await b.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 })
   await page.setContent(pagina(p))

@@ -14,6 +14,15 @@ export default {
       destaque: 'stolz auf das, was wir gebaut haben.',
     },
     linha: 'Wir kommen aus der Fabrik. Nicht aus einem Büro.',
+    descricao: 'Angebote, Planung, Zuschnitt, Produktion und Lieferung in einem System für das Glasgewerbe.',
+    vidracaria: 'Ich habe eine Glaserei',
+    industria: 'Ich habe eine Glasfabrik',
+  },
+
+  prova: {
+    titulo: 'Ein Auftrag, drei Bereiche desselben Systems.',
+    texto: 'Sehen Sie, wo der Auftrag beginnt, wie Glas im Zuschnitt genutzt wird und wie das Team die Produktion verfolgt.',
+    nota: 'Illustrative Vorschau der NeoGlass-Bereiche. Wählen Sie eine Ansicht aus.',
   },
 
   abertura: {
@@ -100,7 +109,7 @@ export default {
 
   chamada: {
     titulo: 'NeoGlass geöffnet sehen.',
-    texto: 'Vierzig Minuten, System offen, keine Folien.',
+    texto: 'Zwanzig Minuten, System offen, keine Folien.',
     botao: 'Zeit wählen',
   },
 

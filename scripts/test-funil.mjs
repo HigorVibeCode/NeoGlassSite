@@ -58,6 +58,20 @@ for (const lang of ['pt', 'en', 'es', 'de']) check(`rota, textos, preço e SEO $
   assert.ok(rota.oferta.preco)
 })
 check('imagem compartilhável existe', () => assert.equal(imagemDe('primeiro'), 'https://neoglass.online/og-vidracaria.jpg'))
+check('indústria tem imagem própria', () => assert.equal(imagemDe('industria'), 'https://neoglass.online/og-industria.jpg'))
+check('Partner tem prévia própria', () => assert.equal(imagemDe('partner'), 'https://neoglass.online/og-partner.jpg'))
+for (const lang of ['pt', 'en', 'es', 'de']) check(`Partner publicado e traduzido ${lang}`, () => {
+  const t = textosDe(lang)
+  assert.equal(t.partner.modelo.itens.length, 4)
+  assert.equal(t.partner.oferta.publicos.length, 2)
+  assert.equal(t.industria.diferenciais.itens.length, 3)
+  const rota = todasAsPaginas().find(p => p.id === 'partner' && p.idioma === lang)
+  const html = readFileSync(`dist/${rota.arquivo}`, 'utf8')
+  assert.ok(html.includes(t.paginas.partner.titulo))
+  assert.ok(html.includes(`https://neoglass.online${caminhoDe('partner', lang)}`))
+  assert.ok(html.includes('hreflang="x-default"'))
+  assert.ok(html.includes('og-partner.jpg'))
+})
 
 check('origem da campanha sobrevive à ida para cadastro', () => {
   const dados = new Map()

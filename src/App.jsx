@@ -5,6 +5,8 @@ import { Rodape, Topo } from './components/Comum.jsx'
 import Industria from './paginas/Industria.jsx'
 import Vidracaria from './paginas/Vidracaria.jsx'
 import Plataforma from './paginas/Plataforma.jsx'
+import Partner from './paginas/Partner.jsx'
+import PartnerCadastro from './paginas/PartnerCadastro.jsx'
 import Comecar from './paginas/Comecar.jsx'
 import Baixar from './paginas/Baixar.jsx'
 import Home from './paginas/Home.jsx'
@@ -22,6 +24,8 @@ const PAGINAS = {
   industria: Industria,
   vidracaria: Vidracaria,
   plataforma: Plataforma,
+  partner: Partner,
+  partnerCadastro: PartnerCadastro,
   comecar: Comecar,
   baixar: Baixar,
 }

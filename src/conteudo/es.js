@@ -22,37 +22,44 @@ export default {
   paginas: {
     home: {
       nome: 'Inicio',
-      titulo: 'NeoGlass · Software para cristalerías y para la industria del vidrio',
+      titulo: 'NeoGlass · Software para quienes trabajan con vidrio',
       descricao:
-        'Presupuesto, plan de corte, control de retales y producción en un solo sistema. Elige entre la versión para cristalería y la versión para fábrica de vidrio.',
-      ogTitulo: 'El vidrio que no compras es ganancia',
-      ogDescricao: 'Del presupuesto en la obra al plan de corte en la mesa. Elige por dónde entras.',
+        'Presupuestos, proyectos, optimización de corte y producción para cristalerías e industrias del vidrio.',
+      ogTitulo: 'NeoGlass · Software para quienes trabajan con vidrio',
+      ogDescricao: 'Presupuestos, proyectos, optimización de corte y producción para cristalerías e industrias del vidrio.',
     },
     industria: {
       nome: 'Industria',
-      titulo: 'NeoGlass · Software para la industria del vidrio plano',
+      titulo: 'NeoGlass Intelligence · IA integrada en la industria del vidrio',
       descricao:
-        'Del presupuesto tomado en obra al plan de corte que entra en la mesa. Optimización de plancha con aprovechamiento de recortes y trazabilidad de cada pieza.',
-      ogTitulo: 'NeoGlass · Software para la industria del vidrio plano',
+        'Consulta producción, ventas y expedición con NeoGlass Intelligence. IA integrada para encontrar respuestas en los datos de tu industria del vidrio.',
+      ogTitulo: 'NeoGlass · tecnología de última generación para la industria del vidrio',
       ogDescricao:
-        'Del presupuesto en obra al plan de corte que entra en la mesa. Aprovecha cada recorte.',
+        'Pregunta sobre producción, ventas y entregas. Intelligence busca respuestas en los datos de tu empresa respetando tus permisos.',
     },
     vidracaria: {
       nome: 'Cristalería',
-      titulo: 'NeoGlass para cristalerías · del presupuesto a la entrega',
+      titulo: 'Software para cristalerías: presupuestos y proyectos | NeoGlass',
       descricao:
-        'Presupuesto cerrado en obra, pedido seguido desde el corte hasta la entrega y cada recorte en su lugar. Sin hojas de cálculo, sin cuaderno y sin curso.',
-      ogTitulo: 'NeoGlass para cristalerías · el presupuesto sale antes de que vuelvas al taller',
+        'Crea presupuestos y proyectos desde el teléfono, envía un PDF con tu marca y sigue cada trabajo en NeoGlass.',
+      ogTitulo: 'Software para cristalerías: presupuestos y proyectos',
       ogDescricao:
-        'Mide el hueco, monta el presupuesto desde el teléfono y envía el PDF con tu marca. Precio fijo, sin cuota de implantación.',
+        'Mide el hueco, crea el presupuesto desde el teléfono y envía el PDF con tu marca.',
     },
     plataforma: {
       nome: 'Plataforma',
-      titulo: 'La plataforma NeoGlass · El sistema de la fábrica de vidrio',
+      titulo: 'Plataforma NeoGlass · Tecnología creada dentro de la fábrica de vidrio',
       descricao:
-        'El sistema de la fábrica de vidrio: un pedido, la empresa entera. Escrito dentro de la fábrica, en marcha hoy.',
-      ogTitulo: 'La plataforma NeoGlass',
-      ogDescricao: 'Un pedido. La empresa entera. Escrito dentro de la fábrica, en marcha hoy.',
+        'Un solo sistema, del presupuesto a la entrega. Creado dentro de la fábrica para conectar corte, producción, expedición y gestión.',
+      ogTitulo: 'Estamos orgullosos de lo que construimos.',
+      ogDescricao: 'Una plataforma creada dentro de la fábrica de vidrio. Un solo sistema, del presupuesto a la entrega.',
+    },
+    partner: {
+      nome: 'Partner',
+      titulo: 'NeoGlass Partner · Colaboración comercial para el sector del vidrio',
+      descricao: 'Conoce NeoGlass Partner: recomienda cristalerías e industrias del vidrio, sigue oportunidades y consulta el modelo de comisiones de referencia en Brasil.',
+      ogTitulo: 'NeoGlass Partner · Recomienda NeoGlass. Gana con cada contratación.',
+      ogDescricao: 'Una colaboración comercial para quienes conocen empresas del sector del vidrio.',
     },
     comecar: {
       nome: 'Empezar',
@@ -81,8 +88,8 @@ export default {
     publicos: 'Sectores',
     entrar: 'Entrar',
     preco: 'Precio',
-    verDemoCurto: 'Ver demo',
-    verDemo: 'Ver el sistema funcionando',
+    agendarCurto: 'Agendar 20 min',
+    agendarLongo: 'Agendar demostración de 20 min',
     comecarCurto: 'Empezar',
     comecarGratis: (dias) => `Empezar gratis · ${dias} días`,
     comecarAgora: 'Empezar ahora',
@@ -107,6 +114,7 @@ export default {
     semScript: 'La agenda no cargó aquí — la red o una extensión la bloqueó.',
     abrirFora: 'Abrir la agenda',
     carregando: 'Cargando los horarios…',
+    falarWhatsapp: '¿No encuentras horario? Escríbeme por WhatsApp.',
   },
 
   // ── As mensagens prontas do WhatsApp ──────────────────────────────────

@@ -14,6 +14,15 @@ export default {
       destaque: 'orgullosos de lo que construimos.',
     },
     linha: 'Venimos de la fábrica. No de un despacho.',
+    descricao: 'Presupuestos, proyectos, corte, producción y entrega en un solo sistema para quien trabaja con vidrio.',
+    vidracaria: 'Tengo una cristalería',
+    industria: 'Tengo una industria',
+  },
+
+  prova: {
+    titulo: 'Un pedido, tres áreas del mismo sistema.',
+    texto: 'Mira dónde entra el pedido, cómo se aprovecha el vidrio en el corte y dónde el equipo sigue la producción.',
+    nota: 'Vista ilustrativa de las áreas de NeoGlass. Elige una pantalla para ver el módulo.',
   },
 
   abertura: {
@@ -100,7 +109,7 @@ export default {
 
   chamada: {
     titulo: 'Ver NeoGlass abierto.',
-    texto: 'Cuarenta minutos, el sistema abierto, sin diapositivas.',
+    texto: 'Veinte minutos, el sistema abierto, sin diapositivas.',
     botao: 'Elegir el horario',
   },
 

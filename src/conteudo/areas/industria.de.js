@@ -13,6 +13,20 @@
  * para isso que o título veio partido em duas chaves.
  */
 export default {
+  projeto: {
+    rotulo: 'Technologie in Aktion',
+    titulo: 'Vom Satz zum Projekt. Sehen Sie selbst.',
+    texto: 'Diese Vorführung zeigt die Planung einer Öffnung. Die KI bereitet einen Entwurf vor; ein Mensch wählt, prüft und bestätigt das Projekt.',
+  },
+  diferenciais: {
+    rotulo: 'Technologie für Glas',
+    titulo: 'Mehr als Fabrikverwaltung. Ein neuer Anfang für jeden Auftrag.',
+    itens: [
+      { nome: 'Sprache oder Text wird zum Entwurf', texto: 'Beschreiben Sie ein Glasteil oder eine Öffnung wie gegenüber Ihrem Team. NeoGlass ordnet Maße und Angaben zur Prüfung. Die KI ersetzt keine Kontrolle.' },
+      { nome: 'Ein Projekt, das man sehen kann', texto: '2D-Zeichnung, 3D-Ansicht und Schnittgeometrie zeigen den Auftrag vor dem Zuschnitt. Änderungen beginnen am Projekt statt in einer separaten Tabelle.' },
+      { nome: 'Dateien für die Maschine', texto: 'Pläne und Konturen lassen sich in Produktionsformaten ausgeben. Die .g- und .cni-Motoren wurden an echten Tischen geprüft; Ihr Team gibt die Fertigung frei.' },
+    ],
+  },
 
   laco: {
     modulo: 'NeoGlass Optimierung',
@@ -38,14 +52,25 @@ export default {
       { nome: 'Ein einziges System', texto: 'Der Optimierer, der Bestand und das Etikett sind dasselbe. Nichts wird exportiert, nichts neu getippt — deshalb geht das Reststück nicht verloren.' },
     ],
   },
+  percurso: {
+    titulo: 'Derselbe Auftrag läuft bis zur Lieferung weiter.',
+    texto: 'Die Einsparung beim Zuschnitt ist nur ein Teil. Auftrag, Produktion und Versand arbeiten mit denselben Informationen.',
+    etapas: [
+      { nome: 'Auftrag', texto: 'Masse, Preis und Termin bleiben von Anfang an zusammen.' },
+      { nome: 'Zuschnitt', texto: 'Der Plan berücksichtigt vorhandene Tafeln und Reststücke.' },
+      { nome: 'Produktion', texto: 'Das Team verfolgt den Status jeder Scheibe.' },
+      { nome: 'Versand', texto: 'Kontrolle und Lieferung bleiben mit dem Auftrag verknüpft.' },
+    ],
+    nota: 'Illustrative Vorschau der NeoGlass-Bereiche. Wählen Sie eine Ansicht aus.',
+  },
   // ── A abertura (FL. 01/06) ────────────────────────────────────────────
   hero: {
-    rotulo: 'NeoGlass · Flachglasindustrie',
-    verOtimizacao: 'Die Optimierung in Aktion sehen',
-    etiqueta: 'Ein Blick ins System',
+    rotulo: 'NeoGlass · Plattform für die Glasindustrie',
+    verProjeto: 'Technologie in Aktion sehen',
+    etiqueta: 'Technologie für Glas',
     titulo: {
-      antes: 'Bevor eine neue Tafel geschnitten wird, sucht das System',
-      destaque: 'in den Reststücken.',
+      antes: 'Technologie der neuesten Generation für',
+      destaque: 'die Glasindustrie.',
     },
     /* A segunda metade dizia a margem pela venda que não aconteceu ("ohne dass
        Sie einen Quadratmeter mehr verkaufen"). Entrou a inversão do pt (vender
@@ -57,7 +82,7 @@ export default {
        primeira frase perdeu peso ("sucht" no lugar de "schaut auf", plural
        "neue Tafeln" no lugar de "eine neue Tafel") — 149 no total. Quem mexer
        aqui, conte os caracteres antes de dar por pronto. */
-    texto: 'Auf eine neue Tafel geht nur, was in kein Reststück gepasst hat.',
+    texto: 'KI, parametrische Planung, Optimierung und Produktion verbunden in einer Plattform für den Alltag Ihrer Fabrik.',
     // Vírgula decimal como em português — em alemão é a mesma convenção.
     /* A terceira marca era "0 licença por posto". Saiu em 13/08 pelo mesmo
        motivo que as outras promessas sobre cobrança: a regra de usuários do
@@ -72,13 +97,14 @@ export default {
 
   // ── A demonstração do retalho (FL. 02/06) ─────────────────────────────
   demo: {
-    rotulo: 'Demo · erst das Gestell, dann die Tafel',
+    rotulo: 'Der Nutzen zeigt sich auch beim Zuschnitt',
+    acao: 'Vorführung starten',
     /* O título dizia de novo o que o hero já diz duas telas acima ("erst am
        Gestell nachsehen"). Agora ele mostra o RESULTADO que o leitor vai ver
        acontecer, e o texto cabe em duas frases: o resto ele descobre
        apertando. "Vor Ihren Augen" é o "na sua frente" — em alemão o lugar
        natural dessa expressão é no fim. */
-    titulo: 'Aus drei Tafeln werden zwei. Vor Ihren Augen.',
+    titulo: 'Bevor Sie eine neue Tafel öffnen: Was ist schon vorhanden?',
     texto:
       'Ein echter Auftrag mit 20 Teilen, gerechnet vom echten Optimierer, hier in Ihrem Browser. Drücken Sie auf Optimieren und sehen Sie, welches Rohglas Sie nicht kaufen.',
   },
@@ -123,13 +149,13 @@ export default {
     /* A promessa forte não é montar rápido, é ele SAIR com o plano de corte do
        pedido dele. Em alemão a segunda frase fica melhor com o objeto na
        frente ("Den Schnittplan dazu…") do que com o sujeito. */
-    titulo: 'Bringen Sie einen eigenen Auftrag mit. Den Schnittplan dazu nehmen Sie mit.',
+    titulo: 'Bringen Sie einen echten Auftrag mit. Sehen Sie NeoGlass daran arbeiten.',
     texto:
       'Die Vorführung läuft am offenen System, nicht auf Folien. Wenn es am Ende nicht zu Ihrem Betrieb passt, haben Sie zwanzig Minuten verloren und eine Analyse gewonnen.',
     passos: [
       'Sie zeigen uns einen echten Auftrag von sich',
       'Wir legen ihn live im System an',
-      'Sie sehen am Ende den Schnittplan herauskommen',
+      'Sie sehen Projekt und Schnittplan auf dem Bildschirm',
     ],
   },
 }

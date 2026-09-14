@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { CONFIG, moedaDe } from '../config.js'
+import { CONFIG } from '../config.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 import textos from '../conteudo/areas/partner-simulacao.js'
 import { simularPartner } from '../lib/simulacaoPartner.js'
@@ -11,7 +11,8 @@ export default function SimuladorPartner({ contato, aoContatar }) {
   const [clientes, setClientes] = useState(5)
   const [todoMes, setTodoMes] = useState(false)
   const [escolhaMoeda, setEscolhaMoeda] = useState(null)
-  const moeda = escolhaMoeda?.idioma === idioma ? escolhaMoeda.moeda : moedaDe(idioma)
+  const moedaPadrao = CONFIG.vidracaria.moedaPorIdioma[idioma] ?? 'BRL'
+  const moeda = escolhaMoeda?.idioma === idioma ? escolhaMoeda.moeda : moedaPadrao
   const id = useId()
   const s = simularPartner(clientes, todoMes, 12, moeda)
   const fmt = n => new Intl.NumberFormat(moeda === 'CHF' ? 'de-CH' : {pt:'pt-BR',en:'en-US',es:'es-ES',de:'de-DE'}[idioma] || 'pt-BR', {style:'currency',currency:moeda}).format(n / 100)
@@ -20,12 +21,13 @@ export default function SimuladorPartner({ contato, aoContatar }) {
     <header><p className="cota uppercase">{t.rotulo}</p><h2 className="display">{t.titulo}</h2><p>{t.texto}</p></header>
     <div className="ngp-calculator">
       <div className="ngp-config">
-        <div className="ngp-modes" role="group" aria-label={t.rotulo}>{t.modos.map((nome,i)=><button type="button" key={nome} aria-pressed={todoMes === Boolean(i)} onClick={()=>setTodoMes(Boolean(i))}>{nome}</button>)}</div>
+        <div className="ngp-toolbar">
+          <div className="ngp-modes" role="group" aria-label={t.rotulo}>{t.modos.map((nome,i)=><button type="button" key={nome} aria-pressed={todoMes === Boolean(i)} onClick={()=>setTodoMes(Boolean(i))}>{nome}</button>)}</div>
+          <label className="ngp-currency"><span className="sr-only">{t.moeda}</span><select aria-label={t.moeda} value={moeda} onChange={e=>setEscolhaMoeda({idioma,moeda:e.target.value})}>{Object.keys(CONFIG.vidracaria.precos).map(m=><option key={m} value={m}>{m}</option>)}</select></label>
+        </div>
         <div className="ngp-range-label"><label htmlFor={id}>{t.quantidade[Number(todoMes)]}</label><output htmlFor={id}>{clientes}</output></div>
         <input id={id} type="range" min="1" max="20" step="1" value={clientes} onChange={e=>setClientes(Number(e.target.value))}/>
         <div className="ngp-range-ends" aria-hidden="true"><span>1</span><span>20</span></div>
-        <label className="ngp-base ngp-currency">{t.moeda} <select value={moeda} onChange={e=>setEscolhaMoeda({idioma,moeda:e.target.value})}>{Object.keys(CONFIG.vidracaria.precos).map(m=><option key={m} value={m}>{m}</option>)}</select></label>
-        <p className="ngp-base ngp-rules">{t.base(fmt(s.mensalidade))} {t.regras}</p>
       </div>
       <div className="ngp-outcome" aria-live="polite">
         <p className="ngp-scenario">{t.cenario(clientes,todoMes)}</p>

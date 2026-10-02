@@ -25,6 +25,23 @@ import './tempera.css'
 
 const T = CONFIG.tempera
 const ORDEM = ['neg', 'prod', 'dad', 'teste', 'ini', 'quem', 'contato']
+/* Envio que não chegou ao servidor fica guardado no aparelho e é reenviado na
+   próxima visita: o WhatsApp que abre na hora pode não ser enviado, e esse
+   contato veio de um anúncio pago. */
+const PENDENTE = 'ng_tempera_pendente'
+const guardarPendente = (corpo) => { try { localStorage.setItem(PENDENTE, JSON.stringify(corpo)) } catch { /* sem armazenamento: fica o WhatsApp */ } }
+const lerPendente = () => { try { return JSON.parse(localStorage.getItem(PENDENTE) || 'null') } catch { return null } }
+const limparPendente = () => { try { localStorage.removeItem(PENDENTE) } catch { /* nada a limpar */ } }
+async function postar(corpo, ms = 20000) {
+  const ctrl = new AbortController()
+  const timer = setTimeout(() => ctrl.abort(), ms)
+  try {
+    return await fetch(CONFIG.temperaApi, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo), signal: ctrl.signal })
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 const ESP = [[74, 106, 224], [14, 140, 106], [127, 224, 200], [251, 176, 59], [224, 85, 106]]
 
 export function mensalTempera(m2) {
@@ -114,6 +131,10 @@ export default function Tempera() {
   }, [])
   useLayoutEffect(encaixa, [tela, erro, S.quem, encaixa])
   useEffect(() => {
+    const pendente = CONFIG.temperaApi && lerPendente()
+    if (pendente) postar(pendente).then((r) => { if (r.ok || r.status === 400) limparPendente() }).catch(() => {})
+  }, [])
+  useEffect(() => {
     window.addEventListener('resize', encaixa)
     return () => window.removeEventListener('resize', encaixa)
   }, [encaixa])
@@ -163,39 +184,34 @@ export default function Tempera() {
       return ir('feito')
     }
     setEnviando(true)
+    const corpo = {
+      nome: ct.nome,
+      empresa: ct.empresa,
+      whatsapp: ct.whatsapp,
+      enc_nome: S.quem === 'ambos' ? ct.encNome : '',
+      enc_whatsapp: S.quem === 'ambos' ? ct.encWhatsapp : '',
+      producao_m2: S.m2,
+      dados: S.dad,
+      testes: S.teste,
+      inicio: S.ini,
+      participantes: S.quem,
+      idioma,
+      origem: campanha.utm_source,
+      marketing: campanha,
+      site: ct.site,
+    }
     try {
-      const ctrl = new AbortController()
-      const timer = setTimeout(() => ctrl.abort(), 20000)
-      const r = await fetch(CONFIG.temperaApi, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: ctrl.signal,
-        body: JSON.stringify({
-          nome: ct.nome,
-          empresa: ct.empresa,
-          whatsapp: ct.whatsapp,
-          enc_nome: S.quem === 'ambos' ? ct.encNome : '',
-          enc_whatsapp: S.quem === 'ambos' ? ct.encWhatsapp : '',
-          producao_m2: S.m2,
-          dados: S.dad,
-          testes: S.teste,
-          inicio: S.ini,
-          participantes: S.quem,
-          idioma,
-          origem: campanha.utm_source,
-          marketing: campanha,
-          site: ct.site,
-        }),
-      })
-      clearTimeout(timer)
+      const r = await postar(corpo)
       if (r.status === 429) {
         setErro(t.contato.muitas)
         return
       }
       if (!r.ok) throw new Error(String(r.status))
+      limparPendente()
       evento('lead', { origem: 'tempera' })
       ir('feito')
     } catch {
+      guardarPendente(corpo)
       setErro(t.contato.erro)
       abrirWhatsapp()
       evento('whatsapp', { origem: 'tempera' })

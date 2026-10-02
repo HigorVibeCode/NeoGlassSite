@@ -413,9 +413,11 @@ na primeira tela para o `/comecar`.
 - Tabela de preço: `CONFIG.tempera` em `src/config.js`. A Edge Function
   `site-tempera` (repositório do NeoGlass) recalcula a mesma conta no servidor:
   mudou aqui, mude lá.
-- Envio: `CONFIG.temperaApi` → grava em `site_leads_tempera` e manda o aviso
-  para higor@neoglass.online. Se a função falhar, o WhatsApp abre com tudo
-  preenchido; o contato não se perde.
+- Envio: `CONFIG.temperaApi` → grava em `site_leads_tempera`, cria o lead em
+  **Partner › Leads** do dono (selo *pela têmpera*) e manda o aviso para
+  higor@neoglass.online. Se a função falhar, o WhatsApp abre com tudo
+  preenchido E o envio fica guardado no aparelho (`ng_tempera_pendente`),
+  reenviado sozinho na próxima visita.
 - Nenhuma tela rola: a página mede e compacta por níveis (`data-c`) até caber.
   Por isso o link "Preferências de medição" fica num canto fixo nesta página
   (`ConsentimentoMedicao compacto`).

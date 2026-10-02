@@ -84,8 +84,11 @@ export function Topo({ rota }) {
     : comecar
     ? comecar.href
     : ['industria', 'plataforma'].includes(id)
-      ? '#agendar'
+      ? caminhoDe('tempera', idioma)
       : linkAgendar(c.whatsapp.demonstracao)
+  // A conversa da indústria começa em /tempera: as sete perguntas qualificam o
+  // contato (e mandam a vidraçaria para o cadastro) antes de abrir a agenda.
+  const alvoRota = ['industria', 'plataforma'].includes(id) && !comecar ? 'tempera' : null
   const rotuloCurto = id === 'partner' ? c.partner.hero.acao : comecar ? comecar.curto : c.chrome.agendarCurto
   const rotuloLongo = id === 'partner' ? c.partner.hero.acao : comecar ? comecar.rotulo : c.chrome.agendarLongo
 
@@ -192,7 +195,10 @@ export function Topo({ rota }) {
               aria-label={rotuloLongo}
               target={ehExterno(alvo) ? '_blank' : undefined}
               rel={ehExterno(alvo) ? 'noreferrer' : undefined}
-              onClick={() => evento(id === 'partner' ? 'partner_cadastro_inicio' : comecar ? 'comecar' : 'agendar', { origem: 'topo' })}
+              onClick={(e) => {
+                evento(id === 'partner' ? 'partner_cadastro_inicio' : comecar ? 'comecar' : 'agendar', { origem: 'topo' })
+                if (alvoRota) abrir(e, alvoRota)
+              }}
               className="botao-marca surge whitespace-nowrap px-3.5 py-2.5 text-[13.5px] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[14px]"
             >
               <span className="min-[360px]:hidden">{id === 'partner' ? c.paginas.partner.nome : comecar ? c.paginas.comecar.nome : '20 min'}</span>
@@ -265,14 +271,13 @@ export function Origem({ folha = 'FL. 04/05' }) {
 }
 
 /**
- * `agenda` liga o Calendly embutido no lugar do formulário. É o que a aba da
- * indústria quer: ali a venda é consultiva e o passo seguinte é uma reunião,
- * não deixar um telefone para alguém retornar depois. O formulário continua
- * existindo para onde ele fizer mais sentido.
+ * `convite` troca o fecho por um botão. Indústria e plataforma o apontam para
+ * /tempera: a agenda aberta no fim da página marcava conversa com quem nem
+ * disse se é têmpera ou vidraçaria, nem quanto produz. As sete perguntas vêm
+ * antes, e a agenda aparece no fim delas.
  *
- * `agendaBotao` segura o widget: o visitante vê um botão, e o clique abre a
- * agenda no mesmo cartão. A /plataforma usa isso. A indústria não — lá o
- * calendário já é o objeto da seção.
+ * `agenda` (Calendly embutido) e `agendaBotao` (o widget atrás de um botão)
+ * continuam aqui para uma página que precise marcar sem qualificar antes.
  */
 export function Chamada({
   rotulo,
@@ -381,7 +386,7 @@ export function Chamada({
               <div className="flex w-full flex-col items-center gap-3">
                 <a
                   href={convite.href}
-                  onClick={() => evento('comecar', { origem: 'chamada' })}
+                  onClick={() => evento(convite.evento ?? 'comecar', { origem: 'chamada' })}
                   className="botao-marca px-8 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   {convite.rotulo}
@@ -389,10 +394,10 @@ export function Chamada({
                 <p className="cota max-w-[34ch] normal-case leading-snug">{convite.nota}</p>
               </div>
             ) : (
-              <div className="flex flex-col items-start justify-center gap-4 rounded-[20px] border border-line bg-card px-7 py-9">
+              <div className="flex flex-col items-start justify-center gap-4 lg:pl-10">
                 <a
                   href={convite.href}
-                  onClick={() => evento('comecar', { origem: 'chamada' })}
+                  onClick={() => evento(convite.evento ?? 'comecar', { origem: 'chamada' })}
                   className="botao-marca px-7 py-3.5 text-[15px] transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   {convite.rotulo}

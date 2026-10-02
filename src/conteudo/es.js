@@ -90,6 +90,7 @@ export default {
     preco: 'Precio',
     agendarCurto: 'Agendar 20 min',
     agendarLongo: 'Agendar demostración de 20 min',
+    agendarNota: 'Siete preguntas rápidas sobre su planta, sus datos y la implantación; al final elige el horario.',
     comecarCurto: 'Empezar',
     comecarGratis: (dias) => `Empezar gratis · ${dias} días`,
     comecarAgora: 'Empezar ahora',

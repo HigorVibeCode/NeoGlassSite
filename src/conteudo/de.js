@@ -83,6 +83,7 @@ export default {
     preco: 'Preise',
     agendarCurto: '20 Min. buchen',
     agendarLongo: '20-minütige Vorführung buchen',
+    agendarNota: 'Sieben kurze Fragen zu Betrieb, Daten und Einführung, am Ende wählen Sie den Termin.',
     comecarCurto: 'Starten',
     comecarGratis: (dias) => `Gratis starten · ${dias} Tage`,
     comecarAgora: 'Jetzt starten',

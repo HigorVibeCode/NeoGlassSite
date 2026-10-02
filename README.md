@@ -406,6 +406,12 @@ Destino do filme e do anúncio para têmperas. Sete telas, uma pergunta por tela
 contato), com a régua do topo andando uma marca a cada resposta. Vidraçaria sai
 na primeira tela para o `/comecar`.
 
+É também a porta de toda conversa consultiva do site: o botão do topo e o fecho
+de **Indústria** e **Plataforma** levam para cá (não abrem mais o Calendly).
+A agenda aparece no fim, depois do contato gravado — botão «Escolher o horário
+agora», em outra aba. O Calendly embutido (`Agenda.jsx`) ficou só na campanha
+`/primeiro-orcamento`.
+
 - Página: `src/paginas/Tempera.jsx` + `tempera.css` (tudo sob `.tp`).
 - Textos nos 4 idiomas: `src/conteudo/areas/tempera.js`. O preço em reais só
   aparece em português; nos outros idiomas a faixa aparece e o valor fica para

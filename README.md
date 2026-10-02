@@ -399,6 +399,32 @@ pode fazer é mandar um lead falso — nunca ler a sua lista de clientes.
 Para ver os leads, use o painel do Supabase (*Table Editor → leads_site*) ou uma
 consulta com a chave de serviço, que não sai do servidor.
 
+## Campanha da têmpera (`/tempera`)
+
+Destino do filme e do anúncio para têmperas. Sete telas, uma pergunta por tela
+(negócio, produção, dados, testes, início, quem participa da conversa,
+contato), com a régua do topo andando uma marca a cada resposta. Vidraçaria sai
+na primeira tela para o `/comecar`.
+
+- Página: `src/paginas/Tempera.jsx` + `tempera.css` (tudo sob `.tp`).
+- Textos nos 4 idiomas: `src/conteudo/areas/tempera.js`. O preço em reais só
+  aparece em português; nos outros idiomas a faixa aparece e o valor fica para
+  a conversa.
+- Tabela de preço: `CONFIG.tempera` em `src/config.js`. A Edge Function
+  `site-tempera` (repositório do NeoGlass) recalcula a mesma conta no servidor:
+  mudou aqui, mude lá.
+- Envio: `CONFIG.temperaApi` → grava em `site_leads_tempera`, cria o lead em
+  **Partner › Leads** do dono (selo *pela têmpera*) e manda o aviso para
+  higor@neoglass.online. Se a função falhar, o WhatsApp abre com tudo
+  preenchido E o envio fica guardado no aparelho (`ng_tempera_pendente`),
+  reenviado sozinho na próxima visita.
+- Nenhuma tela rola: a página mede e compacta por níveis (`data-c`) até caber.
+  Por isso o link "Preferências de medição" fica num canto fixo nesta página
+  (`ConsentimentoMedicao compacto`).
+- Eventos: `tempera_etapa` a cada tela, `lead` no envio.
+
+Link do anúncio: `https://neoglass.online/tempera?utm_source=youtube&utm_campaign=<campanha>`.
+
 ## Medição
 
 `src/lib/rastreio.js` expõe `evento(nome, dados)` com vocabulário nosso:

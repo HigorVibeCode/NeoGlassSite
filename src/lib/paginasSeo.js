@@ -24,6 +24,13 @@ export const SITE = 'https://neoglass.online'
 /** As rotas, com o endereço de cada uma em cada idioma. */
 export const ROTAS = [
   {
+    // Destino do filme e do anúncio da têmpera. Fora do menu: quem chega aqui
+    // veio por um link de campanha, não pela navegação do site.
+    id: 'tempera',
+    slug: { pt: '/tempera', en: '/tempering', es: '/templado', de: '/vorspannung' },
+    menu: false,
+  },
+  {
     id: 'primeiro',
     slug: { pt: '/primeiro-orcamento', en: '/first-quote', es: '/primer-presupuesto', de: '/erste-offerte' },
     menu: false,

@@ -1,11 +1,13 @@
 import Abertura from '../components/Abertura.jsx'
 import IntelligenceIndustria, { EVENTO_INTELLIGENCE } from '../components/IntelligenceIndustria.jsx'
 import { Chamada, Revelar } from '../components/Comum.jsx'
-import { useTextos } from '../i18n/idioma.jsx'
+import { useIdioma } from '../i18n/idioma.jsx'
+import { caminhoDe } from '../lib/paginasSeo.js'
 
 /** Intelligence é a entrada industrial; a demonstração expõe o fluxo real das consultas. */
 export default function Industria() {
-  const t = useTextos().industria
+  const { c, idioma } = useIdioma()
+  const t = c.industria
 
   return (
     <>
@@ -55,7 +57,12 @@ export default function Industria() {
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
         passos={t.chamada.passos}
-        agenda
+        convite={{
+          href: caminhoDe('tempera', idioma),
+          rotulo: c.chrome.agendarLongo,
+          nota: c.chrome.agendarNota,
+          evento: 'agendar',
+        }}
       />
     </>
   )

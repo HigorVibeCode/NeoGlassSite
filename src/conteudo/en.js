@@ -84,6 +84,7 @@ export default {
     preco: 'Pricing',
     agendarCurto: 'Book 20 min',
     agendarLongo: 'Book a 20-minute walkthrough',
+    agendarNota: 'Seven quick questions about your plant, your data and rollout, then you pick a time.',
     comecarCurto: 'Get started',
     // Continua função porque o número de dias do teste vem da config, não do
     // texto — muda o plano, muda o botão sozinho.

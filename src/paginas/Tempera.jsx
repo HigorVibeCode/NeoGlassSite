@@ -3,6 +3,7 @@ import Marca from '../components/Marca.jsx'
 import { CONFIG, precoVidracaria } from '../config.js'
 import { caminhoDe } from '../lib/paginasSeo.js'
 import { origemGuardada } from '../lib/indicacao.js'
+import { urlDaAgenda } from '../lib/funil.js'
 import { evento } from '../lib/rastreio.js'
 import { useIdioma } from '../i18n/idioma.jsx'
 import './tempera.css'
@@ -413,6 +414,7 @@ export default function Tempera() {
       )
     },
     feito: () => {
+      const agenda = urlDaAgenda(CONFIG.agendar, origemGuardada())
       const primeiro = ct.nome.trim().split(/\s+/)[0] || ''
       const enc = S.quem === 'ambos' ? ct.encNome.trim().split(/\s+/)[0] : ''
       const linhas = [
@@ -439,7 +441,7 @@ export default function Tempera() {
             <path d="M30 52 l14 14 l27 -30" />
           </svg>
           {titulo(t.feito.titulo(primeiro))}
-          <p className="tp-texto">{t.feito.texto(enc)}</p>
+          <p className="tp-texto">{agenda ? t.feito.textoAgenda(enc) : t.feito.texto(enc)}</p>
           <Chapa cheia>
             <div className="tp-resumo">
               {linhas.map(([rot, val]) => (
@@ -447,6 +449,22 @@ export default function Tempera() {
               ))}
             </div>
           </Chapa>
+          {/* A agenda vem DEPOIS do contato: quem marca já disse quem é e quanto
+              produz. Abre em outra aba porque o Calendly não cabe numa tela que
+              não rola — e o contato já está gravado, não se perde se ele fechar. */}
+          {agenda && (
+            <div className="tp-acoes">
+              <a
+                className="botao-marca tp-botao"
+                href={agenda}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => evento('agendar', { origem: 'tempera-feito' })}
+              >
+                {t.feito.agendar}
+              </a>
+            </div>
+          )}
         </>
       )
     },

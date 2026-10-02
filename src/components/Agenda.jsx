@@ -118,8 +118,8 @@ export default function Agenda({ origem = 'agenda', campanha, onConfirmado }) {
             data-url={url}
             style={{ minWidth: '320px', height: 'clamp(560px, 72vh, 720px)' }}
           />
-          <a href={url} target="_blank" rel="noreferrer" onClick={() => evento('agendar', { origem: `${origem}-externo` })} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.abrirFora}</a>
-          <a href={whatsapp} target="_blank" rel="noreferrer" onClick={() => evento('whatsapp', { origem: `${origem}-agenda` })} className="mt-1 inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4">{c.agenda.falarWhatsapp}</a>
+          <a href={url} target="_blank" rel="noreferrer" onClick={() => evento('agendar', { origem: `${origem}-externo` })} className="mt-3 flex min-h-11 w-fit items-center text-sm font-bold underline underline-offset-4">{c.agenda.abrirFora}</a>
+          <a href={whatsapp} target="_blank" rel="noreferrer" onClick={() => evento('whatsapp', { origem: `${origem}-agenda` })} className="mt-1 flex min-h-11 w-fit items-center text-sm font-bold underline underline-offset-4">{c.agenda.falarWhatsapp}</a>
           {estado !== 'pronto' && (
             <p className="cota mt-3 normal-case">{c.agenda.carregando}</p>
           )}

@@ -5,7 +5,8 @@ import Inteligencia from '../components/Inteligencia.jsx'
 import Continuidade from '../components/Continuidade.jsx'
 import Telas from '../components/Telas.jsx'
 import { Chamada } from '../components/Comum.jsx'
-import { useTextos } from '../i18n/idioma.jsx'
+import { useIdioma } from '../i18n/idioma.jsx'
+import { caminhoDe } from '../lib/paginasSeo.js'
 
 /**
  * A página /plataforma.
@@ -16,7 +17,8 @@ import { useTextos } from '../i18n/idioma.jsx'
  *   04  ver aberto
  */
 export default function Plataforma() {
-  const t = useTextos().plataforma
+  const { c, idioma } = useIdioma()
+  const t = c.plataforma
 
   return (
     <>
@@ -38,9 +40,12 @@ export default function Plataforma() {
       <Chamada
         titulo={t.chamada.titulo}
         texto={t.chamada.texto}
-        botao={t.chamada.botao}
-        agenda
-        agendaBotao
+        convite={{
+          href: caminhoDe('tempera', idioma),
+          rotulo: c.chrome.agendarLongo,
+          nota: c.chrome.agendarNota,
+          evento: 'agendar',
+        }}
         centro
       />
     </>

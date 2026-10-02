@@ -157,6 +157,22 @@ export const CONFIG = {
   // e o site segue funcionando igual.
   indicacaoApi: 'https://tukoposrodehenltgjip.supabase.co/functions/v1/site-indicacao',
 
+  // Formulário da página /tempera (a calculadora da têmpera). Público e sem
+  // chave, como o cadastro. Vazio: o envio cai no WhatsApp com tudo preenchido.
+  temperaApi: 'https://tukoposrodehenltgjip.supabase.co/functions/v1/site-tempera',
+
+  // A tabela da têmpera, em reais. A Edge Function `site-tempera` recalcula o
+  // mesmo número no servidor (`mensalDe`): mudou aqui, mude lá também.
+  tempera: {
+    ateBase: 3000, // m² cobertos pela mensalidade de entrada
+    base: 2000, // R$/mês até `ateBase`
+    passo: 2000, // m² de cada faixa seguinte
+    porPasso: 500, // R$/mês a mais por faixa
+    limite: 15000, // acima disso, o preço é montado na conversa
+    migracao: 3500, // a NeoGlass migra os dados
+    diaria: 1000, // teste presencial, por dia (hotel e transporte à parte)
+  },
+
   // ── Medição ────────────────────────────────────────────────────────────
   // ID do pixel do Meta. Vazio = nenhum script de rastreio é carregado.
   pixelMeta: import.meta.env?.VITE_PIXEL_META ?? '',

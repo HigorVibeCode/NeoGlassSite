@@ -1,4 +1,5 @@
 import primeiro from './areas/primeiro.js'
+import tempera from './areas/tempera.js'
 import partnerCadastro from './areas/partner-cadastro.js'
 import intelligenceIndustria from './areas/intelligence-industria.js'
 import pt from './pt.js'
@@ -98,7 +99,8 @@ for (const [idioma, conteudo] of Object.entries(TEXTOS)) {
   const { demo: intelligence, ...mensagensIndustria } = intelligenceIndustria[idioma]
   conteudo.industria = { ...conteudo.industria, ...mensagensIndustria, intelligence }
   conteudo.primeiro = primeiro[idioma]
-  conteudo.paginas = { ...conteudo.paginas, primeiro: primeiro[idioma].seo }
+  conteudo.paginas = { ...conteudo.paginas, primeiro: primeiro[idioma].seo, tempera: tempera[idioma].seo }
+  conteudo.tempera = tempera[idioma]
   const pc = partnerCadastro[idioma]
   conteudo.paginas.partnerCadastro = {nome:'Partner',titulo:pc.acao+' · NeoGlass',descricao:pc.texto,ogTitulo:pc.acao,ogDescricao:pc.texto}
   conteudo.partner.fecho = {...conteudo.partner.fecho,titulo:pc.fecho,texto:pc.fechoTexto,acao:pc.acao}

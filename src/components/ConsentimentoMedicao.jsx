@@ -8,13 +8,17 @@ const TEXTOS = {
   de: { titulo: 'Anzeigenmessung', texto: 'Dürfen wir Google-Ads-Cookies nutzen, um zu sehen, welche Anzeigen zu Registrierungen führen? Namen, E-Mail-Adressen und Passwörter werden dafür nicht gesendet. Die Auswahl kann hier im Footer geändert werden.', sim: 'Messung erlauben', nao: 'Jetzt nicht', preferencias: 'Messeinstellungen', privacidade: 'So nutzt Google Daten' },
 }
 
-export default function ConsentimentoMedicao({ idioma }) {
+/* `compacto`: em página que ocupa a tela inteira sem rolar (a /tempera), o
+   link de preferências vira um canto fixo em vez de um bloco no fim da página. */
+export default function ConsentimentoMedicao({ idioma, compacto = false }) {
   const [aberto, setAberto] = useState(() => !escolhaMedicao())
   const t = TEXTOS[idioma] || TEXTOS.en
   useEffect(() => { iniciarGoogleAds() }, [])
   const escolher = (aceitar) => { definirMedicao(aceitar); setAberto(false) }
   return <>
-    <div className="py-4 text-center"><button className="min-h-11 px-4 text-sm text-ink underline underline-offset-4" onClick={() => setAberto(true)}>{t.preferencias}</button></div>
+    {compacto
+      ? <button className="fixed bottom-1 right-2 z-10 min-h-8 px-2 text-[11px] text-dim underline underline-offset-4" onClick={() => setAberto(true)}>{t.preferencias}</button>
+      : <div className="py-4 text-center"><button className="min-h-11 px-4 text-sm text-ink underline underline-offset-4" onClick={() => setAberto(true)}>{t.preferencias}</button></div>}
     {aberto && <section aria-label={t.titulo} className="fixed inset-x-0 bottom-0 z-[100] border-t border-line bg-card p-4 text-ink sm:p-5">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4">
         <div className="min-w-0 flex-1 basis-72"><strong>{t.titulo}</strong><p className="mt-1 text-sm leading-relaxed">{t.texto} <a className="underline underline-offset-2" href="https://business.safety.google/privacy/" target="_blank" rel="noopener noreferrer">{t.privacidade}</a></p></div>

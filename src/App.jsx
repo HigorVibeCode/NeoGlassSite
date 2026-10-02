@@ -18,10 +18,15 @@ const PartnerCadastro = lazy(() => import('./paginas/PartnerCadastro.jsx'))
 const Comecar = lazy(() => import('./paginas/Comecar.jsx'))
 const Baixar = lazy(() => import('./paginas/Baixar.jsx'))
 const PrimeiroOrcamento = lazy(() => import('./paginas/PrimeiroOrcamento.jsx'))
+const Tempera = lazy(() => import('./paginas/Tempera.jsx'))
+
+/* Páginas de campanha: cabeçalho próprio, sem o topo e o rodapé do site. */
+const SEM_MOLDURA = ['primeiro', 'tempera']
 
 const PAGINAS = {
   home: Home,
   primeiro: PrimeiroOrcamento,
+  tempera: Tempera,
   industria: Industria,
   vidracaria: Vidracaria,
   plataforma: Plataforma,
@@ -104,15 +109,15 @@ export default function App() {
   return (
     <ProvedorIdioma idioma={rota.idioma} conteudo={textos}>
       <Fundo parado={rota.id === 'plataforma'} />
-      {rota.id !== 'primeiro' && <Topo rota={rota} />}
+      {!SEM_MOLDURA.includes(rota.id) && <Topo rota={rota} />}
       <Lembrete rota={rota} />
-      <main key={`${rota.id}-${rota.idioma}`} className={['plataforma', 'primeiro'].includes(rota.id) ? undefined : 'pagina'}>
+      <main key={`${rota.id}-${rota.idioma}`} className={['plataforma', ...SEM_MOLDURA].includes(rota.id) ? undefined : 'pagina'}>
         <Suspense fallback={<CarregandoPagina />}>
           <Pagina rota={rota} />
         </Suspense>
       </main>
-      {rota.id !== 'primeiro' && <Rodape rota={rota} />}
-      <ConsentimentoMedicao idioma={rota.idioma} />
+      {!SEM_MOLDURA.includes(rota.id) && <Rodape rota={rota} />}
+      <ConsentimentoMedicao idioma={rota.idioma} compacto={rota.id === 'tempera'} />
     </ProvedorIdioma>
   )
 }

@@ -1,9 +1,9 @@
 // IDs públicos da conta NeoGlass. O evento representa cadastro, não pagamento.
 export const GOOGLE_ADS_ID = 'AW-18439071018'
 export const CADASTRO_DESTINO = 'AW-18439071018/5-EFCIna6fEcEKrKt9hE'
-/* Google Analytics 4 (ID "G-XXXXXXXXXX", em Administrador › Fluxos de dados).
+/* Google Analytics 4: propriedade "NeoGlass", fluxo "Site NeoGlass" (Administrador › Fluxos de dados).
    VAZIO É SEGURO: sem ele nada de Analytics é configurado nem enviado. */
-export const GA4_ID = ''
+export const GA4_ID = 'G-X72B1M761F'
 /* Conversão "Lead da têmpera" do Google Ads (o "send_to" que o Google mostra
    ao criar a ação: "AW-18439071018/xxxxxxxx"). Vazio: o envio da /tempera não
    vira conversão no Ads, e nada mais muda. */

@@ -7,8 +7,8 @@ import vm from 'node:vm'
 const base = readFileSync(new URL('../src/lib/googleAds.js', import.meta.url), 'utf8').replace(/export /g, '')
 function ambiente({ ga4 = '', lead = '' } = {}) {
   const source = base
-    .replace("const GA4_ID = ''", `const GA4_ID = '${ga4}'`)
-    .replace("const LEAD_TEMPERA_DESTINO = ''", `const LEAD_TEMPERA_DESTINO = '${lead}'`)
+    .replace(/const GA4_ID = '[^']*'/, `const GA4_ID = '${ga4}'`)
+    .replace(/const LEAD_TEMPERA_DESTINO = '[^']*'/, `const LEAD_TEMPERA_DESTINO = '${lead}'`)
   const scripts = [], storage = new Map()
   const window = {}
   const context = vm.createContext({ window, Date, Promise,

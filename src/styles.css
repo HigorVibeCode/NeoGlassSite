@@ -76,6 +76,19 @@
   color: transparent;
 }
 
+/* A mesma marca sobre foto escura (o vídeo da /plataforma): o jade e o
+   cristal do login somem no fundo da fábrica. Aqui o gradiente usa a menta e o
+   azul-claro do prisma, para o título ler inteiro em cima do vídeo. */
+@utility marca-clara {
+  background: linear-gradient(90deg, #7fe0c8, #8fd3f0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* A sombra do título, herdada, escurece a letra transparente por trás. */
+  text-shadow: none;
+  filter: drop-shadow(0 2px 10px rgba(15, 37, 48, 0.45));
+}
+
 /* A chapa de vidro: translúcida, com o fio de luz na aresta de cima */
 @utility chapa {
   position: relative;

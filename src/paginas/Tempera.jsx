@@ -394,7 +394,9 @@ export default function Tempera() {
                 <>
                   <div className="tp-sep"><span className="cota uppercase">{t.contato.encarregado}</span></div>
                   {campo('encNome', t.contato.encNome)}
-                  {campo('encWhatsapp', t.contato.whatsapp, { attrs: { ...fone, autoComplete: 'off' } })}
+                  {/* Meia largura: o modelo inteiro "(00) 00000-0000" não cabe a 390 px e
+                      aparecia cortado. O curto diz a mesma coisa. */}
+                  {campo('encWhatsapp', t.contato.whatsapp, { attrs: { ...fone, autoComplete: 'off', placeholder: t.contato.placeholderCurto ?? t.contato.placeholder } })}
                 </>
               )}
               {/* isca: humano não vê, robô preenche */}

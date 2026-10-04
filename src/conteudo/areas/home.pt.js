@@ -12,6 +12,8 @@
  */
 export default {
   etiqueta: 'NeoGlass',
+  /* Atalho do topo para a calculadora da têmpera (destino do QR do filme). */
+  atalhoTempera: 'Tem têmpera? Veja o preço em 30 segundos',
   /* O título é uma frase só com o miolo em gradiente. Por isso vem
      partido em três: cada idioma escolhe onde o verde entra. */
   titulo: { antes: 'Mais', destaque: 'dinheiro e segurança', depois: 'para quem trabalha com vidro.' },

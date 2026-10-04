@@ -119,10 +119,21 @@ export default function Home({ rota }) {
     <Revelar as="section" className="secao mx-auto max-w-[1240px] px-5 pb-14 pt-[92px] sm:px-8 sm:pt-[78px]">
       {/* ── 1º: a promessa ─────────────────────────────────────────────── */}
       <div className="mx-auto max-w-[860px] text-center">
-        <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5">
+        {/* O QR do fim do filme da têmpera aponta para esta página, não para a
+            /tempera. A etiqueta do topo (antes só "NeoGlass") virou o atalho:
+            mesma altura, nenhuma linha a mais, e quem veio do filme chega às
+            sete perguntas com um toque em vez de dois cliques e uma rolagem. */}
+        <a
+          href={caminhoDe('tempera', idioma)}
+          onClick={() => evento('porta', { lado: 'tempera', idioma })}
+          className="inline-flex min-h-9 items-center gap-2 rounded-full border border-verde/40 bg-card px-3.5 py-1.5 text-[13px] font-bold text-ink transition-colors hover:border-verde"
+        >
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-verde" aria-hidden="true" />
-          <span className="cota normal-case">{t.etiqueta}</span>
-        </p>
+          <span>{t.atalhoTempera}</span>
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-verde" aria-hidden="true">
+            <path d="M5 12h13m-5-6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
 
         <h1 className="display mx-auto mt-5 max-w-[17ch] text-[clamp(27px,5vw,58px)] leading-[1.06]">
           {t.titulo.antes} <span className="marca">{t.titulo.destaque}</span> {t.titulo.depois}

@@ -49,7 +49,7 @@ export default function Apresentacao() {
 
       <div className="relative mx-auto flex min-h-[80svh] w-full max-w-[1240px] flex-col items-center justify-center px-5 pb-16 pt-[120px] sm:px-8">
         <h1 className="apresentacao-frase display mx-auto max-w-[10ch] text-center text-[clamp(30px,5vw,56px)] leading-[1.02] text-white">
-          {t.hero.titulo.antes} <span className="marca">{t.hero.titulo.destaque}</span>
+          {t.hero.titulo.antes} <span className="marca-clara">{t.hero.titulo.destaque}</span>
         </h1>
         <p className="mx-auto mt-6 max-w-[48ch] text-center text-[15px] font-semibold leading-relaxed text-white sm:text-[17px]">
           {t.hero.descricao}

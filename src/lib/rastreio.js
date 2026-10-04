@@ -1,5 +1,6 @@
 import { CONFIG } from '../config.js'
 import { EVENTOS_META } from './funil.js'
+import { medirEvento, registrarLeadGoogle } from './googleAds.js'
 
 /**
  * Medição. Nada é carregado se o pixel não estiver configurado — página sem
@@ -44,5 +45,8 @@ export function evento(nome, dados = {}) {
     if (padrao) window.fbq('track', padrao, dados)
     else window.fbq('trackCustom', nome, dados)
   }
+  // Google (GA4 e a conversão de lead): só com aceite e com os IDs preenchidos.
+  medirEvento(nome, dados)
+  if (nome === 'lead') registrarLeadGoogle()
   if (import.meta.env.DEV) console.info('[evento]', nome, dados)
 }
